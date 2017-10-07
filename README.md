@@ -1,6 +1,7 @@
 # Welcome to BetterRTP's tutorial page! #
 Here is list of pages to help you out:  
   - [Config](config.md): All about config file
+  - [Economy](economy.md): Edit economy settings
   - [Permissions](permissions.yml): View a list of all permissions in the plugin
   - [Language](files/lang): View all available languages! Help us translate to other languages!
 
