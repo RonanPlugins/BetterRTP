@@ -11,7 +11,7 @@ Info: Edit basic economy settings
   Info: Enable the economy system at all?  
   Value Type: Boolean  
   Default Value: false
-  ### Price
+  #### Price
   Info: The default price to an [uncustomized](#customworlds) world  
   Value Type: Integer  
   Default Value: 5
