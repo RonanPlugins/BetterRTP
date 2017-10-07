@@ -140,7 +140,6 @@ Value Type: List of Sections
 Default Value:
 ```yaml
 Override:
-  world_nether: 'PlayWorld'
-  world_the_end: 'PlayWorld'
-  BuildingWorld: 'PlayWorld'
+  world_nether: 'world'
+  world_the_end: 'world'
 ```
