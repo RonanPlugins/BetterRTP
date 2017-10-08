@@ -1,0 +1,62 @@
+# MCBBS 秋风残叶 授权搬运并汉化 请支持原作者SuperRonanCraft #
+# 原帖地址：https://www.spigotmc.org/resources/betterrtp.36081/ #
+
+Help:
+  List:
+    - '&e&m------&r &6&l传送系统 &8| &7帮助 &e&m------'
+    - ' &7- &e/%command% &7- 随机传送！'
+  ##如果一个玩家有这个权限的话，他将会看到下面这行
+  RtpOther: ' &7- &e/%command% <玩家> &7- 让这个玩家随机传送!'
+  ##如果一个玩家有这个权限的话，他将会看到下面这行
+  Reload: ' &7- &e/%command% reload &7- 插件重载'
+  
+Messages:
+  Prefix: '&7[&6随机传送&7] '
+  ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+  Success:
+    Paid: '&a你已经被传送到了&7 x=%x% y=%y% z=%z% 并支付了 &c$%price%&7金币!'
+    Bypass: '&a你已经被传送到了&7 x=%x% y=%y% z=%z%'
+  Failed:
+    Price: '&c很抱歉没法传送 因为你太穷了! &7你必须支付 $%price% &7金币才能传送!'
+    NotSafe: '&c抱歉，我们尝试了 %attempts% 次传送都没有找到安全的位置! &7奇怪了...你到底在一个什么样的世界里啊qwq'
+  Other:
+    Success: '&a%player% 已被传送至&7 x=%x% y=%y% z=%z%'
+    NotSafe: '&c抱歉，我们尝试了 %attempts% 次传送都没有找到安全的位置! &7%player% 并没有被传送!'
+  Reload: '&e插件已重载 汉化 by 秋风残叶'
+  NoPermission:
+    Basic: '&c你没有权限哦~'
+    World: '&c你没有权限，不能传送至世界 %world% '
+  ## %world% is the world the player is in that is disabled to rtp in! #
+  DisabledWorld: '&c这个世界 %world% 禁止随机传送!'
+  Cooldown: '&c随机传送正在冷却中!请再等待 &c%time% &7秒!'
+  Invalid: '&c指令输错了呢~请使用 ''/%command% 获得帮助'''
+  NotOnline: '&c玩家 &7%player% &c不在线!'
+  Delay: '&a传送将在 &f%time% &a秒内开始! 不要移动!'
+  Moved: '&c啊哦~你动了一下……传送取消了!'
+  NotExist: '&c这个世界 &7%world% &c貌似不存在呢!'
+  Already: '&c即将传送! 请耐心等待!'
+
+## Title标语提示！让你在传送时在屏幕中间显示标语！
+## 不得不说！这个功能连同声音功能是我向作者提的，居然2小时就添加了这些功能！
+## 所有提示语均支持玩家变量 %player% 
+Titles:
+  Enabled: true
+  Delay:
+    ## 传送等待中，是否连同聊天栏提示一起显示？
+    SendChatMessage: true
+    ## 传送等待中显示的主标语和副标语，支持彩色代码
+    Title: '&c随机传送'
+    Subtitle: '&f传送将在 %time% 秒内开始...不要移动'
+  Success:
+    ## 传送完成，是否连同聊天栏提示一起显示？
+    SendChatMessage: true
+    ## 传送完成显示的主标语和副标语，支持彩色代码
+    Title: '&a传送完成'
+    Subtitle: '&f已传送至 x=%x% y=%y% z=%z%'
+
+ ## 声音系统！让你在传送时听见声音！   
+Sounds:
+  Enabled: true
+  ## 传送等待中和传送完成时出现的声音，更多声音请参 https://www.spigotmc.org/wiki/cc-sounds-list/
+  Delay: 'entity_tnt_primed'
+  Success: 'entity_generic_explode'
