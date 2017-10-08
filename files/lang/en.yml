@@ -50,6 +50,6 @@ Titles:
 
 Sounds:
   Enabled: true
-  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/ 
   Delay: 'entity_tnt_primed'
   Success: 'entity_generic_explode'
