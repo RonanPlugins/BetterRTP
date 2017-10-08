@@ -8,3 +8,8 @@ Here is list of pages to help you out:
 Thank you for viewing the Wiki for [BetterRTP](https://www.spigotmc.org/resources/36081)
 
 #### Did this wiki help you out? Please give it a ***Star*** so I know it's getting use! ####
+
+<p align="center">
+  <del>-------------</del><br>
+  <b><i><a href="https://www.spigotmc.org/resources/authors/superronancraft.13025/">Check out my other plugins!</a></i></b>
+</p>
