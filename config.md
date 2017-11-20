@@ -19,6 +19,16 @@ Default Value: 'en.yml'
 ### Settings ###
 Info: Basic Plugin settings that can be disabled/changed
 ***
+  #### RespectWorldGuard ####
+  Info: Should the plugin respect worldguard regions when attempting to teleport a player  
+  Value Type: Boolean  
+  Default Value: true  
+  **COMING SOON**
+  ~~#### RespectGriefprevention ####
+  Info: Should the plugin respect worldguard regions when attempting to teleport a player  
+  Value Type: Boolean  
+  Default Value: true  ~~
+  **COMING SOON**
   #### MinRadius ####
   Info: The default minimum value if worldborder is not set  
   Value Type: Integer  
