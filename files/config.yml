@@ -9,7 +9,6 @@ Language-File: 'en.yml' # Added in 2.4.1
 ## If WorldBorder is set to false, it won't use the worldborder set by the vanilla /worldborder! # ##Highly Recommended##
 Settings:
   RespectWorldGuard: true
-  RespectGriefPrevention: true
   ## Must be a positive integer #
   MinRadius: 25
   ## Maximum amount of tried before BetterRTP gives up and sends a NotSafeMessage #
