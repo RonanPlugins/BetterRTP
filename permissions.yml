@@ -1,24 +1,35 @@
+permissions:
     betterrtp.*:
         children:
-            betterrtp.rtp.other: true
-            betterrtp.bypass.cooldown: true
-            betterrtp.bypass.delay: true
+            betterrtp.use: true
+            betterrtp.world.*: true
+            betterrtp.bypass.*: true
+            betterrtp.player: true
             betterrtp.reload: true
             betterrtp.updater: true
-            betterrtp.world.*: true
     betterrtp.world.*:
         description: RTP in all enabled worlds
+    betterrtp.world.<world>:
+            description: RTP in <world>
+    betterrtp.bypass.*:
+            children:
+                betterrtp.bypass.cooldown: true
+                betterrtp.bypass.delay: true
+                betterrtp.bypass.economy: true
     betterrtp.use:
         description: Use RTP command
-    betterrtp.rtp.other:
+        default: true
+    betterrtp.player:
         description: RTP another player
     betterrtp.bypass.cooldown:
         description: Bypass cooldowns
     betterrtp.bypass.delay:
         description: Bypass delays
+    betterrtp.bypass.economy:
+        description: Bypass economy
     betterrtp.reload:
-        description: Permissions to use reload plugin
+        description: Reload the config
         default: op
     betterrtp.updater:
-        description: Get update messages
+        description: Get notification on new updates
         default: op
