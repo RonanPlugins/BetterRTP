@@ -104,9 +104,14 @@ Value Type: List
 Default Value:
 ```yaml
 BlacklistedBlocks:
+  - stationary_water
   - stationary_lava
+  - water
   - lava
   - cactus
+  - leaves
+  - leaves_2
+  - air
 ```
 
 ### DisabledWorlds ###
@@ -117,7 +122,7 @@ Default Value:
 ```yaml
 DiabledWorlds:
   - world_nether
-  - world_the_end
+  - creative
 ```
 
 ### CustomWorlds ###
@@ -151,5 +156,5 @@ Default Value:
 ```yaml
 Override:
   world_nether: 'world'
-  world_the_end: 'world'
+  creative: 'world'
 ```

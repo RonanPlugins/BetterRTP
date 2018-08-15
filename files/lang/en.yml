@@ -1,12 +1,3 @@
-Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
-    - ' &7- &e/%command% &7- Randomly teleports you!'
-  ##If the player has permission to rtp another player, this message will be added under the list!
-  RtpOther: ' &7- &e/%command% <player> &7- Randomly teleports another player!'
-  ##If the player has permission to reload the plugin this message will be added under the list!
-  Reload: ' &7- &e/%command% reload &7- Reloads the plugin'
-  
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
@@ -48,8 +39,23 @@ Titles:
     Title: '&6BetterRTP by SRC'
     Subtitle: '&fTeleporting to x=%x% y=%y% z=%z%'
 
+Help:
+  List:
+    - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
+    - ' &7- &e/%command% &7- Randomly teleports you!'
+    - ' &7- &e/%command% help &7- Shows help list'
+  ##If the player has permission to rtp another player, this message will be added under the list!
+  Player: ' &7- &e/%command% player <player> [world] &7- Randomly teleport another player'
+  World: ' &7- &e/%command% world <world> &7- Randomly teleport in another world'
+  ##If the player has permission to reload the plugin this message will be added under the list!
+  Reload: ' &7- &e/%command% reload &7- Reloads the plugin'
+
+Usage:
+  Player: '&cUsage&7: /%command% player <player> [world]'
+  World: '&cUsage&7: /%command% world <world>'
+
 Sounds:
   Enabled: true
-  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/ 
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
   Delay: 'entity_tnt_primed'
   Success: 'entity_generic_explode'

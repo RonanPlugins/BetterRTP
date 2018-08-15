@@ -7,7 +7,7 @@
 ### Economy
 Info: Edit basic economy settings
 ***
-  #### Enabled ####
+  #### Enable ####
   Info: Enable the economy system at all?  
   Value Type: Boolean  
   Default Value: false

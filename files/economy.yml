@@ -9,7 +9,7 @@ CustomWorlds:
   ## Enable custom world charging
   Enabled: true
   Worlds:
-    ## Player will be charged "5" when typing /rtp, if they do not have "betterrtp.eco.bypass"
+    ## PlayerWorld will be charged "5" when typing /rtp, if they do not have "betterrtp.eco.bypass"
     world: 5
     ## Setting the price to "0" will make the "Success.Bypass" message show
     world_end: 0
