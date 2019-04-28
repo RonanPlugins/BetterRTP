@@ -5,7 +5,7 @@
 ## Wheres the Wiki?  
 The wiki is available [here](../../wiki)!
 
-##Want to Contribute translating?  
+## Want to Contribute translating?  
 Fork one of the [language files](../lang) and help translate!
     
 <p align="center">
