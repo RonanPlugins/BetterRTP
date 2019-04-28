@@ -1,0 +1,61 @@
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+  Success:
+    Paid: '&aYou have been tp''d to&7 x=%x% y=%y% z=%z% for &c$%price%&7 in &f%attempts% &7attempts!'
+    Bypass: '&aYou have been tp''d to&7 x=%x% y=%y% z=%z% in &f%attempts% &7attempts'
+  Failed:
+    Price: '&cCould not rtp because of insufficent funds! &7You must have atleast $%price% &7to rtp!'
+    NotSafe: '&cCould not find safe spot within %attempts% attempts! &7You were not RTP''d!'
+  Other:
+    Success: '&a%player% has been tp''d to&7 x=%x% y=%y% z=%z% in &f%attempts% &7attempts!'
+    NotSafe: '&cCould not find safe spot within %attempts% attempts! &7%player% was not rtp''d!'
+  Reload: '&eConfig reloaded successfully!'
+  NoPermission:
+    Basic: '&cSorry! &7You don''t have permission to use this command!'
+    World: '&cSorry! &7You are not allowed rtp in the %world% world!'
+  ## %world% is the world the player is in that is disabled to rtp in! #
+  DisabledWorld: '&cDisabled World %world%! &7Could not RTP!'
+  Cooldown: '&cSorry! &7You can''t rtp for another &c%time% &7seconds!'
+  Invalid: '&cInvalid argument. Try ''/%command% help'''
+  NotOnline: '&cThe player &7%player% &cis not online!'
+  Delay: '&aTeleporting in &f%time% &aseconds! Don''t move!'
+  Moved: '&cYou have moved! &7RTP was cancelled!'
+  NotExist: '&cLooks like the world &7%world% &cdoesn''t exist!'
+  Already: '&cWhoops! &7Looks like you are already rtp''ing, have some patience!'
+
+Titles:
+  Enabled: true
+  Delay:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% placeholders
+    Title: '&6BetterRTP by SRC'
+    Subtitle: '&fTeleporting in %time% seconds!'
+  Success:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% %x% %y% and %z% placeholders
+    Title: '&6BetterRTP by SRC &7(%attempts%)'
+    Subtitle: '&fTeleporting to x=%x% y=%y% z=%z%'
+
+Help:
+  List:
+    - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
+    - ' &7- &e/%command% &7- Randomly teleports you!'
+    - ' &7- &e/%command% help &7- Shows help list'
+  ##If the player has permission to rtp another player, this message will be added under the list!
+  Player: ' &7- &e/%command% player <player> [world] &7- Randomly teleport another player'
+  World: ' &7- &e/%command% world <world> &7- Randomly teleport in another world'
+  ##If the player has permission to reload the plugin this message will be added under the list!
+  Reload: ' &7- &e/%command% reload &7- Reloads the plugin'
+
+Usage:
+  Player: '&cUsage&7: /%command% player <player> [world]'
+  World: '&cUsage&7: /%command% world <world>'
+
+Sounds:
+  Enabled: true
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
+  Delay: 'entity_tnt_primed'
+  Success: 'entity_generic_explode'
