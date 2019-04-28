@@ -6,7 +6,7 @@
 The wiki is available [here](../../wiki)!
 
 ## Want to Contribute translating?  
-Fork one of the [language files](../lang) and help translate!
+Fork one of the [language files](lang) and help translate!
     
 <p align="center">
   <b>Chat with us on Discord</b><br/>
