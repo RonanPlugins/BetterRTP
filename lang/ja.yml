@@ -1,0 +1,53 @@
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success:
+    Paid: '&aあなたは&c$%price%&aで&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
+    Bypass: '&aあなたは&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
+  Failed:
+    Price: '&c資金が不十分のためRTPできませんでした！ &7RTPには最低$%price%&7が必要です！'
+    NotSafe: '&c%attempts%回の試行で安全な場所が見つかりませんでした！ &7あなたははRTPされませんでした！'
+  Other:
+    Success: '&a%player%が&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でテレポートしました！'
+    NotSafe: '&c%attempts%回の試行で安全な場所が見つかりませんでした！ &7%player%はRTPされませんでした！'
+  Reload: '&eコンフィグは正常にリロードされました！'
+  NoPermission:
+    Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！'
+    World: '&cごめんなさい！ &7ワールド%world%ではrtpが許可されていません！'
+  DisabledWorld: '&cワールド%world%は無効です！ &7RTPできませんでした！'
+  Cooldown: '&cごめんなさい！ &7あなたは&c%time%&7秒間RTPできません！'
+  Invalid: '&c無効な引数。 ''/%command% help''を試してください。'
+  NotOnline: '&cプレイヤー&7%player%&cはオンラインではありません！'
+  Delay: '&f%time%&a秒でテレポートします！ 動かないで！'
+  Moved: '&cあなたは移動しました！ &7RTPはキャンセルされました！'
+  NotExist: '&cワールド&7%world%&cが存在しないようです。'
+  Already: '&cおっと！ &7あなたはすでにRTPしているように見えます。'
+
+Titles:
+  Enabled: true
+  Delay:
+    SendChatMessage: true
+    Title: '&6BetterRTP by SRC'
+    Subtitle: '&f%time%秒でテレポート！'
+  Success:
+    SendChatMessage: true
+    Title: '&6BetterRTP by SRC &7(%attempts%)'
+    Subtitle: '&fx=%x% y=%y% z=%z%　にテレポート'
+
+Help:
+  List:
+    - '&e&m------&r &6&lBetterRTP &8| &7ヘルプ&e&m------'
+    - ' &7- &e/%command% &7- あなたをランダムテレポートする！'
+    - ' &7- &e/%command% help &7- ヘルプを見る'
+  Player: ' &7- &e/%command% player <player> [world] &7- 他のプレイヤーをランダムテレポート'
+  World: ' &7- &e/%command% world <world> &7- 他のワールドにランダムテレポート'
+  Reload: ' &7- &e/%command% reload &7- プラグインをリロード'
+
+Usage:
+  Player: '&c使い方&7: /%command% player <プレイヤー> [ワールド]'
+  World: '&c使い方&7: /%command% world <ワールド>'
+
+Sounds:
+  Enabled: true
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
+  Delay: 'entity_tnt_primed'
+  Success: 'entity_generic_explode'
