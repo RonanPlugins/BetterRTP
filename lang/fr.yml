@@ -1,18 +1,18 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
-  ## Placeholders! %x% %y% et %z% sont les coordonées x, y, et z auxquelles le joueurs sera téléporter! #
+  ## Placeholders! %x% %y% et %z% sont les coordonées x, y, et z auxquelles le joueur sera téléporté! #
   Success:
-    Paid: '&aTu à été téléporter à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
-    Bypass: '&aTu à été téléporter à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
+    Paid: '&aTu a été téléporter à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
+    Bypass: '&aTu a été téléporter à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
   Failed:
-    Price: '&cTu n'à pas pu être téléporter; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
-    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n'à pas été téléporter!'
+    Price: '&cTu n'a pas pu être téléporter; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
+    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n'a pas été téléporter!'
   Other:
-    Success: '&a%player% à été téléporter à&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentatives!'
-    NotSafe: '&cImpossible de trouver un endoirt sûr en %attempts% tentatives! &7%player% n'à pas été téléporter!'
+    Success: '&a%player% a été téléporter à&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentatives!'
+    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7%player% n'a pas été téléporter!'
   Reload: '&eConfiguration rechargée avec succès!'
   NoPermission:
-    Basic: '&cDésoler! &7Tu n'à pas la permission pour utiliser cette commande'
+    Basic: '&cDésoler! &7Il te manque la permission pour utiliser cette commande'
     World: '&cDésoler! &7Tu n'est pas autorisé à te téléporter dans le monde %world% !'
   ## %world% Est le monde dans lequel le joueur est téléporter ! #
   DisabledWorld: '&cLe monde %world% est désactivé! &7Impossible de se téléporter!'
@@ -20,9 +20,9 @@ Messages:
   Invalid: '&cArgument invalide. Essaye ''/%command% help'''
   NotOnline: '&cLe joueur &7%player% &cn'est pas en ligne!'
   Delay: '&aTéléportation dans &f%time% &asecondes! Ne bouge pas!'
-  Moved: '&cTu a bouger! &7Téléportation annulée!'
+  Moved: '&cTu a bougé! &7Téléportation annulée!'
   NotExist: '&cLe monde &7%world% &cn'existe pas!'
-  Already: '&cWhoops! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
+  Already: '&cOups! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
 
 Titles:
   Enabled: true
