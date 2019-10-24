@@ -23,6 +23,7 @@ Messages:
   Moved: '&cTu a bougé! &7Téléportation annulée!'
   NotExist: '&cLe monde &7%world% &cn'existe pas!'
   Already: '&cOups! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
+  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
 Titles:
   Enabled: true

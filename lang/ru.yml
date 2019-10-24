@@ -10,6 +10,7 @@ Messages:
   Other:
     Success: '&a%player% был телепортирован на&7 x=%x% y=%y% z=%z% за &f%attempts% &7попыток!'
     NotSafe: '&cНе удалось найти безопасное место за %attempts% попыток! &7%player% не был телепортирован!'
+    Biome: '&cSeems like the biome&7 %biome%&c does not exist! &7Try using the tab list!'
   Reload: '&eКонфиг удачно перезагружен!'
   NoPermission:
     Basic: '&cИзвините! &7У вас недостаточно прав для использования этой команды!'
@@ -23,6 +24,7 @@ Messages:
   Moved: '&cВы подвинулись! &7RTP отменено!'
   NotExist: '&cПохоже что мир &7%world% &cне существует!'
   Already: '&cУуупс! &7Похоже вы уже телепортируетесь. Имейте терпение!'
+  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
 Titles:
   Enabled: true
@@ -48,11 +50,13 @@ Help:
   Player: ' &7- &e/%command% player <игрок> [мир] &7- случайно телепортирует игрока'
   World: ' &7- &e/%command% world <мир> &7- случайно телепортирует в другой мир'
   ##If the player has permission to reload the plugin this message will be added under the list!
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
   Reload: ' &7- &e/%command% reload &7- перезагружает плагин'
 
 Usage:
   Player: '&cИспользование&7: /%command% player <игрок> [мир]'
   World: '&cИспользование&7: /%command% world <мир>'
+  Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
 
 Sounds:
   Enabled: true

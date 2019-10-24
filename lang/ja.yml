@@ -9,6 +9,7 @@ Messages:
   Other:
     Success: '&a%player%が&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でテレポートしました！'
     NotSafe: '&c%attempts%回の試行で安全な場所が見つかりませんでした！ &7%player%はRTPされませんでした！'
+    Biome: '&cSeems like the biome&7 %biome%&c does not exist! &7Try using the tab list!'
   Reload: '&eコンフィグは正常にリロードされました！'
   NoPermission:
     Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！'
@@ -21,6 +22,7 @@ Messages:
   Moved: '&cあなたは移動しました！ &7RTPはキャンセルされました！'
   NotExist: '&cワールド&7%world%&cが存在しないようです。'
   Already: '&cおっと！ &7あなたはすでにRTPしているように見えます。'
+  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
 Titles:
   Enabled: true
@@ -40,11 +42,13 @@ Help:
     - ' &7- &e/%command% help &7- ヘルプを見る'
   Player: ' &7- &e/%command% player <player> [world] &7- 他のプレイヤーをランダムテレポート'
   World: ' &7- &e/%command% world <world> &7- 他のワールドにランダムテレポート'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
   Reload: ' &7- &e/%command% reload &7- プラグインをリロード'
 
 Usage:
   Player: '&c使い方&7: /%command% player <プレイヤー> [ワールド]'
   World: '&c使い方&7: /%command% world <ワールド>'
+  Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
 
 Sounds:
   Enabled: true
