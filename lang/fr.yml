@@ -5,23 +5,23 @@ Messages:
     Paid: '&aTu a été téléporter à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
     Bypass: '&aTu a été téléporter à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
   Failed:
-    Price: '&cTu n'a pas pu être téléporter; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
-    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n'a pas été téléporter!'
+    Price: '&cTu n''a pas pu être téléporter; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
+    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n''a pas été téléporter!'
   Other:
     Success: '&a%player% a été téléporter à&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentatives!'
-    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7%player% n'a pas été téléporter!'
+    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7%player% n''a pas été téléporter!'
   Reload: '&eConfiguration rechargée avec succès!'
   NoPermission:
     Basic: '&cDésoler! &7Il te manque la permission pour utiliser cette commande'
-    World: '&cDésoler! &7Tu n'est pas autorisé à te téléporter dans le monde %world% !'
+    World: '&cDésoler! &7Tu n''est pas autorisé à te téléporter dans le monde %world% !'
   ## %world% Est le monde dans lequel le joueur est téléporter ! #
   DisabledWorld: '&cLe monde %world% est désactivé! &7Impossible de se téléporter!'
   Cooldown: '&cDésoler! &7Tu ne peut pas te téléporter pour encore &c%time% &7secondes!'
   Invalid: '&cArgument invalide. Essaye ''/%command% help'''
-  NotOnline: '&cLe joueur &7%player% &cn'est pas en ligne!'
+  NotOnline: '&cLe joueur &7%player% &cn''est pas en ligne!'
   Delay: '&aTéléportation dans &f%time% &asecondes! Ne bouge pas!'
   Moved: '&cTu a bougé! &7Téléportation annulée!'
-  NotExist: '&cLe monde &7%world% &cn'existe pas!'
+  NotExist: '&cLe monde &7%world% &cn''existe pas!'
   Already: '&cOups! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
   Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
@@ -42,9 +42,9 @@ Titles:
 
 Help:
   List:
-    - '&e&m------&r &6&lBetterRTP &8| &7Aide &e&m------'
-    - ' &7- &e/%command% &7- Te téléporte aléatoirement'
-    - ' &7- &e/%command% help &7- Affiche l'aide'
+  - '&e&m------&r &6&lBetterRTP &8| &7Aide &e&m------'
+  - ' &7- &e/%command% &7- Te téléporte aléatoirement'
+  - ' &7- &e/%command% help &7- Affiche l''aide'
   ##Si le joueur a la permission de téléporter un autre joueur, ce message s'affiche dans l'aide aussi!
   Player: ' &7- &e/%command% player <joueur> [monde] &7- Téléporte aléatoirement un autre joueur'
   World: ' &7- &e/%command% world <monde> &7- Te téléporte aléatoirement dans un autre monde'
