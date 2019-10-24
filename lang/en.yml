@@ -23,6 +23,7 @@ Messages:
   Moved: '&cYou have moved! &7RTP was cancelled!'
   NotExist: '&cLooks like the world &7%world% &cdoesn''t exist!'
   Already: '&cWhoops! &7Looks like you are already rtp''ing, have some patience!'
+  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
 Titles:
   Enabled: true
