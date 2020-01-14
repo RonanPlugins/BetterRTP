@@ -2,11 +2,12 @@
   <b><a>Welcome to BetterRTP's repository!</a></b>
 </p>
 
-## Wheres the Wiki?  
-The wiki is available [here](../../wiki)!
+## Where's the Lang files?/Want to Contribute translating?  
+All language files are located [here](src/main/resources/lang)
+feel free to fork one of the language files and help translate!
 
-## Want to Contribute translating?  
-Fork one of the [language files](lang) and help translate!
+## Where's the Wiki?  
+The wiki is available [here](../../wiki)!
     
 <p align="center">
   <b>Chat with us on Discord</b><br/>

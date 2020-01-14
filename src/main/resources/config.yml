@@ -1,0 +1,78 @@
+# BetterRTP plugin by SuperRonanCraft! (Join my Public Server mc.RonanCraft.net) #
+# Please give me credit, I'm a first time coder, and would love to see more discussions on my Spigot page! #
+
+Language-File: 'en.yml'
+
+Settings:
+  ## Respect WorldGuard areas # IN-PROGRESS
+  RespectWorldGuard: false
+  ## Respect GriefPrevention areas # COMING SOON
+  RespectGriefPrevention: false
+  ## Respect Faction areas # COMING SOON
+  RespectSavageFactions: false
+  ## Must be a positive integer #
+  MinRadius: 25
+  ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
+  MaxAttempts: 15
+  ## Enabled or disabled cooldown timer, time is in SECONDS #
+  Cooldown:
+    Enabled: true
+    Time: 10
+  ## Time between command and actually rtp'ing, time is in SECONDS. Set to "0" to disable delay timer #
+  Delay:
+    Time: 5
+    CancelOnMove: true
+  DisableUpdater: false
+
+Default:
+  UseWorldBorder: true
+  ## "Biomes: []" means all biomes are allowed! #
+  ## Biomes are optional, more biomes at https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html #
+  Biomes: []
+  MaxRadius: 100
+  MinRadius: 10
+  ## If "UseWorldBorder" is set to true above, these values WILL be ignored! Except Biomes! #
+  CenterX: 0
+  CenterZ: 0
+
+## Blocks BetterRTP will NOT teleport onto. More Blocks at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html #
+BlacklistedBlocks:
+  - stationary_water
+  - stationary_lava
+  - water
+  - lava
+  - cactus
+  - leaves
+  - leaves_2
+  - air
+
+## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
+DisabledWorlds:
+  - prison
+  - creative
+
+## Worlds you want to have a custom min/max and spawn center in #
+## [MaxRadius] and [MinRadius] MUST be positive! These cannot be equal to each other!
+CustomWorlds:
+  - world:
+      UseWorldBorder: false
+      ## If UseWorldBorder is true, everything will be ignored EXEPT "MinRadius"!
+      MaxRadius: 1000
+      MinRadius: 100
+      CenterX: 0
+      CenterZ: 0
+  - nether:
+      MaxRadius: 100000
+      MinRadius: 1000
+      CenterX: 123
+      CenterZ: -123
+      ## Biomes are optional, but useful! More biomes: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html
+      Biomes:
+        - 'desert'
+        - 'forest'
+
+## Override a world and rtp a player executing the command in one world, to another
+Override:
+  #FORMAT <CURRENT>:<OTHER>
+  world_nether: 'world'
+  creative: 'world'

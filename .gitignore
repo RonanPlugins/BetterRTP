@@ -1,0 +1,10 @@
+/bin/
+/.git/
+/.settings/
+/.classpath
+/.project
+target
+.idea
+*.iml
+/BetterRTP.wiki
+/BetterRTP
