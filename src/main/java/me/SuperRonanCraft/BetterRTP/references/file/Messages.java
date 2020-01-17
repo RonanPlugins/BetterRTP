@@ -19,7 +19,8 @@ public class Messages {
     }
 
     public void sms(CommandSender sendi, String msg) {
-        sendi.sendMessage(colorPre(msg));
+        if (!msg.equals(""))
+            sendi.sendMessage(colorPre(msg));
     }
 
     public void getSuccessPaid(CommandSender sendi, int price, String x, String y, String z, String world, int
