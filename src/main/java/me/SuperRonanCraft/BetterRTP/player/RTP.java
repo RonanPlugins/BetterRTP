@@ -13,6 +13,7 @@ import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -273,10 +274,9 @@ public class RTP {
     }
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
-        int y = world.getHighestBlockYAt(x, z);
-        String block = world.getBlockAt(x, y, z).getType().name();
-        if (!badBlock(block, x, z, pWorld.getWorld(), pWorld.getBiomes()))
-            return new Location(world, (x + 0.5), y, (z + 0.5), yaw, pitch);
+        Block b = world.getHighestBlockAt(x, z);
+        if (!badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes()))
+            return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
         return null;
     }
 
