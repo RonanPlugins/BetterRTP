@@ -4,15 +4,16 @@ import com.sk89q.worldguard.bukkit.RegionContainer;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.worlds.Custom;
 import me.SuperRonanCraft.BetterRTP.references.worlds.Default;
 import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.Main;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -124,7 +125,7 @@ public class RTP {
     }
 
     private void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
-                               final int attempts) throws NullPointerException {
+                            final int attempts) throws NullPointerException {
         if (sendi != p)
             checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
         if (pl.getText().getTitleSuccessChat())
@@ -273,10 +274,9 @@ public class RTP {
     }
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
-        int y = world.getHighestBlockYAt(x, z);
-        String block = world.getBlockAt(x, y - 1, z).getType().name();
-        if (!badBlock(block, x, z, pWorld.getWorld(), pWorld.getBiomes()))
-            return new Location(world, (x + 0.5), y, (z + 0.5), yaw, pitch);
+        Block b = world.getHighestBlockAt(x, z);
+        if (!badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes()))
+            return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
         return null;
     }
 

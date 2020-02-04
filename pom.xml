@@ -26,10 +26,12 @@
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
-        <!--<repository>
-            <id>minecraftforge</id>
-            <url>https://files.minecraftforge.net/maven</url>
-        </repository>-->
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -49,7 +51,7 @@
         <dependency> <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.14-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -64,12 +66,11 @@
             <version>6.1</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>
-            <groupId>me.ryanhamshire</groupId>
-            <artifactId>griefprevention</artifactId>
-            <version>1.10.2-4.0.1.451</version>
-            <classifier>api</classifier>
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.7.1</version>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
     </dependencies>
 </project>
