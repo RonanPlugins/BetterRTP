@@ -1,10 +1,10 @@
 bin/
 .git/
 .settings/
-.classpath
-.project
+.classpath/
+.project/
 target
 .idea
 *.iml
-BetterRTP.wiki
+BetterRTP.wiki/
 .DS_Store
