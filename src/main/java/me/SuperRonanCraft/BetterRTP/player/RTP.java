@@ -4,12 +4,12 @@ import com.sk89q.worldguard.bukkit.RegionContainer;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.worlds.Custom;
 import me.SuperRonanCraft.BetterRTP.references.worlds.Default;
 import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.Main;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
@@ -124,7 +124,7 @@ public class RTP {
     }
 
     private void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
-                               final int attempts) throws NullPointerException {
+                            final int attempts) throws NullPointerException {
         if (sendi != p)
             checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
         if (pl.getText().getTitleSuccessChat())
