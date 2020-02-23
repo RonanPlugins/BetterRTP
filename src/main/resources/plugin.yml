@@ -1,5 +1,5 @@
 main: me.SuperRonanCraft.BetterRTP.Main
-version: 2.9.4
+version: 2.10.0
 name: BetterRTP
 author: SuperRonanCraft
 softdepend: [Vault, WorldGuard, GriefPrevention, Factions]
@@ -48,4 +48,7 @@ permissions:
         default: op
     betterrtp.updater:
         description: Get notification on new updates
+        default: op
+    betterrtp.info:
+        description: View info about all worlds rtp will work in
         default: op

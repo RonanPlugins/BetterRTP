@@ -1,8 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 
 import java.util.List;
@@ -72,5 +72,10 @@ public class Default implements RTPWorld {
     @Override
     public List<String> getBiomes() {
         return Biomes;
+    }
+
+    @Override
+    public String getWorld() {
+        return null;
     }
 }

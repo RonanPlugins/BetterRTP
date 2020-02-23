@@ -28,6 +28,10 @@ public class Permissions {
         return perm(pre + "reload", sendi);
     }
 
+    public boolean getInfo(CommandSender sendi) {
+        return perm(pre + "info", sendi);
+    }
+
     public boolean getUpdate(CommandSender sendi) {
         return perm(pre + "updater", sendi);
     }

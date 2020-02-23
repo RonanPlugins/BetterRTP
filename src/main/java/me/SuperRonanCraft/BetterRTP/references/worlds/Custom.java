@@ -3,14 +3,13 @@ package me.SuperRonanCraft.BetterRTP.references.worlds;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Custom implements RTPWorld {
-    public World world;
+    public String world;
     private boolean useWorldborder = false;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
@@ -19,7 +18,7 @@ public class Custom implements RTPWorld {
         String pre = "CustomWorlds.";
         FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
-        this.world = Bukkit.getWorld(world);
+        this.world = world;
 
         //Find Custom World and cache values
         for (Map<?, ?> m : map) {
@@ -139,5 +138,10 @@ public class Custom implements RTPWorld {
     @Override
     public List<String> getBiomes() {
         return Biomes;
+    }
+
+    @Override
+    public String getWorld() {
+        return world;
     }
 }

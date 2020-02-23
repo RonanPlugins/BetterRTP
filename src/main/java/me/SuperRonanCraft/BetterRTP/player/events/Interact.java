@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
-import me.SuperRonanCraft.BetterRTP.player.Commands;
+import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;

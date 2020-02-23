@@ -26,8 +26,8 @@ public class RTP {
 
     private Main pl;
     //Cache
-    private HashMap<String, RTPWorld> customWorlds = new HashMap<>();
-    private HashMap<String, String> overriden = new HashMap<>();
+    public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
+    public HashMap<String, String> overriden = new HashMap<>();
     public me.SuperRonanCraft.BetterRTP.references.worlds.Default Default = new Default();
     private Random rn = new Random();
     private List<String> disabledWorlds, blockList;
@@ -62,7 +62,7 @@ public class RTP {
                 customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
     }
 
-    List<String> disabledWorlds() {
+    public List<String> disabledWorlds() {
         return disabledWorlds;
     }
 
@@ -71,7 +71,7 @@ public class RTP {
         return disabledWorlds;
     }
 
-    void start(Player p, CommandSender sendi, String worl, List<String> biomes, boolean delay) {
+    public void start(Player p, CommandSender sendi, String worl, List<String> biomes, boolean delay) {
         // Check overrides
         String world = worl;
         if (world == null)
@@ -275,6 +275,13 @@ public class RTP {
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
         Block b = world.getHighestBlockAt(x, z);
+        //System.out.println("-----------");
+        //System.out.println(b.getType().isSolid() + " " + b.getType().name());
+        if (b.getType() == Material.AIR || !b.getType().isSolid()) { //1.15.1 or less
+            int y = world.getHighestBlockYAt(x, z);
+            b = world.getBlockAt(x, y - 1, z);
+        }
+        //System.out.println(b.getType().isSolid() + " " + b.getType().name());
         if (!badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes()))
             return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
         return null;

@@ -17,4 +17,6 @@ public interface RTPWorld {
     int getPrice();
 
     List<String> getBiomes();
+
+    String getWorld();
 }

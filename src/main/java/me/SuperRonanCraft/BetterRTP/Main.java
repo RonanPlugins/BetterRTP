@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP;
 
-import me.SuperRonanCraft.BetterRTP.player.Commands;
+import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.RTP;
 import me.SuperRonanCraft.BetterRTP.player.events.Listener;
 import me.SuperRonanCraft.BetterRTP.references.Econ;
