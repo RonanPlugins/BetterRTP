@@ -75,6 +75,10 @@ public class FileBasics {
             return config;
         }
 
+        public void setValue(String path, Object value) {
+            config.set(path, value);
+        }
+
         //PROCCESSING
         private void load() {
             Main pl = Main.getInstance();

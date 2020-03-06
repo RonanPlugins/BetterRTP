@@ -155,17 +155,6 @@ public class RTP {
                 pl.getText().getSuccessPaid(sendi, price, x, y, z, world, attempts);
         } else
             pl.getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
-        // Organize which message to output respecting what x and z was chosen
-        /*
-         * if (posOrNeg == 0) msg = msg.replaceAll("%x%",
-         * Integer.toString(x)).replaceAll("%z%", Integer.toString(z)); else if
-         * (posOrNeg == 1) msg = msg.replaceAll("%x%",
-         * Integer.toString(x2)).replaceAll("%z%", Integer.toString(z2)); else
-         * if (posOrNeg == 2) msg = msg.replaceAll("%x%",
-         * Integer.toString(x2)).replaceAll("%z%", Integer.toString(z)); else
-         * msg = msg.replaceAll("%x%", Integer.toString(x)).replaceAll("%z%",
-         * Integer.toString(z2));
-         */
     }
 
     @SuppressWarnings({"deprecation"})
@@ -216,7 +205,7 @@ public class RTP {
         float yaw = p.getLocation().getYaw(), pitch = p.getLocation().getPitch();
         boolean normal;
         try {
-            //1.13
+            //1.13+
             normal = !world.getBiome(0, 0).equals(Biome.valueOf("NETHER"));
         } catch (Exception e) {
             //1.8-1.12
@@ -327,14 +316,14 @@ public class RTP {
     @SuppressWarnings("all")
     private boolean checkDepends(Location loc) {
         try {
-            if (pl.isWorldguard()) {
+            if (pl.getSettings().getsDepends().isWorldguard()) {
                 WorldGuardPlugin plugin = WGBukkit.getPlugin();
                 RegionContainer container = plugin.getRegionContainer();
                 RegionManager regions = container.get(loc.getWorld());
                 // Check to make sure that "regions" is not null
                 return regions.getApplicableRegions(loc).size() == 0;
             }
-            return !pl.isGriefprevention() || GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
+            return !pl.getSettings().getsDepends().isGriefprevention() || GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
         } catch (NoClassDefFoundError e) {
             return true;
         }
@@ -355,26 +344,4 @@ public class RTP {
         return true;
         //FALSE MEANS NO BAD BLOCKS WHERE FOUND!
     }
-
-    /*if (CenterX >= 0) {
-            x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
-            x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
-            } else {
-                x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
-                x2 = -(rn.nextInt(borderRad - minVal) + CenterX + minVal);
-            }
-            // Will Check is CenterZ is negative or positive, then set 2 z's
-            // up for choosing up next
-            if (CenterZ >= 0) {
-            z = rn.nextInt((borderRad) - minVal) + CenterZ + minVal;
-            z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
-            //sendi.sendMessage("Radius: " + borderRad + " MinRad: " + minVal + " CenterZ: " + CenterZ + " " + "World:"
-                    + " " + pWorld.getWorld() + " TOP Z: " + z + " BOTTOM Z: " + z2);
-            //sendi.sendMessage("Max: " + ((borderRad - minVal) + CenterX + minVal));
-            //sendi.sendMessage("Min: " + (-(borderRad - minVal) + CenterX - minVal));
-            //sendi.sendMessage("QUADRANT: " + posOrNeg);
-            } else {
-                z = (rn.nextInt(borderRad - minVal)) - CenterZ + minVal;
-                z2 = -(rn.nextInt(borderRad - minVal) + CenterZ + minVal);
-    }*/
 }
