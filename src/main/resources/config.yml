@@ -45,6 +45,7 @@ BlacklistedBlocks:
   - leaves
   - leaves_2
   - air
+  - void_air
 
 ## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
 DisabledWorlds:
@@ -76,3 +77,4 @@ Override:
   #FORMAT <CURRENT>:<OTHER>
   world_nether: 'world'
   creative: 'world'
+  
