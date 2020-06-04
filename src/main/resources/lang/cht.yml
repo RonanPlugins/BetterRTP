@@ -1,0 +1,64 @@
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+    Paid: '&a您花費了&c$%price%&7，被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
+    Bypass: '&a您被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
+  Failed:
+    Price: '&c您的資金不夠了！&7您需要有$%price%&7才能嘗試RTP！'
+    NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7您未被傳送！'
+  Other:
+    Success: '&a%player%被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
+    NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7%player%未被傳送！'
+    Biome: '&c看上去&7%biome%&c生態域不存在，&7試試使用Tab清單查找吧！'
+  Reload: '&e配置成功重新加載！'
+  NoPermission:
+    Basic: '&c抱歉，&7您沒有權限使用此命令！'
+    World: '&c抱歉，&7您不能在%world%世界傳送！'
+  ## %world% is the world the player is in that is disabled to rtp in! #
+  DisabledWorld: '&c%world%世界已被禁止使用此命令，&7您無法傳送！'
+  Cooldown: '&c抱歉，&7您需要在&c%time%&7秒後才能嘗試傳送！'
+  Invalid: '&c無效的參數，請使用''/%command% help''查看幫助。'
+  NotOnline: '&c玩家&7%player%&c不在線！'
+  Delay: '&a即將在&f%time%&a秒後傳送，請站好！'
+  Moved: '&c您移動了，&7RTP被取消了！'
+  NotExist: '&c看上去&7%world%&c世界並不存在！'
+  Already: '&c哎呦！&7看上去您已經在傳送中了，耐心一點點！'
+  Sign: '&7命令標記已創建！&7命令為''&f/rtp %command%&7'''
+
+Titles:
+  Enabled: true
+  Delay:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% placeholders
+    Title: '&6BetterRTP by SRC'
+    Subtitle: '&f將在%time%秒後傳送！'
+  Success:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% %x% %y% and %z% placeholders
+    Title: '&6BetterRTP by SRC &7(%attempts%)'
+    Subtitle: '&f您已被傳送至x=%x% y=%y% z=%z%'
+
+Help:
+  List:
+    - '&e&m------&r &6&lBetterRTP &8| &7幫助菜單 &e&m------'
+    - ' &7- &e/%command% &7- 把您隨機傳送！'
+    - ' &7- &e/%command% help &7- 打開幫助菜單。'
+  ##If the player has permission to rtp another player, this message will be added under the list!
+  Player: ' &7- &e/%command% player <玩家> [世界] [生態域1，生態域2...] &7- 指定一個玩家隨機傳送。'
+  World: ' &7- &e/%command% world <世界> [生態域1, 生態域2...] &7- 在其他世界隨機傳送。'
+  ##If the player has permission to reload the plugin this message will be added under the list!
+  Biome: ' &7- &e/%command% biome <生態域1, 生態域2...> &7- 在這些指定的生態域中隨機傳送。'
+  Reload: ' &7- &e/%command% reload &7- 重載挿件。'
+
+Usage:
+  Player: '&cUsage&7: /%command% player <玩家> [世界] [生態域1, 生態域2]'
+  World: '&cUsage&7: /%command% world <世界> [生態域1, 生態域2...]'
+  Biome: '&cUsage&7: /%command% biome <生態域1, 生態域2...>'
+
+Sounds:
+  Enabled: true
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
+  Delay: 'entity_tnt_primed'
+  Success: 'entity_generic_explode'
