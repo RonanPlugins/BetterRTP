@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Custom implements RTPWorld {
-    public String world;
+    public String world, world_type;
     private boolean useWorldborder = false;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;

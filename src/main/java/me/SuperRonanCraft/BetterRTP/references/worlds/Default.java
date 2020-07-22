@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Default implements RTPWorld {

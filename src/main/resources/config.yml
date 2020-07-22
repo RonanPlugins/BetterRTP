@@ -24,6 +24,10 @@ Settings:
     CancelOnMove: true
   DisableUpdater: false
 
+WorldType: # Available types are NETHER, NORMAL
+  - world: NORMAL
+  - world_nether: NETHER
+
 Default:
   UseWorldBorder: true
   ## "Biomes: []" means all biomes are allowed! #
@@ -75,6 +79,6 @@ CustomWorlds:
 ## Override a world and rtp a player executing the command in one world, to another
 Override:
   #FORMAT <CURRENT>:<OTHER>
-  world_nether: 'world'
-  creative: 'world'
+  - world_nether: 'world'
+  - creative: 'world'
   

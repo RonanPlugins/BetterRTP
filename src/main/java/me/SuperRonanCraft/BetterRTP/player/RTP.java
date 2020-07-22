@@ -6,10 +6,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.references.worlds.Custom;
-import me.SuperRonanCraft.BetterRTP.references.worlds.Default;
-import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
-import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
@@ -33,6 +30,7 @@ public class RTP {
     private List<String> disabledWorlds, blockList;
     private int maxAttempts, delayTime;
     private boolean cancelOnMove;
+    private HashMap<String, RTP_WORLD_TYPE> world_type = new HashMap<>();
 
     public RTP(Main pl) {
         this.pl = pl;
@@ -60,6 +58,14 @@ public class RTP {
         for (Map<?, ?> m : map)
             for (Map.Entry<?, ?> entry : m.entrySet())
                 customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
+        try {
+            List<Map<?, ?>> world_map = config.getMapList("WorldType");
+            for (Map<?, ?> m : world_map)
+                for (Map.Entry<?, ?> entry : m.entrySet())
+                    world_type.put(entry.getKey().toString(), RTP_WORLD_TYPE.valueOf(entry.getKey().toString()));
+        } catch (Exception e) {
+            //No World Types
+        }
     }
 
     public List<String> disabledWorlds() {
