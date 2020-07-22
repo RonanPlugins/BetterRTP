@@ -21,6 +21,8 @@ public class CmdHelp implements RTPCommand {
             pl.getText().getHelpWorld(sendi, label);
         if (pl.getPerms().getReload(sendi))
             pl.getText().getHelpReload(sendi, label);
+        //if (pl.getPerms().getInfo(sendi))
+        //    pl.getText().getHelpInfo(sendi);
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {

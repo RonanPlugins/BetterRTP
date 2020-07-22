@@ -4,6 +4,8 @@
 Language-File: 'en.yml'
 
 Settings:
+  ## Output to console some debugging info
+  Debugger: false
   ## Respect WorldGuard areas # IN-PROGRESS
   RespectWorldGuard: false
   ## Respect GriefPrevention areas # COMING SOON
@@ -24,9 +26,10 @@ Settings:
     CancelOnMove: true
   DisableUpdater: false
 
-WorldType: # Available types are NETHER, NORMAL
+WorldType: # Available types are NORMAL, NETHER and END
   - world: NORMAL
   - world_nether: NETHER
+  - world_the_end: NORMAL
 
 Default:
   UseWorldBorder: true
@@ -44,7 +47,9 @@ BlacklistedBlocks:
   - stationary_water
   - stationary_lava
   - water
+  - flowing_water
   - lava
+  - flowing_lava
   - cactus
   - leaves
   - leaves_2
@@ -77,7 +82,7 @@ CustomWorlds:
         - 'forest'
 
 ## Override a world and rtp a player executing the command in one world, to another
-Override:
+Overrides:
   #FORMAT <CURRENT>:<OTHER>
   - world_nether: 'world'
   - creative: 'world'

@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.worlds.RTP_WORLD_TYPE;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -15,25 +16,27 @@ public class CmdInfo implements RTPCommand {
 
     public void execute(CommandSender sendi, String label, String[] args) {
         List<String> info = new ArrayList<>();
-        info.add("&6BetterRTP Info");
+        info.add("&e&m-----&6 BetterRTP Info &e&m-----");
+        Main pl = Main.getInstance();
         for (World w : Bukkit.getWorlds()) {
             info.add("&aWorld: &7" + w.getName());
-            if (Main.getInstance().getRTP().getDisabledWorlds().contains(w.getName())) //DISABLED
+            if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //DISABLED
                 info.add("&7- &6Disabled: &bTrue");
             else {
                 info.add("&7- &6Disabled: &cFalse");
-                if (Main.getInstance().getRTP().overriden.containsKey(w.getName()))
+                if (pl.getRTP().overriden.containsKey(w.getName()))
                     info.add("&7- &6Overriden: &bTrue");
                 else {
+                    info.add("&7- &7WorldType: " + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
                     info.add("&7- &6Overriden: &cFalse");
-                    RTPWorld _rtpworld = Main.getInstance().getRTP().Default;
-                    for (RTPWorld __rtpworld : Main.getInstance().getRTP().customWorlds.values()) {
+                    RTPWorld _rtpworld = pl.getRTP().Default;
+                    for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
                         if (__rtpworld.getWorld().equals(w.getName())) {
                             _rtpworld = __rtpworld;
                             break;
                         }
                     }
-                    if (_rtpworld == Main.getInstance().getRTP().Default)
+                    if (_rtpworld == pl.getRTP().Default)
                         info.add("&7- &6Custom: &cFalse");
                     else
                         info.add("&7- &6Custom: &bTrue");
@@ -54,7 +57,7 @@ public class CmdInfo implements RTPCommand {
             }
         }
         info.forEach(str ->
-                info.set(info.indexOf(str), Main.getInstance().getText().color(str)));
+                info.set(info.indexOf(str), pl.getText().color(str)));
         sendi.sendMessage(info.toArray(new String[0]));
     }
 

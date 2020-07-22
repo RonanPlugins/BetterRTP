@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 public enum RTP_WORLD_TYPE {
-    NORMAL, //Default
-    NETHER, //Nether world has different conditions
-    //END //End world type, not supported yet
+    NORMAL, //Normal world type finds the tallest safe block
+    NETHER //Nether world types finds the lowest safe block
 }
