@@ -1,11 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.references.invs.types;
 
+import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics.FILETYPE;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
-import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTP_INV_ITEMS;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -21,11 +20,16 @@ public class RTPInvCoordinates extends RTPInventory {
             Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.WORLDS).show(p);
             return;
         }
-        int slots = (Bukkit.getWorlds().size() - (Bukkit.getWorlds().size() % 9) + 1) * 9;
+        int slots = (RTP_COORDINATES_SETTINGS.values().length - (RTP_COORDINATES_SETTINGS.values().length % 9) + 1) * 9;
         if (slots < 6 * 9)
             slots += 9;
         Inventory inv = this.createInv(slots, "Settings: &lCoordinates");
-
+        int index = 0;
+        for (RTP_COORDINATES_SETTINGS set : RTP_COORDINATES_SETTINGS.values()) {
+            ItemStack _item = createItem(RTP_INV_ITEMS.NORMAL.item, RTP_INV_ITEMS.NORMAL.amt, "&a&l" + set.getInfo()[1], null);
+            inv.setItem(index, _item);
+            index++;
+        }
         ItemStack _item = createItem(RTP_INV_ITEMS.BACK.item, RTP_INV_ITEMS.BACK.amt, RTP_INV_ITEMS.BACK.name, null);
         inv.setItem(inv.getSize() - 9 + RTP_INV_ITEMS.BACK.slot, _item);
         p.openInventory(inv);
@@ -35,6 +39,9 @@ public class RTPInvCoordinates extends RTPInventory {
     @Override
     public void clickEvent(InventoryClickEvent e) {
         int slot = e.getSlot();
+        for (RTP_COORDINATES_SETTINGS set : RTP_COORDINATES_SETTINGS.values()) {
+            
+        }
         for (RTP_INV_ITEMS type : RTP_INV_ITEMS.values()) {
             if (type.slot != -1) {
                 switch (type) {
@@ -50,19 +57,19 @@ public class RTPInvCoordinates extends RTPInventory {
 }
 
 enum RTP_COORDINATES_SETTINGS {
-    CATEGORY(   SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Settings.Importance.Enabled",
-            new Object[]{true, "Category", "&7Toggle Categories system", "paper"}),
-    COOLDOWN(   SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Settings.Cooldown.Enabled",
-            new Object[]{true, "Cooldown", "&7Toggle Cooldown system", "paper"}),
-    COOLDOWN_TIME( SETTINGS_TYPE.INTEGER, FILETYPE.CONFIG, "Settings.Cooldown.Time",
+    CENTER_Z(   SETTINGS_TYPE.INTEGER, FILETYPE.CONFIG, "Settings.Importance.Enabled",
+            new Object[]{true, "Center Z", "&7Toggle Categories system", "paper"}),
+    CENTER_X(   SETTINGS_TYPE.INTEGER, FILETYPE.CONFIG, "Settings.Cooldown.Enabled",
+            new Object[]{true, "Center X", "&7Toggle Cooldown system", "paper"}),
+    USE_WORLDBORDER( SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Settings.Cooldown.Time",
             new Object[]{true, "Cooldown Time", new ArrayList<String>() {{
                 add("&7Set the time (in minutes)");
                 add("&7between making a new ticket");
             }}, "paper"}),
-    DEBUG(      SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Settings.Debug",
+    /*DEBUG(      SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Settings.Debug",
             new Object[]{true, "Debug", "&7Toggle debugger", "paper"}),
     TEMPLATE(   SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Template.Enabled",
-            new Object[]{true, "Templates", "&7Toggle Templates system", "paper"});
+            new Object[]{true, "Templates", "&7Toggle Templates system", "paper"});*/;
 
     SETTINGS_TYPE type;
     FILETYPE filetype;
@@ -122,18 +129,18 @@ enum RTP_COORDINATES_SETTINGS {
     public FILETYPE getFiletype() {
         return filetype;
     }
-}
 
-enum SETTINGS_TYPE {
-    BOOLEAN(Boolean.class), STRING(String.class), INTEGER(Integer.class);
+    enum SETTINGS_TYPE {
+        BOOLEAN(Boolean.class), STRING(String.class), INTEGER(Integer.class);
 
-    private Class cla;
+        private Class cla;
 
-    SETTINGS_TYPE(Class cla) {
-        this.cla = cla;
-    }
+        SETTINGS_TYPE(Class cla) {
+            this.cla = cla;
+        }
 
-    Class getCla() {
-        return cla;
+        Class getCla() {
+            return cla;
+        }
     }
 }

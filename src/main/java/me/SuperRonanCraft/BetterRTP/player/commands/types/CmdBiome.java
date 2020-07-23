@@ -1,9 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CmdBiome implements RTPCommand {
@@ -17,7 +19,10 @@ public class CmdBiome implements RTPCommand {
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
-        return null;
+        List<String> list = new ArrayList<>();
+        if (args.length == 2)
+            getCmd().addBiomes(list, args);
+        return list;
     }
 
     public boolean permission(CommandSender sendi) {
@@ -26,5 +31,9 @@ public class CmdBiome implements RTPCommand {
 
     public void usage(CommandSender sendi, String label) {
         Main.getInstance().getText().getUsageBiome(sendi, label);
+    }
+
+    private Commands getCmd() {
+        return Main.getInstance().getCmd();
     }
 }

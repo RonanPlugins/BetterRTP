@@ -113,5 +113,6 @@ public class Main extends JavaPlugin {
         rtp.load();
         cmd.load();
         listener.load();
+        eco.load();
     }
 }

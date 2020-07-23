@@ -12,7 +12,7 @@ public class Econ {
     private boolean checked = false;
 
     public boolean charge(Player player, int price) {
-        check();
+        check(false);
         //player.sendMessage("Charging = " + (e != null) + " charge = " + price);
         if (e != null)
             if (price != 0) {
@@ -31,8 +31,12 @@ public class Econ {
                 e.depositPlayer(p, price);
     }
 
-    private void check() {
-        if (!checked)
+    public void load() {
+        check(true);
+    }
+
+    private void check(boolean force) {
+        if (!checked || force)
             registerEconomy();
     }
 

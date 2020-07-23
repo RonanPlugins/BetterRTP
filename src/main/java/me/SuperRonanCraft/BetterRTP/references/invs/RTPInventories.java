@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.invs;
 
-import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory_Defaults;
+import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

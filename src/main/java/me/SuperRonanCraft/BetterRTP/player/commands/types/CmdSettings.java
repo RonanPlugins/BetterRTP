@@ -1,8 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
+import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
-import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

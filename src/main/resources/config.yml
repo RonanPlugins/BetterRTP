@@ -1,5 +1,5 @@
 # BetterRTP plugin by SuperRonanCraft! (Join my Public Server mc.RonanCraft.net) #
-# Please give me credit, I'm a first time coder, and would love to see more discussions on my Spigot page! #
+# Need help? go to https://ronancraft.net/discord! #
 
 Language-File: 'en.yml'
 
@@ -26,17 +26,12 @@ Settings:
     CancelOnMove: true
   DisableUpdater: false
 
-WorldType: # Available types are NORMAL, NETHER and END
-  - world: NORMAL
-  - world_nether: NETHER
-  - world_the_end: NORMAL
-
 Default:
-  UseWorldBorder: true
+  UseWorldBorder: false
   ## "Biomes: []" means all biomes are allowed! #
   ## Biomes are optional, more biomes at https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html #
   Biomes: []
-  MaxRadius: 100
+  MaxRadius: 1000
   MinRadius: 10
   ## If "UseWorldBorder" is set to true above, these values WILL be ignored! Except Biomes! #
   CenterX: 0
@@ -64,14 +59,14 @@ DisabledWorlds:
 ## Worlds you want to have a custom min/max and spawn center in #
 ## [MaxRadius] and [MinRadius] MUST be positive! These cannot be equal to each other!
 CustomWorlds:
-  - world:
+  - custom_world_1:
       UseWorldBorder: false
       ## If UseWorldBorder is true, everything will be ignored EXEPT "MinRadius"!
       MaxRadius: 1000
       MinRadius: 100
       CenterX: 0
       CenterZ: 0
-  - nether:
+  - other_custom_world:
       MaxRadius: 100000
       MinRadius: 1000
       CenterX: 123
@@ -83,7 +78,11 @@ CustomWorlds:
 
 ## Override a world and rtp a player executing the command in one world, to another
 Overrides:
-  #FORMAT <CURRENT>:<OTHER>
-  - world_nether: 'world'
-  - creative: 'world'
-  
+  #FORMAT - <CURRENT>:<OTHER>
+  - master_world: 'world'
+  - creative_world: 'world'
+
+WorldType: # Available types are NORMAL, NETHER
+  - world: NORMAL
+  - world_nether: NETHER
+  - world_the_end: NORMAL

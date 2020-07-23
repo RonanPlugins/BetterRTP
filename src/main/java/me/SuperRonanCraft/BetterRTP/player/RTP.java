@@ -29,7 +29,7 @@ public class RTP {
     private Random rn = new Random();
     private List<String> disabledWorlds, blockList;
     private int maxAttempts, delayTime;
-    private boolean cancelOnMove;
+    private boolean cancelOnMove, cancelOnDamage;
     public HashMap<String, RTP_WORLD_TYPE> world_type = new HashMap<>();
 
     public RTP(Main pl) {
@@ -43,6 +43,7 @@ public class RTP {
         maxAttempts = config.getInt("Settings.MaxAttempts");
         delayTime = config.getInt("Settings.Delay.Time");
         cancelOnMove = config.getBoolean("Settings.Delay.CancelOnMove");
+        cancelOnDamage = config.getBoolean("Settings.Delay.CancelOnDamage");
         blockList = config.getStringList("BlacklistedBlocks");
         //OVER-RIDES
         try {
@@ -157,7 +158,7 @@ public class RTP {
         // Delaying? Else, just go
         if (delay) {
             pl.getCmd().rtping.put(p.getUniqueId(), true);
-            new Delay(sendi, pWorld, delayTime, cancelOnMove);
+            new Delay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
             tp(sendi, pWorld);
     }
@@ -314,15 +315,18 @@ public class RTP {
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
         Block b = world.getHighestBlockAt(x, z);
-        //System.out.println("-----------");
-        //System.out.println(b.getType().isSolid() + " " + b.getType().name());
-        if (b.getType() == Material.AIR || !b.getType().isSolid()) { //1.15.1 or less
-            int y = world.getHighestBlockYAt(x, z);
-            b = world.getBlockAt(x, y - 1, z);
+        if (b.getType().toString().endsWith("AIR")) //1.15.1 or less
+            b = world.getBlockAt(x, b.getY() - 1, z);
+        else if (!b.getType().isSolid()) { //Water, lava, shrubs...
+            if (!badBlock(b.getType().name(), x, z, pWorld.getWorld(), null)) { //Make sure it's not an invalid block (ex: water, lava...)
+                //int y = world.getHighestBlockYAt(x, z);
+                b = world.getBlockAt(x, b.getY() - 1, z);
+            }
         }
-        //System.out.println(b.getType().isSolid() + " " + b.getType().name());
-        if (b.getY() > 0 && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes()))
+        //System.out.println(b.getType().name());
+        if (b.getY() > 0 && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
             return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
+        }
         return null;
     }
 
@@ -353,16 +357,25 @@ public class RTP {
     }
 
     private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
+        //System.out.println("-----------");
         for (int y = 0; y < world.getMaxHeight(); y++) {
-            Block b = world.getBlockAt(x, y, z);
-            if (b.getType().equals(Material.AIR) || !b.getType().isSolid()) {
-                String block = world.getBlockAt(x, y - 1, z).getType().name();
-                if (!b.getType().isSolid()) { //Block is not a solid (ex: lava, water...)
-                    String block_in = b.getType().name();
-                    if (badBlock(block_in, x, z, pWorld.getWorld(), pWorld.getBiomes()))
-                        return null;
+           // System.out.println("--");
+            Block block_current = world.getBlockAt(x, y, z);
+            //System.out.println(block_current.getType().name());
+            if (block_current.getType().name().endsWith("AIR") || !block_current.getType().isSolid()) {
+                //System.out.println(block_current.getType().name());
+                if (!block_current.getType().name().endsWith("AIR") &&
+                        !block_current.getType().isSolid()) { //Block is not a solid (ex: lava, water...)
+                    String block_in = block_current.getType().name();
+                    if (badBlock(block_in, x, z, pWorld.getWorld(), null))
+                        continue;//return null;
                 }
-                if (!badBlock(block, x, z, pWorld.getWorld(), pWorld.getBiomes()))
+                //System.out.println(block_current.getType().name());
+                String block = world.getBlockAt(x, y - 1, z).getType().name();
+                if (block.endsWith("AIR")) //Block below is air, skip
+                    continue;
+                if (world.getBlockAt(x, y + 1, z).getType().name().endsWith("AIR") //Head space
+                        && !badBlock(block, x, z, pWorld.getWorld(), pWorld.getBiomes())) //Valid block
                     return new Location(world, (x + 0.5), y, (z + 0.5), yaw, pitch);
             }
         }

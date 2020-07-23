@@ -36,7 +36,6 @@ public class CmdPlayer implements RTPCommand {
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
-        System.out.println(this.toString());
         if (args.length == 2) {
             for (Player p : Bukkit.getOnlinePlayers())
                 if (p.getDisplayName().toLowerCase().startsWith(args[1].toLowerCase()))
