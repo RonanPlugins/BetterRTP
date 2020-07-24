@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class Commands {
 
-    private Main pl;
+    private final Main pl;
     public HashMap<UUID, Long> cooldowns = new HashMap<>();
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
     private boolean cooldownTimer;
@@ -118,7 +118,7 @@ public class Commands {
     }
 
     public void tp(Player player, CommandSender sendi, String world, List<String> biomes) {
-        if (canRtp(sendi, player)) {
+        if (checkDelay(sendi, player)) {
             boolean delay = false;
             if (!pl.getPerms().getBypassDelay(player))
                 if (timer != 0)
@@ -128,7 +128,7 @@ public class Commands {
         }
     }
 
-    private boolean canRtp(CommandSender sendi, Player player) {
+    private boolean checkDelay(CommandSender sendi, Player player) {
         //Bypassing/Forced?
         if (sendi != player || pl.getPerms().getBypassCooldown(player))
             return true;

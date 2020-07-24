@@ -125,6 +125,7 @@ public class RTP {
             world = p.getWorld().getName();
         if (overriden.containsKey(world))
             world = overriden.get(world);
+        // Not forced and has 'betterrtp.world.<world>'
         if (sendi == p && !pl.getPerms().getAWorld(sendi, world)) {
             pl.getCmd().cooldowns.remove(p.getUniqueId());
             pl.getText().getNoPermissionWorld(p, world);
@@ -143,7 +144,7 @@ public class RTP {
             return;
         }
         PlayerWorld pWorld = new PlayerWorld(p, world);
-        //Set all methods
+        // Set all methods
         if (customWorlds.containsKey(world)) {
             RTPWorld cWorld = customWorlds.get(pWorld.getWorld());
             pWorld.setup(cWorld, cWorld.getPrice(), biomes);

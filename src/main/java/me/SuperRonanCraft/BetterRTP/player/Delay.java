@@ -14,8 +14,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 class Delay implements Listener {
     private int run;
-    private PlayerWorld pWorld;
-    private boolean cancelOnMove, cancelOnDamage;
+    private final PlayerWorld pWorld;
+    private final boolean cancelOnMove, cancelOnDamage;
 
     Delay(CommandSender sendi, PlayerWorld pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
         this.pWorld = pWorld;

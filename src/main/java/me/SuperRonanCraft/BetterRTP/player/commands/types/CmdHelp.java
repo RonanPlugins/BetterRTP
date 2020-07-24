@@ -15,7 +15,7 @@ public class CmdHelp implements RTPCommand {
         if (pl.getPerms().getRtpOther(sendi))
             pl.getText().getHelpPlayer(sendi, label);
         if (sendi instanceof Player) {
-            if (pl.getPerms().getAWorld(sendi, null))
+            if (pl.getPerms().getWorld(sendi))
                 pl.getText().getHelpWorld(sendi, label);
         } else
             pl.getText().getHelpWorld(sendi, label);
