@@ -1,18 +1,25 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
+import me.SuperRonanCraft.BetterRTP.references.depends.DepPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public class Permissions {
 
-    private String pre = "betterrtp.";
+    private DepPerms depPerms = new DepPerms();
+
+    public void register() {
+        depPerms.register();
+    }
+
+    private final String pre = "betterrtp.";
 
     public boolean getUse(CommandSender sendi) {
         return perm(pre + "use", sendi);
     }
 
-    boolean getEconomy(CommandSender sendi) {
+    public boolean getEconomy(CommandSender sendi) {
         return perm(pre + "bypass.economy", sendi);
     }
 
@@ -69,6 +76,6 @@ public class Permissions {
     }
 
     private boolean perm(String str, CommandSender sendi) {
-        return sendi.hasPermission(str);
+        return depPerms.hasPerm(str, sendi);
     }
 }

@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references;
+package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
@@ -7,7 +7,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class Econ {
+public class DepEconomy {
     private Economy e;
     private boolean checked = false;
 

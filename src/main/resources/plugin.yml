@@ -1,5 +1,5 @@
 main: me.SuperRonanCraft.BetterRTP.Main
-version: 2.11.0
+version: 2.11.1
 name: BetterRTP
 author: SuperRonanCraft
 softdepend: [Vault, WorldGuard, GriefPrevention, Factions]

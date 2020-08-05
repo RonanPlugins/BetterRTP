@@ -9,7 +9,6 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,7 +20,7 @@ import java.util.Random;
 
 public class RTP {
 
-    private Main pl;
+    private final Main pl;
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
@@ -359,7 +358,7 @@ public class RTP {
 
     private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
         //System.out.println("-----------");
-        for (int y = 0; y < world.getMaxHeight(); y++) {
+        for (int y = 1; y < world.getMaxHeight(); y++) {
            // System.out.println("--");
             Block block_current = world.getBlockAt(x, y, z);
             //System.out.println(block_current.getType().name());

@@ -4,7 +4,7 @@ import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.RTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.Listener;
-import me.SuperRonanCraft.BetterRTP.references.Econ;
+import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
 import me.SuperRonanCraft.BetterRTP.references.file.Files;
@@ -21,7 +21,7 @@ import java.util.List;
 public class Main extends JavaPlugin {
     private Permissions perms = new Permissions();
     private Messages text = new Messages(this);
-    private Econ eco = new Econ();
+    private DepEconomy eco = new DepEconomy();
     private Commands cmd = new Commands(this);
     private RTP rtp = new RTP(this);
     private Listener listener = new Listener();
@@ -75,7 +75,7 @@ public class Main extends JavaPlugin {
         return text;
     }
 
-    public Econ getEco() {
+    public DepEconomy getEco() {
         return eco;
     }
 
@@ -114,5 +114,6 @@ public class Main extends JavaPlugin {
         cmd.load();
         listener.load();
         eco.load();
+        perms.register();
     }
 }
