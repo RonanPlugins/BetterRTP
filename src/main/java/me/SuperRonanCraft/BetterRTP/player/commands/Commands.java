@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,8 +125,18 @@ public class Commands {
                 if (timer != 0)
                     if (sendi == player)
                         delay = true;
-            pl.getRTP().start(player, sendi, world, biomes, delay);
+            //pl.getRTP().start(player, sendi, world, biomes, delay);
+            tpSync(player, sendi, world, biomes, delay);
         }
+    }
+
+    private void tpSync(Player player, CommandSender sendi, String world, List<String> biomes, boolean delay) {
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                pl.getRTP().start(player, sendi, world, biomes, delay);
+            }
+        }.runTaskAsynchronously(pl);
     }
 
     private boolean checkDelay(CommandSender sendi, Player player) {

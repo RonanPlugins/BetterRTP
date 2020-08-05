@@ -12,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -173,20 +174,25 @@ public class RTP {
 
     private void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                             final int attempts) throws NullPointerException {
-        if (sendi != p)
-            checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
-        if (pl.getText().getTitleSuccessChat())
-            checkPH(p, p.getDisplayName(), loc, price, true, attempts);
-        if (pl.getText().getTitleEnabled())
-            titles(p, loc, attempts);
-        try {
-            //loc.getWorld().loadChunk(loc.getChunk());
-            p.teleport(loc);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (pl.getText().getSoundsEnabled())
-            sounds(p);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                if (sendi != p)
+                    checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
+                if (pl.getText().getTitleSuccessChat())
+                    checkPH(p, p.getDisplayName(), loc, price, true, attempts);
+                if (pl.getText().getTitleEnabled())
+                    titles(p, loc, attempts);
+                try {
+                    //loc.getWorld().loadChunk(loc.getChunk());
+                    p.teleport(loc);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (pl.getText().getSoundsEnabled())
+                    sounds(p);
+            }
+        }.runTask(pl);
     }
 
     private void checkPH(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
