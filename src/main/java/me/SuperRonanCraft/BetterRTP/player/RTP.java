@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class RTP {
 
-    private final Main pl;
+    private final RTPTeleport teleport = new RTPTeleport();
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
@@ -32,13 +32,9 @@ public class RTP {
     private boolean cancelOnMove, cancelOnDamage;
     public HashMap<String, RTP_WORLD_TYPE> world_type = new HashMap<>();
 
-    public RTP(Main pl) {
-        this.pl = pl;
-    }
-
     public void load() {
         Default.setup();
-        FileBasics.FILETYPE config = pl.getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         disabledWorlds = config.getStringList("DisabledWorlds");
         maxAttempts = config.getInt("Settings.MaxAttempts");
         delayTime = config.getInt("Settings.Delay.Time");
@@ -52,8 +48,8 @@ public class RTP {
             for (Map<?, ?> m : override_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     overriden.put(entry.getKey().toString(), entry.getValue().toString());
-                    if (pl.getSettings().debug)
-                        pl.getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
+                    if (getPl().getSettings().debug)
+                        getPl().getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
                 }
             //for (String s : config.getConfigurationSection("Override").getKeys(false))
             //    overriden.put(s, config.getString("Override." + s));
@@ -68,8 +64,8 @@ public class RTP {
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
-                    if (pl.getSettings().debug)
-                        pl.getLogger().info("- Custom World '" + entry.getKey() + "' registered");
+                    if (getPl().getSettings().debug)
+                        getPl().getLogger().info("- Custom World '" + entry.getKey() + "' registered");
                 }
         } catch (Exception e) {
             //No Custom Worlds
@@ -91,18 +87,18 @@ public class RTP {
                             for (RTP_WORLD_TYPE type : RTP_WORLD_TYPE.values())
                                 valids.append(type.name()).append(", ");
                             valids.replace(valids.length() - 2, valids.length(), "");
-                            pl.getLogger().severe("World Type for '" + entry.getKey() + "' is INVALID '" + entry.getValue() +
+                            getPl().getLogger().severe("World Type for '" + entry.getKey() + "' is INVALID '" + entry.getValue() +
                                     "'. Valid ID's are: " + valids.toString());
                             //Wrong rtp world type
                         }
                     }/* else {
-                        if (pl.getSettings().debug)
-                            pl.getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
+                        if (getPl().getSettings().debug)
+                            getPl().getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
                     }*/
                 }
-            if (pl.getSettings().debug)
+            if (getPl().getSettings().debug)
                 for (String world : world_type.keySet())
-                    pl.getLogger().info("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
+                    getPl().getLogger().info("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
         } catch (Exception e) {
             e.printStackTrace();
             //No World Types
@@ -126,21 +122,21 @@ public class RTP {
         if (overriden.containsKey(world))
             world = overriden.get(world);
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == p && !pl.getPerms().getAWorld(sendi, world)) {
-            pl.getCmd().cooldowns.remove(p.getUniqueId());
-            pl.getText().getNoPermissionWorld(p, world);
+        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world)) {
+            getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            getPl().getText().getNoPermissionWorld(p, world);
             return;
         }
         // Check disabled worlds
         if (disabledWorlds.contains(world)) {
-            pl.getText().getDisabledWorld(sendi, world);
-            pl.getCmd().cooldowns.remove(p.getUniqueId());
+            getPl().getText().getDisabledWorld(sendi, world);
+            getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         // Check if nulled
         if (Bukkit.getWorld(world) == null) {
-            pl.getText().getNotExist(sendi, world);
-            pl.getCmd().cooldowns.remove(p.getUniqueId());
+            getPl().getText().getNotExist(sendi, world);
+            getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         PlayerWorld pWorld = new PlayerWorld(p, world);
@@ -151,14 +147,14 @@ public class RTP {
         } else
             pWorld.setup(Default, Default.getPrice(), biomes);
         // Check world price
-        if (!pl.getEco().charge(p, pWorld.getPrice())) {
-            pl.getText().getFailedPrice(p, pWorld.getPrice());
-            pl.getCmd().cooldowns.remove(p.getUniqueId());
+        if (!getPl().getEco().charge(p, pWorld.getPrice())) {
+            getPl().getText().getFailedPrice(p, pWorld.getPrice());
+            getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         // Delaying? Else, just go
         if (delay) {
-            pl.getCmd().rtping.put(p.getUniqueId(), true);
+            getPl().getCmd().rtping.put(p.getUniqueId(), true);
             new Delay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
             tp(sendi, pWorld);
@@ -167,78 +163,19 @@ public class RTP {
     void tp(CommandSender sendi, PlayerWorld pWorld) {
         Location loc = randomLoc(pWorld);
         if (loc != null)
-            sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
+            teleport.sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
         else
             metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
-    }
-
-    private void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
-                            final int attempts) throws NullPointerException {
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                if (sendi != p)
-                    checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
-                if (pl.getText().getTitleSuccessChat())
-                    checkPH(p, p.getDisplayName(), loc, price, true, attempts);
-                if (pl.getText().getTitleEnabled())
-                    titles(p, loc, attempts);
-                try {
-                    //loc.getWorld().loadChunk(loc.getChunk());
-                    p.teleport(loc);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (pl.getText().getSoundsEnabled())
-                    sounds(p);
-            }
-        }.runTask(pl);
-    }
-
-    private void checkPH(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
-                         int attempts) {
-        String x = Integer.toString(loc.getBlockX());
-        String y = Integer.toString(loc.getBlockY());
-        String z = Integer.toString(loc.getBlockZ());
-        String world = loc.getWorld().getName();
-        if (sameAsPlayer) {
-            if (price == 0)
-                pl.getText().getSuccessBypass(sendi, x, y, z, world, attempts);
-            else
-                pl.getText().getSuccessPaid(sendi, price, x, y, z, world, attempts);
-        } else
-            pl.getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
-    }
-
-    @SuppressWarnings({"deprecation"})
-    private void titles(Player p, Location loc, int attempts) {
-        // int fadeIn = pl.text.getFadeIn();
-        // int stay = text.getStay();
-        // int fadeOut = text.getFadeOut();
-        String x = String.valueOf(loc.getBlockX());
-        String y = String.valueOf(loc.getBlockY());
-        String z = String.valueOf(loc.getBlockZ());
-        String title = pl.getText().getTitleSuccess(p.getName(), x, y, z, attempts);
-        String subTitle = pl.getText().getSubTitleSuccess(p.getName(), x, y, z, attempts);
-        // player.sendMessage(Bukkit.getServer().getVersion());
-        // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-        p.sendTitle(title, subTitle);
-    }
-
-    private void sounds(Player p) {
-        Sound sound = pl.getText().getSoundsSuccess();
-        if (sound != null)
-            p.playSound(p.getLocation(), sound, 1F, 1F);
     }
 
     // Compressed code for MaxAttempts being met
     private void metMax(CommandSender sendi, Player p, int price) {
         if (p == sendi)
-            pl.getText().getFailedNotSafe(sendi, maxAttempts);
+            getPl().getText().getFailedNotSafe(sendi, maxAttempts);
         else
-            pl.getText().getOtherNotSafe(sendi, maxAttempts, p.getDisplayName());
-        pl.getCmd().cooldowns.remove(p.getUniqueId());
-        pl.getEco().unCharge(p, price);
+            getPl().getText().getOtherNotSafe(sendi, maxAttempts, p.getDisplayName());
+        getPl().getCmd().cooldowns.remove(p.getUniqueId());
+        getPl().getEco().unCharge(p, price);
     }
 
     //Get a random location depending the world type
@@ -391,20 +328,20 @@ public class RTP {
     @SuppressWarnings("all")
     private boolean checkDepends(Location loc) {
         try {
-            if (pl.getSettings().getsDepends().isWorldguard()) {
+            if (getPl().getSettings().getsDepends().isWorldguard()) {
                 WorldGuardPlugin plugin = WGBukkit.getPlugin();
                 RegionContainer container = plugin.getRegionContainer();
                 RegionManager regions = container.get(loc.getWorld());
                 // Check to make sure that "regions" is not null
                 return regions.getApplicableRegions(loc).size() == 0;
             }
-            return !pl.getSettings().getsDepends().isGriefprevention() || GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
+            return !getPl().getSettings().getsDepends().isGriefprevention() || GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
         } catch (NoClassDefFoundError e) {
             return true;
         }
     }
 
-    // Bad blocks, or good block and bad biome
+    // Bad blocks, or bad biome
     private boolean badBlock(String block, int x, int z, String world, List<String> biomes) {
         for (String currentBlock : blockList) //Check Block
             if (currentBlock.toUpperCase().equals(block))
@@ -417,6 +354,10 @@ public class RTP {
             if (biomeCurrent.toUpperCase().contains(biome.toUpperCase()))
                 return false;
         return true;
-        //FALSE MEANS NO BAD BLOCKS WHERE FOUND!
+        //FALSE MEANS NO BAD BLOCKS/BIOME WHERE FOUND!
+    }
+
+    private Main getPl() {
+        return Main.getInstance();
     }
 }

@@ -23,7 +23,7 @@ public class Main extends JavaPlugin {
     private Messages text = new Messages(this);
     private DepEconomy eco = new DepEconomy();
     private Commands cmd = new Commands(this);
-    private RTP rtp = new RTP(this);
+    private RTP rtp = new RTP();
     private Listener listener = new Listener();
     private static Main instance;
     private Files files = new Files();
