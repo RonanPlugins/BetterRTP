@@ -3,6 +3,7 @@ Messages:
   Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
     Paid: '&a您花費了&c$%price%&7，被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
     Bypass: '&a您被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
+    Loading: '&aSafe spot located! &7Loading chunks...'
   Failed:
     Price: '&c您的資金不夠了！&7您需要有$%price%&7才能嘗試RTP！'
     NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7您未被傳送！'

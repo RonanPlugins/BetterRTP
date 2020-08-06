@@ -140,17 +140,14 @@ public class Commands {
     }
 
     private boolean checkDelay(CommandSender sendi, Player player) {
-        //Bypassing/Forced?
-        if (sendi != player || pl.getPerms().getBypassCooldown(player))
-            return true;
-        //Currently rtp'ing?
-        else if (rtping.containsKey(player.getUniqueId()))
+        if (rtping.containsKey(player.getUniqueId())) //Already rtp'ing
             if (rtping.get(player.getUniqueId())) {
                 pl.getText().getAlready(player);
                 return false;
             }
-        //Cooling down?
-        if (cooldownTimer) {
+        else if (sendi != player || pl.getPerms().getBypassCooldown(player)) //Bypassing/Forced?
+            return true;
+        else if (cooldownTimer) { //Cooling down?
             Player p = (Player) sendi;
             if (cooldowns.containsKey(p.getUniqueId())) {
                 long Left = ((cooldowns.get(p.getUniqueId()) / 1000) + cooldown) - (System.currentTimeMillis() / 1000);

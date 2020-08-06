@@ -1,16 +1,24 @@
 package me.SuperRonanCraft.BetterRTP.player;
 
+import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 public class RTPTeleport {
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
+        getPl().getText().getSuccessLoading(sendi); //Send loading message
+        loadChunks(loc); //Load chunks before teleporting
         new BukkitRunnable(){
             @Override
             public void run() {
@@ -21,15 +29,41 @@ public class RTPTeleport {
                 if (getPl().getText().getTitleEnabled())
                     titles(p, loc, attempts);
                 try {
-                    //loc.getWorld().loadChunk(loc.getChunk());
-                    p.teleport(loc);
+                    //p.teleport(loc);
+                    PaperLib.teleportAsync(p, loc); //Async teleport
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if (getPl().getText().getSoundsEnabled())
                     sounds(p);
-            }
+                getPl().getCmd().rtping.put(p.getUniqueId(), false); //Dont let them rtp again until current is done!
+                }
         }.runTask(getPl());
+    }
+
+    private void loadChunks(Location loc) { //Async chunk loading
+        List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
+        for (int x = -5; x <= 5; x++) {
+            for (int z = -5; z <= 5; z++) {
+                Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (x * 16));
+                CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(locLoad, true);
+                asyncChunks.add(chunk);
+            }
+        }
+        while (!checkLoaded(asyncChunks)) {
+            try {
+                Thread.sleep(500); //Sleep and check again 0.5 seconds later
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean checkLoaded(List<CompletableFuture<Chunk>> asyncChunks) {
+        for (CompletableFuture<Chunk> chunk : asyncChunks)
+            if (!chunk.isDone())
+                return false;
+        return true;
     }
 
     private void checkPH(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,

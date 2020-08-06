@@ -153,8 +153,8 @@ public class RTP {
             return;
         }
         // Delaying? Else, just go
+        getPl().getCmd().rtping.put(p.getUniqueId(), true);
         if (delay) {
-            getPl().getCmd().rtping.put(p.getUniqueId(), true);
             new Delay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
             tp(sendi, pWorld);

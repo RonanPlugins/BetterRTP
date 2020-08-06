@@ -4,6 +4,7 @@ Messages:
   Success:
     Paid: '&aTu a été téléporté à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
     Bypass: '&aTu a été téléporté à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
+    Loading: '&aSafe spot located! &7Loading chunks...'
   Failed:
     Price: '&cTu n''a pas pu être téléporté; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n''a pas été téléporté!'
@@ -54,11 +55,11 @@ Help:
 Usage:
   Player: '&cUtilisation&7: /%command% player <joeur> [monde]'
   World: '&cUtilisation&7: /%command% world <monde>'
+  Biome: '&cUtilisation&7: /%command% biome <biome1, biome2...>'
 
 Sounds:
   Enabled: true
-  ## Plus de sons à https://www.spigotmc.org/wiki/cc-sounds-list/
-  ## Son à jouer lors de la téléportation avec délai ##
+  ## Plus de sons à https://www.spigotmc.org/wiki/cc-sounds-list/ ## Son à jouer lors de la téléportation avec délai ##
   Delay: 'entity_tnt_primed'
   ##Son à jouer lorsque la téléportation à réussie ##
   Success: 'entity_generic_explode'

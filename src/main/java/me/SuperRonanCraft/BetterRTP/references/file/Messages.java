@@ -35,6 +35,10 @@ public class Messages {
                 ("%z%", z).replaceAll("%world%", world).replaceAll("%attempts%", Integer.toString(attemtps)));
     }
 
+    public void getSuccessLoading(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Success.Loading"));
+    }
+
     public void getFailedNotSafe(CommandSender sendi, int attempts) {
         sms(sendi, getLang().getString(preM + "Failed.NotSafe").replaceAll("%attempts%", Integer.toString(attempts)));
     }

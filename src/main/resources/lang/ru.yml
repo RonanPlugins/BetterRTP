@@ -1,9 +1,9 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
-  ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-  Success:
+  Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
     Paid: '&aВас телепортировало на&7 x=%x% y=%y% z=%z% за &c$%price%&7, за &f%attempts% &7попыток!'
     Bypass: '&aВас телепортировало на&7 x=%x% y=%y% z=%z% за &f%attempts% &7попыток'
+    Loading: '&aSafe spot located! &7Loading chunks...'
   Failed:
     Price: '&cУ вас недостаточно денег для телепортации! &7У вас должно быть хотябы $%price% &7для rtp!'
     NotSafe: '&cНе удалось найти безопасное место за %attempts% попыток! &7Вас не телепортировало!'

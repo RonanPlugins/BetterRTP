@@ -3,6 +3,7 @@ Messages:
   Success:
     Paid: '&aあなたは&c$%price%&aで&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
     Bypass: '&aあなたは&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
+    Loading: '&aSafe spot located! &7Loading chunks...'
   Failed:
     Price: '&c資金が不十分のためRTPできませんでした！ &7RTPには最低$%price%&7が必要です！'
     NotSafe: '&c%attempts%回の試行で安全な場所が見つかりませんでした！ &7あなたははRTPされませんでした！'
@@ -14,6 +15,7 @@ Messages:
   NoPermission:
     Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！'
     World: '&cごめんなさい！ &7ワールド%world%ではrtpが許可されていません！'
+  ##
   DisabledWorld: '&cワールド%world%は無効です！ &7RTPできませんでした！'
   Cooldown: '&cごめんなさい！ &7あなたは&c%time%&7秒間RTPできません！'
   Invalid: '&c無効な引数。 ''/%command% help''を試してください。'
@@ -27,11 +29,15 @@ Messages:
 Titles:
   Enabled: true
   Delay:
+    ##
     SendChatMessage: true
+    ##
     Title: '&6BetterRTP by SRC'
     Subtitle: '&f%time%秒でテレポート！'
   Success:
+    ##
     SendChatMessage: true
+    ##
     Title: '&6BetterRTP by SRC &7(%attempts%)'
     Subtitle: '&fx=%x% y=%y% z=%z%　にテレポート'
 
@@ -40,8 +46,10 @@ Help:
     - '&e&m------&r &6&lBetterRTP &8| &7ヘルプ&e&m------'
     - ' &7- &e/%command% &7- あなたをランダムテレポートする！'
     - ' &7- &e/%command% help &7- ヘルプを見る'
+  ##
   Player: ' &7- &e/%command% player <player> [world] &7- 他のプレイヤーをランダムテレポート'
   World: ' &7- &e/%command% world <world> &7- 他のワールドにランダムテレポート'
+  ##
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
   Reload: ' &7- &e/%command% reload &7- プラグインをリロード'
 
