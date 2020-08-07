@@ -29,6 +29,7 @@ Settings:
     Enabled: true
     Type: 'PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
     Amount: 180
+    Shape: 'SCAN' #Types available are "Scan, Teleport and Explosive"
   DisableUpdater: false
 
 Default:

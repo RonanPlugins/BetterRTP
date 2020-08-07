@@ -103,6 +103,7 @@ public class RTP {
             e.printStackTrace();
             //No World Types
         }
+        teleport.load(); //Load teleporting stuff
     }
 
     public List<String> disabledWorlds() {

@@ -18,6 +18,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class RTPTeleport {
 
+    private RTPParticles particles = new RTPParticles();
+
+    void load() {
+        particles.load();
+    }
+
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
         getPl().getText().getSuccessLoading(sendi); //Send loading message
@@ -38,7 +44,7 @@ public class RTPTeleport {
                         public void run() {
                             if (getPl().getText().getSoundsEnabled())
                                 sounds(p);
-                            particles(p);
+                            particles.display(p);
                         }
                     });
                 } catch (Exception e) {
@@ -108,30 +114,6 @@ public class RTPTeleport {
         Sound sound = getPl().getText().getSoundsSuccess();
         if (sound != null)
             p.playSound(p.getLocation(), sound, 1F, 1F);
-    }
-
-    private void particles(Player p) {
-        if (getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getBoolean("Settings.Particles.Enabled"))
-            try {
-                String type = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getString("Settings.Particles.Type");
-                ParticleEffect effect = ParticleEffect.valueOf(type.toUpperCase());
-                int radius = 30;
-                int precision = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getInt("Settings.Particles.Amount");;
-                Location loc = p.getLocation().add(new Vector(0, 2, 0));
-                for (int i = 1; i < precision; i++) {
-                    double p1 = (i * Math.PI) / (precision / 2);
-                    double p2 = (i - 1) * Math.PI / (precision / 2);
-
-                    double x1 = Math.cos(p1) * radius;
-                    double x2 = Math.cos(p2) * radius;
-                    double z1 = Math.sin(p1) * radius;
-                    double z2 = Math.sin(p2) * radius;
-                    Vector vec = new Vector(x2 - x1, 0, z2 - z1);
-                    effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
     }
 
     private Main getPl() {
