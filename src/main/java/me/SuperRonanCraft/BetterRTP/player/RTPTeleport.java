@@ -30,12 +30,16 @@ public class RTPTeleport {
                     titles(p, loc, attempts);
                 try {
                     //p.teleport(loc);
-                    PaperLib.teleportAsync(p, loc); //Async teleport
+                    PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
+                        @Override
+                        public void run() {
+                            if (getPl().getText().getSoundsEnabled())
+                                sounds(p);
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (getPl().getText().getSoundsEnabled())
-                    sounds(p);
                 getPl().getCmd().rtping.put(p.getUniqueId(), false); //Dont let them rtp again until current is done!
                 }
         }.runTask(getPl());
