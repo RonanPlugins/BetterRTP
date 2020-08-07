@@ -126,17 +126,8 @@ public class Commands {
                     if (sendi == player)
                         delay = true;
             //pl.getRTP().start(player, sendi, world, biomes, delay);
-            tpSync(player, sendi, world, biomes, delay);
+            pl.getRTP().start(player, sendi, world, biomes, delay);
         }
-    }
-
-    private void tpSync(Player player, CommandSender sendi, String world, List<String> biomes, boolean delay) {
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                pl.getRTP().start(player, sendi, world, biomes, delay);
-            }
-        }.runTaskAsynchronously(pl);
     }
 
     private boolean checkDelay(CommandSender sendi, Player player) {

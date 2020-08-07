@@ -22,6 +22,7 @@ Settings:
     Time: 10
   ## Time between command and actually rtp'ing, time is in SECONDS. Set to "0" to disable delay timer #
   Delay:
+    Enabled: true
     Time: 5
     CancelOnMove: true
   DisableUpdater: false

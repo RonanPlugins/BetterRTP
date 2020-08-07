@@ -6,7 +6,7 @@
 
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
-    <version>2.11.2</version>
+    <version>2.11.3</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -16,6 +16,7 @@
     <build>
         <plugins>
             <plugin>
+                <!-- Shade PaperLib into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.1</version>
@@ -24,7 +25,7 @@
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -37,8 +38,8 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Local Server Building -->
             <plugin>
+                <!-- Local Server Building -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>

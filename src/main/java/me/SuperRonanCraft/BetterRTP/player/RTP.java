@@ -153,19 +153,24 @@ public class RTP {
             return;
         }
         // Delaying? Else, just go
-        getPl().getCmd().rtping.put(p.getUniqueId(), true);
-        if (delay) {
+        getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
+        if (getPl().getSettings().delayEnabled && delay) {
             new Delay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
             tp(sendi, pWorld);
     }
 
     void tp(CommandSender sendi, PlayerWorld pWorld) {
-        Location loc = randomLoc(pWorld);
-        if (loc != null)
-            teleport.sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
-        else
-            metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                Location loc = randomLoc(pWorld);
+                if (loc != null)
+                    teleport.sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
+                else
+                    metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
+            }
+        }.runTaskAsynchronously(getPl());
     }
 
     // Compressed code for MaxAttempts being met
