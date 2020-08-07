@@ -181,6 +181,7 @@ public class RTP {
             getPl().getText().getOtherNotSafe(sendi, maxAttempts, p.getDisplayName());
         getPl().getCmd().cooldowns.remove(p.getUniqueId());
         getPl().getEco().unCharge(p, price);
+        getPl().getCmd().rtping.put(p.getUniqueId(), false);
     }
 
     //Get a random location depending the world type

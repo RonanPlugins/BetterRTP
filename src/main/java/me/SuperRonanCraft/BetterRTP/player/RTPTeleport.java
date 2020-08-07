@@ -2,12 +2,15 @@ package me.SuperRonanCraft.BetterRTP.player;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import xyz.xenondevs.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,7 @@ public class RTPTeleport {
                         public void run() {
                             if (getPl().getText().getSoundsEnabled())
                                 sounds(p);
+                            particles(p);
                         }
                     });
                 } catch (Exception e) {
@@ -104,6 +108,30 @@ public class RTPTeleport {
         Sound sound = getPl().getText().getSoundsSuccess();
         if (sound != null)
             p.playSound(p.getLocation(), sound, 1F, 1F);
+    }
+
+    private void particles(Player p) {
+        if (getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getBoolean("Settings.Particles.Enabled"))
+            try {
+                String type = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getString("Settings.Particles.Type");
+                ParticleEffect effect = ParticleEffect.valueOf(type.toUpperCase());
+                int radius = 30;
+                int precision = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getInt("Settings.Particles.Amount");;
+                Location loc = p.getLocation().add(new Vector(0, 2, 0));
+                for (int i = 1; i < precision; i++) {
+                    double p1 = (i * Math.PI) / (precision / 2);
+                    double p2 = (i - 1) * Math.PI / (precision / 2);
+
+                    double x1 = Math.cos(p1) * radius;
+                    double x2 = Math.cos(p2) * radius;
+                    double z1 = Math.sin(p1) * radius;
+                    double z2 = Math.sin(p2) * radius;
+                    Vector vec = new Vector(x2 - x1, 0, z2 - z1);
+                    effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
     private Main getPl() {

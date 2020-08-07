@@ -25,6 +25,10 @@ Settings:
     Enabled: true
     Time: 5
     CancelOnMove: true
+  Particles:
+    Enabled: true
+    Type: 'PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
+    Amount: 180
   DisableUpdater: false
 
 Default:
