@@ -1,6 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.player.RTPParticles;
+import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTP_WORLD_TYPE;
@@ -8,13 +10,70 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.command.CommandSender;
+import xyz.xenondevs.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CmdInfo implements RTPCommand {
 
+    private String[] subCmds = {
+            "Particles" //Give a list of particles
+            };
+
     public void execute(CommandSender sendi, String label, String[] args) {
+        if (args.length > 1) {
+            if (args[1].equalsIgnoreCase(CmdInfoSub.PARTICLES.name()))
+                infoParticles(sendi);
+            else if (args[1].equalsIgnoreCase(CmdInfoSub.SHAPES.name()))
+                infoShapes(sendi);
+            else
+                infoWorlds(sendi);
+        } else
+            infoWorlds(sendi);
+    }
+
+    enum CmdInfoSub { //Sub commands, future expansions
+        PARTICLES, SHAPES
+    }
+
+    private void infoParticles(CommandSender sendi) {
+        List<String> info = new ArrayList<>();
+        Main pl = Main.getInstance();
+
+        for (ParticleEffect eff : ParticleEffect.VALUES) {
+            if (info.isEmpty()) {
+                info.add("&7" + eff.name() + "&r");
+            } else if (info.size() % 2 == 0) {
+                info.add("&7" + eff.name() + "&r");
+            } else
+                info.add("&f" + eff.name() + "&r");
+        }
+
+        info.forEach(str ->
+                info.set(info.indexOf(str), pl.getText().color(str)));
+        sendi.sendMessage(info.toString());
+    }
+
+    private void infoShapes(CommandSender sendi) {
+        List<String> info = new ArrayList<>();
+        Main pl = Main.getInstance();
+
+        for (String shape : RTPParticles.shapeTypes) {
+            if (info.isEmpty()) {
+                info.add("&7" + shape + "&r");
+            } else if (info.size() % 2 == 0) {
+                info.add("&7" + shape + "&r");
+            } else
+                info.add("&f" + shape + "&r");
+        }
+
+        info.forEach(str ->
+                info.set(info.indexOf(str), pl.getText().color(str)));
+        sendi.sendMessage(info.toString());
+    }
+
+    private void infoWorlds(CommandSender sendi) {
         List<String> info = new ArrayList<>();
         info.add("&e&m-----&6 BetterRTP Info &e&m-----");
         Main pl = Main.getInstance();
@@ -62,7 +121,13 @@ public class CmdInfo implements RTPCommand {
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
-        return null;
+        List<String> info = new ArrayList<>();
+        if (args.length == 2) {
+            for (CmdInfoSub cmd : CmdInfoSub.values())
+                if (cmd.name().toLowerCase().startsWith(args[1].toLowerCase()))
+                    info.add(cmd.name().toLowerCase());
+        }
+        return info;
     }
 
     public boolean permission(CommandSender sendi) {

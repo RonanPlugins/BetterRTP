@@ -36,6 +36,8 @@ public class Default implements RTPWorld {
         }
         if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
             price = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Economy.Price");
+        else
+            price = 0;
         //Other
         this.Biomes = config.getStringList(pre + ".Biomes");
     }

@@ -16,9 +16,10 @@ public class RTPParticles {
     private ParticleEffect effect;
     private String shape;
     private int radius = 30, precision = 180; //Vector weirdness if allowed to be editable
+    private double pHeight = 1.75;
 
     //Some particles act very differently and might not care how they are shaped before animating, ex: EXPLOSION_NORMAL
-    private String[] shapeTypes = {
+    public static String[] shapeTypes = {
             "SCAN", //Body scan
             "EXPLOSIVE", //Make an explosive entrance
             "TELEPORT" //Startrek type of portal
@@ -59,7 +60,7 @@ public class RTPParticles {
     }
 
     private void partScan(Player p) { //Particles with negative velocity
-        Location loc = p.getLocation().add(new Vector(0, 2, 0));
+        Location loc = p.getLocation().add(new Vector(0, pHeight, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index, precision, radius);
             effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
@@ -70,7 +71,7 @@ public class RTPParticles {
         Random ran = new Random();
         Location loc = p.getLocation().add(new Vector(0, 0, 0));
         for (int index = 1; index < precision; index++) {
-            double yran = ran.nextInt(2);
+            double yran = ran.nextGaussian() * pHeight;
             Vector vec = getVecCircle(index, precision, radius).add(new Vector(0, yran, 0));
             effect.display(loc.clone().add(vec));
         }

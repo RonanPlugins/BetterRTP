@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class RTPTeleport {
 
-    private RTPParticles particles = new RTPParticles();
+    private final RTPParticles particles = new RTPParticles();
 
     void load() {
         particles.load();
@@ -64,13 +64,9 @@ public class RTPTeleport {
                 asyncChunks.add(chunk);
             }
         }
-        while (!checkLoaded(asyncChunks)) {
-            try {
-                Thread.sleep(500); //Sleep and check again 0.5 seconds later
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        boolean loaded = false;
+        while (!loaded)
+            loaded = checkLoaded(asyncChunks);
     }
 
     private boolean checkLoaded(List<CompletableFuture<Chunk>> asyncChunks) {
