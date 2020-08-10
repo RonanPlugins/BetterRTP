@@ -16,7 +16,9 @@ Settings:
   MinRadius: 25
   ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
   MaxAttempts: 15
-  FirstJoinRtp: false # Make the player rtp when joining the server for the first time
+  RtpOnFirstJoin: # Will execute as console to override delays
+    Enabled: false # Make the player rtp when joining the server for the first time
+    World: 'world' # World to first rtp in
   Cooldown:
     Enabled: true # Enabled or disabled cooldown timer
     LockAfter: 0 # Lock the player in an infinite cooldown after # rtp's (0 to disable)

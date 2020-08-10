@@ -7,7 +7,8 @@ public class Settings {
 
     public boolean debug;
     public boolean delayEnabled;
-    public boolean firstJoinRtp;
+    public boolean rtpOnFirstJoin;
+    public String rtpOnFirstJoinWorld;
     //Dependencies
     private SoftDepends depends = new SoftDepends();
 
@@ -16,7 +17,8 @@ public class Settings {
         FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         debug = config.getBoolean("Settings.Debugger");
         delayEnabled = config.getBoolean("Settings.Delay.Enabled");
-        firstJoinRtp = config.getBoolean("Settings.FirstJoinRtp");
+        rtpOnFirstJoin = config.getBoolean("Settings.RtpOnFirstJoin.Enabled");
+        rtpOnFirstJoinWorld = config.getString("Settings.RtpOnFirstJoin.World");
     }
 
     public SoftDepends getsDepends() {

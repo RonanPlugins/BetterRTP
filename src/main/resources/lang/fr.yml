@@ -18,6 +18,7 @@ Messages:
   ## %world% Est le monde dans lequel le joueur est téléporter ! #
   DisabledWorld: '&cLe monde %world% est désactivé! &7Impossible de se téléporter!'
   Cooldown: '&cDésoler! &7Tu ne peut pas te téléporter pour encore &c%time% &7secondes!'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&cArgument invalide. Essaye ''/%command% help'''
   NotOnline: '&cLe joueur &7%player% &cn''est pas en ligne!'
   Delay: '&aTéléportation dans &f%time% &asecondes! Ne bouge pas!'

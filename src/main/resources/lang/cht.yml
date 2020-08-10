@@ -18,6 +18,7 @@ Messages:
   ## %world% 是玩家嘗試傳送到但設定已禁用的世界! #
   DisabledWorld: '&c%world%世界已被禁止使用此指令，&7您無法傳送！'
   Cooldown: '&c抱歉，&7您需要在&c%time%&7秒後才能嘗試傳送！'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&c無效的參數，請使用''/%command% help''查看幫助。'
   NotOnline: '&c玩家&7%player%&c不在線！'
   Delay: '&a即將在&f%time%&a秒後傳送，請站好！'

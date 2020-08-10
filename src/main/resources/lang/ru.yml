@@ -18,6 +18,7 @@ Messages:
   ## %world% is the world the player is in that is disabled to rtp in! #
   DisabledWorld: '&cОтключенный мир %world%! &7Не удалось телепортироваться!'
   Cooldown: '&cИзвините! &7Вы не сможете использовать rtp ближайшие &c%time% &7сек.!'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&cНеправильные параметры. Попробуйте ''/%command% help'''
   NotOnline: '&cИгрок &7%player% &cне онлайн!'
   Delay: '&aТелепортация через &f%time% &aсек.! Не двигайтесь!'

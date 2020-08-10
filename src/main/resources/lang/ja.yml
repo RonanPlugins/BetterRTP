@@ -18,6 +18,7 @@ Messages:
   ##
   DisabledWorld: '&cワールド%world%は無効です！ &7RTPできませんでした！'
   Cooldown: '&cごめんなさい！ &7あなたは&c%time%&7秒間RTPできません！'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&c無効な引数。 ''/%command% help''を試してください。'
   NotOnline: '&cプレイヤー&7%player%&cはオンラインではありません！'
   Delay: '&f%time%&a秒でテレポートします！ 動かないで！'

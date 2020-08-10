@@ -18,6 +18,7 @@ Messages:
   ## %world% is the world the player is in that is disabled to rtp in! #
   DisabledWorld: '&c%world%世界已被禁止使用此命令，&7无法传送！'
   Cooldown: '&c对不起，&7你需要在&c%time%&7秒后才能传送！'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&c无效的参数，使用''/%command% help''查看帮助。'
   NotOnline: '&c玩家&7%player%&c不在线！'
   Delay: '&a即将在&f%time%&a秒后传送，乖乖站好！'

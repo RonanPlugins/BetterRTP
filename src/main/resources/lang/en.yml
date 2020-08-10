@@ -18,6 +18,7 @@ Messages:
   ## %world% is the world the player is in that is disabled to rtp in! #
   DisabledWorld: '&cDisabled World %world%! &7Could not RTP!'
   Cooldown: '&cSorry! &7You can''t rtp for another &c%time% &7seconds!'
+  Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&cInvalid argument. Try ''/%command% help'''
   NotOnline: '&cThe player &7%player% &cis not online!'
   Delay: '&aTeleporting in &f%time% &aseconds! Don''t move!'

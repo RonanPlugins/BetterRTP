@@ -129,30 +129,34 @@ public class Commands {
     }
 
     private boolean checkDelay(CommandSender sendi, Player player) {
-        if (rtping.containsKey(player.getUniqueId())) //Already rtp'ing
-            if (rtping.get(player.getUniqueId())) {
-                pl.getText().getAlready(player);
-                return false;
-            }
-        else if (sendi != player || pl.getPerms().getBypassCooldown(player)) //Bypassing/Forced?
+        if (rtping.containsKey(player.getUniqueId()) && rtping.get(player.getUniqueId())) {
+            pl.getText().getAlready(player);
+            return false;
+        } else if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
             return true;
-        else if (cooldowns.enabled) { //Cooling down?
+        } else if (cooldowns.enabled) { //Cooling down?
             Player p = (Player) sendi;
-            if (cooldowns.exists(p.getUniqueId())) {
-                long Left = cooldowns.timeLeft(p.getUniqueId());
-                if (!pl.getPerms().getBypassDelay(p))
-                    Left = Left + delayTimer;
-                if (Left > 0) {
-                    //Still cooling down
-                    pl.getText().getCooldown(sendi, String.valueOf(Left));
+            UUID id = p.getUniqueId();
+            if (cooldowns.exists(id)) {
+                if (cooldowns.locked(id)) { //Infinite cooldown
+                    pl.getText().getNoPermission(sendi);
                     return false;
-                } else {
-                    //Reset timer, but allow them to tp
-                    cooldowns.add(p.getUniqueId());
-                    return true;
+                } else { //Normal cooldown
+                    long Left = cooldowns.timeLeft(id);
+                    if (!pl.getPerms().getBypassDelay(p))
+                        Left = Left + delayTimer;
+                    if (Left > 0) {
+                        //Still cooling down
+                        pl.getText().getCooldown(sendi, String.valueOf(Left));
+                        return false;
+                    } else {
+                        //Reset timer, but allow them to tp
+                        cooldowns.add(id);
+                        return true;
+                    }
                 }
             } else
-                cooldowns.add(p.getUniqueId());
+                cooldowns.add(id);
         }
         return true;
     }

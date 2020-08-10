@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.events;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -24,9 +25,8 @@ public class Join {
 
     //RTP on first join
     private void rtpOnFirstJoin(Player p) {
-        if (getPl().getSettings().firstJoinRtp && !p.hasPlayedBefore()) {
-
-        }
+        if (getPl().getSettings().rtpOnFirstJoin && !p.hasPlayedBefore())
+            getPl().getCmd().tp(p, Bukkit.getConsoleSender(), getPl().getSettings().rtpOnFirstJoinWorld, null); //Console is sender to override delays
     }
 
     private Main getPl() {
