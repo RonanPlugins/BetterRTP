@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player;
+package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
 import me.SuperRonanCraft.BetterRTP.Main;
@@ -12,12 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-class Delay implements Listener {
+class RTPDelay implements Listener {
     private int run;
     private final PlayerWorld pWorld;
     private final boolean cancelOnMove, cancelOnDamage;
 
-    Delay(CommandSender sendi, PlayerWorld pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
+    RTPDelay(CommandSender sendi, PlayerWorld pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
         this.pWorld = pWorld;
         this.cancelOnMove = cancelOnMove;
         this.cancelOnDamage = cancelOnDamage;
@@ -85,7 +85,7 @@ class Delay implements Listener {
         }
     }
 
-    private Runnable run(final CommandSender sendi, final Delay cls) {
+    private Runnable run(final CommandSender sendi, final RTPDelay cls) {
         return () -> {
                 HandlerList.unregisterAll(cls);
                 if (getPl().getCmd().rtping.containsKey(pWorld.getPlayer().getUniqueId())) {

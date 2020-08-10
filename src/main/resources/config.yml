@@ -16,10 +16,11 @@ Settings:
   MinRadius: 25
   ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
   MaxAttempts: 15
-  ## Enabled or disabled cooldown timer, time is in SECONDS #
+  FirstJoinRtp: false # Make the player rtp when joining the server for the first time
   Cooldown:
-    Enabled: true
-    Time: 10
+    Enabled: true # Enabled or disabled cooldown timer
+    LockAfter: 0 # Lock the player in an infinite cooldown after # rtp's (0 to disable)
+    Time: 10 # in SECONDS
   ## Time between command and actually rtp'ing, time is in SECONDS. Set to "0" to disable delay timer #
   Delay:
     Enabled: true
@@ -56,6 +57,7 @@ BlacklistedBlocks:
   - leaves_2
   - air
   - void_air
+  - bedrock
 
 ## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
 DisabledWorlds:
@@ -84,7 +86,7 @@ CustomWorlds:
 
 ## Override a world and rtp a player executing the command in one world, to another
 Overrides:
-  #FORMAT - <CURRENT>:<OTHER>
+  #FORMAT - <CURRENT WORLD>:<DESIRED WORLD>
   - master_world: 'world'
   - creative_world: 'world'
 

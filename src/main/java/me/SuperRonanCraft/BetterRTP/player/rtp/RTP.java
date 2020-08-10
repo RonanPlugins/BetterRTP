@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player;
+package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import com.sk89q.worldguard.bukkit.RegionContainer;
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -8,7 +8,10 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -156,7 +159,7 @@ public class RTP {
         // Delaying? Else, just go
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
         if (getPl().getSettings().delayEnabled && delay) {
-            new Delay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
+            new RTPDelay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
             tp(sendi, pWorld);
     }

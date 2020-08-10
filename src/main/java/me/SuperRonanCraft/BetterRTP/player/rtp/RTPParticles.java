@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player;
+package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;

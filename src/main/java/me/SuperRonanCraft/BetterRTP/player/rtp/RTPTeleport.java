@@ -1,16 +1,13 @@
-package me.SuperRonanCraft.BetterRTP.player;
+package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-import xyz.xenondevs.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;

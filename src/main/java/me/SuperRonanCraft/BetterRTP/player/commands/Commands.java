@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.block.Biome;
@@ -15,21 +16,18 @@ import java.util.UUID;
 public class Commands {
 
     private final Main pl;
-    public HashMap<UUID, Long> cooldowns = new HashMap<>();
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
-    private boolean cooldownTimer;
-    private int timer, cooldown;
+    public RTPCooldown cooldowns = new RTPCooldown();
+    private int delayTimer;
 
     public Commands(Main pl) {
         this.pl = pl;
     }
 
     public void load() {
-        FileBasics.FILETYPE config = pl.getFiles().getType(FileBasics.FILETYPE.CONFIG);
-        timer = config.getInt("Settings.Delay.Time");
-        cooldownTimer = config.getBoolean("Settings.Cooldown.Enabled");
-        cooldown = config.getInt("Settings.Cooldown.Time");
-        cooldowns.clear();
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        delayTimer = config.getInt("Settings.Delay.Time");
+        cooldowns.load();
     }
 
     public void commandExecuted(CommandSender sendi, String label, String[] args) {
@@ -122,7 +120,7 @@ public class Commands {
         if (checkDelay(sendi, player)) {
             boolean delay = false;
             if (!pl.getPerms().getBypassDelay(player))
-                if (timer != 0)
+                if (delayTimer > 0)
                     if (sendi == player)
                         delay = true;
             //pl.getRTP().start(player, sendi, world, biomes, delay);
@@ -138,23 +136,23 @@ public class Commands {
             }
         else if (sendi != player || pl.getPerms().getBypassCooldown(player)) //Bypassing/Forced?
             return true;
-        else if (cooldownTimer) { //Cooling down?
+        else if (cooldowns.enabled) { //Cooling down?
             Player p = (Player) sendi;
-            if (cooldowns.containsKey(p.getUniqueId())) {
-                long Left = ((cooldowns.get(p.getUniqueId()) / 1000) + cooldown) - (System.currentTimeMillis() / 1000);
+            if (cooldowns.exists(p.getUniqueId())) {
+                long Left = cooldowns.timeLeft(p.getUniqueId());
                 if (!pl.getPerms().getBypassDelay(p))
-                    Left = Left + timer;
+                    Left = Left + delayTimer;
                 if (Left > 0) {
                     //Still cooling down
                     pl.getText().getCooldown(sendi, String.valueOf(Left));
                     return false;
                 } else {
                     //Reset timer, but allow them to tp
-                    cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+                    cooldowns.add(p.getUniqueId());
                     return true;
                 }
             } else
-                cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+                cooldowns.add(p.getUniqueId());
         }
         return true;
     }

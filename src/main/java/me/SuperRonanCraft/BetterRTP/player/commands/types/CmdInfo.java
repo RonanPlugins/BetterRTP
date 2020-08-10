@@ -1,8 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.Main;
-import me.SuperRonanCraft.BetterRTP.player.RTPParticles;
-import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTP_WORLD_TYPE;
