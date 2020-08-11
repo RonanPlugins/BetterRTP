@@ -12,9 +12,10 @@ public class CmdTest implements RTPCommand {
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
-        if (sendi instanceof Player)
-            Main.getInstance().getRTP().getTeleport().afterTeleport((Player) sendi);
-        else
+        if (sendi instanceof Player) {
+            Player p = (Player) sendi;
+            Main.getInstance().getRTP().getTeleport().afterTeleport(p, p.getLocation(), 0, 0);
+        } else
             sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
     }
 

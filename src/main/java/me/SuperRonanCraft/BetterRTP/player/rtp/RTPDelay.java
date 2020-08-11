@@ -27,8 +27,8 @@ class RTPDelay implements Listener {
     @SuppressWarnings("deprecation")
     private void delay(CommandSender sendi, int delay) {
         Main pl = Main.getInstance();
-        if (sendi.equals(pWorld.getPlayer()) && delay != 0 && getPl().getText().getTitleDelayChat())
-            getPl().getText().getDelay(sendi, String.valueOf(delay));
+//        if (sendi.equals(pWorld.getPlayer()) && delay != 0 && getPl().getText().getTitleDelayChat())
+//            getPl().getText().getDelay(sendi, String.valueOf(delay));
 //        if (getPl().getText().getSoundsEnabled()) {
 //            Sound sound = getPl().getText().getSoundsDelay();
 //            if (sound != null)
@@ -44,8 +44,8 @@ class RTPDelay implements Listener {
 //            // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 //            // pWorld.getPlayer().sendTitle(title, subTitle);
 //        }
-        getPl().getRTP().getTeleport().beforeTeleport(pWorld.getPlayer());
-        run = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, run(sendi, this), delay * 2 * 10);
+        getPl().getRTP().getTeleport().beforeTeleport(pWorld.getPlayer(), delay);
+        run = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, run(sendi, this), delay * 20);
         //Bukkit.getScheduler().scheduleSyncRepeatingTask(pl, run(sendi,  this), 0, 10);
         if (cancelOnMove || cancelOnDamage)
             Bukkit.getPluginManager().registerEvents(this, Main.getInstance());

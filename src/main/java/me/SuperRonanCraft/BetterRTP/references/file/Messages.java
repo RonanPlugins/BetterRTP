@@ -95,8 +95,8 @@ public class Messages {
         sms(sendi, getLang().getString(preM + "NotOnline").replaceAll("%player%", player));
     }
 
-    public void getDelay(CommandSender sendi, String time) {
-        sms(sendi, getLang().getString(preM + "Delay").replaceAll("%time%", time));
+    public void getDelay(CommandSender sendi, int time) {
+        sms(sendi, getLang().getString(preM + "Delay").replaceAll("%time%", String.valueOf(time)));
     }
 
     public void getSignCreated(CommandSender sendi, String cmd) {

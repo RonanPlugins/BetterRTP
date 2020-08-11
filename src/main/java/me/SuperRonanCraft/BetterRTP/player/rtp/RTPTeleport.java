@@ -4,7 +4,6 @@ import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,7 +29,7 @@ public class RTPTeleport {
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
         if (sendi != p) //Tell sendi that the player will/is being rtp'd
-            checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
+            sendSuccessMsg(sendi, p.getDisplayName(), loc, price, false, attempts);
         getPl().getText().getSuccessLoading(sendi); //Send loading message
         List<CompletableFuture<Chunk>> asyncChunks = getChunks(loc); //Get a list of chunks
         CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
@@ -49,15 +48,18 @@ public class RTPTeleport {
         });
     }
 
-    public void afterTeleport(Player p, Location loc, int price, int attempts) {
+    public void afterTeleport(Player p, Location loc, int price, int attempts) { //Only a successful rtp should run this OR '/rtp test'
         eSounds.playTeleport(p);
         eParticles.display(p);
         ePotions.giveEffects(p);
-        eTitles.show(p);
+        eTitles.showTeleport(p, loc, attempts);
+        sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
     }
 
-    public void beforeTeleport(Player p) {
+    public void beforeTeleport(Player p, int delay) { //Only Delays should call this
         eSounds.playDelay(p);
+        eTitles.showDelay(p, p.getLocation());
+        getPl().getText().getDelay(p, delay);
     }
 
     private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
@@ -73,8 +75,8 @@ public class RTPTeleport {
         return asyncChunks;
     }
 
-    private void checkPH(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
-                         int attempts) {
+    private void sendSuccessMsg(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
+                                int attempts) {
         String x = Integer.toString(loc.getBlockX());
         String y = Integer.toString(loc.getBlockY());
         String z = Integer.toString(loc.getBlockZ());
@@ -86,21 +88,6 @@ public class RTPTeleport {
                 getPl().getText().getSuccessPaid(sendi, price, x, y, z, world, attempts);
         } else
             getPl().getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
-    }
-
-    @SuppressWarnings({"deprecation"})
-    private void titles(Player p, Location loc, int attempts) {
-        // int fadeIn = getPl().text.getFadeIn();
-        // int stay = text.getStay();
-        // int fadeOut = text.getFadeOut();
-        String x = String.valueOf(loc.getBlockX());
-        String y = String.valueOf(loc.getBlockY());
-        String z = String.valueOf(loc.getBlockZ());
-        String title = getPl().getText().getTitleSuccess(p.getName(), x, y, z, attempts);
-        String subTitle = getPl().getText().getSubTitleSuccess(p.getName(), x, y, z, attempts);
-        // player.sendMessage(Bukkit.getServer().getVersion());
-        // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-        p.sendTitle(title, subTitle);
     }
 
     private Main getPl() {
