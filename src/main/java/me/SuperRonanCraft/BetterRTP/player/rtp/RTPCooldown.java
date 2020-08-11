@@ -47,7 +47,6 @@ public class RTPCooldown {
     }
 
     public boolean exists(UUID id) {
-        System.out.println("Exists " + id + " " + cooldowns.containsKey(id));
         return cooldowns.containsKey(id);
     }
 

@@ -8,14 +8,25 @@ public enum CommandTypes {
     INFO(new CmdInfo()),
     PLAYER(new CmdPlayer()),
     RELOAD(new CmdReload()),
-    //SETTINGS(new CmdSettings()),
+    //SETTINGS(new CmdSettings(), true),
     VERSION(new CmdVersion()),
-    WORLD(new CmdWorld());
+    WORLD(new CmdWorld()),
+    TEST(new CmdTest(), true); //Only gets added if debugger enabled
 
-    private RTPCommand cmd;
+    private final RTPCommand cmd;
+    private boolean debugOnly = false;
 
     CommandTypes(RTPCommand cmd) {
         this.cmd = cmd;
+    }
+
+    CommandTypes(RTPCommand cmd, boolean debugOnly) {
+        this.cmd = cmd;
+        this.debugOnly = debugOnly;
+    }
+
+    public boolean isDebugOnly() {
+        return debugOnly;
     }
 
     public RTPCommand getCmd() {

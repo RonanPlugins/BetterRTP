@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class Permissions {
 
-    private DepPerms depPerms = new DepPerms();
+    private final DepPerms depPerms = new DepPerms();
 
     public void register() {
         depPerms.register();
@@ -52,15 +52,19 @@ public class Permissions {
     }
 
     public boolean getBiome(CommandSender sendi) {
-        return (perm(pre + "biome", sendi));
+        return perm(pre + "biome", sendi);
     }
 
     public boolean getWorld(CommandSender sendi) {
-        return (perm(pre + "world", sendi));
+        return perm(pre + "world", sendi);
     }
 
     public boolean getSignCreate(CommandSender sendi) {
-        return (perm(pre + "sign", sendi));
+        return perm(pre + "sign", sendi);
+    }
+
+    public boolean getTest(CommandSender sendi) {
+        return perm(pre + "test", sendi);
     }
 
     public boolean getAWorld(CommandSender sendi, String world) {

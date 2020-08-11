@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.command.CommandSender;
+import org.bukkit.potion.PotionEffectType;
 import xyz.xenondevs.particle.ParticleEffect;
 
 import java.util.ArrayList;
@@ -16,16 +17,14 @@ import java.util.List;
 
 public class CmdInfo implements RTPCommand {
 
-    private String[] subCmds = {
-            "Particles" //Give a list of particles
-            };
-
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase(CmdInfoSub.PARTICLES.name()))
                 infoParticles(sendi);
             else if (args[1].equalsIgnoreCase(CmdInfoSub.SHAPES.name()))
                 infoShapes(sendi);
+            else if (args[1].equalsIgnoreCase(CmdInfoSub.POTION_EFFECTS.name()))
+                infoEffects(sendi);
             else
                 infoWorlds(sendi);
         } else
@@ -33,7 +32,7 @@ public class CmdInfo implements RTPCommand {
     }
 
     enum CmdInfoSub { //Sub commands, future expansions
-        PARTICLES, SHAPES
+        PARTICLES, SHAPES, POTION_EFFECTS
     }
 
     private void infoParticles(CommandSender sendi) {
@@ -117,6 +116,24 @@ public class CmdInfo implements RTPCommand {
         info.forEach(str ->
                 info.set(info.indexOf(str), pl.getText().color(str)));
         sendi.sendMessage(info.toArray(new String[0]));
+    }
+
+    void infoEffects(CommandSender sendi) {
+        List<String> info = new ArrayList<>();
+        Main pl = Main.getInstance();
+
+        for (PotionEffectType effect : PotionEffectType.values()) {
+            if (info.isEmpty()) {
+                info.add("&7" + effect.getName() + "&r");
+            } else if (info.size() % 2 == 0) {
+                info.add("&7" + effect.getName() + "&r");
+            } else
+                info.add("&f" + effect.getName() + "&r");
+        }
+
+        info.forEach(str ->
+                info.set(info.indexOf(str), pl.getText().color(str)));
+        sendi.sendMessage(info.toString());
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {

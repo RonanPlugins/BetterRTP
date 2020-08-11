@@ -35,6 +35,10 @@ public class RTP {
     private boolean cancelOnMove, cancelOnDamage;
     public HashMap<String, RTP_WORLD_TYPE> world_type = new HashMap<>();
 
+    public RTPTeleport getTeleport() {
+        return teleport;
+    }
+
     public void load() {
         Default.setup();
         FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);

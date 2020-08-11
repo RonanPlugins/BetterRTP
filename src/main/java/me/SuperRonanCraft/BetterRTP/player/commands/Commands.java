@@ -35,11 +35,13 @@ public class Commands {
             if (args != null && args.length > 0) {
                 for (CommandTypes cmd : CommandTypes.values()) {
                     if (cmd.name().equalsIgnoreCase(args[0])) {
-                        if (cmd.getCmd().permission(sendi))
-                            cmd.getCmd().execute(sendi, label, args);
-                        else
-                            noPerm(sendi);
-                        return;
+                        if (!cmd.isDebugOnly() || pl.getSettings().debug) { //Debug only?
+                            if (cmd.getCmd().permission(sendi))
+                                cmd.getCmd().execute(sendi, label, args);
+                            else
+                                noPerm(sendi);
+                            return;
+                        }
                     }
                 }
                 invalid(sendi, label);
@@ -57,16 +59,20 @@ public class Commands {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
             for (CommandTypes cmd : CommandTypes.values()) {
-                if (cmd.name().toLowerCase().startsWith(args[0].toLowerCase()) && cmd.getCmd().permission(sendi))
-                    list.add(cmd.name().toLowerCase());
+                if (cmd.name().toLowerCase().startsWith(args[0].toLowerCase()))
+                    if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
+                        if (cmd.getCmd().permission(sendi))
+                            list.add(cmd.name().toLowerCase());
             }
         } else if (args.length > 1) {
             for (CommandTypes cmd : CommandTypes.values()) {
-                if (cmd.name().equalsIgnoreCase(args[0]) && cmd.getCmd().permission(sendi)) {
-                    List<String> _cmdlist = cmd.getCmd().tabComplete(sendi, args);
-                    if (_cmdlist != null)
-                        list.addAll(_cmdlist);
-                }
+                if (cmd.name().equalsIgnoreCase(args[0]))
+                    if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
+                        if (cmd.getCmd().permission(sendi)) {
+                            List<String> _cmdlist = cmd.getCmd().tabComplete(sendi, args);
+                            if (_cmdlist != null)
+                                list.addAll(_cmdlist);
+                        }
             }
         }
         return list;
@@ -117,13 +123,12 @@ public class Commands {
     }
 
     public void tp(Player player, CommandSender sendi, String world, List<String> biomes) {
-        if (checkDelay(sendi, player)) {
+        if (checkDelay(sendi, player)) { //Cooling down or rtp'ing
             boolean delay = false;
-            if (!pl.getPerms().getBypassDelay(player))
-                if (delayTimer > 0)
-                    if (sendi == player)
+            if (sendi == player) //Forced?
+                if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
+                    if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
                         delay = true;
-            //pl.getRTP().start(player, sendi, world, biomes, delay);
             pl.getRTP().start(player, sendi, world, biomes, delay);
         }
     }
@@ -138,12 +143,12 @@ public class Commands {
             Player p = (Player) sendi;
             UUID id = p.getUniqueId();
             if (cooldowns.exists(id)) {
-                if (cooldowns.locked(id)) { //Infinite cooldown
+                if (cooldowns.locked(id)) { //Infinite cooldown (locked)
                     pl.getText().getNoPermission(sendi);
                     return false;
                 } else { //Normal cooldown
                     long Left = cooldowns.timeLeft(id);
-                    if (!pl.getPerms().getBypassDelay(p))
+                    if (pl.getSettings().delayEnabled && !pl.getPerms().getBypassDelay(p))
                         Left = Left + delayTimer;
                     if (Left > 0) {
                         //Still cooling down

@@ -15,13 +15,15 @@ public class RTPParticles {
     private boolean enabled;
     private ParticleEffect effect;
     private String shape;
-    private int radius = 30, precision = 180; //Vector weirdness if allowed to be editable
-    private double pHeight = 1.75;
+    private final int
+            radius = 30,
+            precision = 180; //Vector weirdness if allowed to be editable
+    private final double pHeight = 1.75;
 
     //Some particles act very differently and might not care how they are shaped before animating, ex: EXPLOSION_NORMAL
     public static String[] shapeTypes = {
             "SCAN", //Body scan
-            "EXPLOSIVE", //Make an explosive entrance
+            "EXPLODE", //Make an explosive entrance
             "TELEPORT" //Startrek type of portal
             };
 
@@ -35,12 +37,13 @@ public class RTPParticles {
             effect = ParticleEffect.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException | NullPointerException e) {
             effect = ParticleEffect.ASH;
-            getPl().getLogger().severe("The particle '" + type + "' doesn't exist! Default particle enabled...");
+            getPl().getLogger().severe("The particle '" + type + "' doesn't exist! Default particle enabled... " +
+                    "Try using '/rtp info particles' to get a list of available particles");
         }
         shape = config.getString("Settings.Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
             getPl().getLogger().severe("The particle shape '" + shape + "' doesn't exist! Default particle shape enabled...");
-            getPl().getLogger().severe("Try using one of the following: " + Arrays.asList(shapeTypes).toString());
+            getPl().getLogger().severe("Try using '/rtp info shapes' to get a list of shapes, or: " + Arrays.asList(shapeTypes).toString());
             shape = shapeTypes[0];
         }
     }
@@ -50,7 +53,7 @@ public class RTPParticles {
         try { //Incase the library errors out
             switch (shape) {
                 case "TELEPORT": partTeleport(p); break;
-                case "EXPLOSIVE": partExplosion(p); break;
+                case "EXPLODE": partExplosion(p); break;
                 default: //Super redundant, but... just future proofing
                 case "SCAN": partScan(p); break;
             }
@@ -78,10 +81,10 @@ public class RTPParticles {
     }
 
     private void partExplosion(Player p) { //Particles with a shape and forward velocity
-        Location loc = p.getLocation().add(new Vector(0, 0, 0));
+        Location loc = p.getLocation().add(new Vector(0, 1, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index, precision, radius);
-            effect.display(loc.clone().add(vec), vec, 1f, 0, null);
+            effect.display(loc.clone().add(vec), vec, 1.5f, 0, null);
         }
     }
 

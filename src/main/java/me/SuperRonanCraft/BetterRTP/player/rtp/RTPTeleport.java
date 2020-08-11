@@ -7,18 +7,23 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RTPTeleport {
 
     private final RTPParticles particles = new RTPParticles();
+    private final RTPEffects effects = new RTPEffects();
 
     void load() {
         particles.load();
+        effects.load();
     }
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
@@ -39,9 +44,7 @@ public class RTPTeleport {
                     PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
                         @Override
                         public void run() {
-                            if (getPl().getText().getSoundsEnabled())
-                                sounds(p);
-                            particles.display(p);
+                            afterTeleport(p);
                         }
                     });
                 } catch (Exception e) {
@@ -50,6 +53,13 @@ public class RTPTeleport {
                 getPl().getCmd().rtping.put(p.getUniqueId(), false); //Dont let them rtp again until current is done!
                 }
         }.runTask(getPl());
+    }
+
+    public void afterTeleport(Player p) {
+        if (getPl().getText().getSoundsEnabled())
+            sounds(p);
+        particles.display(p);
+        effects.giveEffects(p);
     }
 
     private void loadChunks(Location loc) { //Async chunk loading

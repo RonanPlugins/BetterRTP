@@ -40,3 +40,6 @@ permissions:
     betterrtp.updater:
         description: Get notification on new updates
         default: op
+    betterrtp.test:
+        description: While debugger enabled, be able to test particles, potion effects and sounds
+        default: op

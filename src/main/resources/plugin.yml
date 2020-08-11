@@ -53,3 +53,6 @@ permissions:
     betterrtp.info:
         description: View info about all worlds rtp will work in
         default: op
+    betterrtp.test:
+        description: While debugger enabled, be able to test particles, potion effects and sounds
+        default: op
