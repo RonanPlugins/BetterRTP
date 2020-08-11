@@ -26,21 +26,6 @@ Messages:
   NotExist: '&c看上去&7%world%&c世界并不存在！'
   Already: '&c啊嘞嘞，&7看上去你已经在随机传送中了，请耐心点！'
   Sign: '&7命令标记已被创建！&7命令为''&f/rtp %command%&7'''
-#
-#Titles:
-#  Enabled: true
-#  Delay:
-#    ## Setting to also send the chat message, ignores the Enabled setting
-#    SendChatMessage: true
-#    ## Both support %player% placeholders
-#    Title: '&6BetterRTP by SRC'
-#    Subtitle: '&f将在%time%秒后传送！'
-#  Success:
-#    ## Setting to also send the chat message, ignores the Enabled setting
-#    SendChatMessage: true
-#    ## Both support %player% %x% %y% and %z% placeholders
-#    Title: '&6BetterRTP by SRC &7(%attempts%)'
-#    Subtitle: '&f你已被传送到x=%x% y=%y% z=%z%'
 
 Help:
   List:

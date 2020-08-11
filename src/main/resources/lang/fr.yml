@@ -27,21 +27,6 @@ Messages:
   Already: '&cOups! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
   Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
-#Titles:
-#  Enabled: true
-#  Delay:
-#    ## Paramètre pour aussi envoyer le message dans le chat, ignore le "Enabled" Paramètre #
-#    SendChatMessage: true
-#    ## Soutien le %player% "placeholders" #
-#    Title: '&6BetterRTP par SRC'
-#    Subtitle: '&fTéléportation dans %time% secondes!'
-#  Success:
-#    ## Paramètre pour aussi envoyer le message dans le chat, ignore le "Enabled" Paramètre #
-#    SendChatMessage: true
-#    ## Soutien le %player% %x% %y% et %z% "placeholders" #
-#    Title: '&6BetterRTP par SRC &7(%attempts%)'
-#    Subtitle: '&fTéléportation vers x=%x% y=%y% z=%z%'
-
 Help:
   List:
   - '&e&m------&r &6&lBetterRTP &8| &7Aide &e&m------'
