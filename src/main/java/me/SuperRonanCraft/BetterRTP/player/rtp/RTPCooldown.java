@@ -64,12 +64,12 @@ public class RTPCooldown {
     public void remove(UUID id) {
         if (lockedAfter > 0) {
             locked.put(id, locked.getOrDefault(id, 1) - 1);
-            if (locked.get(id) <= 0) { //Remove completely
-                cooldowns.remove(id);
+            if (locked.get(id) <= 0) { //Remove from file as well
                 savePlayer(id, false, 0L, 0);
             } else { //Keep the player cached
                 savePlayer(id, false, cooldowns.get(id), locked.get(id));
             }
+            cooldowns.remove(id);
         } else { //Remove completely
             cooldowns.remove(id);
             savePlayer(id, false, 0L, 0);
@@ -102,6 +102,7 @@ public class RTPCooldown {
         } else {
             if (!configfile.exists()) {
                 try {
+                    configfile.getParentFile().mkdir();
                     configfile.createNewFile();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -120,7 +121,7 @@ public class RTPCooldown {
 
     private void loadFile() {
         config = null;
-        configfile = new File(Main.getInstance().getDataFolder(), "cooldowns.yml");
+        configfile = new File(Main.getInstance().getDataFolder(), "data/cooldowns.yml");
         YamlConfiguration config = getFile();
         assert config != null;
         for (String id : config.getKeys(false)) {

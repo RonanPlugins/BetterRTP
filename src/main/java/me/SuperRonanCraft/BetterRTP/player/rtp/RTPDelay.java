@@ -79,7 +79,8 @@ class RTPDelay implements Listener {
         Bukkit.getScheduler().cancelTask(run);
         if (!Bukkit.getScheduler().isCurrentlyRunning(run)) {
             HandlerList.unregisterAll(this);
-            getPl().getText().getMoved(pWorld.getPlayer());
+            //getPl().getText().getMoved(pWorld.getPlayer());
+            getPl().getRTP().getTeleport().cancelledTeleport(pWorld.getPlayer());
             getPl().getEco().unCharge(pWorld.getPlayer(), pWorld.getPrice());
             getPl().getCmd().cooldowns.remove(pWorld.getPlayer().getUniqueId());
             getPl().getCmd().rtping.put(pWorld.getPlayer().getUniqueId(), false);

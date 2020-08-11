@@ -28,11 +28,11 @@ public class RTPParticles {
             };
 
     void load() {
-        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
-        enabled = config.getBoolean("Settings.Particles.Enabled");
+        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.EFFECTS);
+        enabled = config.getBoolean("Particles.Enabled");
         if (!enabled) return;
         //Enabled? Load all this junk
-        String type = config.getString("Settings.Particles.Type");
+        String type = config.getString("Particles.Type");
         try {
             effect = ParticleEffect.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -40,7 +40,7 @@ public class RTPParticles {
             getPl().getLogger().severe("The particle '" + type + "' doesn't exist! Default particle enabled... " +
                     "Try using '/rtp info particles' to get a list of available particles");
         }
-        shape = config.getString("Settings.Particles.Shape").toUpperCase();
+        shape = config.getString("Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
             getPl().getLogger().severe("The particle shape '" + shape + "' doesn't exist! Default particle shape enabled...");
             getPl().getLogger().severe("Try using '/rtp info shapes' to get a list of shapes, or: " + Arrays.asList(shapeTypes).toString());

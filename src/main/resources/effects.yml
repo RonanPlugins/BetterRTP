@@ -4,26 +4,33 @@ Sounds:
   Delay: 'entity_tnt_primed'
   Success: 'entity_generic_explode'
 Titles:
-  Enabled: true
+  Enabled: true # Enable the titles effect feature
+  ## All support %player% %x% %y% and %z% placeholders
   Teleport:
-    ## Both support %player% %x% %y% and %z% placeholders
     Title: '&6Teleported!'
     Subtitle: '&fx=%x% y=%y% z=%z% in %attempts% attempts'
+    SendMessage: true # Allow the teleport success message in chat
   Delay:
-    ## Both support %player% placeholders
-    Title: ' '
+    Title: ''
     Subtitle: '&fTeleporting in %time% seconds...'
-
-Particles:
+    SendMessage: true # Allow the teleport delay message in chat
+  Cancelled:
+    Title: '&eYou moved...'
+    Subtitle: '&cRtp was cancelled!'
+    SendMessage: true # Allow the cancelled message in chat too
+  Loading:
+    Title: ''
+    Subtitle: '&7loading chunks... please wait'
+    SendMessage: true # Allow the loading message in chat
+Particles: #Use `rtp info particles` for a list of particles
   Enabled: true
   Type: 'REVERSE_PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
-  Amount: 180
-  Shape: 'SCAN' #Types available are "Scan, Teleport and Explode"
+  Shape: 'SCAN' #Types available are "Scan, Teleport and Explode", or use `/rtp info shapes` for a list of shapes
 Invincible: #Amount of time a player should not take damage for
   Enabled: true
   Seconds: 5
-Potions:
+Potions: #Use `/rtp info potion_effects` for a list of effects
   Enabled: true
-  Types:
-    - 'Blindness:60'
-    - 'Invisibility:60'
+  Types: #Format <potion_name>:[duration_ticks]:[amplifier] #Default duration=60, amplifier=1
+    - 'Blindness:60:1'
+    - 'Invisibility:60:1'

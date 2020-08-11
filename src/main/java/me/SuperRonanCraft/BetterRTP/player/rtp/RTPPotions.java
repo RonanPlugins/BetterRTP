@@ -10,37 +10,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RTPPotions {
+public class RTPPotions { //Potions AND Invincibility
 
     private boolean potionEnabled;
-    private final HashMap<PotionEffectType, Integer> potionEffects = new HashMap<>();
+    private final HashMap<PotionEffectType, Integer[]> potionEffects = new HashMap<>();
     private boolean invincibleEnabled;
     private int invincibleTime;
 
     void load() {
         potionEffects.clear();
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
-        String pre = "Settings.Effects.";
-        potionEnabled = config.getBoolean(pre + "Potions.Enabled");
-        invincibleEnabled = config.getBoolean(pre + "Invincible.Enabled");
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+        //Invincible
+        invincibleEnabled = config.getBoolean("Invincible.Enabled");
         if (invincibleEnabled)
-            invincibleTime = config.getInt(pre + "Invincible.Seconds");
+            invincibleTime = config.getInt("Invincible.Seconds");
+
+        //Potions
+        potionEnabled = config.getBoolean("Potions.Enabled");
         if (potionEnabled) {
-            List<String> list = config.getStringList(pre + "Potions.Types");
+            List<String> list = config.getStringList("Potions.Types");
             for (String p : list) {
-                String[] ary = p.split(":");
-                String type = ary[0];
+                String[] ary = p.replaceAll(" ", "").split(":");
+                String type = ary[0].trim();
                 PotionEffectType effect = PotionEffectType.getByName(type);
                 if (effect != null) {
                     try {
-                        int time = ary.length >= 2 ? Integer.parseInt(ary[1]) : 3;
-                        potionEffects.put(effect, time);
+                        int duration = ary.length >= 2 ? Integer.parseInt(ary[1]) : 60;
+                        int amplifier = ary.length >= 3 ? Integer.parseInt(ary[2]) : 1;
+                        potionEffects.put(effect, new Integer[] {duration, amplifier});
                     } catch (NumberFormatException e) {
-                        Main.getInstance().getLogger().info("The potion duration `" + ary[1] + "` is not an integer! Effect removed!");
+                        Main.getInstance().getLogger().info("The potion duration or amplifier `" + ary[1] + "` is not an integer. Effect was removed!");
                     }
                 } else
                     Main.getInstance().getLogger().info("The potion effect `" + type + "` does not exist! " +
-                            "Please fix or remove this potion effect! Try '/rtp info potion_effects'");
+                            "Please fix or remove this potion effect! Try '/rtp info potion_effects' to get a list of valid effects!");
             }
         }
     }
@@ -50,8 +53,12 @@ public class RTPPotions {
             p.setNoDamageTicks(invincibleTime);
         if (potionEnabled) {
             List<PotionEffect> effects = new ArrayList<>();
-            for (PotionEffectType e : potionEffects.keySet())
-                effects.add(new PotionEffect(e, potionEffects.get(e), 1, false, false));
+            for (PotionEffectType e : potionEffects.keySet()) {
+                Integer[] mods = potionEffects.get(e);
+                int duration = mods[0];
+                int amplifier = mods[1];
+                effects.add(new PotionEffect(e, duration, amplifier, false, false));
+            }
             p.addPotionEffects(effects);
         }
     }

@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -28,23 +29,28 @@ public class RTPTeleport {
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
-        if (sendi != p) //Tell sendi that the player will/is being rtp'd
-            sendSuccessMsg(sendi, p.getDisplayName(), loc, price, false, attempts);
-        getPl().getText().getSuccessLoading(sendi); //Send loading message
+        loadingTeleport(p, sendi); //Send loading message to player who requested
         List<CompletableFuture<Chunk>> asyncChunks = getChunks(loc); //Get a list of chunks
         CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
-            try {
-                PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
-                    @Override
-                    public void run() {
-                        afterTeleport(p, loc, price, attempts);
-                        getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
+            new BukkitRunnable() { //Run synchronously
+                @Override
+                public void run() {
+                    try {
+                        PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
+                            @Override
+                            public void run() {
+                                afterTeleport(p, loc, price, attempts);
+                                if (sendi != p) //Tell player who requested that the player rtp'd
+                                    sendSuccessMsg(sendi, p.getDisplayName(), loc, price, false, attempts);
+                                getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
+                            }
+                        });
+                    } catch (Exception e) {
+                        getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing (errored)
+                        e.printStackTrace();
                     }
-                });
-            } catch (Exception e) {
-                getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing (errored)
-                e.printStackTrace();
-            }
+                }
+            }.runTask(getPl());
         });
     }
 
@@ -53,18 +59,32 @@ public class RTPTeleport {
         eParticles.display(p);
         ePotions.giveEffects(p);
         eTitles.showTeleport(p, loc, attempts);
-        sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
+        if (eTitles.sendMsgTeleport())
+            sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
     }
 
     public void beforeTeleport(Player p, int delay) { //Only Delays should call this
         eSounds.playDelay(p);
-        eTitles.showDelay(p, p.getLocation());
-        getPl().getText().getDelay(p, delay);
+        eTitles.showDelay(p, p.getLocation(), delay);
+        if (eTitles.sendMsgDelay())
+            getPl().getText().getDelay(p, delay);
+    }
+
+    public void cancelledTeleport(Player p) { //Only Delays should call this
+        eTitles.showCancelled(p, p.getLocation());
+        if (eTitles.sendMsgCancelled())
+            getPl().getText().getMoved(p);
+    }
+
+    private void loadingTeleport(Player p, CommandSender sendi) {
+        eTitles.showLoading(p, p.getLocation());
+        if (eTitles.sendMsgLoading() || sendi != p) //Show msg if enabled or if not same player
+            getPl().getText().getSuccessLoading(sendi);
     }
 
     private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
-        int range = 5;
+        int range = Math.round(Math.min(Bukkit.getServer().getViewDistance() / 2, 5));
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
                 Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (z * 16));

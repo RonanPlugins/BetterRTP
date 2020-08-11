@@ -22,7 +22,7 @@ Settings:
   Cooldown:
     Enabled: true # Enabled or disabled cooldown timer
     LockAfter: 0 # Lock the player in an infinite cooldown after # rtp's (0 to disable)
-    Time: 10 # in SECONDS
+    Time: 600 # in SECONDS
   ## Time between command and actually rtp'ing, time is in SECONDS. Set to "0" to disable delay timer #
   Delay:
     Enabled: true
