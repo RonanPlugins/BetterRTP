@@ -1,0 +1,32 @@
+Sounds:
+  Enabled: true
+  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
+  Delay: 'entity_tnt_primed'
+  Success: 'entity_generic_explode'
+Titles:
+  Enabled: true
+  Delay:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% placeholders
+    Title: ' '
+    Subtitle: '&fTeleporting in %time% seconds...'
+  Success:
+    ## Setting to also send the chat message, ignores the Enabled setting
+    SendChatMessage: true
+    ## Both support %player% %x% %y% and %z% placeholders
+    Title: '&6Teleported!'
+    Subtitle: '&fx=%x% y=%y% z=%z% in %attempts% attempts'
+Particles:
+  Enabled: true
+  Type: 'REVERSE_PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
+  Amount: 180
+  Shape: 'SCAN' #Types available are "Scan, Teleport and Explode"
+Invincible: #Amount of time a player should not take damage for
+  Enabled: true
+  Seconds: 5
+Potions:
+  Enabled: true
+  Types:
+    - 'Blindness:60'
+    - 'Invisibility:60'

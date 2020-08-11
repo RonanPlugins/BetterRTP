@@ -27,20 +27,20 @@ Messages:
   Already: '&cУуупс! &7Похоже вы уже телепортируетесь. Имейте терпение!'
   Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
-Titles:
-  Enabled: true
-  Delay:
-    ## Setting to also send the chat message, ignores the Enabled setting
-    SendChatMessage: true
-    ## Both support %player% placeholders
-    Title: '&6BetterRTP от SRC'
-    Subtitle: '&fТелепортация через %time% сек.!'
-  Success:
-    ## Setting to also send the chat message, ignores the Enabled setting
-    SendChatMessage: true
-    ## Both support %player% %x% %y% and %z% placeholders
-    Title: '&6BetterRTP от SRC &7(%attempts%)'
-    Subtitle: '&fТелепортация к x=%x% y=%y% z=%z%'
+#Titles:
+#  Enabled: true
+#  Delay:
+#    ## Setting to also send the chat message, ignores the Enabled setting
+#    SendChatMessage: true
+#    ## Both support %player% placeholders
+#    Title: '&6BetterRTP от SRC'
+#    Subtitle: '&fТелепортация через %time% сек.!'
+#  Success:
+#    ## Setting to also send the chat message, ignores the Enabled setting
+#    SendChatMessage: true
+#    ## Both support %player% %x% %y% and %z% placeholders
+#    Title: '&6BetterRTP от SRC &7(%attempts%)'
+#    Subtitle: '&fТелепортация к x=%x% y=%y% z=%z%'
 
 Help:
   List:
@@ -58,9 +58,3 @@ Usage:
   Player: '&cИспользование&7: /%command% player <игрок> [мир]'
   World: '&cИспользование&7: /%command% world <мир>'
   Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
-
-Sounds:
-  Enabled: true
-  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
-  Delay: 'entity_tnt_primed'
-  Success: 'entity_generic_explode'

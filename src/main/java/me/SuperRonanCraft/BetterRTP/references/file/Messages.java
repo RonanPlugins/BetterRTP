@@ -123,39 +123,6 @@ public class Messages {
         return color(getPrefix() + str);
     }
 
-    // Titles
-    public String getTitleSuccess(String player, String x, String y, String z, int attempts) {
-        return color(getLang().getString(preT + "Success.Title").replaceAll("%player%", player).replaceAll("%x%", x)
-                .replaceAll("%y%", y).replaceAll("%z%", z).replaceAll("%attempts%", Integer.toString(attempts)));
-    }
-
-    public String getSubTitleSuccess(String player, String x, String y, String z, int attempts) {
-        return color(getLang().getString(preT + "Success.Subtitle").replaceAll("%player%", player).replaceAll("%x%",
-                x).replaceAll("%y%", y).replaceAll("%z%", z).replaceAll("%attempts%", Integer.toString(attempts)));
-    }
-
-    public boolean getTitleSuccessChat() {
-        return getLang().getBoolean(preT + "Success.SendChatMessage");
-    }
-
-    public boolean getTitleDelayChat() {
-        return getLang().getBoolean(preT + "Delay.SendChatMessage");
-    }
-
-    public String getTitleDelay(String player, String time) {
-        return color(getLang().getString(preT + "Delay.Title").replaceAll("%player%", player).replaceAll("%time%",
-                time));
-    }
-
-    public String getSubTitleDelay(String player, String time) {
-        return color(getLang().getString(preT + "Delay.Subtitle").replaceAll("%player%", player).replaceAll("%time%",
-                time));
-    }
-
-    public boolean getTitleEnabled() {
-        return getLang().getBoolean(preT + "Enabled");
-    }
-
     //Help
     public void getHelpList(CommandSender sendi, String cmd) {
         for (String s : getLang().getStringList(preH + "List"))
@@ -195,31 +162,6 @@ public class Messages {
      * public int getFadeOut() { return
      * getLang().getInt("Titles.Time.FadeOut"); }
      */
-
-    // Sounds
-    public boolean getSoundsEnabled() {
-        return getLang().getBoolean("Sounds.Enabled");
-    }
-
-    public Sound getSoundsSuccess() {
-        try {
-            return Sound.valueOf(getLang().getString("Sounds.Success").toUpperCase());
-        } catch (IllegalArgumentException e) {
-            Bukkit.getServer().getConsoleSender().sendMessage(colorPre("The sound " + getLang().getString("Sounds" +
-                    "" + ".Success") + " is invalid!"));
-        }
-        return null;
-    }
-
-    public Sound getSoundsDelay() {
-        try {
-            return Sound.valueOf(getLang().getString("Sounds.Delay").toUpperCase());
-        } catch (IllegalArgumentException e) {
-            Bukkit.getServer().getConsoleSender().sendMessage(colorPre("The sound " + getLang().getString("Sounds" +
-                    "" + ".Delay") + " is invalid!"));
-        }
-        return null;
-    }
 
     // Not Found
     public void error(CommandSender sendi) {

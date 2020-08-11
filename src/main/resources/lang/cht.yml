@@ -27,20 +27,20 @@ Messages:
   Already: '&c哎呦！&7看上去您已經在傳送中了，耐心一點點！'
   Sign: '&7指令標記已創建！&7指令為''&f/rtp %command%&7'''
 
-Titles:
-  Enabled: true
-  Delay:
-    ## 設定是否同時發送訊息到聊天室，這個選項會無視上方的Enabled
-    SendChatMessage: true
-    ## 支援 %player% placeholders
-    Title: '&6BetterRTP by SRC'
-    Subtitle: '&f將在%time%秒後傳送！'
-  Success:
-    ## 設定是否同時發送訊息到聊天室，這個選項會無視上方的Enabled
-    SendChatMessage: true
-    ## 支援 %player% %x% %y% 和 %z% placeholders
-    Title: '&6BetterRTP by SRC &7(%attempts%)'
-    Subtitle: '&f您已被傳送至x=%x% y=%y% z=%z%'
+#Titles:
+#  Enabled: true
+#  Delay:
+#    ## 設定是否同時發送訊息到聊天室，這個選項會無視上方的Enabled
+#    SendChatMessage: true
+#    ## 支援 %player% placeholders
+#    Title: '&6BetterRTP by SRC'
+#    Subtitle: '&f將在%time%秒後傳送！'
+#  Success:
+#    ## 設定是否同時發送訊息到聊天室，這個選項會無視上方的Enabled
+#    SendChatMessage: true
+#    ## 支援 %player% %x% %y% 和 %z% placeholders
+#    Title: '&6BetterRTP by SRC &7(%attempts%)'
+#    Subtitle: '&f您已被傳送至x=%x% y=%y% z=%z%'
 
 Help:
   List:
@@ -58,9 +58,3 @@ Usage:
   Player: '&cUsage&7: /%command% player <玩家> [世界] [生態域1, 生態域2]'
   World: '&cUsage&7: /%command% world <世界> [生態域1, 生態域2...]'
   Biome: '&cUsage&7: /%command% biome <生態域1, 生態域2...>'
-
-Sounds:
-  Enabled: true
-  ## 更多音效名稱在這 --> https://www.spigotmc.org/wiki/cc-sounds-list/
-  Delay: 'entity_tnt_primed'
-  Success: 'entity_generic_explode'

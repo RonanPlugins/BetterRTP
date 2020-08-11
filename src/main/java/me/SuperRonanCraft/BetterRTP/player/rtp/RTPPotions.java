@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RTPEffects {
+public class RTPPotions {
 
     private boolean potionEnabled;
     private final HashMap<PotionEffectType, Integer> potionEffects = new HashMap<>();

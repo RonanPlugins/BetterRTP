@@ -29,21 +29,22 @@ class RTPDelay implements Listener {
         Main pl = Main.getInstance();
         if (sendi.equals(pWorld.getPlayer()) && delay != 0 && getPl().getText().getTitleDelayChat())
             getPl().getText().getDelay(sendi, String.valueOf(delay));
-        if (getPl().getText().getSoundsEnabled()) {
-            Sound sound = getPl().getText().getSoundsDelay();
-            if (sound != null)
-                pWorld.getPlayer().playSound(pWorld.getPlayer().getLocation(), sound, 1F, 1F);
-        }
-        if (getPl().getText().getTitleEnabled()) {
-            String title = getPl().getText().getTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
-            String subTitle = getPl().getText().getSubTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
-            pWorld.getPlayer().sendTitle(title, subTitle);
-            // int fadeIn = text.getFadeIn();
-            // int stay = text.getStay();
-            // int fadeOut = text.getFadeOut();
-            // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-            // pWorld.getPlayer().sendTitle(title, subTitle);
-        }
+//        if (getPl().getText().getSoundsEnabled()) {
+//            Sound sound = getPl().getText().getSoundsDelay();
+//            if (sound != null)
+//                pWorld.getPlayer().playSound(pWorld.getPlayer().getLocation(), sound, 1F, 1F);
+//        }
+//        if (getPl().getText().getTitleEnabled()) {
+//            String title = getPl().getText().getTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
+//            String subTitle = getPl().getText().getSubTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
+//            pWorld.getPlayer().sendTitle(title, subTitle);
+//            // int fadeIn = text.getFadeIn();
+//            // int stay = text.getStay();
+//            // int fadeOut = text.getFadeOut();
+//            // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+//            // pWorld.getPlayer().sendTitle(title, subTitle);
+//        }
+        getPl().getRTP().getTeleport().beforeTeleport(pWorld.getPlayer());
         run = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, run(sendi, this), delay * 2 * 10);
         //Bukkit.getScheduler().scheduleSyncRepeatingTask(pl, run(sendi,  this), 0, 10);
         if (cancelOnMove || cancelOnDamage)

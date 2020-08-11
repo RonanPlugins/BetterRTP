@@ -7,80 +7,70 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RTPTeleport {
 
-    private final RTPParticles particles = new RTPParticles();
-    private final RTPEffects effects = new RTPEffects();
+    private final RTPParticles eParticles = new RTPParticles();
+    private final RTPPotions ePotions = new RTPPotions();
+    private final RTPSounds eSounds = new RTPSounds();
+    private final RTPTitles eTitles = new RTPTitles();
 
     void load() {
-        particles.load();
-        effects.load();
+        eParticles.load();
+        ePotions.load();
+        eSounds.load();
+        eTitles.load();
     }
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
+        if (sendi != p) //Tell sendi that the player will/is being rtp'd
+            checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
         getPl().getText().getSuccessLoading(sendi); //Send loading message
-        loadChunks(loc); //Load chunks before teleporting
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                if (sendi != p)
-                    checkPH(sendi, p.getDisplayName(), loc, price, false, attempts);
-                if (getPl().getText().getTitleSuccessChat())
-                    checkPH(p, p.getDisplayName(), loc, price, true, attempts);
-                if (getPl().getText().getTitleEnabled())
-                    titles(p, loc, attempts);
-                try {
-                    //p.teleport(loc);
-                    PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
-                        @Override
-                        public void run() {
-                            afterTeleport(p);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                getPl().getCmd().rtping.put(p.getUniqueId(), false); //Dont let them rtp again until current is done!
-                }
-        }.runTask(getPl());
+        List<CompletableFuture<Chunk>> asyncChunks = getChunks(loc); //Get a list of chunks
+        CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
+            try {
+                PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
+                    @Override
+                    public void run() {
+                        afterTeleport(p, loc, price, attempts);
+                        getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
+                    }
+                });
+            } catch (Exception e) {
+                getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing (errored)
+                e.printStackTrace();
+            }
+        });
     }
 
-    public void afterTeleport(Player p) {
-        if (getPl().getText().getSoundsEnabled())
-            sounds(p);
-        particles.display(p);
-        effects.giveEffects(p);
+    public void afterTeleport(Player p, Location loc, int price, int attempts) {
+        eSounds.playTeleport(p);
+        eParticles.display(p);
+        ePotions.giveEffects(p);
+        eTitles.show(p);
     }
 
-    private void loadChunks(Location loc) { //Async chunk loading
+    public void beforeTeleport(Player p) {
+        eSounds.playDelay(p);
+    }
+
+    private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
-        for (int x = -5; x <= 5; x++) {
-            for (int z = -5; z <= 5; z++) {
-                Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (x * 16));
+        int range = 5;
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (z * 16));
                 CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(locLoad, true);
                 asyncChunks.add(chunk);
             }
         }
-        boolean loaded = false;
-        while (!loaded)
-            loaded = checkLoaded(asyncChunks);
-    }
-
-    private boolean checkLoaded(List<CompletableFuture<Chunk>> asyncChunks) {
-        for (CompletableFuture<Chunk> chunk : asyncChunks)
-            if (!chunk.isDone())
-                return false;
-        return true;
+        return asyncChunks;
     }
 
     private void checkPH(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
@@ -111,12 +101,6 @@ public class RTPTeleport {
         // player.sendMessage(Bukkit.getServer().getVersion());
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
         p.sendTitle(title, subTitle);
-    }
-
-    private void sounds(Player p) {
-        Sound sound = getPl().getText().getSoundsSuccess();
-        if (sound != null)
-            p.playSound(p.getLocation(), sound, 1F, 1F);
     }
 
     private Main getPl() {

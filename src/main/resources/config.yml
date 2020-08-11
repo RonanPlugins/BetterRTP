@@ -28,20 +28,6 @@ Settings:
     Enabled: true
     Time: 5
     CancelOnMove: true
-  Particles:
-    Enabled: true
-    Type: 'REVERSE_PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
-    Amount: 180
-    Shape: 'SCAN' #Types available are "Scan, Teleport and Explosive"
-  Effects:
-    Invincible: #Amount of time a player should not take damage for
-      Enabled: true
-      Seconds: 5
-    Potions:
-      Enabled: true
-      Types:
-        - 'Blindness:60'
-        - 'Invisibility:60'
   DisableUpdater: false
 
 Default:

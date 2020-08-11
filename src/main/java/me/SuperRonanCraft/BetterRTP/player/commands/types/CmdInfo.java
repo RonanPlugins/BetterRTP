@@ -84,7 +84,7 @@ public class CmdInfo implements RTPCommand {
                 if (pl.getRTP().overriden.containsKey(w.getName()))
                     info.add("&7- &6Overriden: &bTrue");
                 else {
-                    info.add("&7- &7WorldType: " + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
+                    info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
                     info.add("&7- &6Overriden: &cFalse");
                     RTPWorld _rtpworld = pl.getRTP().Default;
                     for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {

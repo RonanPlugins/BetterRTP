@@ -27,20 +27,20 @@ Messages:
   Already: '&cおっと！ &7あなたはすでにRTPしているように見えます。'
   Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
-Titles:
-  Enabled: true
-  Delay:
-    ##
-    SendChatMessage: true
-    ##
-    Title: '&6BetterRTP by SRC'
-    Subtitle: '&f%time%秒でテレポート！'
-  Success:
-    ##
-    SendChatMessage: true
-    ##
-    Title: '&6BetterRTP by SRC &7(%attempts%)'
-    Subtitle: '&fx=%x% y=%y% z=%z%　にテレポート'
+#Titles:
+#  Enabled: true
+#  Delay:
+#    ##
+#    SendChatMessage: true
+#    ##
+#    Title: '&6BetterRTP by SRC'
+#    Subtitle: '&f%time%秒でテレポート！'
+#  Success:
+#    ##
+#    SendChatMessage: true
+#    ##
+#    Title: '&6BetterRTP by SRC &7(%attempts%)'
+#    Subtitle: '&fx=%x% y=%y% z=%z%　にテレポート'
 
 Help:
   List:
@@ -58,9 +58,3 @@ Usage:
   Player: '&c使い方&7: /%command% player <プレイヤー> [ワールド]'
   World: '&c使い方&7: /%command% world <ワールド>'
   Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
-
-Sounds:
-  Enabled: true
-  ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
-  Delay: 'entity_tnt_primed'
-  Success: 'entity_generic_explode'
