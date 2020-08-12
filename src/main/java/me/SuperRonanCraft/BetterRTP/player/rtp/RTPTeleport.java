@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+//---
+//Credit to @PaperMC for PaperLib - https://github.com/PaperMC/PaperLib
+//
+//Use of asyncronous chunk loading and teleporting
+//---
+
 public class RTPTeleport {
 
     private final RTPParticles eParticles = new RTPParticles();

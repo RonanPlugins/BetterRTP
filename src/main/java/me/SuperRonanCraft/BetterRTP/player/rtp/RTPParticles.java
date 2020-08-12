@@ -10,6 +10,12 @@ import xyz.xenondevs.particle.ParticleEffect;
 import java.util.Arrays;
 import java.util.Random;
 
+//---
+//Credit to @ByteZ1337 for ParticleLib - https://github.com/ByteZ1337/ParticleLib
+//
+//Use of particle creation
+//---
+
 public class RTPParticles {
 
     private boolean enabled;
