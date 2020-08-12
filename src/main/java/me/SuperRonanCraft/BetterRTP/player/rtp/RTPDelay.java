@@ -56,9 +56,9 @@ class RTPDelay implements Listener {
         if (cancelOnMove)
             if (e.getPlayer().equals(pWorld.getPlayer()) &&
                 (e.getTo() != null &&
-                        (e.getTo().getX() != e.getFrom().getX() ||
-                        e.getTo().getY() != e.getFrom().getY() ||
-                        e.getTo().getZ() != e.getFrom().getZ()))
+                        (e.getTo().getBlockX() != e.getFrom().getBlockX() ||
+                        e.getTo().getBlockY() != e.getFrom().getBlockY() ||
+                        e.getTo().getBlockZ() != e.getFrom().getBlockZ()))
             ) {
                 cancel();
             }

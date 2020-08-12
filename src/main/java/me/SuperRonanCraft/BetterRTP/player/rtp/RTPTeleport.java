@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,6 +27,8 @@ public class RTPTeleport {
     private final RTPSounds eSounds = new RTPSounds();
     private final RTPTitles eTitles = new RTPTitles();
 
+    //public HashMap<Player, List<CompletableFuture<Chunk>>> playerLoads = new HashMap<>();
+
     void load() {
         eParticles.load();
         ePotions.load();
@@ -33,10 +36,17 @@ public class RTPTeleport {
         eTitles.load();
     }
 
+//    void cancel(Player p) { //Cancel loading chunks/teleporting
+//        if (!playerLoads.containsKey(p)) return;
+//        List<CompletableFuture<Chunk>> asyncChunks = playerLoads.get(p);
+//        CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).cancel(true);
+//    }
+
     void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
                     final int attempts) throws NullPointerException {
         loadingTeleport(p, sendi); //Send loading message to player who requested
         List<CompletableFuture<Chunk>> asyncChunks = getChunks(loc); //Get a list of chunks
+        //playerLoads.put(p, asyncChunks);
         CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
             new BukkitRunnable() { //Run synchronously
                 @Override

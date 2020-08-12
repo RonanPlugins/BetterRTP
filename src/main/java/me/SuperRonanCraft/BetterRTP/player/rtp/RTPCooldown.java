@@ -35,6 +35,7 @@ public class RTPCooldown {
     }
 
     public void add(UUID id) {
+        if (!enabled) return;
         cooldowns.put(id, System.currentTimeMillis());
         if (lockedAfter > 0) {
             if (locked.containsKey(id))
@@ -62,6 +63,7 @@ public class RTPCooldown {
     }
 
     public void remove(UUID id) {
+        if (!enabled) return;
         if (lockedAfter > 0) {
             locked.put(id, locked.getOrDefault(id, 1) - 1);
             if (locked.get(id) <= 0) { //Remove from file as well
@@ -78,7 +80,7 @@ public class RTPCooldown {
 
     private void savePlayer(UUID id, boolean adding, long time, int attempts) {
         YamlConfiguration config = getFile();
-        assert config != null;
+        if (config == null) return;
         if (adding) { //Add player to file
             config.set(id.toString() + ".Time", time);
             if (attempts > 0)
@@ -123,8 +125,8 @@ public class RTPCooldown {
         config = null;
         configfile = new File(Main.getInstance().getDataFolder(), "data/cooldowns.yml");
         YamlConfiguration config = getFile();
-        assert config != null;
-        for (String id : config.getKeys(false)) {
+        if (config != null)
+            for (String id : config.getKeys(false)) {
             try {
                 UUID uuid = UUID.fromString(id);
                 Long time = config.getLong(id + ".Time");
