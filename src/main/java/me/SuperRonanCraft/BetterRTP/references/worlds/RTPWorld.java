@@ -1,5 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
+import org.bukkit.World;
+
 import java.util.List;
 
 public interface RTPWorld {
@@ -18,5 +20,5 @@ public interface RTPWorld {
 
     List<String> getBiomes();
 
-    String getWorld();
+    World getWorld();
 }

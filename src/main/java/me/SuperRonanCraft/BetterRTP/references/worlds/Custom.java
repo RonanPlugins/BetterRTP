@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.worlds;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,34 +32,34 @@ public class Custom implements RTPWorld {
                     continue;
                 if (test.get("UseWorldBorder") != null) {
                     if (test.get("UseWorldBorder").getClass() == Boolean.class)
-                        useWorldborder = Boolean.valueOf(test.get("UseWorldBorder").toString());
+                        useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
                 }
                 if (test.get("CenterX") != null) {
                     if (test.get("CenterX").getClass() == Integer.class)
-                        CenterX = Integer.valueOf((test.get("CenterX")).toString());
+                        CenterX = Integer.parseInt((test.get("CenterX")).toString());
                 }
                 if (test.get("CenterZ") != null) {
                     if (test.get("CenterZ").getClass() == Integer.class)
-                        CenterZ = Integer.valueOf((test.get("CenterZ")).toString());
+                        CenterZ = Integer.parseInt((test.get("CenterZ")).toString());
                 }
                 if (test.get("MaxRadius") != null) {
                     if (test.get("MaxRadius").getClass() == Integer.class)
-                        maxBorderRad = Integer.valueOf((test.get("MaxRadius")).toString());
+                        maxBorderRad = Integer.parseInt((test.get("MaxRadius")).toString());
                     if (maxBorderRad <= 0) {
                         Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
-                        maxBorderRad = Main.getInstance().getRTP().Default.getMaxRad();
+                        maxBorderRad = Main.getInstance().getRTP().defaultWorld.getMaxRad();
                     }
                 }
                 if (test.get("MinRadius") != null) {
                     if (test.get("MinRadius").getClass() == Integer.class)
-                        minBorderRad = Integer.valueOf((test.get("MinRadius")).toString());
+                        minBorderRad = Integer.parseInt((test.get("MinRadius")).toString());
                     if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
                         Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
-                        minBorderRad = Main.getInstance().getRTP().Default.getMinRad();
+                        minBorderRad = Main.getInstance().getRTP().defaultWorld.getMinRad();
                         if (minBorderRad >= maxBorderRad)
-                            maxBorderRad = Main.getInstance().getRTP().Default.getMaxRad();
+                            maxBorderRad = Main.getInstance().getRTP().defaultWorld.getMaxRad();
                     }
                 }
                 if (test.get("Biomes") != null) {
@@ -100,7 +101,7 @@ public class Custom implements RTPWorld {
                             price = Integer.valueOf((test.get("Price")).toString());
                     }
             } else
-                price = Main.getInstance().getRTP().Default.getPrice();
+                price = Main.getInstance().getRTP().defaultWorld.getPrice();
         //Other
         this.Biomes = config.getStringList(pre + world + ".Biomes");
     }
@@ -141,7 +142,7 @@ public class Custom implements RTPWorld {
     }
 
     @Override
-    public String getWorld() {
-        return world;
+    public World getWorld() {
+        return Bukkit.getWorld(world);
     }
 }

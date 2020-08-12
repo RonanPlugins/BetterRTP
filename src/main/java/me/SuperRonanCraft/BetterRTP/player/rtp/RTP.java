@@ -4,14 +4,12 @@ import com.sk89q.worldguard.bukkit.RegionContainer;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class RTP {
 
@@ -28,7 +27,7 @@ public class RTP {
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
-    public Default Default = new Default();
+    public Default defaultWorld = new Default();
     private Random rn = new Random();
     private List<String> disabledWorlds, blockList;
     private int maxAttempts, delayTime;
@@ -40,7 +39,7 @@ public class RTP {
     }
 
     public void load() {
-        Default.setup();
+        defaultWorld.setup();
         FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         disabledWorlds = config.getStringList("DisabledWorlds");
         maxAttempts = config.getInt("Settings.MaxAttempts");
@@ -122,38 +121,42 @@ public class RTP {
         return disabledWorlds;
     }
 
-    public void start(Player p, CommandSender sendi, String worl, List<String> biomes, boolean delay) {
+    public void start(Player p, CommandSender sendi, String worldName, List<String> biomes, boolean delay) {
         // Check overrides
-        String world = worl;
-        if (world == null)
-            world = p.getWorld().getName();
-        if (overriden.containsKey(world))
-            world = overriden.get(world);
+        if (worldName == null)
+            worldName = p.getWorld().getName();
+        if (overriden.containsKey(worldName))
+            worldName = overriden.get(worldName);
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world)) {
+        if (sendi == p && !getPl().getPerms().getAWorld(sendi, worldName)) {
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
-            getPl().getText().getNoPermissionWorld(p, world);
+            getPl().getText().getNoPermissionWorld(p, worldName);
             return;
         }
         // Check disabled worlds
-        if (disabledWorlds.contains(world)) {
-            getPl().getText().getDisabledWorld(sendi, world);
+        if (disabledWorlds.contains(worldName)) {
+            getPl().getText().getDisabledWorld(sendi, worldName);
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
-        // Check if nulled
-        if (Bukkit.getWorld(world) == null) {
-            getPl().getText().getNotExist(sendi, world);
+        // Check if nulled or world doesnt exist
+        if (Bukkit.getWorld(worldName) == null) {
+            getPl().getText().getNotExist(sendi, worldName);
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
-        PlayerWorld pWorld = new PlayerWorld(p, world);
+        PlayerWorld pWorld = new PlayerWorld(p, Bukkit.getWorld(worldName));
         // Set all methods
-        if (customWorlds.containsKey(world)) {
-            RTPWorld cWorld = customWorlds.get(pWorld.getWorld());
+        if (customWorlds.containsKey(worldName)) {
+            RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
             pWorld.setup(cWorld, cWorld.getPrice(), biomes);
         } else
-            pWorld.setup(Default, Default.getPrice(), biomes);
+            pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes);
+        //World type
+        RTP_WORLD_TYPE world_type = RTP_WORLD_TYPE.NORMAL; //World rtp type
+        if (this.world_type.containsKey(worldName))
+            world_type = this.world_type.get(worldName);
+        pWorld.setWorldtype(world_type);
         // Check world price
         if (!getPl().getEco().charge(p, pWorld.getPrice())) {
             getPl().getText().getFailedPrice(p, pWorld.getPrice());
@@ -165,20 +168,45 @@ public class RTP {
         if (getPl().getSettings().delayEnabled && delay) {
             new RTPDelay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else
-            tp(sendi, pWorld);
+            findSafeLocation(sendi, pWorld);
     }
 
-    void tp(CommandSender sendi, PlayerWorld pWorld) {
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                Location loc = randomLoc(pWorld);
-                if (loc != null)
-                    teleport.sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
+//    void findSafeLocation(CommandSender sendi, PlayerWorld pWorld) {
+//        new BukkitRunnable(){
+//            @Override
+//            public void run() {
+//                f
+//                if (loc != null)
+//                    teleport.sendPlayer(sendi, pWorld.getPlayer(), loc, pWorld.getPrice(), pWorld.getAttempts());
+//                else
+//                    metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
+//            }
+//        }.runTaskAsynchronously(getPl());
+//    }
+
+    void findSafeLocation(CommandSender sendi, PlayerWorld pWorld) {
+        if (pWorld.getAttempts() >= maxAttempts) //Cancel out, too many tried
+            metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
+        else { //Try again to find a safe location
+            Location loc = pWorld.generateRandomXZ(defaultWorld, rn.nextInt(4)); //randomLoc(pWorld);
+            CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
+            chunk.thenAccept(result -> {
+                Location tpLoc;
+                float yaw = pWorld.getPlayer().getLocation().getYaw();
+                float pitch = pWorld.getPlayer().getLocation().getPitch();
+                switch (pWorld.getWorldtype()) { //Get a Y position and check for bad blocks
+                    case NETHER:
+                        tpLoc = getLocAtNether(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld); break;
+                    case NORMAL:
+                    default:
+                        tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
+                }
+                if (tpLoc != null && checkDepends(tpLoc))
+                    teleport.sendPlayer(sendi, pWorld.getPlayer(), tpLoc, pWorld.getPrice(), pWorld.getAttempts());
                 else
-                    metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
-            }
-        }.runTaskAsynchronously(getPl());
+                    findSafeLocation(sendi, pWorld);
+            });
+        }
     }
 
     // Compressed code for MaxAttempts being met
@@ -193,82 +221,69 @@ public class RTP {
     }
 
     //Get a random location depending the world type
-    private Location randomLoc(PlayerWorld pWorld) {
-        int borderRad = pWorld.getMaxRad();
-        int minVal = pWorld.getMinRad();
-        int CenterX = pWorld.getCenterX();
-        int CenterZ = pWorld.getCenterZ();
-        int quadrant = rn.nextInt(4);
-        Player p = pWorld.getPlayer();
-        World world = Bukkit.getWorld(pWorld.getWorld());
-        if (pWorld.getUseWorldborder()) {
-            WorldBorder border = world.getWorldBorder();
-            borderRad = (int) border.getSize() / 2;
-            CenterX = border.getCenter().getBlockX();
-            CenterZ = border.getCenter().getBlockZ();
-        }
-        float yaw = p.getLocation().getYaw(), pitch = p.getLocation().getPitch();
-        RTP_WORLD_TYPE world_type = RTP_WORLD_TYPE.NORMAL; //World rtp type
-        /*try {
-            //1.13+
-            normal = !world.getBiome(0, 0).equals(Biome.valueOf("NETHER")));
-        } catch (Exception e) {
-            //1.8-1.12
-            try {
-                normal = !world.getBiome(0, 0).equals(Biome.valueOf("HELL"));
-            } catch (Exception e1) {
-                normal = true;
-            }
-        }*/
-        if (this.world_type.containsKey(world.getName()))
-            world_type = this.world_type.get(world.getName());
-        for (int i = 0; i <= maxAttempts; i++) {
-            // Get the y-coords from up top, then check if it's SAFE!
-            Location loc = null;
-            if (borderRad <= minVal) {
-                minVal = Default.getMinRad();
-                if (borderRad <= minVal)
-                    minVal = 0;
-            }
-            switch (world_type) {
-                case NETHER:
-                    loc = nether(borderRad, minVal, CenterX, CenterZ, quadrant, world, pWorld, yaw, pitch); break;
-                default:
-                    loc = normal(borderRad, minVal, CenterX, CenterZ, quadrant, world, pWorld, yaw, pitch);
-            }
-            pWorld.addAttempt();
-            if (loc != null && checkDepends(loc))
-                return loc;
-            quadrant = rn.nextInt(4);
-        }
-        return null;
-    }
-
-    //NORMAL
-    private Location normal(int borderRad, int minVal, int CenterX, int CenterZ, int quadrant, World world,
-                            PlayerWorld pWorld, Float yaw, Float pitch) {
-        int x, x2, z, z2;
-        Location loc;
-        // Will Check is CenterZ is negative or positive, then set 2 x's
-        // up for choosing up next
-        z = rn.nextInt(borderRad - minVal) + CenterZ + minVal;
-        z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
-        // Will Check is CenterZ is negative or positive, then set 2 z's
-        // up for choosing up next
-        x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
-        x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
-        switch (quadrant) {
-            case 0: // Positive X and Z
-                loc = getLocAtNormal(x, z, world, yaw, pitch, pWorld); break;
-            case 1: // Negative X and Z
-                loc = getLocAtNormal(x2, z2, world, yaw, pitch, pWorld); break;
-            case 2: // Negative X and Positive Z
-                loc = getLocAtNormal(x2, z, world, yaw, pitch, pWorld); break;
-            default: // Positive X and Negative Z
-                loc = getLocAtNormal(x, z2, world, yaw, pitch, pWorld);
-        }
-        return loc;
-    }
+//    private Location randomLoc(PlayerWorld pWorld) {
+//        int borderRad = pWorld.getMaxRad();
+//        int minVal = pWorld.getMinRad();
+//        int CenterX = pWorld.getCenterX();
+//        int CenterZ = pWorld.getCenterZ();
+//        int quadrant = rn.nextInt(4);
+//        Player p = pWorld.getPlayer();
+//        World world = pWorld.getWorld();
+//        if (pWorld.getUseWorldborder()) {
+//            WorldBorder border = world.getWorldBorder();
+//            borderRad = (int) border.getSize() / 2;
+//            CenterX = border.getCenter().getBlockX();
+//            CenterZ = border.getCenter().getBlockZ();
+//        }
+//        float yaw = p.getLocation().getYaw(), pitch = p.getLocation().getPitch();
+//        RTP_WORLD_TYPE world_type = pWorld.getWorldtype();
+//        //for (int i = 0; i <= maxAttempts; i++) {
+//            // Get the y-coords from up top, then check if it's SAFE!
+//            Location loc = null;
+//            if (borderRad <= minVal) {
+//                minVal = defaultWorld.getMinRad();
+//                if (borderRad <= minVal)
+//                    minVal = 0;
+//            }
+//            switch (world_type) {
+//                case NETHER:
+//                    loc = nether(borderRad, minVal, CenterX, CenterZ, quadrant, world, pWorld, yaw, pitch); break;
+//                default:
+//                    loc = normal(borderRad, minVal, CenterX, CenterZ, quadrant, world, pWorld, yaw, pitch);
+//            }
+//            pWorld.addAttempt();
+//            //if (loc != null && checkDepends(loc))
+//                return loc;
+//        //    quadrant = rn.nextInt(4);
+//        //}
+//        //return null;
+//    }
+//
+//    //NORMAL
+//    private Location normal(int borderRad, int minVal, int CenterX, int CenterZ, int quadrant, World world,
+//                            PlayerWorld pWorld, Float yaw, Float pitch) {
+//        int x, x2, z, z2;
+//        Location loc;
+//        // Will Check is CenterZ is negative or positive, then set 2 x's
+//        // up for choosing up next
+//        z = rn.nextInt(borderRad - minVal) + CenterZ + minVal;
+//        z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
+//        // Will Check is CenterZ is negative or positive, then set 2 z's
+//        // up for choosing up next
+//        x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
+//        x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
+//        switch (quadrant) {
+//            case 0: // Positive X and Z
+//                loc = getLocAtNormal(x, z, world, yaw, pitch, pWorld); break;
+//            case 1: // Negative X and Z
+//                loc = getLocAtNormal(x2, z2, world, yaw, pitch, pWorld); break;
+//            case 2: // Negative X and Positive Z
+//                loc = getLocAtNormal(x2, z, world, yaw, pitch, pWorld); break;
+//            default: // Positive X and Negative Z
+//                loc = getLocAtNormal(x, z2, world, yaw, pitch, pWorld);
+//        }
+//        return loc;
+//    }
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
         Block b = world.getHighestBlockAt(x, z);
@@ -287,31 +302,31 @@ public class RTP {
         return null;
     }
 
-    //NETHER
-    private Location nether(int borderRad, int minVal, int CenterX, int CenterZ, int quadrant, World world,
-                            PlayerWorld pWorld, Float yaw, Float pitch) {
-        int x, x2, z, z2;
-        Location loc;
-        // Will Check is CenterZ is negative or positive, then set 2 x's
-        // up for choosing up next
-        z = rn.nextInt((borderRad) - minVal) + CenterZ + minVal;
-        z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
-        // Will Check is CenterZ is negative or positive, then set 2 z's
-        // up for choosing up next
-        x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
-        x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
-        switch (quadrant) {
-            case 0: // Positive X and Z
-                loc = getLocAtNether(x, z, world, yaw, pitch, pWorld); break;
-            case 1: // Negative X and Z
-                loc = getLocAtNether(x2, z2, world, yaw, pitch, pWorld); break;
-            case 2: // Negative X and Positive Z
-                loc = getLocAtNether(x2, z, world, yaw, pitch, pWorld); break;
-            default: // Positive X and Negative Z
-                loc = getLocAtNether(x, z2, world, yaw, pitch, pWorld);
-        }
-        return loc;
-    }
+//    //NETHER
+//    private Location nether(int borderRad, int minVal, int CenterX, int CenterZ, int quadrant, World world,
+//                            PlayerWorld pWorld, Float yaw, Float pitch) {
+//        int x, x2, z, z2;
+//        Location loc;
+//        // Will Check is CenterZ is negative or positive, then set 2 x's
+//        // up for choosing up next
+//        z = rn.nextInt((borderRad) - minVal) + CenterZ + minVal;
+//        z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
+//        // Will Check is CenterZ is negative or positive, then set 2 z's
+//        // up for choosing up next
+//        x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
+//        x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
+//        switch (quadrant) {
+//            case 0: // Positive X and Z
+//                loc = getLocAtNether(x, z, world, yaw, pitch, pWorld); break;
+//            case 1: // Negative X and Z
+//                loc = getLocAtNether(x2, z2, world, yaw, pitch, pWorld); break;
+//            case 2: // Negative X and Positive Z
+//                loc = getLocAtNether(x2, z, world, yaw, pitch, pWorld); break;
+//            default: // Positive X and Negative Z
+//                loc = getLocAtNether(x, z2, world, yaw, pitch, pWorld);
+//        }
+//        return loc;
+//    }
 
     private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
         //System.out.println("-----------");
@@ -356,14 +371,14 @@ public class RTP {
     }
 
     // Bad blocks, or bad biome
-    private boolean badBlock(String block, int x, int z, String world, List<String> biomes) {
+    private boolean badBlock(String block, int x, int z, World world, List<String> biomes) {
         for (String currentBlock : blockList) //Check Block
             if (currentBlock.toUpperCase().equals(block))
                 return true;
         //Check Biomes
         if (biomes == null || biomes.isEmpty())
             return false;
-        String biomeCurrent = Bukkit.getWorld(world).getBiome(x, z).name();
+        String biomeCurrent = world.getBiome(x, z).name();
         for (String biome : biomes)
             if (biomeCurrent.toUpperCase().contains(biome.toUpperCase()))
                 return false;

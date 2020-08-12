@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
 import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -92,7 +91,7 @@ class RTPDelay implements Listener {
                 HandlerList.unregisterAll(cls);
                 if (getPl().getCmd().rtping.containsKey(pWorld.getPlayer().getUniqueId())) {
                     try {
-                        getPl().getRTP().tp(sendi, pWorld);
+                        getPl().getRTP().findSafeLocation(sendi, pWorld);
                     } catch (NullPointerException e) {
                         if (pWorld.getPrice() > 0)
                             getPl().getEco().unCharge(pWorld.getPlayer(), pWorld.getPrice());
