@@ -155,7 +155,15 @@ public class Messages {
     }
 
     public void getUsageEdit(CommandSender sendi, String cmd) {
-        sms(sendi, getLang().getString(preU + "Edit").replaceAll("%command%", cmd));
+        sms(sendi, getLang().getString(preU + "Edit.Base").replaceAll("%command%", cmd));
+    }
+
+    public void getUsageEditDefault(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.Default").replaceAll("%command%", cmd));
+    }
+
+    public void getUsageEditWorld(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.World").replaceAll("%command%", cmd));
     }
 
     // Not Found

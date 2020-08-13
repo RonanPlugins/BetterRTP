@@ -52,10 +52,10 @@ public class LangFile {
         generateDefaults(pl);
     }
 
-    private String[] defaultLangs = {"en.yml", "fr.yml", "ja.yml", "ru.yml"};
+    private String[] defaultLangs = {"en.yml", "fr.yml", "ja.yml", "ru.yml", "chn.yml", "cht.yml", "du.yml"};
 
     private void generateDefaults(Main pl) {
-        //Generate allLangs
+        //Generate all language files
         for (String yaml : defaultLangs) {
             if (yaml.equals(defaultLangs[0]) && config.getName().equals(defaultLangs[0]))
                 continue;

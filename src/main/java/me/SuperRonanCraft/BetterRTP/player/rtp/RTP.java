@@ -41,8 +41,7 @@ public class RTP {
     }
 
     public void load() {
-        defaultWorld.setup();
-        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         disabledWorlds = config.getStringList("DisabledWorlds");
         maxAttempts = config.getInt("Settings.MaxAttempts");
         delayTime = config.getInt("Settings.Delay.Time");
@@ -63,20 +62,6 @@ public class RTP {
             //    overriden.put(s, config.getString("Override." + s));
         } catch (Exception e) {
             //No Overrides
-        }
-
-        //CUSTOM WORLDS
-        try {
-            customWorlds.clear();
-            List<Map<?, ?>> map = config.getMapList("CustomWorlds");
-            for (Map<?, ?> m : map)
-                for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
-                    if (getPl().getSettings().debug)
-                        getPl().getLogger().info("- Custom World '" + entry.getKey() + "' registered");
-                }
-        } catch (Exception e) {
-            //No Custom Worlds
         }
 
         try {
@@ -111,7 +96,28 @@ public class RTP {
             e.printStackTrace();
             //No World Types
         }
+
+        loadWorldSettings();
+
         teleport.load(); //Load teleporting stuff
+    }
+
+    public void loadWorldSettings() {
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        defaultWorld.setup();
+        //CUSTOM WORLDS
+        try {
+            customWorlds.clear();
+            List<Map<?, ?>> map = config.getMapList("CustomWorlds");
+            for (Map<?, ?> m : map)
+                for (Map.Entry<?, ?> entry : m.entrySet()) {
+                    customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
+                    if (getPl().getSettings().debug)
+                        getPl().getLogger().info("- Custom World '" + entry.getKey() + "' registered");
+                }
+        } catch (Exception e) {
+            //No Custom Worlds
+        }
     }
 
     public List<String> disabledWorlds() {
