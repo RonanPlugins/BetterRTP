@@ -25,17 +25,17 @@ public class CmdEdit implements RTPCommand { //Edit a worlds properties
                     switch (cmd) {
                         case WORLD:
                             if (args.length >= 5) {
-                                for (World world : Bukkit.getWorlds())
-                                    if (world.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
+                                //for (World world : Bukkit.getWorlds())
+                                    //if (world.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                                         for (RTP_CMD_EDIT_SUB cmde : RTP_CMD_EDIT_SUB.values())
                                             if (cmde.name().toLowerCase().startsWith(args[3].toLowerCase())) {
-                                                editWorld(sendi, cmde, args[4], world);
+                                                editWorld(sendi, cmde, args[4], args[2]);
                                                 return;
                                             }
                                         usage(sendi, label);
                                         return;
-                                    }
-                                Main.getInstance().getText().getNotExist(sendi, label);
+                                //    }
+                                //Main.getInstance().getText().getNotExist(sendi, label);
                             } else
                                 usage(sendi, label);
                             break;
@@ -53,15 +53,30 @@ public class CmdEdit implements RTPCommand { //Edit a worlds properties
             usage(sendi, label);
     }
 
-    private void editWorld(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String value, World world) {
+    private void editWorld(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String value, String world) {
         FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
-        HashMap<String, List<String>> map = (HashMap<String, List<String>>) config.getMapList("CustomWorlds");
+        HashMap<String, Map<?, ?>> cmap = new HashMap<>();
 
-        if (map.containsKey())
+        List<Map<?, ?>> map = config.getMapList("CustomWorlds");
+        //for (Map<?, ?> m : map)
+         //   cmap.put(m.toString(), (Map<?, ?>) m.entrySet(entry));
 
-        config.set("CustomWorlds", customWorlds);
+        if (cmap.containsKey(world)) {
+            System.out.println(cmap.toString());
+            Map<?, ?> list = cmap.get(world);
+            for (Map.Entry<?, ?> e : list.entrySet()) {
+                System.out.println(e.getKey());
+            }
+            cmap.put(world, list);
+        } else {
+            Map<String, Object> list = new HashMap<>();
+            list.put(cmd.get(), value);
+            cmap.put(world, list);
+        }
+
+        config.set("CustomWorlds", map);
 
         try {
             config.save(file.getFile());
@@ -137,6 +152,16 @@ public class CmdEdit implements RTPCommand { //Edit a worlds properties
     }
 
     enum RTP_CMD_EDIT_SUB {
-        CENTER, MAX, MIN, USEWORLDBORDER
+        CENTER("Center"), MAX("MaxRadius"), MIN("MinRadius"), USEWORLDBORDER("UseWorldBorder");
+
+        private String str;
+
+        RTP_CMD_EDIT_SUB(String str) {
+            this.str = str;
+        }
+
+        String get() {
+            return str;
+        }
     }
 }
