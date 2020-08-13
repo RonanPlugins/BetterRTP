@@ -79,6 +79,10 @@ public class Permissions {
         return false;
     }
 
+    public boolean getEdit(CommandSender sendi) {
+        return perm(pre + "edit", sendi);
+    }
+
     private boolean perm(String str, CommandSender sendi) {
         return depPerms.hasPerm(str, sendi);
     }

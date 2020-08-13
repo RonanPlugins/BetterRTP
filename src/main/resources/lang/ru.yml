@@ -43,3 +43,4 @@ Usage:
   Player: '&cИспользование&7: /%command% player <игрок> [мир]'
   World: '&cИспользование&7: /%command% world <мир>'
   Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
+  Edit: '&cUsage&7: /%command% edit <default/world> [max/min/useworldborder/center]'

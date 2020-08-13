@@ -153,15 +153,10 @@ public class Messages {
     public void getUsageBiome(CommandSender sendi, String cmd) {
         sms(sendi, getLang().getString(preU + "Biome").replaceAll("%command%", cmd));
     }
-    /*
-     * public int getFadeIn() { return getLang().getInt("Titles.Time.FadeIn");
-     * }
-     *
-     * public int getStay() { return getLang().getInt("Titles.Time.Stay"); }
-     *
-     * public int getFadeOut() { return
-     * getLang().getInt("Titles.Time.FadeOut"); }
-     */
+
+    public void getUsageEdit(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit").replaceAll("%command%", cmd));
+    }
 
     // Not Found
     public void error(CommandSender sendi) {

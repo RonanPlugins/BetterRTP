@@ -11,6 +11,7 @@ public enum CommandTypes {
     //SETTINGS(new CmdSettings(), true),
     VERSION(new CmdVersion()),
     WORLD(new CmdWorld()),
+    EDIT(new CmdEdit()),
     TEST(new CmdTest(), true); //Only gets added if debugger enabled
 
     private final RTPCommand cmd;

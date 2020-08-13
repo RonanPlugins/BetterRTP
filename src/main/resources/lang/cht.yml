@@ -43,3 +43,4 @@ Usage:
   Player: '&cUsage&7: /%command% player <玩家> [世界] [生態域1, 生態域2]'
   World: '&cUsage&7: /%command% world <世界> [生態域1, 生態域2...]'
   Biome: '&cUsage&7: /%command% biome <生態域1, 生態域2...>'
+  Edit: '&cUsage&7: /%command% edit <default/world> [max/min/useworldborder/center]'

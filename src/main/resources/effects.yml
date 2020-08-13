@@ -24,8 +24,8 @@ Titles:
     SendMessage: true # Allow the loading message in chat
 Particles: #Use `rtp info particles` for a list of particles
   Enabled: true
-  Type: 'REVERSE_PORTAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
-  Shape: 'SCAN' #Types available are "Scan, Teleport and Explode", or use `/rtp info shapes` for a list of shapes
+  Type: 'EXPLOSION_NORMAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
+  Shape: 'EXPLODE' #Types available are "Scan, Teleport and Explode", or use `/rtp info shapes` for a list of shapes
 Invincible: #Amount of time a player should not take damage for
   Enabled: true
   Seconds: 5

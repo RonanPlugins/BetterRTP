@@ -28,9 +28,11 @@ public class FileBasics {
 
         private String fileName;
         private YamlConfiguration config = new YamlConfiguration();
+        private File file;
 
         FILETYPE(String str) {
             this.fileName = str + ".yml";
+            this.file = new File(Main.getInstance().getDataFolder(), fileName);
         }
 
         //PUBLIC
@@ -71,8 +73,12 @@ public class FileBasics {
             return config.getMapList(path);
         }
 
-        public YamlConfiguration getFile() {
+        public YamlConfiguration getConfig() {
             return config;
+        }
+
+        public File getFile() {
+            return file;
         }
 
         public void setValue(String path, Object value) {
@@ -81,10 +87,8 @@ public class FileBasics {
 
         //PROCCESSING
         private void load() {
-            Main pl = Main.getInstance();
-            File file = new File(pl.getDataFolder(), fileName);
             if (!file.exists())
-                pl.saveResource(fileName, false);
+                Main.getInstance().saveResource(fileName, false);
             try {
                 config.load(file);
                 final InputStream defConfigStream = Main.getInstance().getResource(fileName);
