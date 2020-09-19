@@ -26,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 public class RTP {
 
     private final RTPTeleport teleport = new RTPTeleport();
+    private final RTPSoftDepends softDepends = new RTPSoftDepends();
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
@@ -362,20 +363,8 @@ public class RTP {
         return null;
     }
 
-    @SuppressWarnings("all")
     private boolean checkDepends(Location loc) {
-        try {
-            if (getPl().getSettings().getsDepends().isWorldguard()) {
-                WorldGuardPlugin plugin = WGBukkit.getPlugin();
-                RegionContainer container = plugin.getRegionContainer();
-                RegionManager regions = container.get(loc.getWorld());
-                // Check to make sure that "regions" is not null
-                return regions.getApplicableRegions(loc).size() == 0;
-            }
-            return !getPl().getSettings().getsDepends().isGriefprevention() || GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
-        } catch (NoClassDefFoundError e) {
-            return true;
-        }
+        return softDepends.checkLocation(loc);
     }
 
     // Bad blocks, or bad biome
