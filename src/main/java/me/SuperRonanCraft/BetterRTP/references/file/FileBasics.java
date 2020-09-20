@@ -4,9 +4,7 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +24,9 @@ public class FileBasics {
     public enum FILETYPE {
         CONFIG("config"), ECO("economy"), SIGNS("signs"), EFFECTS("effects");
 
-        private String fileName;
-        private YamlConfiguration config = new YamlConfiguration();
-        private File file;
+        private final String fileName;
+        private final YamlConfiguration config = new YamlConfiguration();
+        private final File file;
 
         FILETYPE(String str) {
             this.fileName = str + ".yml";
@@ -50,7 +48,6 @@ public class FileBasics {
             return config.getInt(path);
         }
 
-        @SuppressWarnings("all")
         public List<String> getStringList(String path) {
             if (config.isList(path))
                 return config.getStringList(path);
@@ -87,18 +84,27 @@ public class FileBasics {
 
         //PROCCESSING
         private void load() {
-            if (!file.exists())
+            if (!file.exists()) {
                 Main.getInstance().saveResource(fileName, false);
-            try {
-                config.load(file);
-                final InputStream defConfigStream = Main.getInstance().getResource(fileName);
-                if (defConfigStream != null) {
-                    config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream)));
-                    config.options().copyDefaults(true);
+                try {
+                    config.load(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                config.save(file);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                try {
+                    config.load(file);
+                    final InputStream in = Main.getInstance().getResource(fileName);
+                    if (in != null) {
+                        config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
+                        config.options().copyDefaults(true);
+                        in.close();
+                    }
+                    Main.getInstance().saveDefaultConfig();
+                    config.save(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

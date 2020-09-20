@@ -1,8 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.file;
 
 public class Files {
-    private LangFile langFile = new LangFile();
-    private FileBasics basics = new FileBasics();
+    private final LangFile langFile = new LangFile();
+    private final FileBasics basics = new FileBasics();
 
     LangFile getLang() {
         return langFile;
