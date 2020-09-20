@@ -13,8 +13,8 @@ public class PlayerWorld implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, attempts;
     private List<String> Biomes;
-    private Player p;
-    private World world;
+    private final Player p;
+    private final World world;
     private RTP_WORLD_TYPE world_type;
 
     public PlayerWorld(Player p, World world) {
@@ -39,13 +39,11 @@ public class PlayerWorld implements RTPWorld {
         return p;
     }
 
-    public Location generateRandomXZ(Default defaultWorld, int quadrant) {
+    public Location generateRandomXZ(Default defaultWorld) {
         int borderRad = getMaxRad();
         int minVal = getMinRad();
         int CenterX = getCenterX();
         int CenterZ = getCenterZ();
-        //int quadrant = rn.nextInt(4);
-        Player p = getPlayer();
         World world = getWorld();
         if (getUseWorldborder()) {
             WorldBorder border = world.getWorldBorder();
@@ -53,40 +51,36 @@ public class PlayerWorld implements RTPWorld {
             CenterX = border.getCenter().getBlockX();
             CenterZ = border.getCenter().getBlockZ();
         }
-        float yaw = p.getLocation().getYaw(), pitch = p.getLocation().getPitch();
-        RTP_WORLD_TYPE world_type = this.world_type; //World rtp type
-        //for (int i = 0; i <= maxAttempts; i++) {
-        // Get the y-coords from up top, then check if it's SAFE!
+
+        //Make sure our borders will not cause an invalid integer
         if (borderRad <= minVal) {
             minVal = defaultWorld.getMinRad();
             if (borderRad <= minVal)
                 minVal = 0;
         }
-        // Will Check is CenterZ is negative or positive, then set 2 x's
-        // up for choosing up next
-        ////z = rn.nextInt(borderRad - minVal) + CenterZ + minVal;
-        ////z2 = -(rn.nextInt(borderRad - minVal) - CenterZ - minVal);
-        // Will Check is CenterZ is negative or positive, then set 2 z's
-        // up for choosing up next
-        ////x = rn.nextInt(borderRad - minVal) + CenterX + minVal;
-        ////x2 = -rn.nextInt(borderRad - minVal) + CenterX - minVal;
-        int x = borderRad - minVal;
-        int z = borderRad - minVal;
+
+        //Generate a random X and Z based off the quadrant selected
+        int max = borderRad - minVal;
+        int x, z;
+        int quadrant = new Random().nextInt(4);
         switch (quadrant) {
             case 0: // Positive X and Z
-                x = new Random().nextInt(x) + CenterX + minVal;
-                z = new Random().nextInt(z) + CenterZ + minVal; break;
+                x = new Random().nextInt(max) + minVal;
+                z = new Random().nextInt(max) + minVal; break;
             case 1: // Negative X and Z
-                x = -new Random().nextInt(x) + CenterX - minVal;
-                z = -(new Random().nextInt(z) + CenterZ + minVal); break;
+                x = -new Random().nextInt(max) - minVal;
+                z = -(new Random().nextInt(max) + minVal); break;
             case 2: // Negative X and Positive Z
-                x = -new Random().nextInt(x) + CenterX - minVal;
-                z = new Random().nextInt(z) + CenterZ + minVal;  break;
+                x = -new Random().nextInt(max) - minVal;
+                z = new Random().nextInt(max) + minVal;  break;
             default: // Positive X and Negative Z
-                x = new Random().nextInt(x) + CenterX + minVal;
-                z = -(new Random().nextInt(z) + CenterZ + minVal); break;
+                x = new Random().nextInt(max) + minVal;
+                z = -(new Random().nextInt(max) + minVal); break;
         }
+        x += CenterX;
+        z += CenterZ;
         addAttempt();
+        //System.out.println(quadrant);
         return new Location(world, x, 0, z);
     }
 

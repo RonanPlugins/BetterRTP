@@ -7,13 +7,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.PluginManager;
 
 public class Listener implements org.bukkit.event.Listener {
-    private Join join = new Join();
-    private Leave leave = new Leave();
-    private Interact interact = new Interact();
-    private Click click = new Click();
+    private final Join join = new Join();
+    private final Leave leave = new Leave();
+    private final Interact interact = new Interact();
+    private final Click click = new Click();
+    //private final PluginEnable pEnable = new PluginEnable();
 
     public void registerEvents(Main pl) {
         PluginManager pm = pl.getServer().getPluginManager();
@@ -53,4 +55,9 @@ public class Listener implements org.bukkit.event.Listener {
     private void click(InventoryClickEvent e) {
         click.click(e);
     }
+
+    /*@EventHandler
+    private void enablePlugin(PluginEnableEvent e) {
+        pEnable.enabled(e);
+    }*/
 }

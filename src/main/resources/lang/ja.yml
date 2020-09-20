@@ -4,6 +4,7 @@ Messages:
     Paid: '&aあなたは&c$%price%&aで&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
     Bypass: '&aあなたは&7x=%x% y=%y% z=%z% に&f%attempts%&7回の試行でTPされました！'
     Loading: '&aSafe spot located! &7Loading chunks...'
+    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
   Failed:
     Price: '&c資金が不十分のためRTPできませんでした！ &7RTPには最低$%price%&7が必要です！'
     NotSafe: '&c%attempts%回の試行で安全な場所が見つかりませんでした！ &7あなたははRTPされませんでした！'

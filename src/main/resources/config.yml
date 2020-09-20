@@ -4,16 +4,21 @@
 Language-File: 'en.yml'
 
 Settings:
+  Respect:
+      ## Respect WorldGuard areas (https://dev.bukkit.org/projects/worldguard)
+      WorldGuard: false
+      ## Respect GriefPrevention areas (https://www.spigotmc.org/resources/griefprevention.1884/)
+      GriefPrevention: false
+      ## Respect Towny areas (https://www.spigotmc.org/resources/towny.72694/)
+      Towny: false
+      ## Respect RedProtect areas (https://www.spigotmc.org/resources/redprotect.15841/)
+      RedProtect: false
   ## Output to console some debugging info
   Debugger: false
-  ## Respect WorldGuard areas # IN-PROGRESS
-  RespectWorldGuard: false
-  ## Respect GriefPrevention areas # COMING SOON
-  RespectGriefPrevention: false
-  ## Respect Faction areas # COMING SOON
-  RespectSavageFactions: false
   ## Must be a positive integer #
   MinRadius: 25
+  ## Amount of chunks to preload around a safe location
+  PreloadRadius: 5
   ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
   MaxAttempts: 15
   RtpOnFirstJoin: # Will execute as console to override delays

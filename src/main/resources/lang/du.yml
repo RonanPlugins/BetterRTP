@@ -4,6 +4,7 @@ Messages:
     Paid: '&aJe bent getp''d naar&7 x=%x% y=%y% z=%z% for &c$%price%&7 in &f%attempts% &7attempts!'
     Bypass: '&aJe bent getp''d naar&7 x=%x% y=%y% z=%z%'
     Loading: '&aSafe spot located! &7Loading chunks...'
+    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
   Failed:
     Price: '&cKan niet rtpen vanwege onvoldoende saldo! &7Je moet minstens $%price% &7hebben om te rtpen!'
     NotSafe: '&cKon geen veilige plek vinden, Probeer opnieuw! &7Je bent niet ge tp''d!'

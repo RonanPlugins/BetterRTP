@@ -28,6 +28,7 @@ public class Commands {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         delayTimer = config.getInt("Settings.Delay.Time");
         cooldowns.load();
+        rtping.clear();
     }
 
     public void commandExecuted(CommandSender sendi, String label, String[] args) {

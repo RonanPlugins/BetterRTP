@@ -6,7 +6,7 @@
 
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
-    <version>2.12.2</version>
+    <version>2.13.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -56,21 +56,30 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <!-- PaperMC Repo -->
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <!-- Vault Repo -->
         <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
+        <!-- Worldguard Repo -->
         <repository>
             <id>sk89q-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <!-- Github based Repos -->
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <!-- ProjectRed Repo -->
         <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>redprotect-repo</id>
+            <url>https://raw.githubusercontent.com/FabioZumbi12/RedProtect/mvn-repo/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -81,28 +90,18 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency> <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
+        <!-- Spigot Stuff -->
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Vault -->
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>6.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.TechFortress</groupId>
-            <artifactId>GriefPrevention</artifactId>
-            <version>16.7.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- Paper Library for Async Chunk/Teleport -->
@@ -117,6 +116,40 @@
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.5.1</version>
+        </dependency>
+        <!-- Worldguard (https://dev.bukkit.org/projects/worldguard) -->
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- GriefPrevention (https://www.spigotmc.org/resources/griefprevention.1884/) -->
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.15.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Towny (https://www.spigotmc.org/resources/towny.72694/) -->
+        <dependency>
+            <groupId>com.github.TownyAdvanced</groupId>
+            <artifactId>Towny</artifactId>
+            <version>0.96.1.11</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- RedProtect (https://www.spigotmc.org/resources/redprotect.15841/) -->
+        <dependency>
+            <groupId>br.net.fabiozumbi12.RedProtect</groupId>
+            <artifactId>RedProtect-Core</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.net.fabiozumbi12.RedProtect</groupId>
+            <artifactId>RedProtect-Spigot-1.13</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

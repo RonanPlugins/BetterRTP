@@ -88,7 +88,7 @@ public class CmdInfo implements RTPCommand {
                     info.add("&7- &6Overriden: &cFalse");
                     RTPWorld _rtpworld = pl.getRTP().defaultWorld;
                     for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
-                        if (__rtpworld.getWorld().equals(w.getName())) {
+                        if (__rtpworld.getWorld() != null && __rtpworld.getWorld().getName().equals(w.getName())) {
                             _rtpworld = __rtpworld;
                             break;
                         }
