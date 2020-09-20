@@ -50,7 +50,7 @@ public class RTPPotions { //Potions AND Invincibility
 
     void giveEffects(Player p) {
         if (invincibleEnabled)
-            p.setNoDamageTicks(invincibleTime);
+            p.setNoDamageTicks(invincibleTime * 20);
         if (potionEnabled) {
             List<PotionEffect> effects = new ArrayList<>();
             for (PotionEffectType e : potionEffects.keySet()) {

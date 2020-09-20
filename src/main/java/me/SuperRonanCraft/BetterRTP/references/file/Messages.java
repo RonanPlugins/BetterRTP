@@ -7,15 +7,10 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 
 public class Messages {
-    private Main pl;
-    private String preM = "Messages.", preT = "Titles.", preH = "Help.", preU = "Usage.";
-
-    public Messages(Main pl) {
-        this.pl = pl;
-    }
+    private final String preM = "Messages.", preH = "Help.", preU = "Usage.";
 
     private LangFile getLang() {
-        return pl.getFiles().getLang();
+        return Main.getInstance().getFiles().getLang();
     }
 
     public void sms(CommandSender sendi, String msg) {
@@ -23,6 +18,7 @@ public class Messages {
             sendi.sendMessage(colorPre(msg));
     }
 
+    //SUCCESS
     public void getSuccessPaid(CommandSender sendi, int price, String x, String y, String z, String world, int
             attempts) {
         sms(sendi, getLang().getString(preM + "Success.Paid").replaceAll("%price%", String.valueOf(price)).replaceAll
@@ -39,6 +35,11 @@ public class Messages {
         sms(sendi, getLang().getString(preM + "Success.Loading"));
     }
 
+    public void getSuccessTeleport(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Success.Teleport"));
+    }
+
+    //FAILED
     public void getFailedNotSafe(CommandSender sendi, int attempts) {
         sms(sendi, getLang().getString(preM + "Failed.NotSafe").replaceAll("%attempts%", Integer.toString(attempts)));
     }

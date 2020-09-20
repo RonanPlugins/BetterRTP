@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Main extends JavaPlugin {
     private final Permissions perms = new Permissions();
-    private final Messages text = new Messages(this);
+    private final Messages text = new Messages();
     private final DepEconomy eco = new DepEconomy();
     private final Commands cmd = new Commands(this);
     private final RTP rtp = new RTP();
@@ -105,7 +105,7 @@ public class Main extends JavaPlugin {
         return pInfo;
     }
 
-    //Load
+    //(Re)Load all plugin systems/files/cache
     private void loadAll() {
         files.loadAll();
         settings.load();

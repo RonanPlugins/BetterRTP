@@ -19,8 +19,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean worldguard = getWorlguard(loc);
         boolean griefPrevention = getGriefprevention(loc);
         boolean towny = getTowny(loc);
-        boolean redProject = getRedProject(loc);
-        return worldguard && griefPrevention && towny && redProject;
+        boolean redProtect = getRedProtect(loc);
+        return worldguard && griefPrevention && towny && redProtect;
     }
 
     // TESTED on v2.12.3
@@ -71,7 +71,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // TESTED 2.12.3
     // RedProtect v7.7.2
     // https://www.spigotmc.org/resources/redprotect.15841/
-    private boolean getRedProject(Location loc) {
+    private boolean getRedProtect(Location loc) {
         boolean result = true;
         if (getPl().getSettings().getsDepends().isRedProtect())
             try {

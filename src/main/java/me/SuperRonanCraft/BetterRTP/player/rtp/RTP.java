@@ -168,8 +168,10 @@ public class RTP {
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
         if (getPl().getSettings().delayEnabled && delay) {
             new RTPDelay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
-        } else
+        } else {
+            getPl().getText().getSuccessTeleport(sendi);
             findSafeLocation(sendi, pWorld);
+        }
     }
 
     void findSafeLocation(CommandSender sendi, PlayerWorld pWorld) {

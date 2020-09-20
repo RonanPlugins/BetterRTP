@@ -36,34 +36,39 @@ public class SoftDepends {
 
     void load() {
         FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
-        respect_worldguard = config.getBoolean("Settings.Respect.WorldGuard");
-        respect_griefprevention = config.getBoolean("Settings.Respect.GriefPrevention");
-        respect_towny = config.getBoolean("Settings.Respect.Towny");
-        respect_redProtect = config.getBoolean("Settings.Respect.RedProtect");
+        String pre = "Settings.Respect.";
+        respect_worldguard = config.getBoolean(     pre + "WorldGuard");
+        respect_griefprevention = config.getBoolean(pre + "GriefPrevention");
+        respect_towny = config.getBoolean(          pre + "Towny");
+        respect_redProtect = config.getBoolean(     pre + "RedProtect");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
-        registerRedProject();
+        registerRedProtect();
     }
 
     public void registerWorldguard() {
         worldguard = respect_worldguard && Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
-        debug("Registered `WorldGuard` = " + worldguard);
+        if (respect_worldguard)
+            debug("Respecting `WorldGuard` was " + (worldguard ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     public void registerGriefPrevention() {
         griefprevention = respect_griefprevention && Bukkit.getPluginManager().isPluginEnabled("GriefPrevention");
-        debug("Registered `GriefPrevention` = " + griefprevention);
+        if (respect_griefprevention)
+            debug("Respecting `GriefPrevention` was " + (griefprevention ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     public void registerTowny() {
         towny = respect_towny && Bukkit.getPluginManager().isPluginEnabled("Towny");
-        debug("Registered `Towny` = " + towny);
+        if (respect_towny)
+            debug("Respecting `Towny` was " + (towny ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
-    public void registerRedProject() {
+    public void registerRedProtect() {
         redProtect = respect_redProtect && Bukkit.getPluginManager().isPluginEnabled("RedProtect");
-        debug("Registered `RedProtect` = " + redProtect);
+        if (respect_redProtect)
+            debug("Respecting `RedProtect` was " + (redProtect ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {

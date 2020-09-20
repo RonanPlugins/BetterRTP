@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -25,16 +26,21 @@ public class CmdInfo implements RTPCommand {
                 infoShapes(sendi);
             else if (args[1].equalsIgnoreCase(CmdInfoSub.POTION_EFFECTS.name()))
                 infoEffects(sendi);
-            else
-                infoWorlds(sendi);
+            else if (args[1].equalsIgnoreCase(CmdInfoSub.WORLD.name())) {
+                if (sendi instanceof Player) {
+                    sendInfoWorld(sendi, infoGetWorld(((Player) sendi).getWorld()));
+                } else
+                    infoWorld(sendi);
+            }
         } else
-            infoWorlds(sendi);
+            infoWorld(sendi);
     }
 
     enum CmdInfoSub { //Sub commands, future expansions
-        PARTICLES, SHAPES, POTION_EFFECTS
+        PARTICLES, SHAPES, POTION_EFFECTS, WORLD
     }
 
+    //Particles
     private void infoParticles(CommandSender sendi) {
         List<String> info = new ArrayList<>();
         Main pl = Main.getInstance();
@@ -53,9 +59,9 @@ public class CmdInfo implements RTPCommand {
         sendi.sendMessage(info.toString());
     }
 
+    //Shapes
     private void infoShapes(CommandSender sendi) {
         List<String> info = new ArrayList<>();
-        Main pl = Main.getInstance();
 
         for (String shape : RTPParticles.shapeTypes) {
             if (info.isEmpty()) {
@@ -67,60 +73,70 @@ public class CmdInfo implements RTPCommand {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), pl.getText().color(str)));
+                info.set(info.indexOf(str), Main.getInstance().getText().color(str)));
         sendi.sendMessage(info.toString());
     }
 
-    private void infoWorlds(CommandSender sendi) {
-        List<String> info = new ArrayList<>();
-        info.add("&e&m-----&6 BetterRTP Info &e&m-----");
-        Main pl = Main.getInstance();
-        for (World w : Bukkit.getWorlds()) {
-            info.add("&aWorld: &7" + w.getName());
-            if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //DISABLED
-                info.add("&7- &6Disabled: &bTrue");
-            else {
-                info.add("&7- &6Disabled: &cFalse");
-                if (pl.getRTP().overriden.containsKey(w.getName()))
-                    info.add("&7- &6Overriden: &bTrue");
-                else {
-                    info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
-                    info.add("&7- &6Overriden: &cFalse");
-                    RTPWorld _rtpworld = pl.getRTP().defaultWorld;
-                    for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
-                        if (__rtpworld.getWorld() != null && __rtpworld.getWorld().getName().equals(w.getName())) {
-                            _rtpworld = __rtpworld;
-                            break;
-                        }
-                    }
-                    if (_rtpworld == pl.getRTP().defaultWorld)
-                        info.add("&7- &6Custom: &cFalse");
-                    else
-                        info.add("&7- &6Custom: &bTrue");
-                    if (_rtpworld.getUseWorldborder()) {
-                        info.add("&7- &6UseWorldborder: &bTrue");
-                        WorldBorder border = w.getWorldBorder();
-                        info.add("&7- &6Center X: &7" + border.getCenter().getBlockX());
-                        info.add("&7- &6Center Z: &7" + border.getCenter().getBlockZ());
-                        info.add("&7- &6MaxRad: &7" + (border.getSize() / 2));
-                    } else {
-                        info.add("&7- &6UseWorldborder: &cFalse");
-                        info.add("&7- &6Center X: &7" + _rtpworld.getCenterX());
-                        info.add("&7- &6Center Z: &7" + _rtpworld.getCenterZ());
-                        info.add("&7- &6MaxRad: &7" + _rtpworld.getMaxRad());
-                    }
-                    info.add("&7- &6MinRad: &7" + _rtpworld.getMinRad());
-                }
-            }
-        }
-        info.forEach(str ->
-                info.set(info.indexOf(str), pl.getText().color(str)));
-        sendi.sendMessage(info.toArray(new String[0]));
+    //World
+    private void sendInfoWorld(CommandSender sendi, List<String> list) { //Send info
+        list.add(0, "&e&m-----&6 BetterRTP Info &e&m-----");
+        list.forEach(str ->
+                list.set(list.indexOf(str), Main.getInstance().getText().color(str)));
+        sendi.sendMessage(list.toArray(new String[0]));
     }
 
-    void infoEffects(CommandSender sendi) {
+    private void infoWorld(CommandSender sendi) { //All worlds
+        List<String> info = new ArrayList<>();
+        for (World w : Bukkit.getWorlds())
+            info.addAll(infoGetWorld(w));
+        sendInfoWorld(sendi, info);
+    }
+
+    private List<String> infoGetWorld(World w) { //Specific world
         List<String> info = new ArrayList<>();
         Main pl = Main.getInstance();
+        info.add("&aWorld: &7" + w.getName());
+        if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //DISABLED
+            info.add("&7- &6Disabled: &bTrue");
+        else {
+            info.add("&7- &6Disabled: &cFalse");
+            if (pl.getRTP().overriden.containsKey(w.getName()))
+                info.add("&7- &6Overriden: &bTrue");
+            else {
+                info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
+                info.add("&7- &6Overriden: &cFalse");
+                RTPWorld _rtpworld = pl.getRTP().defaultWorld;
+                for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
+                    if (__rtpworld.getWorld() != null && __rtpworld.getWorld().getName().equals(w.getName())) {
+                        _rtpworld = __rtpworld;
+                        break;
+                    }
+                }
+                if (_rtpworld == pl.getRTP().defaultWorld)
+                    info.add("&7- &6Custom: &cFalse");
+                else
+                    info.add("&7- &6Custom: &bTrue");
+                if (_rtpworld.getUseWorldborder()) {
+                    info.add("&7- &6UseWorldborder: &bTrue");
+                    WorldBorder border = w.getWorldBorder();
+                    info.add("&7- &6Center X: &7" + border.getCenter().getBlockX());
+                    info.add("&7- &6Center Z: &7" + border.getCenter().getBlockZ());
+                    info.add("&7- &6MaxRad: &7" + (border.getSize() / 2));
+                } else {
+                    info.add("&7- &6UseWorldborder: &cFalse");
+                    info.add("&7- &6Center X: &7" + _rtpworld.getCenterX());
+                    info.add("&7- &6Center Z: &7" + _rtpworld.getCenterZ());
+                    info.add("&7- &6MaxRad: &7" + _rtpworld.getMaxRad());
+                }
+                info.add("&7- &6MinRad: &7" + _rtpworld.getMinRad());
+            }
+        }
+        return info;
+    }
+
+    //Effects
+    private void infoEffects(CommandSender sendi) {
+        List<String> info = new ArrayList<>();
 
         for (PotionEffectType effect : PotionEffectType.values()) {
             if (info.isEmpty()) {
@@ -132,7 +148,7 @@ public class CmdInfo implements RTPCommand {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), pl.getText().color(str)));
+                info.set(info.indexOf(str), Main.getInstance().getText().color(str)));
         sendi.sendMessage(info.toString());
     }
 
