@@ -9,19 +9,32 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class DepEconomy {
     private Economy e;
+    private int hunger = 0;
     private boolean checked = false;
 
     public boolean charge(Player player, int price) {
         check(false);
-        //player.sendMessage("Charging = " + (e != null) + " charge = " + price);
-        if (e != null)
-            if (price != 0) {
-                if (!Main.getInstance().getPerms().getEconomy(player)) {
-                    EconomyResponse r = e.withdrawPlayer(player, price);
-                    return r.transactionSuccess();
-                }
-                return true;
+        //Hunger Stuff
+        if (hunger != 0) {
+            boolean has_hunger = player.getSaturation() > hunger;
+            if (!has_hunger) {
+                Main.getInstance().getText().getFailedHunger(player);
+                return false;
             }
+        }
+        //Economy Stuff
+        if (e != null && price != 0 && !Main.getInstance().getPerms().getBypassEconomy(player)) {
+            try {
+                EconomyResponse r = e.withdrawPlayer(player, price);
+                boolean passed_economy = r.transactionSuccess();
+                if (passed_economy)
+                    Main.getInstance().getText().getFailedPrice(player, price);
+                return passed_economy;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        //Default value
         return true;
     }
 
@@ -38,6 +51,10 @@ public class DepEconomy {
     private void check(boolean force) {
         if (!checked || force)
             registerEconomy();
+        if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Hunger.Enabled"))
+            hunger = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Hunger.Honches");
+        else
+            hunger = 0;
     }
 
     private void registerEconomy() {

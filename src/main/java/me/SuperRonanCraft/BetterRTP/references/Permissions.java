@@ -19,8 +19,12 @@ public class Permissions {
         return perm(pre + "use", sendi);
     }
 
-    public boolean getEconomy(CommandSender sendi) {
+    public boolean getBypassEconomy(CommandSender sendi) {
         return perm(pre + "bypass.economy", sendi);
+    }
+
+    public boolean getBypassHunger(CommandSender sendi) {
+        return perm(pre + "bypass.hunger", sendi);
     }
 
     public boolean getBypassCooldown(CommandSender sendi) {

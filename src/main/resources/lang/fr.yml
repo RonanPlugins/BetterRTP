@@ -9,6 +9,7 @@ Messages:
   Failed:
     Price: '&cTu n''a pas pu être téléporté; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n''a pas été téléporté!'
+    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
   Other:
     Success: '&a%player% a été téléporté à&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentatives!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7%player% n''a pas été téléporté!'

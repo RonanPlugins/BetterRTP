@@ -5,6 +5,10 @@ Economy:
   ## Give players the permission "betterrtp.eco.bypass" to bypass economy
   Price: 5
 
+Hunger: #Make rtp'ing take up hunger to avoid exploits
+  Enabled: false
+  Honches: 4
+
 CustomWorlds:
   ## Enable custom world charging
   Enabled: true

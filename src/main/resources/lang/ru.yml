@@ -8,6 +8,7 @@ Messages:
   Failed:
     Price: '&cУ вас недостаточно денег для телепортации! &7У вас должно быть хотябы $%price% &7для rtp!'
     NotSafe: '&cНе удалось найти безопасное место за %attempts% попыток! &7Вас не телепортировало!'
+    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
   Other:
     Success: '&a%player% был телепортирован на&7 x=%x% y=%y% z=%z% за &f%attempts% &7попыток!'
     NotSafe: '&cНе удалось найти безопасное место за %attempts% попыток! &7%player% не был телепортирован!'

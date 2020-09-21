@@ -8,6 +8,7 @@ Messages:
   Failed:
     Price: '&c您的資金不夠了！&7您需要有$%price%&7才能嘗試RTP！'
     NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7您未被傳送！'
+    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
   Other:
     Success: '&a%player%被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
     NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7%player%未被傳送！'

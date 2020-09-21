@@ -96,3 +96,19 @@ WorldType: # Available types are NORMAL, NETHER
   - world: NORMAL
   - world_nether: NETHER
   - world_the_end: NORMAL
+
+PermissionConfigs: #Player requires "betterrtp.config.<world_name>" to trigger these configs
+  - vip: #betterrtp.config.vip
+    - Build_World: #World named "Build_World"
+      MaxRadius: 10000
+      MinRadius: 1000
+    - Survival_World:
+        MaxRadius: 5000
+        MinRadius: 1000
+  - vip2:
+    - Build_World:
+      MaxRadius: 25000
+      MinRadius: 10000
+    - Survival_World:
+      MaxRadius: 15000
+      MinRadius: 1000

@@ -52,8 +52,6 @@ public class RTP {
                     if (getPl().getSettings().debug)
                         getPl().getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
                 }
-            //for (String s : config.getConfigurationSection("Override").getKeys(false))
-            //    overriden.put(s, config.getString("Override." + s));
         } catch (Exception e) {
             //No Overrides
         }
@@ -158,9 +156,8 @@ public class RTP {
         if (this.world_type.containsKey(worldName))
             world_type = this.world_type.get(worldName);
         pWorld.setWorldtype(world_type);
-        // Check world price
+        // Economy
         if (!getPl().getEco().charge(p, pWorld.getPrice())) {
-            getPl().getText().getFailedPrice(p, pWorld.getPrice());
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }

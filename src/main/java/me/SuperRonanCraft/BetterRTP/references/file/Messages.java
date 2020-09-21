@@ -48,6 +48,10 @@ public class Messages {
         sms(sendi, getLang().getString(preM + "Failed.Price").replaceAll("%price%", String.valueOf(price)));
     }
 
+    public void getFailedHunger(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Failed.Hunger"));
+    }
+
     public void getOtherNotSafe(CommandSender sendi, int attempts, String player) {
         sms(sendi, getLang().getString(preM + "Other.NotSafe").replaceAll("%attempts%", Integer.toString(attempts))
                 .replaceAll("%player%", player));
