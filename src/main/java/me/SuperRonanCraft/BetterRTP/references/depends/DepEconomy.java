@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -15,11 +16,15 @@ public class DepEconomy {
     public boolean charge(Player player, int price) {
         check(false);
         //Hunger Stuff
-        if (hunger != 0) {
-            boolean has_hunger = player.getSaturation() > hunger;
+        boolean took_food = false;
+        if (hunger != 0 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
+            boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
                 Main.getInstance().getText().getFailedHunger(player);
                 return false;
+            } else {
+                player.setFoodLevel(player.getFoodLevel() - hunger);
+                took_food = true;
             }
         }
         //Economy Stuff
@@ -27,8 +32,11 @@ public class DepEconomy {
             try {
                 EconomyResponse r = e.withdrawPlayer(player, price);
                 boolean passed_economy = r.transactionSuccess();
-                if (passed_economy)
+                if (!passed_economy) {
                     Main.getInstance().getText().getFailedPrice(player, price);
+                    if (took_food)
+                        player.setFoodLevel(player.getFoodLevel() + hunger);
+                }
                 return passed_economy;
             } catch (Exception e) {
                 e.printStackTrace();

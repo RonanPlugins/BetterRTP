@@ -100,7 +100,6 @@ public class FileBasics {
                         config.options().copyDefaults(true);
                         in.close();
                     }
-                    Main.getInstance().saveDefaultConfig();
                     config.save(file);
                 } catch (Exception e) {
                     e.printStackTrace();
