@@ -21,6 +21,7 @@ public class RTP {
 
     private final RTPTeleport teleport = new RTPTeleport();
     private final RTPPluginValidation softDepends = new RTPPluginValidation();
+    private final RTPPermConfigs permConfig = new RTPPermConfigs();
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
@@ -83,15 +84,15 @@ public class RTP {
                 }
             if (getPl().getSettings().debug)
                 for (String world : world_type.keySet())
-                    getPl().getLogger().info("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
+                    Main.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
         } catch (Exception e) {
             e.printStackTrace();
             //No World Types
         }
 
         loadWorldSettings();
-
         teleport.load(); //Load teleporting stuff
+        permConfig.load(); //Load permission configs
     }
 
     public void loadWorldSettings() {
@@ -105,7 +106,7 @@ public class RTP {
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
                     if (getPl().getSettings().debug)
-                        getPl().getLogger().info("- Custom World '" + entry.getKey() + "' registered");
+                        Main.debug("- Custom World '" + entry.getKey() + "' registered");
                 }
         } catch (Exception e) {
             //No Custom Worlds
@@ -160,6 +161,20 @@ public class RTP {
         if (!getPl().getEco().charge(p, pWorld.getPrice())) {
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
+        }
+        // Permission Configs
+        RTPPermConfigs.RTPPermConfiguration config = permConfig.getGroup(p);
+        if (config != null) {
+            for (RTPPermConfigs.RTPPermConfigurationWorld world : config.worlds) {
+                if (pWorld.getWorld().getName().equals(world.name)) {
+                    if (world.maxRad != -1)
+                        pWorld.setMinRad(world.maxRad);
+                    if (world.minRad != -1)
+                        pWorld.setMinRad(world.minRad);
+                    if (world.price != -1)
+                        pWorld.setPrice(world.price);
+                }
+            }
         }
         // Delaying? Else, just go
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing

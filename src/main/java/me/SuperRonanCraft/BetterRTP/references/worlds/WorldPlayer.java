@@ -47,7 +47,9 @@ public class WorldPlayer implements RTPWorld {
         World world = getWorld();
         if (getUseWorldborder()) {
             WorldBorder border = world.getWorldBorder();
-            borderRad = (int) border.getSize() / 2;
+            int _borderRad = (int) border.getSize() / 2;
+            if (borderRad > _borderRad)
+                borderRad = _borderRad;
             CenterX = border.getCenter().getBlockX();
             CenterZ = border.getCenter().getBlockZ();
         }
@@ -138,15 +140,16 @@ public class WorldPlayer implements RTPWorld {
         CenterZ = z;
     }
 
-    private void setMaxRad(int max) {
+    //Modifiable
+    public void setMaxRad(int max) {
         maxBorderRad = max;
     }
 
-    private void setMinRad(int min) {
+    public void setMinRad(int min) {
         minBorderRad = min;
     }
 
-    private void setPrice(int price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -154,6 +157,7 @@ public class WorldPlayer implements RTPWorld {
         this.attempts++;
     }
 
+    //
     private void setBiomes(List<String> biomes) {
         this.Biomes = biomes;
     }

@@ -116,4 +116,9 @@ public class Main extends JavaPlugin {
         eco.load();
         perms.register();
     }
+
+    public static void debug(String str) {
+        if (getInstance().getSettings().debug)
+            getInstance().getLogger().info(str);
+    }
 }
