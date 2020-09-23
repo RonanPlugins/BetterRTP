@@ -3,12 +3,12 @@ Messages:
   Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
     Paid: '&a你花费了&c$%price%&7，被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
     Bypass: '&a你被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
-    Loading: '&aSafe spot located! &7Loading chunks...'
-    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
+#    Loading: '&aSafe spot located! &7Loading chunks...'
+#    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
   Failed:
     Price: '&c你的钱不够了，&7你至少要有$%price%&7才能随机传送！'
     NotSafe: '&c由于在%attempts%次尝试内未能找到安全的位置，&7你未被传送！'
-    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
+#    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
   Other:
     Success: '&a%player%被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
     NotSafe: '&c由于在%attempts%次尝试内未能找到安全的位置，&7%player%未被传送！'
@@ -45,7 +45,7 @@ Usage:
   Player: '&cUsage&7: /%command% player <玩家> [世界] [生物群系1, 生物群系2]'
   World: '&cUsage&7: /%command% world <世界> [生物群系1, 生物群系2...]'
   Biome: '&cUsage&7: /%command% biome <生物群系1, 生物群系2...>'
-  Edit:
-    Base: '&cUsage&7: /%command% edit <default/world> [args...]'
-    Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'
-    World: '&cUsage&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
+#  Edit:
+#    Base: '&cUsage&7: /%command% edit <default/world> [args...]'
+#    Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'
+#    World: '&cUsage&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'

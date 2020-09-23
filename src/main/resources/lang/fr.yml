@@ -4,12 +4,12 @@ Messages:
   Success:
     Paid: '&aTu a été téléporté à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
     Bypass: '&aTu a été téléporté à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
-    Loading: '&aSafe spot located! &7Loading chunks...'
-    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
+#    Loading: '&aSafe spot located! &7Loading chunks...'
+#    Teleport: '&aTeleporting... &fplease wait while we find a safe location!'
   Failed:
     Price: '&cTu n''a pas pu être téléporté; Manque de fonds! &7Tu doit avoir au moins $%price% &7pour te téléporter!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n''a pas été téléporté!'
-    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
+#    Hunger: '&cCould not rtp because you are... &7too hungry&c, eat something fella!'
   Other:
     Success: '&a%player% a été téléporté à&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentatives!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7%player% n''a pas été téléporté!'
@@ -27,7 +27,7 @@ Messages:
   Moved: '&cTu a bougé! &7Téléportation annulée!'
   NotExist: '&cLe monde &7%world% &cn''existe pas!'
   Already: '&cOups! &7Il semblerait que tu essaie déjà de te téléporter...Patiente un peu!'
-  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
+#  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
 
 Help:
   List:

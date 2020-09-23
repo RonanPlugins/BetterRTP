@@ -31,37 +31,65 @@ public class LangFile {
 
     @SuppressWarnings("all")
     public void load() {
-        Main pl = Main.getInstance();
-        String fileName = "lang" + File.separator + pl.getFiles().getType(FileBasics.FILETYPE.CONFIG).getString("Language-File");
-        File file = new File(pl.getDataFolder(), fileName);
-        if (!file.exists())
-            pl.saveResource(fileName, false);
+        generateDefaults();
+        String fileName = "lang" + File.separator + getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getString("Language-File");
+        File file = new File(getPl().getDataFolder(), fileName);
+        if (!file.exists()) {
+            fileName = "lang" + File.separator + defaultLangs[0]; //Default to english
+            file = new File(getPl().getDataFolder(), fileName);
+        }
         try {
             config.load(file);
-            InputStream defConfigStream = Main.getInstance().getResource(fileName);
-            if (defConfigStream == null)
-                defConfigStream = pl.getResource(fileName.replace(File.separator, "/"));
-            if (defConfigStream != null) {
-                config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream)));
+            InputStream in = Main.getInstance().getResource(fileName);
+            if (in == null)
+                in = getPl().getResource(fileName.replace(File.separator, "/"));
+            if (in != null) {
+                config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
                 config.options().copyDefaults(true);
+                in.close();
             }
             config.save(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        generateDefaults(pl);
     }
 
     private String[] defaultLangs = {"en.yml", "fr.yml", "ja.yml", "ru.yml", "chn.yml", "cht.yml", "du.yml"};
 
-    private void generateDefaults(Main pl) {
+    private void generateDefaults() {
         //Generate all language files
         for (String yaml : defaultLangs) {
-            if (yaml.equals(defaultLangs[0]) && config.getName().equals(defaultLangs[0]))
-                continue;
-            File f = new File(pl.getDataFolder(), "lang" + File.separator + yaml);
-            if (!f.exists())
-                pl.saveResource("lang" + File.separator + f.getName(), false);
+            generateDefaultConfig(yaml, yaml); //Generate its own defaults
+            if (!yaml.equals(defaultLangs[0]))
+                generateDefaultConfig(yaml, defaultLangs[0]); //Generate the english defaults (incase)
         }
+    }
+
+    private void generateDefaultConfig(String fName, String fNameDef /*Name of file to generate defaults*/) {
+        String fileName = "lang" + File.separator + fName;
+        File file = new File(getPl().getDataFolder(), fileName);
+        if (!file.exists())
+            getPl().saveResource(fileName, false);
+        try {
+            YamlConfiguration config = new YamlConfiguration();
+            config.load(file);
+            String fileNameDef = "lang" + File.separator + fNameDef;
+            InputStream in = Main.getInstance().getResource(fileNameDef);
+            if (in == null)
+                in = getPl().getResource(fileNameDef.replace(File.separator, "/"));
+            if (in != null) {
+                config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
+                config.options().copyDefaults(true);
+                in.close();
+            }
+            config.save(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Main getPl() {
+        return Main.getInstance();
     }
 }
