@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Custom implements RTPWorld {
-    public String world, world_type;
+public class WorldCustom implements RTPWorld {
+    public String world;
     private boolean useWorldborder = false;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
 
-    public Custom(String world) {
+    public WorldCustom(String world) {
         String pre = "CustomWorlds.";
         FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");

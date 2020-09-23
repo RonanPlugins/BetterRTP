@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.references.worlds.PlayerWorld;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -13,10 +13,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 class RTPDelay implements Listener {
     private int run;
-    private final PlayerWorld pWorld;
+    private final WorldPlayer pWorld;
     private final boolean cancelOnMove, cancelOnDamage;
 
-    RTPDelay(CommandSender sendi, PlayerWorld pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
+    RTPDelay(CommandSender sendi, WorldPlayer pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
         this.pWorld = pWorld;
         this.cancelOnMove = cancelOnMove;
         this.cancelOnDamage = cancelOnDamage;

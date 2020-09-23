@@ -24,11 +24,11 @@ public class RTP {
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
-    public Default defaultWorld = new Default();
+    public WorldDefault defaultWorld = new WorldDefault();
     private List<String> disabledWorlds, blockList;
     private int maxAttempts, delayTime;
     private boolean cancelOnMove, cancelOnDamage;
-    public HashMap<String, RTP_WORLD_TYPE> world_type = new HashMap<>();
+    public HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -59,17 +59,17 @@ public class RTP {
         try {
             world_type.clear();
             for (World world : Bukkit.getWorlds())
-                world_type.put(world.getName(), RTP_WORLD_TYPE.NORMAL);
+                world_type.put(world.getName(), WORLD_TYPE.NORMAL);
             List<Map<?, ?>> world_map = config.getMapList("WorldType");
             for (Map<?, ?> m : world_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     if (world_type.containsKey(entry.getKey())) {
                         try {
-                            RTP_WORLD_TYPE type = RTP_WORLD_TYPE.valueOf(entry.getValue().toString().toUpperCase());
+                            WORLD_TYPE type = WORLD_TYPE.valueOf(entry.getValue().toString().toUpperCase());
                             world_type.put(entry.getKey().toString(), type);
                         } catch(IllegalArgumentException e) {
                             StringBuilder valids = new StringBuilder();
-                            for (RTP_WORLD_TYPE type : RTP_WORLD_TYPE.values())
+                            for (WORLD_TYPE type : WORLD_TYPE.values())
                                 valids.append(type.name()).append(", ");
                             valids.replace(valids.length() - 2, valids.length(), "");
                             getPl().getLogger().severe("World Type for '" + entry.getKey() + "' is INVALID '" + entry.getValue() +
@@ -103,7 +103,7 @@ public class RTP {
             List<Map<?, ?>> map = config.getMapList("CustomWorlds");
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    customWorlds.put(entry.getKey().toString(), new Custom(entry.getKey().toString()));
+                    customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
                     if (getPl().getSettings().debug)
                         getPl().getLogger().info("- Custom World '" + entry.getKey() + "' registered");
                 }
@@ -144,7 +144,7 @@ public class RTP {
             getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
-        PlayerWorld pWorld = new PlayerWorld(p, Bukkit.getWorld(worldName));
+        WorldPlayer pWorld = new WorldPlayer(p, Bukkit.getWorld(worldName));
         // Set all methods
         if (customWorlds.containsKey(worldName)) {
             RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
@@ -152,7 +152,7 @@ public class RTP {
         } else
             pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes);
         //World type
-        RTP_WORLD_TYPE world_type = RTP_WORLD_TYPE.NORMAL; //World rtp type
+        WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
         if (this.world_type.containsKey(worldName))
             world_type = this.world_type.get(worldName);
         pWorld.setWorldtype(world_type);
@@ -171,7 +171,7 @@ public class RTP {
         }
     }
 
-    void findSafeLocation(CommandSender sendi, PlayerWorld pWorld) {
+    void findSafeLocation(CommandSender sendi, WorldPlayer pWorld) {
         if (pWorld.getAttempts() >= maxAttempts) //Cancel out, too many tried
             metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
         else { //Try again to find a safe location
@@ -207,7 +207,7 @@ public class RTP {
         getPl().getCmd().rtping.put(p.getUniqueId(), false);
     }
 
-    private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
+    private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {
         Block b = world.getHighestBlockAt(x, z);
         if (b.getType().toString().endsWith("AIR")) //1.15.1 or less
             b = world.getBlockAt(x, b.getY() - 1, z);
@@ -224,7 +224,7 @@ public class RTP {
         return null;
     }
 
-    private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, PlayerWorld pWorld) {
+    private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {
         //System.out.println("-----------");
         for (int y = 1; y < world.getMaxHeight(); y++) {
            // System.out.println("--");

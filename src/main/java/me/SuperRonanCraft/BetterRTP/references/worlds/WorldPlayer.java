@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PlayerWorld implements RTPWorld {
+public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, attempts;
     private List<String> Biomes;
     private final Player p;
     private final World world;
-    private RTP_WORLD_TYPE world_type;
+    private WORLD_TYPE world_type;
 
-    public PlayerWorld(Player p, World world) {
+    public WorldPlayer(Player p, World world) {
         this.p = p;
         this.world = world;
     }
@@ -39,7 +39,7 @@ public class PlayerWorld implements RTPWorld {
         return p;
     }
 
-    public Location generateRandomXZ(Default defaultWorld) {
+    public Location generateRandomXZ(WorldDefault defaultWorld) {
         int borderRad = getMaxRad();
         int minVal = getMinRad();
         int CenterX = getCenterX();
@@ -159,11 +159,11 @@ public class PlayerWorld implements RTPWorld {
     }
 
     //Custom World type
-    public void setWorldtype(RTP_WORLD_TYPE type) {
+    public void setWorldtype(WORLD_TYPE type) {
         this.world_type = type;
     }
 
-    public RTP_WORLD_TYPE getWorldtype() {
+    public WORLD_TYPE getWorldtype() {
         return this.world_type;
     }
 }

@@ -9,7 +9,7 @@ import org.bukkit.World;
 import java.util.HashMap;
 import java.util.List;
 
-public class Default implements RTPWorld {
+public class WorldDefault implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;

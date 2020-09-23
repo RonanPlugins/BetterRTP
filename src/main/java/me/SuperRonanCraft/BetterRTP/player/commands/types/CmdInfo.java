@@ -4,7 +4,7 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.worlds.RTP_WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -103,7 +103,7 @@ public class CmdInfo implements RTPCommand {
             if (pl.getRTP().overriden.containsKey(w.getName()))
                 info.add("&7- &6Overriden: &bTrue");
             else {
-                info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), RTP_WORLD_TYPE.NORMAL).name());
+                info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), WORLD_TYPE.NORMAL).name());
                 info.add("&7- &6Overriden: &cFalse");
                 RTPWorld _rtpworld = pl.getRTP().defaultWorld;
                 for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
