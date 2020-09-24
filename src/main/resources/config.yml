@@ -76,6 +76,7 @@ CustomWorlds:
     MinRadius: 100
     CenterX: 0
     CenterZ: 0
+    Price: 75
 - other_custom_world:
     MaxRadius: 100000
     MinRadius: 1000
@@ -97,22 +98,23 @@ WorldType: # Available types are NORMAL, NETHER
 - world_nether: NETHER
 - world_the_end: NORMAL
 
-PermissionConfigs: #Player requires "betterrtp.config.<world_name>" to trigger these configs
-- vip: #betterrtp.config.vip
-    - Build_World: #World named "Build_World"
-        MaxRadius: 10000
-        MinRadius: 1000
-        Price: 100
-    - Survival_World:
-        MaxRadius: 5000
-        MinRadius: 1000
-        Price: 10
-- vip2:
-    - Build_World:
-        MaxRadius: 25000
-        MinRadius: 10000
-        Price: 15
-    - Survival_World:
-        MaxRadius: 15000
-        MinRadius: 1000
-        Price: 20
+PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger these configs
+  Enabled: false
+  Groups:
+  - vip: #betterrtp.config.vip
+      - Build_World: #World named "Build_World"
+          MaxRadius: 10000
+          MinRadius: 1000
+          Price: 100
+      - Survival_World:
+          UseWorldBorder: false
+          MaxRadius: 5000
+          MinRadius: 1000
+          CenterX: 10
+          CenterZ: 10
+          Price: 10
+  - vip2:
+      - Build_World:
+          MaxRadius: 25000
+          MinRadius: 10000
+          Price: 15

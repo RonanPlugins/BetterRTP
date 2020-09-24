@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -27,8 +28,19 @@ public class CmdInfo implements RTPCommand {
             else if (args[1].equalsIgnoreCase(CmdInfoSub.POTION_EFFECTS.name()))
                 infoEffects(sendi);
             else if (args[1].equalsIgnoreCase(CmdInfoSub.WORLD.name())) {
-                if (sendi instanceof Player) {
-                    sendInfoWorld(sendi, infoGetWorld(((Player) sendi).getWorld()));
+                if (sendi instanceof Player) { //Personalize with permission groups
+                    World world = null;
+                    boolean personal = false;
+                    if (args.length > 2) {
+                        Player player = Bukkit.getPlayer(args[2]);
+                        if (player != null) {
+                            world = player.getWorld();
+                            personal = true;
+                        }
+                    }
+                    if (world == null)
+                        world = ((Player) sendi).getWorld();
+                    sendInfoWorld(sendi, infoGetWorld(sendi, world, personal));
                 } else
                     infoWorld(sendi);
             }
@@ -88,47 +100,34 @@ public class CmdInfo implements RTPCommand {
     private void infoWorld(CommandSender sendi) { //All worlds
         List<String> info = new ArrayList<>();
         for (World w : Bukkit.getWorlds())
-            info.addAll(infoGetWorld(w));
+            info.addAll(infoGetWorld(sendi, w, false));
         sendInfoWorld(sendi, info);
     }
 
-    private List<String> infoGetWorld(World w) { //Specific world
+    private List<String> infoGetWorld(CommandSender sendi, World w, boolean personal) { //Specific world
         List<String> info = new ArrayList<>();
         Main pl = Main.getInstance();
-        info.add("&aWorld: &7" + w.getName());
+        String _true = "&aTrue", _false = "&bFalse";
+        info.add("&eWorld: &7" + w.getName() + (personal ? " &7(personalized)" : ""));
+        if (personal)
+            info.add("&7- &6Allowed: " + (pl.getPerms().getAWorld(sendi, w.getName()) ? _true : _false));
         if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //DISABLED
-            info.add("&7- &6Disabled: &bTrue");
+            info.add("&7- &6Disabled: " + _true);
         else {
-            info.add("&7- &6Disabled: &cFalse");
+            info.add("&7- &6Disabled: " + _false);
             if (pl.getRTP().overriden.containsKey(w.getName()))
-                info.add("&7- &6Overriden: &bTrue");
+                info.add("&7- &6Overriden: " + _true);
             else {
                 info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), WORLD_TYPE.NORMAL).name());
-                info.add("&7- &6Overriden: &cFalse");
-                RTPWorld _rtpworld = pl.getRTP().defaultWorld;
-                for (RTPWorld __rtpworld : pl.getRTP().customWorlds.values()) {
-                    if (__rtpworld.getWorld() != null && __rtpworld.getWorld().getName().equals(w.getName())) {
-                        _rtpworld = __rtpworld;
-                        break;
-                    }
-                }
-                if (_rtpworld == pl.getRTP().defaultWorld)
-                    info.add("&7- &6Custom: &cFalse");
-                else
-                    info.add("&7- &6Custom: &bTrue");
-                if (_rtpworld.getUseWorldborder()) {
-                    info.add("&7- &6UseWorldborder: &bTrue");
-                    WorldBorder border = w.getWorldBorder();
-                    info.add("&7- &6Center X: &7" + border.getCenter().getBlockX());
-                    info.add("&7- &6Center Z: &7" + border.getCenter().getBlockZ());
-                    info.add("&7- &6MaxRad: &7" + (border.getSize() / 2));
-                } else {
-                    info.add("&7- &6UseWorldborder: &cFalse");
-                    info.add("&7- &6Center X: &7" + _rtpworld.getCenterX());
-                    info.add("&7- &6Center Z: &7" + _rtpworld.getCenterZ());
-                    info.add("&7- &6MaxRad: &7" + _rtpworld.getMaxRad());
-                }
-                info.add("&7- &6MinRad: &7" + _rtpworld.getMinRad());
+                info.add("&7- &6Overriden: " + _false);
+                WorldPlayer _rtpworld = Main.getInstance().getRTP().getPlayerWorld(sendi, w.getName(), null, personal);
+                info.add("&7- &6Custom: " + (Main.getInstance().getRTP().customWorlds.containsKey(w.getName()) ? _true : _false));
+                info.add("&7- &6UseWorldBorder: " + (_rtpworld.getUseWorldborder() ? _true : _false));
+                info.add("&7- &6Permission Group: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
+                info.add("&7- &6Center X: &f" + _rtpworld.getCenterX());
+                info.add("&7- &6Center Z: &f" + _rtpworld.getCenterZ());
+                info.add("&7- &6MaxRad: &f" + _rtpworld.getMaxRad());
+                info.add("&7- &6MinRad: &f" + _rtpworld.getMinRad());
             }
         }
         return info;
@@ -158,6 +157,13 @@ public class CmdInfo implements RTPCommand {
             for (CmdInfoSub cmd : CmdInfoSub.values())
                 if (cmd.name().toLowerCase().startsWith(args[1].toLowerCase()))
                     info.add(cmd.name().toLowerCase());
+        } else if (args.length == 3) {
+            if (CmdInfoSub.WORLD.name().toLowerCase().startsWith(args[1].toLowerCase())) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getName().toLowerCase().startsWith(args[2].toLowerCase()))
+                        info.add(p.getName());
+                }
+            }
         }
         return info;
     }

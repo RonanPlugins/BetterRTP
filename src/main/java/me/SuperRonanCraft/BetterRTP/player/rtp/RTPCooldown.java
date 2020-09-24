@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class RTPCooldown {
 
-    private HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
+    private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
     private HashMap<UUID, Integer> locked = null; //Players locked from rtp'ing ever again
     public boolean enabled;
     private int

@@ -1,21 +1,20 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
 @SuppressWarnings("rawtypes")
-public class RTPPermConfigs {
-    private List<RTPPermConfiguration> groups = new ArrayList<>();
+public class RTPPermissionGroup {
+    private final List<RTPPermConfiguration> groups = new ArrayList<>();
 
-    public RTPPermConfiguration getGroup(Player p) {
+    public RTPPermConfiguration getGroup(CommandSender p) {
         for (RTPPermConfiguration group : groups)
-            if (Main.getInstance().getPerms().getConfig(p, group.name))
+            if (Main.getInstance().getPerms().getPermissionGroup(p, group.name))
                 return group;
         return null;
     }
@@ -25,13 +24,14 @@ public class RTPPermConfigs {
             group.worlds.clear();
         groups.clear();
         YamlConfiguration config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG).getConfig();
-        List<Map<?, ?>> list = config.getMapList("PermissionConfigs");
+        if (!config.getBoolean("PermissionGroup.Enabled")) return;
+        List<Map<?, ?>> list = config.getMapList("PermissionGroup.Groups");
         for (Map<?, ?> m : list)
             for (Map.Entry<?, ?> entry : m.entrySet()) {
                 RTPPermConfiguration group = new RTPPermConfiguration(entry);
                 if (group.isValid()) {
                     groups.add(group);
-                    Main.debug("- Group " + group.name + " has " + group.worlds.size() + " worlds setup, permission: 'betterrtp.config." + group.name + "'");
+                    Main.debug("- Group " + group.name + " has " + group.worlds.size() + " worlds setup, permission: 'betterrtp.group." + group.name + "'");
                     for (RTPPermConfigurationWorld world : group.worlds) {
                         Main.debug("  - World '" + world.name + "' MaxRad = " + world.maxRad + ", MinRad = " + world.minRad);
                     }
@@ -44,8 +44,8 @@ public class RTPPermConfigs {
     public static class RTPPermConfiguration {
 
         boolean valid;
-        String name;
-        List<RTPPermConfigurationWorld> worlds = new ArrayList<>();
+        public String name;
+        public List<RTPPermConfigurationWorld> worlds = new ArrayList<>();
 
         RTPPermConfiguration(Map.Entry<?, ?> fields) {
             String group = fields.getKey().toString();
@@ -70,12 +70,16 @@ public class RTPPermConfigs {
 
     public static class RTPPermConfigurationWorld {
 
-        boolean valid = true;
+        boolean valid;
 
-        int maxRad = -1;
-        int minRad = -1;
-        int price = -1;
-        String name;
+        public int maxRad = -1;
+        public int minRad = -1;
+        public int price = -1;
+        public int centerx = -1;
+        public int centerz = -1;
+        public Object useworldborder = null;
+
+        public String name;
 
         RTPPermConfigurationWorld(Object hash, String group) {
             Map.Entry world = (Map.Entry) hash;
@@ -90,6 +94,12 @@ public class RTPPermConfigs {
                     minRad = getInt(hash3.getValue().toString());
                 } else if (field.equalsIgnoreCase("Price")) { //MinRadius
                     price = getInt(hash3.getValue().toString());
+                } else if (field.equalsIgnoreCase("UseWorldBorder")) { //UseWorldBorder
+                    useworldborder = Boolean.valueOf(hash3.getValue().toString());
+                } else if (field.equalsIgnoreCase("CenterX")) { //Center X
+                    centerx = getInt(hash3.getValue().toString());
+                } else if (field.equalsIgnoreCase("CenterZ")) { //Center Z
+                    centerz = getInt(hash3.getValue().toString());
                 }
             }
             //Main.getInstance().getLogger().info("World MaxRad '" + world.getKey() + "' is " + maxRad);

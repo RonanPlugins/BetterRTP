@@ -21,7 +21,7 @@ public class RTP {
 
     private final RTPTeleport teleport = new RTPTeleport();
     private final RTPPluginValidation softDepends = new RTPPluginValidation();
-    private final RTPPermConfigs permConfig = new RTPPermConfigs();
+    public final RTPPermissionGroup permConfig = new RTPPermissionGroup();
     //Cache
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
@@ -121,6 +121,22 @@ public class RTP {
         return disabledWorlds;
     }
 
+    public WorldPlayer getPlayerWorld(CommandSender p, String worldName, List<String> biomes, boolean personal) {
+        WorldPlayer pWorld = new WorldPlayer(p, Bukkit.getWorld(worldName));
+        // Set all methods
+        if (customWorlds.containsKey(worldName)) {
+            RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
+            pWorld.setup(cWorld, cWorld.getPrice(), biomes, personal);
+        } else
+            pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes, personal);
+        //World type
+        WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
+        if (this.world_type.containsKey(worldName))
+            world_type = this.world_type.get(worldName);
+        pWorld.setWorldtype(world_type);
+        return pWorld;
+    }
+
     public void start(Player p, CommandSender sendi, String worldName, List<String> biomes, boolean delay) {
         // Check overrides
         if (worldName == null)
@@ -129,53 +145,30 @@ public class RTP {
             worldName = overriden.get(worldName);
         // Not forced and has 'betterrtp.world.<world>'
         if (sendi == p && !getPl().getPerms().getAWorld(sendi, worldName)) {
-            getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             getPl().getText().getNoPermissionWorld(p, worldName);
             return;
         }
         // Check disabled worlds
         if (disabledWorlds.contains(worldName)) {
             getPl().getText().getDisabledWorld(sendi, worldName);
-            getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         // Check if nulled or world doesnt exist
         if (Bukkit.getWorld(worldName) == null) {
             getPl().getText().getNotExist(sendi, worldName);
-            getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
-        WorldPlayer pWorld = new WorldPlayer(p, Bukkit.getWorld(worldName));
-        // Set all methods
-        if (customWorlds.containsKey(worldName)) {
-            RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
-            pWorld.setup(cWorld, cWorld.getPrice(), biomes);
-        } else
-            pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes);
-        //World type
-        WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
-        if (this.world_type.containsKey(worldName))
-            world_type = this.world_type.get(worldName);
-        pWorld.setWorldtype(world_type);
+        WorldPlayer pWorld = getPlayerWorld(p, worldName, biomes, true);
         // Economy
         if (!getPl().getEco().charge(p, pWorld.getPrice())) {
-            getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
-        // Permission Configs
-        RTPPermConfigs.RTPPermConfiguration config = permConfig.getGroup(p);
-        if (config != null) {
-            for (RTPPermConfigs.RTPPermConfigurationWorld world : config.worlds) {
-                if (pWorld.getWorld().getName().equals(world.name)) {
-                    if (world.maxRad != -1)
-                        pWorld.setMinRad(world.maxRad);
-                    if (world.minRad != -1)
-                        pWorld.setMinRad(world.minRad);
-                    if (world.price != -1)
-                        pWorld.setPrice(world.price);
-                }
-            }
-        }
+        //Cooldown
+        getPl().getCmd().cooldowns.add(p.getUniqueId());
         // Delaying? Else, just go
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
         if (getPl().getSettings().delayEnabled && delay) {

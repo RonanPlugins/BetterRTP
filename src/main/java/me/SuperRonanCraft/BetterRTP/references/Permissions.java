@@ -87,8 +87,8 @@ public class Permissions {
         return perm(pre + "edit", sendi);
     }
 
-    public boolean getConfig(CommandSender sendi, String group) {
-        return perm(pre + "config." + group, sendi);
+    public boolean getPermissionGroup(CommandSender sendi, String group) {
+        return perm(pre + "group." + group, sendi);
     }
 
     private boolean perm(String str, CommandSender sendi) {

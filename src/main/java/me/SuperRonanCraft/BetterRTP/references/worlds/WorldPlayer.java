@@ -1,8 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
+import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,16 +16,17 @@ public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, attempts;
     private List<String> Biomes;
-    private final Player p;
+    private final CommandSender p;
     private final World world;
     private WORLD_TYPE world_type;
+    private RTPPermissionGroup.RTPPermConfiguration config = null;
 
-    public WorldPlayer(Player p, World world) {
+    public WorldPlayer(CommandSender p, World world) {
         this.p = p;
         this.world = world;
     }
 
-    public void setup(RTPWorld world, int price, List<String> biomes) {
+    public void setup(RTPWorld world, int price, List<String> biomes, boolean personal) {
         setUseWorldborder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
         setCenterZ(world.getCenterZ());
@@ -33,33 +37,56 @@ public class WorldPlayer implements RTPWorld {
         if (biomes != null)
             list.addAll(biomes);
         setBiomes(list);
+        if (personal)
+            setupGroup(Main.getInstance().getRTP().permConfig);
+        //Make sure our borders will not cause an invalid integer
+        if (getMaxRad() <= getMinRad()) {
+            setMinRad(Main.getInstance().getRTP().defaultWorld.getMinRad());
+            if (getMaxRad() <= getMinRad())
+                setMinRad(0);
+        }
+        //World border protection
+        if (getUseWorldborder()) {
+            WorldBorder border = getWorld().getWorldBorder();
+            int _borderRad = (int) border.getSize() / 2;
+            if (getMaxRad() > _borderRad)
+                setMaxRad(_borderRad);
+            setCenterX(border.getCenter().getBlockX());
+            setCenterZ(border.getCenter().getBlockZ());
+        }
+    }
+
+    private void setupGroup(RTPPermissionGroup permConfig) {
+        RTPPermissionGroup.RTPPermConfiguration config = permConfig.getGroup(p);
+        if (config != null) {
+            for (RTPPermissionGroup.RTPPermConfigurationWorld world : config.worlds) {
+                if (getWorld().getName().equals(world.name)) {
+                    if (world.maxRad != -1)
+                        setMaxRad(world.maxRad);
+                    if (world.minRad != -1)
+                        setMinRad(world.minRad);
+                    if (world.price != -1)
+                        setPrice(world.price);
+                    if (world.centerx != -1)
+                        setCenterX(world.centerx);
+                    if (world.centerz != -1)
+                        setCenterZ(world.centerz);
+                    if (world.useworldborder != null)
+                        setUseWorldborder((Boolean) world.useworldborder);
+                    this.config = config;
+                    break;
+                }
+            }
+        }
     }
 
     public Player getPlayer() {
-        return p;
+        return (Player) p;
     }
 
     public Location generateRandomXZ(WorldDefault defaultWorld) {
         int borderRad = getMaxRad();
         int minVal = getMinRad();
-        int CenterX = getCenterX();
-        int CenterZ = getCenterZ();
-        World world = getWorld();
-        if (getUseWorldborder()) {
-            WorldBorder border = world.getWorldBorder();
-            int _borderRad = (int) border.getSize() / 2;
-            if (borderRad > _borderRad)
-                borderRad = _borderRad;
-            CenterX = border.getCenter().getBlockX();
-            CenterZ = border.getCenter().getBlockZ();
-        }
-
-        //Make sure our borders will not cause an invalid integer
-        if (borderRad <= minVal) {
-            minVal = defaultWorld.getMinRad();
-            if (borderRad <= minVal)
-                minVal = 0;
-        }
 
         //Generate a random X and Z based off the quadrant selected
         int max = borderRad - minVal;
@@ -79,11 +106,11 @@ public class WorldPlayer implements RTPWorld {
                 x = new Random().nextInt(max) + minVal;
                 z = -(new Random().nextInt(max) + minVal); break;
         }
-        x += CenterX;
-        z += CenterZ;
+        x += getCenterX();
+        z += getCenterZ();
         addAttempt();
         //System.out.println(quadrant);
-        return new Location(world, x, 0, z);
+        return new Location(getWorld(), x, 0, z);
     }
 
     @Override
@@ -141,15 +168,15 @@ public class WorldPlayer implements RTPWorld {
     }
 
     //Modifiable
-    public void setMaxRad(int max) {
+    private void setMaxRad(int max) {
         maxBorderRad = max;
     }
 
-    public void setMinRad(int min) {
+    private void setMinRad(int min) {
         minBorderRad = min;
     }
 
-    public void setPrice(int price) {
+    private void setPrice(int price) {
         this.price = price;
     }
 
@@ -165,6 +192,10 @@ public class WorldPlayer implements RTPWorld {
     //Custom World type
     public void setWorldtype(WORLD_TYPE type) {
         this.world_type = type;
+    }
+
+    public RTPPermissionGroup.RTPPermConfiguration getConfig() {
+        return this.config;
     }
 
     public WORLD_TYPE getWorldtype() {

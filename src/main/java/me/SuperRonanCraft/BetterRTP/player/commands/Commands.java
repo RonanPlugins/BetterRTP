@@ -157,12 +157,12 @@ public class Commands {
                         return false;
                     } else {
                         //Reset timer, but allow them to tp
-                        cooldowns.add(id);
+                        //cooldowns.add(id);
                         return true;
                     }
                 }
-            } else
-                cooldowns.add(id);
+            } //else
+                //cooldowns.add(id);
         }
         return true;
     }
