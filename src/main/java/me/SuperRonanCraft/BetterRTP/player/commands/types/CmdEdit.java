@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -11,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.IOException;
 import java.util.*;
 
-public class CmdEdit implements RTPCommand { //Edit a worlds properties
+public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds properties
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
@@ -179,6 +180,11 @@ public class CmdEdit implements RTPCommand { //Edit a worlds properties
             }
         else
             Main.getInstance().getText().getUsageEdit(sendi, label);
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpEdit();
     }
 
     enum RTP_CMD_EDIT {

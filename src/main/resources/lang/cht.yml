@@ -28,18 +28,23 @@ Messages:
   NotExist: '&c看上去&7%world%&c世界並不存在！'
   Already: '&c哎呦！&7看上去您已經在傳送中了，耐心一點點！'
   Sign: '&7指令標記已創建！&7指令為''&f/rtp %command%&7'''
+#  Edit:
+#    Error: '&cError! &7Invalid input provided!'
+#    Set: '&bSuccess! &7%type% set to %value%'
+#    Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7幫助菜單 &e&m------'
-    - ' &7- &e/%command% &7- 把您隨機傳送！'
-    - ' &7- &e/%command% help &7- 打開幫助菜單。'
-  ## 如果有權限隨機傳送其他玩家，這個訊息將會顯示在幫助菜單中!
-  Player: ' &7- &e/%command% player <玩家> [世界] [生態域1，生態域2...] &7- 指定一個玩家隨機傳送。'
-  World: ' &7- &e/%command% world <世界> [生態域1, 生態域2...] &7- 在其他世界隨機傳送。'
-  ## 如果有權限重新讀取插件設定，這個訊息將會顯示在幫助菜單中!
+  Main: ' &7- &e/%command% &7- 把您隨機傳送！'
   Biome: ' &7- &e/%command% biome <生態域1, 生態域2...> &7- 在這些指定的生態域中隨機傳送。'
+#  Edit: ''
+  Help: ' &7- &e/%command% help &7- 打開幫助菜單。'
+#  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <玩家> [世界] [生態域1，生態域2...] &7- 指定一個玩家隨機傳送。'
   Reload: ' &7- &e/%command% reload &7- 重新讀取插件設定。'
+#  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+#  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+#  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <世界> [生態域1, 生態域2...] &7- 在其他世界隨機傳送。'
 
 Usage:
   Player: '&cUsage&7: /%command% player <玩家> [世界] [生態域1, 生態域2]'

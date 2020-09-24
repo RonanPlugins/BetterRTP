@@ -3,12 +3,13 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CmdBiome implements RTPCommand {
+public class CmdBiome implements RTPCommand, RTPCommandHelpable {
 
     //rtp biome <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
@@ -35,5 +36,10 @@ public class CmdBiome implements RTPCommand {
 
     private Commands getCmd() {
         return Main.getInstance().getCmd();
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpBiome();
     }
 }

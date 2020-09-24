@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class CmdSettings implements RTPCommand {
+public class CmdSettings implements RTPCommand, RTPCommandHelpable {
 
     public void execute(CommandSender sendi, String label, String[] args) {
         Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) sendi);
@@ -20,5 +21,10 @@ public class CmdSettings implements RTPCommand {
 
     public boolean permission(CommandSender sendi) {
         return Main.getInstance().getPerms().getSettings(sendi);
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpSettings();
     }
 }

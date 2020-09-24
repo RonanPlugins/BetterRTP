@@ -4,15 +4,15 @@ import me.SuperRonanCraft.BetterRTP.player.commands.types.*;
 
 public enum CommandTypes {
     BIOME(new CmdBiome()),
+    EDIT(new CmdEdit()),
     HELP(new CmdHelp()),
     INFO(new CmdInfo()),
     PLAYER(new CmdPlayer()),
     RELOAD(new CmdReload()),
-    //SETTINGS(new CmdSettings(), true),
+    SETTINGS(new CmdSettings(), true),
+    TEST(new CmdTest(), true),
     VERSION(new CmdVersion()),
-    WORLD(new CmdWorld()),
-    EDIT(new CmdEdit()),
-    TEST(new CmdTest(), true); //Only gets added if debugger enabled
+    WORLD(new CmdWorld());
 
     private final RTPCommand cmd;
     private boolean debugOnly = false;

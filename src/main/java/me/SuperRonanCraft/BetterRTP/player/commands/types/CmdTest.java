@@ -2,13 +2,14 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 //Meant to just test particles and effects without actually rtp'ing around the world
-public class CmdTest implements RTPCommand {
+public class CmdTest implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
@@ -27,6 +28,11 @@ public class CmdTest implements RTPCommand {
     @Override
     public boolean permission(CommandSender sendi) {
         return Main.getInstance().getPerms().getTest(sendi);
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpTest();
     }
 
 }

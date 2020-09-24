@@ -3,7 +3,7 @@
 </p>
 
 ## Wheres the Wiki?  
-The wiki is available [here](../../wiki)!
+The wiki is available [here](https://github.com/SuperRonanCraft/BetterRTP/wiki)!
 
 ## Want to Contribute translating?  
 Fork one of the language files above and help translate!

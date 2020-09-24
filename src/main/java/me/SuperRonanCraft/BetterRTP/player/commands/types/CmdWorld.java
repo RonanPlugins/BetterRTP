@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CmdWorld implements RTPCommand {
+public class CmdWorld implements RTPCommand, RTPCommandHelpable {
 
     //rtp world <world> <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
@@ -45,5 +46,10 @@ public class CmdWorld implements RTPCommand {
 
     private Commands getCmd() {
         return Main.getInstance().getCmd();
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpWorld();
     }
 }

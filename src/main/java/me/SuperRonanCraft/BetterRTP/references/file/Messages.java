@@ -6,6 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Messages {
     private final String preM = "Messages.", preH = "Help.", preU = "Usage.";
 
@@ -16,6 +19,14 @@ public class Messages {
     public void sms(CommandSender sendi, String msg) {
         if (!msg.equals(""))
             sendi.sendMessage(colorPre(msg));
+    }
+
+    public void sms(CommandSender sendi, List<String> msg) {
+        if (msg != null && !msg.isEmpty()) {
+            msg.forEach(str ->
+                    msg.set(msg.indexOf(str), color(str)));
+            sendi.sendMessage(msg.toArray(new String[0]));
+        }
     }
 
     //SUCCESS
@@ -129,21 +140,49 @@ public class Messages {
     }
 
     //Help
-    public void getHelpList(CommandSender sendi, String cmd) {
-        for (String s : getLang().getStringList(preH + "List"))
-            sms(sendi, s.replaceAll("%command%", cmd));
+    public String getHelpMain() { //rtp
+        return getLang().getString(preH + "Main");
     }
 
-    public void getHelpPlayer(CommandSender sendi, String cmd) {
-        sms(sendi, getLang().getString(preH + "Player").replaceAll("%command%", cmd));
+    public String getHelpBiome() { //rtp biome
+        return getLang().getString(preH + "Biome");
     }
 
-    public void getHelpWorld(CommandSender sendi, String cmd) {
-        sms(sendi, getLang().getString(preH + "World").replaceAll("%command%", cmd));
+    public String getHelpEdit() { //rtp edit
+        return "";
+        //return getLang().getString(preH + "Edit");
     }
 
-    public void getHelpReload(CommandSender sendi, String cmd) {
-        sms(sendi, getLang().getString(preH + "Reload").replaceAll("%command%", cmd));
+    public String getHelpHelp() { //rtp help
+        return getLang().getString(preH + "Help");
+    }
+
+    public String getHelpInfo() { //rtp info
+        return getLang().getString(preH + "Info");
+    }
+
+    public String getHelpPlayer() { //rtp player
+        return getLang().getString(preH + "Player");
+    }
+
+    public String getHelpReload() { //rtp reload
+        return getLang().getString(preH + "Reload");
+    }
+
+    public String getHelpSettings() { //rtp settings
+        return getLang().getString(preH + "Settings");
+    }
+
+    public String getHelpTest() { //rtp test
+        return getLang().getString(preH + "Test");
+    }
+
+    public String getHelpVersion() { //rtp version
+        return getLang().getString(preH + "Version");
+    }
+
+    public String getHelpWorld() { //rtp world
+        return getLang().getString(preH + "World");
     }
 
     //Usage

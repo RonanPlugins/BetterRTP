@@ -74,27 +74,27 @@ public class RTPTeleport {
         eSounds.playTeleport(p);
         eParticles.display(p);
         ePotions.giveEffects(p);
-        eTitles.showTeleport(p, loc, attempts);
-        if (eTitles.sendMsgTeleport())
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
     }
 
     public void beforeTeleport(Player p, int delay) { //Only Delays should call this
         eSounds.playDelay(p);
-        eTitles.showDelay(p, p.getLocation(), delay);
-        if (eTitles.sendMsgDelay())
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.DELAY))
             getPl().getText().getDelay(p, delay);
     }
 
     public void cancelledTeleport(Player p) { //Only Delays should call this
-        eTitles.showCancelled(p, p.getLocation());
-        if (eTitles.sendMsgCancelled())
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.CANCEL, p, p.getLocation(), 0, 0);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.CANCEL))
             getPl().getText().getMoved(p);
     }
 
     private void loadingTeleport(Player p, CommandSender sendi) {
-        eTitles.showLoading(p, p.getLocation());
-        if (eTitles.sendMsgLoading() || sendi != p) //Show msg if enabled or if not same player
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.LOADING) || sendi != p) //Show msg if enabled or if not same player
             getPl().getText().getSuccessLoading(sendi);
     }
 

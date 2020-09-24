@@ -28,18 +28,23 @@ Messages:
   NotExist: '&cワールド&7%world%&cが存在しないようです。'
   Already: '&cおっと！ &7あなたはすでにRTPしているように見えます。'
 #  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
+#  Edit:
+#    Error: '&cError! &7Invalid input provided!'
+#    Set: '&bSuccess! &7%type% set to %value%'
+#    Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7ヘルプ&e&m------'
-    - ' &7- &e/%command% &7- あなたをランダムテレポートする！'
-    - ' &7- &e/%command% help &7- ヘルプを見る'
-  ##
-  Player: ' &7- &e/%command% player <player> [world] &7- 他のプレイヤーをランダムテレポート'
-  World: ' &7- &e/%command% world <world> &7- 他のワールドにランダムテレポート'
-  ##
+  Main: ' &7- &e/%command% &7- あなたをランダムテレポートする！'
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
+#  Edit: ''
+  Help: ' &7- &e/%command% help &7- ヘルプを見る'
+#  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <player> [world] &7- 他のプレイヤーをランダムテレポート'
   Reload: ' &7- &e/%command% reload &7- プラグインをリロード'
+#  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+#  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+#  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <world> &7- 他のワールドにランダムテレポート'
 
 Usage:
   Player: '&c使い方&7: /%command% player <プレイヤー> [ワールド]'

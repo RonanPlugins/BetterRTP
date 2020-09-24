@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
@@ -17,7 +18,7 @@ import xyz.xenondevs.particle.ParticleEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CmdInfo implements RTPCommand {
+public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length > 1) {
@@ -46,6 +47,11 @@ public class CmdInfo implements RTPCommand {
             }
         } else
             infoWorld(sendi);
+    }
+
+    @Override
+    public String getHelp() {
+        return Main.getInstance().getText().getHelpInfo();
     }
 
     enum CmdInfoSub { //Sub commands, future expansions

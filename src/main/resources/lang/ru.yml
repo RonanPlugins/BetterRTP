@@ -27,19 +27,23 @@ Messages:
   Moved: '&cВы подвинулись! &7RTP отменено!'
   NotExist: '&cПохоже что мир &7%world% &cне существует!'
   Already: '&cУуупс! &7Похоже вы уже телепортируетесь. Имейте терпение!'
-  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
+#  Sign: '&7Command sign has been created! &7Command is... ''&f/rtp %command%&7'''
+#  Edit:
+#    Error: '&cError! &7Invalid input provided!'
+#    Set: '&bSuccess! &7%type% set to %value%'
+#    Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7Помощь &e&m------'
-    - ' &7- &e/%command% &7- случайно телепортирует вас!'
-    - ' &7- &e/%command% help &7- показывает этот список'
-  ##If the player has permission to rtp another player, this message will be added under the list!
-  Player: ' &7- &e/%command% player <игрок> [мир] &7- случайно телепортирует игрока'
-  World: ' &7- &e/%command% world <мир> &7- случайно телепортирует в другой мир'
-  ##If the player has permission to reload the plugin this message will be added under the list!
+  Main: ' &7- &e/%command% &7- случайно телепортирует вас!'
 #  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
+  Help: ' &7- &e/%command% help &7- показывает этот список'
+#  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <игрок> [мир] &7- случайно телепортирует игрока'
   Reload: ' &7- &e/%command% reload &7- перезагружает плагин'
+#  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+#  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+#  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <мир> &7- случайно телепортирует в другой мир'
 
 Usage:
   Player: '&cИспользование&7: /%command% player <игрок> [мир]'

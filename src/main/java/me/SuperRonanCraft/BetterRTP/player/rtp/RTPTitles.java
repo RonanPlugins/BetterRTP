@@ -2,91 +2,35 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+
 public class RTPTitles {
 
-    private boolean enabled;
-    private String
-            titleTeleport,
-            titleDelay,
-            titleCancel,
-            titleLoading,
-            subTeleport,
-            subDelay,
-            subCancel,
-            subLoading;
-    private boolean //Disable default messages in chat
-            showMsgTeleport,
-            showMsgDelay,
-            showMsgCancel,
-            showMsgLoading;
+    private final HashMap<RTP_TITLE_TYPE, RTP_TITLE> titles = new HashMap<>();
 
     void load() {
+        titles.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
-        enabled = config.getBoolean("Titles.Enabled");
-        if (enabled) {
-            //Titles
-            titleTeleport = config.getString("Titles.Teleport.Title");
-            titleDelay = config.getString("Titles.Delay.Title");
-            titleCancel = config.getString("Titles.Cancelled.Title");
-            titleLoading = config.getString("Titles.Loading.Title");
-            //Sub titles
-            subTeleport = config.getString("Titles.Teleport.Subtitle");
-            subDelay = config.getString("Titles.Delay.Subtitle");
-            subCancel = config.getString("Titles.Cancelled.Subtitle");
-            subLoading = config.getString("Titles.Loading.Subtitle");
-            //Messages
-            showMsgTeleport = config.getBoolean("Titles.Teleport.SendMessage");
-            showMsgDelay = config.getBoolean("Titles.Delay.SendMessage");
-            showMsgCancel = config.getBoolean("Titles.Cancelled.SendMessage");
-            showMsgLoading = config.getBoolean("Titles.Loading.SendMessage");
+        boolean enabled = config.getBoolean("Titles.Enabled");
+        if (enabled)
+            for (RTP_TITLE_TYPE type : RTP_TITLE_TYPE.values())
+                titles.put(type, new RTP_TITLE(type.path));
+    }
+
+    void showTitle(RTP_TITLE_TYPE type, Player p, Location loc, int attempts, int delay) {
+        if (titles.containsKey(type)) {
+            String title = getPlaceholders(titles.get(type).title, p, loc, attempts, delay);
+            String sub = getPlaceholders(titles.get(type).subTitle, p, loc, attempts, delay);
+            show(p, title, sub);
         }
     }
 
-    void showTeleport(Player p, Location loc, int attempts) {
-        if (!enabled) return;
-        String title = getPlaceholders(titleTeleport, p, loc, attempts, 0);
-        String sub = getPlaceholders(subTeleport, p, loc, attempts, 0);
-        show(p, title, sub);
-    }
-
-    void showDelay(Player p, Location loc, int delay) {
-        if (!enabled) return;
-        String title = getPlaceholders(titleDelay, p, loc, 0, delay);
-        String sub = getPlaceholders(subDelay, p, loc, 0, delay);
-        show(p, title, sub);
-    }
-
-    void showCancelled(Player p, Location loc) {
-        if (!enabled) return;
-        String title = getPlaceholders(titleCancel, p, loc, 0, 0);
-        String sub = getPlaceholders(subCancel, p, loc, 0, 0);
-        show(p, title, sub);
-    }
-
-    void showLoading(Player p, Location loc) {
-        if (!enabled) return;
-        String title = getPlaceholders(titleLoading, p, loc, 0, 0);
-        String sub = getPlaceholders(subLoading, p, loc, 0, 0);
-        show(p, title, sub);
-    }
-
-    boolean sendMsgTeleport() {
-        return !enabled || showMsgTeleport;
-    }
-
-    boolean sendMsgDelay() {
-        return !enabled || showMsgDelay;
-    }
-
-    boolean sendMsgCancelled() {
-        return !enabled || showMsgCancel;
-    }
-
-    boolean sendMsgLoading() {
-        return !enabled || showMsgLoading;
+    boolean sendMsg(RTP_TITLE_TYPE type) {
+        return titles.containsKey(type) && titles.get(type).send_message;
     }
 
     private String getPlaceholders(String str, Player p, Location loc, int attempts, int delay) {
@@ -106,5 +50,26 @@ public class RTPTitles {
         sub = Main.getInstance().getText().color(sub);
         p.sendTitle(title, sub);
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+    }
+
+    enum RTP_TITLE_TYPE {
+        TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading");
+        String path;
+        RTP_TITLE_TYPE(String path) {
+            this.path = path;
+        }
+    }
+
+    private static class RTP_TITLE {
+        String title, subTitle;
+        boolean send_message;
+
+        RTP_TITLE(String path) {
+            FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+            title = config.getString("Titles." + path + ".Title");
+            subTitle = config.getString("Titles." + path + ".Subtitle");
+            send_message = config.getBoolean("Titles." + path + ".SendMessage");
+        }
+
     }
 }

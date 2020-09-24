@@ -27,18 +27,23 @@ Messages:
   NotExist: '&cLijkt dat de wereld &7%world% &cniet bestaat!'
   Already: '&cOepsie! &7Het lijkt erop dat je al aan het rtpen bent, heb wat geduld!'
   Sign: '&7Commando bordje is aangemaakt! &7Commando is... ''&f/rtp %command%&7'''
+#  Edit:
+#    Error: '&cError! &7Invalid input provided!'
+#    Set: '&bSuccess! &7%type% set to %value%'
+#    Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
-    - ' &7- &e/%command% &7- Teleporteert jou naar een random locatie!'
-    - ' &7- &e/%command% help &7- Toont help lijst.'
-  ##If the player has permission to rtp another player, this message will be added under the list!
-  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Random teleport een andere speler'
-  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Random teleport in een andere wereld'
-  ##If the player has permission to reload the plugin this message will be added under the list!
+  Main: ' &7- &e/%command% &7- Teleporteert jou naar een random locatie!'
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Random teleport in deze biome'
+#  Edit: ''
+  Help: ' &7- &e/%command% help &7- Toont help lijst.'
+  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Random teleport een andere speler'
   Reload: ' &7- &e/%command% reload &7- Herlaad de plugin'
+#  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+#  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+#  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Random teleport in een andere wereld'
 
 Usage:
   Player: '&cUsage&7: /%command% player <player> [world] [biome1, biome2]'

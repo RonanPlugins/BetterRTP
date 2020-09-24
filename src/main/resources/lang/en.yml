@@ -34,16 +34,17 @@ Messages:
     Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
-  List:
-    - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
-    - ' &7- &e/%command% &7- Randomly teleports you!'
-    - ' &7- &e/%command% help &7- Shows help list'
-  ##If the player has permission to rtp another player, this message will be added under the list!
-  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Randomly teleport another player'
-  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Randomly teleport in another world'
-  ##If the player has permission to reload the plugin this message will be added under the list!
+  Main: ' &7- &e/%command% &7- Randomly teleports you!'
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
+  #Edit: ''
+  Help: ' &7- &e/%command% help &7- Shows help list'
+  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Randomly teleport another player'
   Reload: ' &7- &e/%command% reload &7- Reloads the plugin'
+  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Randomly teleport in another world'
 
 Usage:
   Player: '&cUsage&7: /%command% player <player> [world] [biome1, biome2]'
