@@ -1,6 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.Factions;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -20,7 +24,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean griefPrevention = getGriefprevention(loc);
         boolean towny = getTowny(loc);
         boolean redProtect = getRedProtect(loc);
-        return worldguard && griefPrevention && towny && redProtect;
+        boolean factionsUUID = getFactionsUUID(loc);
+        return worldguard && griefPrevention && towny && redProtect && factionsUUID;
     }
 
     // TESTED on v2.12.3
@@ -40,7 +45,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    // TESTED on v2.12.3
+    // TESTED on v2.13.0
     // GriefPrevention v16.15.0
     // https://www.spigotmc.org/resources/griefprevention.1884/
     private boolean getGriefprevention(Location loc) {
@@ -68,7 +73,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    // TESTED 2.12.3
+    // TESTED 2.13.0
     // RedProtect v7.7.2
     // https://www.spigotmc.org/resources/redprotect.15841/
     private boolean getRedProtect(Location loc) {
@@ -76,6 +81,22 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         if (getPl().getSettings().getsDepends().isRedProtect())
             try {
                 result = RedProtect.get().getAPI().getRegion(loc) == null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
+    // NOT TESTED 2.13.2
+    // FactionsUUID v7.7.2
+    // https://www.spigotmc.org/resources/redprotect.15841/
+    private boolean getFactionsUUID(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isFactionsUUID())
+            try {
+                FLocation floc = new FLocation(loc);
+                Faction faction = Board.getInstance().getFactionAt(floc);
+                result = faction.isWilderness() || faction.isWarZone() || faction.isSafeZone();
             } catch (Exception e) {
                 e.printStackTrace();
             }

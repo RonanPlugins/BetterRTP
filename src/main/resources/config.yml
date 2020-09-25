@@ -13,6 +13,8 @@ Settings:
     Towny: false
     ## Respect RedProtect areas (https://www.spigotmc.org/resources/redprotect.15841/)
     RedProtect: false
+    ## Respect FactionsUUID areas (https://www.spigotmc.org/resources/factionsuuid.1035/)
+    FactionsUUID: false
   ## Output to console some debugging info
   Debugger: false
   ## Must be a positive integer #

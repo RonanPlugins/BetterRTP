@@ -81,6 +81,11 @@
             <id>redprotect-repo</id>
             <url>https://raw.githubusercontent.com/FabioZumbi12/RedProtect/mvn-repo/</url>
         </repository>
+        <!-- FactionsUUID Repo -->
+        <repository>
+            <id>factions-uuid</id>
+            <url>http://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -149,6 +154,13 @@
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
             <artifactId>RedProtect-Spigot-1.13</artifactId>
             <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- FactionsUUID (https://www.spigotmc.org/resources/factionsuuid.1035/) -->
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>Factions</artifactId>
+            <version>1.6.9.5-U0.5.16</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
