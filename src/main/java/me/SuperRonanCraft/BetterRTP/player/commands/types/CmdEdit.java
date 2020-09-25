@@ -59,12 +59,12 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     private void editWorld(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String val, String world) {
-        Object value = val;
+        Object value;
         try {
             value = cmd.getResult(val);
         } catch (Exception e) {
             e.printStackTrace();
-            Main.getInstance().getText().sms(sendi, "Invalid input!");
+            Main.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -79,7 +79,8 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                 for (Object map2 : m.values()) {
                     Map<Object, Object> values = (Map<Object, Object>) map2;
                     values.put(cmd.get(), value);
-                    Main.getInstance().getText().sms(sendi, cmd.get() + " set to " + value);
+
+                    Main.getInstance().getText().getEditSet(sendi, cmd.get(), val);
                 }
                 break;
             }
@@ -108,7 +109,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             value = cmd.getResult(val);
         } catch (Exception e) {
             e.printStackTrace();
-            Main.getInstance().getText().sms(sendi, "Invalid input!");
+            Main.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -120,6 +121,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         try {
             config.save(file.getFile());
             Main.getInstance().getRTP().loadWorldSettings();
+            Main.getInstance().getText().getEditSet(sendi, cmd.get(), val);
         } catch (IOException e) {
             e.printStackTrace();
         }

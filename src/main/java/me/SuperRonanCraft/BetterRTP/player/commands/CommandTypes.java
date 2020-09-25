@@ -9,7 +9,7 @@ public enum CommandTypes {
     INFO(new CmdInfo()),
     PLAYER(new CmdPlayer()),
     RELOAD(new CmdReload()),
-    SETTINGS(new CmdSettings(), true),
+    //SETTINGS(new CmdSettings(), true),
     TEST(new CmdTest(), true),
     VERSION(new CmdVersion()),
     WORLD(new CmdWorld());

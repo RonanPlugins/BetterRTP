@@ -1,12 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
+import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +92,11 @@ public class Commands {
         if (sendi instanceof Player)
             tp((Player) sendi, sendi, world, biomes);
         else
-            sendi.sendMessage(pl.getText().colorPre("Must be a player to use this command! Try '/" + cmd + " help'"));
+            msgNotPlayer(sendi, cmd);
+    }
+
+    public void msgNotPlayer(CommandSender sendi, String cmd) {
+        sendi.sendMessage(pl.getText().colorPre("Must be a player to use this command! Try '/" + cmd + " help'"));
     }
 
     //Custom biomes

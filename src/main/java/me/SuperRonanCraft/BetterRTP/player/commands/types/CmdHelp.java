@@ -16,14 +16,15 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         Messages txt = Main.getInstance().getText();
         List<String> list = new ArrayList<>();
+        list.add(txt.getHelpPrefix());
         list.add(txt.getHelpMain());
         for (CommandTypes cmd : CommandTypes.values())
-            if (cmd.getCmd().permission(sendi))
-                if (cmd.getCmd() instanceof RTPCommandHelpable) {
-                    String help = ((RTPCommandHelpable) cmd.getCmd()).getHelp();
-                    System.out.println(help);
-                    list.add(help);
-                }
+            if (!cmd.isDebugOnly() || Main.getInstance().getSettings().debug)
+                if (cmd.getCmd().permission(sendi))
+                    if (cmd.getCmd() instanceof RTPCommandHelpable) {
+                        String help = ((RTPCommandHelpable) cmd.getCmd()).getHelp();
+                        list.add(help);
+                    }
         for (int i = 0; i < list.size(); i++)
             list.set(i, list.get(i).replace("%command%", label));
         Main.getInstance().getText().sms(sendi, list);

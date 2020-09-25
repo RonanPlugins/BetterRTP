@@ -139,7 +139,24 @@ public class Messages {
         return color(getPrefix() + str);
     }
 
+    //Edit
+    public void getEditError(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Edit.Error"));
+    }
+
+    public void getEditSet(CommandSender sendi, String type, String value) {
+        sms(sendi, getLang().getString(preM + "Edit.Set").replaceAll("%type%", type).replaceAll("%value%", value));
+    }
+
+    public void getEditRemove(CommandSender sendi, String world) {
+        sms(sendi, getLang().getString(preM + "Edit.Remove").replaceAll("%world%", world));
+    }
+
     //Help
+    public String getHelpPrefix() {
+        return getLang().getString(preH + "Prefix");
+    }
+
     public String getHelpMain() { //rtp
         return getLang().getString(preH + "Main");
     }
@@ -149,8 +166,7 @@ public class Messages {
     }
 
     public String getHelpEdit() { //rtp edit
-        return "";
-        //return getLang().getString(preH + "Edit");
+        return getLang().getString(preH + "Edit");
     }
 
     public String getHelpHelp() { //rtp help
@@ -165,7 +181,7 @@ public class Messages {
         return getLang().getString(preH + "Player");
     }
 
-    public String getHelpReload() { //rtp reload
+    public String getHelpReload() {
         return getLang().getString(preH + "Reload");
     }
 

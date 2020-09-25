@@ -34,8 +34,10 @@ Messages:
 #    Remove: '&cRemoved! &7You removed the Custom World %world%'
 
 Help:
+#  Prefix: '&e&m-----&6&l BetterRTP &8| Help &e&m-----'
   Main: ' &7- &e/%command% &7- случайно телепортирует вас!'
 #  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
+#  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Edit some plugin settings'
   Help: ' &7- &e/%command% help &7- показывает этот список'
 #  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
   Player: ' &7- &e/%command% player <игрок> [мир] &7- случайно телепортирует игрока'

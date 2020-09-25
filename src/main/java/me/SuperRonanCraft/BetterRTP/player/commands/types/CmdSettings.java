@@ -12,7 +12,10 @@ import java.util.List;
 public class CmdSettings implements RTPCommand, RTPCommandHelpable {
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) sendi);
+        if (sendi instanceof Player)
+            Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) sendi);
+        else
+            Main.getInstance().getCmd().msgNotPlayer(sendi, label);
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
