@@ -122,7 +122,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         else {
             info.add("&7- &6Disabled: " + _false);
             if (pl.getRTP().overriden.containsKey(w.getName()))
-                info.add("&7- &6Overriden: " + _true);
+                info.add("&7- &6Overriden: " + _true + " &7(" + pl.getRTP().overriden.get(w.getName()) + ")");
             else {
                 info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), WORLD_TYPE.NORMAL).name());
                 info.add("&7- &6Overriden: " + _false);

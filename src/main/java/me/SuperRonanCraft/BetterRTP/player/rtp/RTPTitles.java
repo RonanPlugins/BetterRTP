@@ -10,12 +10,13 @@ import java.util.HashMap;
 
 public class RTPTitles {
 
+    boolean enabled = false;
     private final HashMap<RTP_TITLE_TYPE, RTP_TITLE> titles = new HashMap<>();
 
     void load() {
         titles.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
-        boolean enabled = config.getBoolean("Titles.Enabled");
+        enabled = config.getBoolean("Titles.Enabled");
         if (enabled)
             for (RTP_TITLE_TYPE type : RTP_TITLE_TYPE.values())
                 titles.put(type, new RTP_TITLE(type.path));
@@ -30,7 +31,7 @@ public class RTPTitles {
     }
 
     boolean sendMsg(RTP_TITLE_TYPE type) {
-        return titles.containsKey(type) && titles.get(type).send_message;
+        return titles.containsKey(type) && titles.get(type).send_message || !enabled;
     }
 
     private String getPlaceholders(String str, Player p, Location loc, int attempts, int delay) {
@@ -53,7 +54,7 @@ public class RTPTitles {
     }
 
     enum RTP_TITLE_TYPE {
-        TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading");
+        NODELAY("NoDelay"), TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading");
         String path;
         RTP_TITLE_TYPE(String path) {
             this.path = path;

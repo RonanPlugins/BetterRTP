@@ -38,7 +38,7 @@ Help:
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Random teleport in deze biome'
 #  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Edit some plugin settings'
   Help: ' &7- &e/%command% help &7- Toont help lijst.'
-  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+#  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- View specific information about plugin parameters'
   Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Random teleport een andere speler'
   Reload: ' &7- &e/%command% reload &7- Herlaad de plugin'
 #  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'

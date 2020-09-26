@@ -79,7 +79,14 @@ public class RTPTeleport {
             sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
     }
 
-    public void beforeTeleport(Player p, int delay) { //Only Delays should call this
+    public void beforeTeleportInstant(Player p) {
+        eSounds.playDelay(p);
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.NODELAY))
+            getPl().getText().getSuccessTeleport(p);
+    }
+
+    public void beforeTeleportDelay(Player p, int delay) { //Only Delays should call this
         eSounds.playDelay(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.DELAY))

@@ -4,13 +4,10 @@ import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.SuperRonanCraft.BetterRTP.Main;
@@ -88,14 +85,13 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     }
 
     // NOT TESTED 2.13.2
-    // FactionsUUID v7.7.2
-    // https://www.spigotmc.org/resources/redprotect.15841/
+    // FactionsUUID v1.6.9.5-U0.5.16
+    // https://www.spigotmc.org/resources/factionsuuid.1035/
     private boolean getFactionsUUID(Location loc) {
         boolean result = true;
         if (getPl().getSettings().getsDepends().isFactionsUUID())
             try {
-                FLocation floc = new FLocation(loc);
-                Faction faction = Board.getInstance().getFactionAt(floc);
+                Faction faction = Board.getInstance().getFactionAt(new FLocation(loc));
                 result = faction.isWilderness() || faction.isWarZone() || faction.isSafeZone();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -174,7 +174,7 @@ public class RTP {
         if (getPl().getSettings().delayEnabled && delay) {
             new RTPDelay(sendi, pWorld, delayTime, cancelOnMove, cancelOnDamage);
         } else {
-            getPl().getText().getSuccessTeleport(sendi);
+            teleport.beforeTeleportInstant(p);
             findSafeLocation(sendi, pWorld);
         }
     }

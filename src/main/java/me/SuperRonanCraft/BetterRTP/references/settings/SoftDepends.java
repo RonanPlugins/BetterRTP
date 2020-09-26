@@ -80,7 +80,7 @@ public class SoftDepends {
     }
 
     public void registerFactionsUUID() {
-        factionsUUID = respect_factionsUUID && Bukkit.getPluginManager().isPluginEnabled("RedProtect");
+        factionsUUID = respect_factionsUUID && Bukkit.getPluginManager().isPluginEnabled("Factions");
         if (respect_factionsUUID)
             debug("Respecting `FactionsUUID` was " + (factionsUUID ? "SUCCESSFULLY" : "NOT") + " registered");
     }

@@ -39,7 +39,7 @@ Help:
   Biome: ' &7- &e/%command% biome <生物群系1, 生物群系2...> &7- 在这些指定的群系中随机传送。'
 #  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Edit some plugin settings'
   Help: ' &7- &e/%command% help &7- 打开帮助菜单。'
-#  Info: ' &7- &e/%command% info [arg] &7- View specific information about plugin parameters'
+#  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- View specific information about plugin parameters'
   Player: ' &7- &e/%command% player <玩家> [世界] [生物群系1，生物群系2...] &7- 指定一个玩家随机传送。'
   Reload: ' &7- &e/%command% reload &7- 重载插件。'
 #  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'

@@ -23,29 +23,9 @@ class RTPDelay implements Listener {
         delay(sendi, delay);
     }
 
-    @SuppressWarnings("deprecation")
     private void delay(CommandSender sendi, int delay) {
-        Main pl = Main.getInstance();
-//        if (sendi.equals(pWorld.getPlayer()) && delay != 0 && getPl().getText().getTitleDelayChat())
-//            getPl().getText().getDelay(sendi, String.valueOf(delay));
-//        if (getPl().getText().getSoundsEnabled()) {
-//            Sound sound = getPl().getText().getSoundsDelay();
-//            if (sound != null)
-//                pWorld.getPlayer().playSound(pWorld.getPlayer().getLocation(), sound, 1F, 1F);
-//        }
-//        if (getPl().getText().getTitleEnabled()) {
-//            String title = getPl().getText().getTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
-//            String subTitle = getPl().getText().getSubTitleDelay(pWorld.getPlayer().getName(), String.valueOf(delay));
-//            pWorld.getPlayer().sendTitle(title, subTitle);
-//            // int fadeIn = text.getFadeIn();
-//            // int stay = text.getStay();
-//            // int fadeOut = text.getFadeOut();
-//            // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-//            // pWorld.getPlayer().sendTitle(title, subTitle);
-//        }
-        getPl().getRTP().getTeleport().beforeTeleport(pWorld.getPlayer(), delay);
-        run = Bukkit.getScheduler().scheduleSyncDelayedTask(pl, run(sendi, this), delay * 20);
-        //Bukkit.getScheduler().scheduleSyncRepeatingTask(pl, run(sendi,  this), 0, 10);
+        getPl().getRTP().getTeleport().beforeTeleportDelay(pWorld.getPlayer(), delay);
+        run = Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), run(sendi, this), delay * 20);
         if (cancelOnMove || cancelOnDamage)
             Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
     }
@@ -78,7 +58,6 @@ class RTPDelay implements Listener {
         Bukkit.getScheduler().cancelTask(run);
         if (!Bukkit.getScheduler().isCurrentlyRunning(run)) {
             HandlerList.unregisterAll(this);
-            //getPl().getText().getMoved(pWorld.getPlayer());
             getPl().getRTP().getTeleport().cancelledTeleport(pWorld.getPlayer());
             getPl().getEco().unCharge(pWorld.getPlayer(), pWorld.getPrice());
             getPl().getCmd().cooldowns.remove(pWorld.getPlayer().getUniqueId());

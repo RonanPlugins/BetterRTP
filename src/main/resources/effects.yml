@@ -6,6 +6,10 @@ Sounds:
 Titles:
   Enabled: true # Enable the titles effect feature
   ## All support %player% %x% %y% and %z% placeholders
+  NoDelay: #Only triggers when there is no delay
+    Title: '&6Teleporting...'
+    Subtitle: '&8please wait'
+    SendMessage: true
   Teleport:
     Title: '&6Teleported!'
     Subtitle: '&fx=%x% y=%y% z=%z% in %attempts% attempts'
