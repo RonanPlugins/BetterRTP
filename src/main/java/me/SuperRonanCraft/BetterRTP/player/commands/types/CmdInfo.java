@@ -64,9 +64,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         Main pl = Main.getInstance();
 
         for (ParticleEffect eff : ParticleEffect.VALUES) {
-            if (info.isEmpty()) {
-                info.add("&7" + eff.name() + "&r");
-            } else if (info.size() % 2 == 0) {
+            if (info.isEmpty() || info.size() % 2 == 0) {
                 info.add("&7" + eff.name() + "&r");
             } else
                 info.add("&f" + eff.name() + "&r");
@@ -82,9 +80,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         List<String> info = new ArrayList<>();
 
         for (String shape : RTPParticles.shapeTypes) {
-            if (info.isEmpty()) {
-                info.add("&7" + shape + "&r");
-            } else if (info.size() % 2 == 0) {
+            if (info.isEmpty() || info.size() % 2 == 0) {
                 info.add("&7" + shape + "&r");
             } else
                 info.add("&f" + shape + "&r");
@@ -97,7 +93,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
     //World
     private void sendInfoWorld(CommandSender sendi, List<String> list) { //Send info
-        list.add(0, "&e&m-----&6 BetterRTP Info &e&m-----");
+        list.add(0, "&e&m-----&6 BetterRTP &8| Info &e&m-----");
         list.forEach(str ->
                 list.set(list.indexOf(str), Main.getInstance().getText().color(str)));
         sendi.sendMessage(list.toArray(new String[0]));
@@ -144,9 +140,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         List<String> info = new ArrayList<>();
 
         for (PotionEffectType effect : PotionEffectType.values()) {
-            if (info.isEmpty()) {
-                info.add("&7" + effect.getName() + "&r");
-            } else if (info.size() % 2 == 0) {
+            if (info.isEmpty() || info.size() % 2 == 0) {
                 info.add("&7" + effect.getName() + "&r");
             } else
                 info.add("&f" + effect.getName() + "&r");

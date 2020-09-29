@@ -15,11 +15,13 @@ class RTPDelay implements Listener {
     private int run;
     private final WorldPlayer pWorld;
     private final boolean cancelOnMove, cancelOnDamage;
+    private final RTPPlayer rtp;
 
-    RTPDelay(CommandSender sendi, WorldPlayer pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
+    RTPDelay(CommandSender sendi, RTPPlayer rtp, WorldPlayer pWorld, int delay, boolean cancelOnMove, boolean cancelOnDamage) {
         this.pWorld = pWorld;
         this.cancelOnMove = cancelOnMove;
         this.cancelOnDamage = cancelOnDamage;
+        this.rtp = rtp;
         delay(sendi, delay);
     }
 
@@ -68,17 +70,8 @@ class RTPDelay implements Listener {
     private Runnable run(final CommandSender sendi, final RTPDelay cls) {
         return () -> {
                 HandlerList.unregisterAll(cls);
-                if (getPl().getCmd().rtping.containsKey(pWorld.getPlayer().getUniqueId())) {
-                    try {
-                        getPl().getRTP().findSafeLocation(sendi, pWorld);
-                    } catch (NullPointerException e) {
-                        if (pWorld.getPrice() > 0)
-                            getPl().getEco().unCharge(pWorld.getPlayer(), pWorld.getPrice());
-                    }
-                    getPl().getCmd().rtping.put(pWorld.getPlayer().getUniqueId(), false);
-                } else if (pWorld.getPrice() > 0)
-                    getPl().getEco().unCharge(pWorld.getPlayer(), pWorld.getPrice());
-                Bukkit.getScheduler().cancelTask(run);
+                if (getPl().getCmd().rtping.containsKey(pWorld.getPlayer().getUniqueId()))
+                    rtp.findSafeLocation(sendi, pWorld);
         };
     }
 
