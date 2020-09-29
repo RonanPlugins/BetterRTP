@@ -57,7 +57,7 @@ public class RTPTeleport {
                             public void run() {
                                 afterTeleport(p, loc, price, attempts);
                                 if (sendi != p) //Tell player who requested that the player rtp'd
-                                    sendSuccessMsg(sendi, p.getDisplayName(), loc, price, false, attempts);
+                                    sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
                                 getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
                             }
                         });
@@ -76,14 +76,14 @@ public class RTPTeleport {
         ePotions.giveEffects(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
-            sendSuccessMsg(p, p.getDisplayName(), loc, price, true, attempts);
+            sendSuccessMsg(p, p.getName(), loc, price, true, attempts);
     }
 
-    public void beforeTeleportInstant(Player p) {
+    public void beforeTeleportInstant(CommandSender sendi, Player p) {
         eSounds.playDelay(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.NODELAY))
-            getPl().getText().getSuccessTeleport(p);
+            getPl().getText().getSuccessTeleport(sendi);
     }
 
     public void beforeTeleportDelay(Player p, int delay) { //Only Delays should call this

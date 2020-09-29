@@ -2,9 +2,11 @@ package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -13,14 +15,17 @@ public class DepEconomy {
     private int hunger = 0;
     private boolean checked = false;
 
-    public boolean charge(Player player, int price) {
+    public boolean charge(CommandSender sendi, WorldPlayer pWorld) {
         check(false);
+        Player player = pWorld.getPlayer();
         //Hunger Stuff
         boolean took_food = false;
-        if (hunger != 0 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
+        if (hunger != 0
+                && sendi == player
+                && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
-                Main.getInstance().getText().getFailedHunger(player);
+                Main.getInstance().getText().getFailedHunger(sendi);
                 return false;
             } else {
                 player.setFoodLevel(player.getFoodLevel() - hunger);
@@ -28,15 +33,16 @@ public class DepEconomy {
             }
         }
         //Economy Stuff
-        if (e != null && price != 0 && !Main.getInstance().getPerms().getBypassEconomy(player)) {
+        if (e != null && pWorld.getPrice() != 0 && !Main.getInstance().getPerms().getBypassEconomy(sendi)) {
             try {
-                EconomyResponse r = e.withdrawPlayer(player, price);
+                EconomyResponse r = e.withdrawPlayer(player, pWorld.getPrice());
                 boolean passed_economy = r.transactionSuccess();
                 if (!passed_economy) {
-                    Main.getInstance().getText().getFailedPrice(player, price);
+                    Main.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
                     if (took_food)
                         player.setFoodLevel(player.getFoodLevel() + hunger);
-                }
+                } else
+                    pWorld.eco_money_taken = true;
                 return passed_economy;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -46,10 +52,9 @@ public class DepEconomy {
         return true;
     }
 
-    public void unCharge(Player p, int price) {
-        if (e != null)
-            if (price != 0)
-                e.depositPlayer(p, price);
+    public void unCharge(Player p, WorldPlayer pWorld) {
+        if (e != null && pWorld.getPrice() != 0 && pWorld.eco_money_taken)
+            e.depositPlayer(p, pWorld.getPrice());
     }
 
     public void load() {

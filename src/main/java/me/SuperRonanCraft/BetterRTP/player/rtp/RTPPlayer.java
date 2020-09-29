@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,64 +17,28 @@ public class RTPPlayer {
 
     private final Player p;
     private final RTP settings;
+    WorldPlayer pWorld;
 
-    RTPPlayer(Player p, RTP settings) {
+    RTPPlayer(Player p, RTP settings, WorldPlayer pWorld) {
         this.p = p;
         this.settings = settings;
+        this.pWorld = pWorld;
     }
 
-    public void teleport(CommandSender sendi, String worldName, List<String> biomes, boolean delay) {
-        // Check overrides
-        if (worldName == null)
-            worldName = p.getWorld().getName();
-        if (settings.overriden.containsKey(worldName))
-            worldName = settings.overriden.get(worldName);
-        // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == p && !getPl().getPerms().getAWorld(sendi, worldName)) {
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
-            getPl().getText().getNoPermissionWorld(p, worldName);
-            return;
-        }
-        // Check disabled worlds
-        if (settings.disabledWorlds.contains(worldName)) {
-            getPl().getText().getDisabledWorld(sendi, worldName);
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
-            return;
-        }
-        // Check if nulled or world doesnt exist
-        if (Bukkit.getWorld(worldName) == null) {
-            getPl().getText().getNotExist(sendi, worldName);
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
-            return;
-        }
-        WorldPlayer pWorld = settings.getPlayerWorld(p, worldName, biomes, true);
-        // Economy
-        if (!getPl().getEco().charge(p, pWorld.getPrice())) {
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
-            return;
-        }
-        //Cooldown
-        getPl().getCmd().cooldowns.add(p.getUniqueId());
-        // Delaying? Else, just go
-        getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
-        if (getPl().getSettings().delayEnabled && delay) {
-            new RTPDelay(sendi, this, pWorld, settings.delayTime, settings.cancelOnMove, settings.cancelOnDamage);
-        } else {
-            settings.teleport.beforeTeleportInstant(p);
-            findSafeLocation(sendi, pWorld);
-        }
+    public Player getPlayer() {
+        return p;
     }
 
-    void findSafeLocation(CommandSender sendi, WorldPlayer pWorld) {
+    void randomlyTeleport(CommandSender sendi) {
         if (pWorld.getAttempts() >= settings.maxAttempts) //Cancel out, too many tried
-            metMax(sendi, pWorld.getPlayer(), pWorld.getPrice());
+            metMax(sendi, p);
         else { //Try again to find a safe location
             Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
             chunk.thenAccept(result -> {
                 Location tpLoc;
-                float yaw = pWorld.getPlayer().getLocation().getYaw();
-                float pitch = pWorld.getPlayer().getLocation().getPitch();
+                float yaw = p.getLocation().getYaw();
+                float pitch = p.getLocation().getPitch();
                 switch (pWorld.getWorldtype()) { //Get a Y position and check for bad blocks
                     case NETHER:
                         tpLoc = getLocAtNether(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld); break;
@@ -84,21 +47,21 @@ public class RTPPlayer {
                         tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
                 }
                 if (tpLoc != null && checkDepends(tpLoc))
-                    settings.teleport.sendPlayer(sendi, pWorld.getPlayer(), tpLoc, pWorld.getPrice(), pWorld.getAttempts());
+                    settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts());
                 else
-                    findSafeLocation(sendi, pWorld);
+                    randomlyTeleport(sendi);
             });
         }
     }
 
     // Compressed code for MaxAttempts being met
-    private void metMax(CommandSender sendi, Player p, int price) {
+    private void metMax(CommandSender sendi, Player p) {
         if (p == sendi)
             getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
         else
-            getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getDisplayName());
+            getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());
         getPl().getCmd().cooldowns.remove(p.getUniqueId());
-        getPl().getEco().unCharge(p, price);
+        getPl().getEco().unCharge(p, pWorld);
         getPl().getCmd().rtping.put(p.getUniqueId(), false);
     }
 

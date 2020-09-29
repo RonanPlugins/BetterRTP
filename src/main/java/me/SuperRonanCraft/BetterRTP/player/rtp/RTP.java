@@ -137,6 +137,45 @@ public class RTP {
     }
 
     public void start(Player p, CommandSender sendi, String world_name, List<String> biomes, boolean delay) {
-        new RTPPlayer(p, this).teleport(sendi, world_name, biomes, delay);
+        // Check overrides
+        if (world_name == null)
+            world_name = p.getWorld().getName();
+        if (overriden.containsKey(world_name))
+            world_name = overriden.get(world_name);
+        // Not forced and has 'betterrtp.world.<world>'
+        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name)) {
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            getPl().getText().getNoPermissionWorld(p, world_name);
+            return;
+        }
+        // Check disabled worlds
+        if (disabledWorlds.contains(world_name)) {
+            getPl().getText().getDisabledWorld(sendi, world_name);
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            return;
+        }
+        // Check if nulled or world doesnt exist
+        if (Bukkit.getWorld(world_name) == null) {
+            getPl().getText().getNotExist(sendi, world_name);
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            return;
+        }
+        WorldPlayer pWorld = getPlayerWorld(p, world_name, biomes, true);
+        // Economy
+        if (!getPl().getEco().charge(sendi, pWorld)) {
+            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
+            return;
+        }
+        //Cooldown
+        getPl().getCmd().cooldowns.add(p.getUniqueId());
+        // Delaying? Else, just go
+        getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
+        RTPPlayer rtp = new RTPPlayer(p, this, pWorld);
+        if (getPl().getSettings().delayEnabled && delay) {
+            new RTPDelay(sendi, rtp, delayTime, cancelOnMove, cancelOnDamage);
+        } else {
+            teleport.beforeTeleportInstant(sendi, p);
+            rtp.randomlyTeleport(sendi);
+        }
     }
 }

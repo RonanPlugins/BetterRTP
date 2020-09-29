@@ -20,6 +20,8 @@ public class WorldPlayer implements RTPWorld {
     private final World world;
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
+    //Economy
+    public boolean eco_money_taken = false;
 
     public WorldPlayer(CommandSender p, World world) {
         this.p = p;
