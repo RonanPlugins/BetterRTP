@@ -1,0 +1,57 @@
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+    Paid: '&a你花费了&c$%price%&7，被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
+    Bypass: '&a你被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
+    Loading: '&a安全位置已定位！&7加载区块中……'
+    Teleport: '&a传送中……&f直到我们找到安全的位置之前请等一下！'
+  Failed:
+    Price: '&c你的钱不够了，&7你至少要有$%price%&7才能随机传送！'
+    NotSafe: '&c由于在%attempts%次尝试内未能找到安全的位置，&7你未被传送！'
+    Hunger: '&7你太饿了，&c传送之前先吃点东西再说！'
+  Other:
+    Success: '&a%player%被传送到了&7 x=%x% y=%y% z=%z%。共尝试&f%attempts%&7次！'
+    NotSafe: '&c由于在%attempts%次尝试内未能找到安全的位置，&7%player%未被传送！'
+    Biome: '&c看上去&7%biome%&c群系不存在，&7试试使用Tab表查找！'
+  Reload: '&e配置成功重载！'
+  NoPermission:
+    Basic: '&c对不起，&7你没有权限使用此命令！'
+    World: '&c对不起，&7你并没有被准许在%world%世界传送！'
+  ## %world% 是被设置为玩家无法随机传送的世界。#
+  DisabledWorld: '&c%world%世界已被禁止使用此命令，&7无法传送！'
+  Cooldown: '&c对不起，&7你需要在&c%time%&7秒后才能传送！'
+  Locked: '&c对不起，&7你已经用完了你的随机传送次数了！'
+  Invalid: '&c无效的参数，使用''/%command% help''查看帮助。'
+  NotOnline: '&c玩家&7%player%&c不在线！'
+  Delay: '&a即将在&f%time%&a秒后传送，乖乖站好！'
+  Moved: '&c你移动了，&7随机传送被取消了！'
+  NotExist: '&c看上去&7%world%&c世界并不存在！'
+  Already: '&c啊嘞嘞，&7看上去你已经在随机传送中了，请耐心点！'
+  Sign: '&7命令标记已被创建！&7命令为''&f/rtp %command%&7'''
+  Edit:
+    Error: '&c错误，&7提供的参数无效！'
+    Set: '&b成功，&7%type%设置为%value%。'
+    Remove: '&c已移除，&7你移除了自定义世界%world%。'
+
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| 帮助菜单 &e&m-----'
+  Main: ' &7- &e/%command% &7- 将你随机传送！'
+  Biome: ' &7- &e/%command% biome <生物群系1, 生物群系2...> &7- 在这些指定的群系中随机传送。'
+  Edit: ' &7- &e/%command% edit <默认/世界> [参数...] &7- 修改插件设置。'
+  Help: ' &7- &e/%command% help &7- 打开帮助菜单。'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- 查看有关插件参数的特定信息。'
+  Player: ' &7- &e/%command% player <玩家> [世界] [生物群系1，生物群系2...] &7- 指定一个玩家随机传送。'
+  Reload: ' &7- &e/%command% reload &7- 重载插件。'
+  Settings: ' &7- &e/%command% settings &7- 打开GUI设置。'
+  Test: ' &7- &e/%command% test &7- 测试传送后的插件效果。'
+  Version: ' &7- &e/%command% version &7- 显示目前使用的插件版本。'
+  World: ' &7- &e/%command% world <世界> [生物群系1, 生物群系2...] &7- 在其他世界随机传送。'
+
+Usage:
+  Player: '&c用法&7：/%command% player <玩家> [世界] [生物群系1, 生物群系2]'
+  World: '&c用法&7：/%command% world <世界> [生物群系1, 生物群系2...]'
+  Biome: '&c用法&7：/%command% biome <生物群系1, 生物群系2...>'
+  Edit:
+    Base: '&c用法&7：/%command% edit <default/世界> [参数...]'
+    Default: '&c用法&7：/%command% edit default <max/min/useworldborder/center> <值>'
+    World: '&c用法&7：/%command% edit world <world> <max/min/useworldborder/center> <值>'
