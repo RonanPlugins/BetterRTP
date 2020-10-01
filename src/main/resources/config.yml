@@ -17,12 +17,10 @@ Settings:
     FactionsUUID: false
   ## Output to console some debugging info
   Debugger: false
-  ## Must be a positive integer #
-  MinRadius: 25
   ## Amount of chunks to preload around a safe location
   PreloadRadius: 5
   ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
-  MaxAttempts: 15
+  MaxAttempts: 32
   RtpOnFirstJoin: # Will execute as console to override delays
     Enabled: false # Make the player rtp when joining the server for the first time
     World: 'world' # World to first rtp in
@@ -62,6 +60,8 @@ BlacklistedBlocks:
   - air
   - void_air
   - bedrock
+  - oak_leaves
+  - jungle_leaves
 
 ## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
 DisabledWorlds:

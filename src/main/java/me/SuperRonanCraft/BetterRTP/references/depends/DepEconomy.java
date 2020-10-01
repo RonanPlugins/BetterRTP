@@ -52,10 +52,38 @@ public class DepEconomy {
         return true;
     }
 
-    public void unCharge(Player p, WorldPlayer pWorld) {
+    public boolean hasBalance(CommandSender sendi, WorldPlayer pWorld) {
+        check(false);
+        Player player = pWorld.getPlayer();
+        //Hunger Stuff
+        if (hunger != 0
+                && sendi == player
+                && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
+            boolean has_hunger = player.getFoodLevel() > hunger;
+            if (!has_hunger) {
+                Main.getInstance().getText().getFailedHunger(sendi);
+                return false;
+            }
+        }
+        //Economy Stuff
+        if (e != null && pWorld.getPrice() != 0 && !Main.getInstance().getPerms().getBypassEconomy(sendi)) {
+            try {
+                boolean passed_economy = e.getBalance(player) >= pWorld.getPrice();
+                if (!passed_economy)
+                    Main.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
+                return passed_economy;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        //Default value
+        return true;
+    }
+
+    /*public void unCharge(Player p, WorldPlayer pWorld) {
         if (e != null && pWorld.getPrice() != 0 && pWorld.eco_money_taken)
             e.depositPlayer(p, pWorld.getPrice());
-    }
+    }*/
 
     public void load() {
         check(true);

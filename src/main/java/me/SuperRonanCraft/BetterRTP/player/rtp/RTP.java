@@ -144,33 +144,35 @@ public class RTP {
             world_name = overriden.get(world_name);
         // Not forced and has 'betterrtp.world.<world>'
         if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name)) {
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             getPl().getText().getNoPermissionWorld(p, world_name);
             return;
         }
         // Check disabled worlds
         if (disabledWorlds.contains(world_name)) {
             getPl().getText().getDisabledWorld(sendi, world_name);
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         // Check if nulled or world doesnt exist
         if (Bukkit.getWorld(world_name) == null) {
             getPl().getText().getNotExist(sendi, world_name);
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
             return;
         }
         WorldPlayer pWorld = getPlayerWorld(p, world_name, biomes, true);
         // Economy
-        if (!getPl().getEco().charge(sendi, pWorld)) {
-            //getPl().getCmd().cooldowns.remove(p.getUniqueId());
+        if (!getPl().getEco().hasBalance(sendi, pWorld)) {
             return;
         }
+        rtp(sendi, pWorld, delay);
+    }
+
+    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay) {
         //Cooldown
+        Player p = pWorld.getPlayer();
         getPl().getCmd().cooldowns.add(p.getUniqueId());
-        // Delaying? Else, just go
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
+        //Setup player rtp methods
         RTPPlayer rtp = new RTPPlayer(p, this, pWorld);
+        // Delaying? Else, just go
         if (getPl().getSettings().delayEnabled && delay) {
             new RTPDelay(sendi, rtp, delayTime, cancelOnMove, cancelOnDamage);
         } else {

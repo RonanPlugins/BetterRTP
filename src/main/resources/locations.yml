@@ -1,0 +1,18 @@
+#Locations where rtp will center upon
+#Format:
+# LOCATION_NAME:
+#   World: world
+#   CenterX: 100
+#   CenterY: 150
+#   MaxRadius: 100
+#   MinRadius: 5
+Settings:
+  Enabled: false
+  RandomLocations: true #When rtp'ing, a random location will be selected, else the nearest will be selected
+Locations:
+  main_loc:
+    World: world
+    CenterX: 100
+    CenterY: 150
+    MaxRadius: 100
+    MinRadius: 5

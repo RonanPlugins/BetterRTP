@@ -46,8 +46,10 @@ public class RTPPlayer {
                     default:
                         tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
                 }
+                //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc))
-                    settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts());
+                    if (getPl().getEco().charge(p, pWorld))
+                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts());
                 else
                     randomlyTeleport(sendi);
             });
@@ -61,7 +63,7 @@ public class RTPPlayer {
         else
             getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());
         getPl().getCmd().cooldowns.remove(p.getUniqueId());
-        getPl().getEco().unCharge(p, pWorld);
+        //getPl().getEco().unCharge(p, pWorld);
         getPl().getCmd().rtping.put(p.getUniqueId(), false);
     }
 
