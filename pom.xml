@@ -86,6 +86,11 @@
             <id>factions-uuid</id>
             <url>http://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
+        <!--repository>
+            <id>residence</id>
+            <url>https://github.com/Zrips/Residence/tree/master/src</url>
+            <releases><enabled>true</enabled></releases>
+        </repository-->
     </repositories>
     <dependencies>
         <!--Spigot API-->

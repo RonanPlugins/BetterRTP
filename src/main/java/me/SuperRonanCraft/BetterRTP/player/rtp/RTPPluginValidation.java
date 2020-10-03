@@ -99,6 +99,20 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
+    // NOT TESTED 2.14.2
+    // Residence v2.5.8
+    // https://www.spigotmc.org/threads/residence.88667/
+    /*private boolean getResidence(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isFactionsUUID())
+            try {
+                ResidenceApi resAPI = Residence.getAPI();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }*/
+
     private Main getPl() {
         return Main.getInstance();
     }
