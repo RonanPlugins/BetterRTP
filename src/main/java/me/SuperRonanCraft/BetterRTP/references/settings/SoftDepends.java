@@ -13,12 +13,16 @@ public class SoftDepends {
     private boolean respect_towny = false;
     private boolean respect_redProtect = false;
     private boolean respect_factionsUUID = false;
+    private boolean respect_lands = false;
+    private boolean respect_residence = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
     private boolean towny = false;
     private boolean redProtect = false;
     private boolean factionsUUID = false;
+    private boolean lands = false;
+    private boolean residence = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -40,6 +44,14 @@ public class SoftDepends {
         return factionsUUID;
     }
 
+    public boolean isLands() {
+        return lands;
+    }
+
+    public boolean isResidence() {
+        return residence;
+    }
+
     void load() {
         FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
@@ -48,11 +60,15 @@ public class SoftDepends {
         respect_towny = config.getBoolean(          pre + "Towny");
         respect_redProtect = config.getBoolean(     pre + "RedProtect");
         respect_factionsUUID = config.getBoolean(   pre + "FactionsUUID");
+        respect_lands = config.getBoolean(          pre + "Lands");
+        respect_residence = config.getBoolean(      pre + "Residence");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
         registerRedProtect();
         registerFactionsUUID();
+        registerLands();
+        registerResidence();
     }
 
     public void registerWorldguard() {
@@ -83,6 +99,18 @@ public class SoftDepends {
         factionsUUID = respect_factionsUUID && Bukkit.getPluginManager().isPluginEnabled("Factions");
         if (respect_factionsUUID)
             debug("Respecting `FactionsUUID` was " + (factionsUUID ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerLands() {
+        lands = respect_lands && Bukkit.getPluginManager().isPluginEnabled("Lands");
+        if (respect_lands)
+            debug("Respecting `Lands` was " + (lands ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerResidence() {
+        residence = respect_residence && Bukkit.getPluginManager().isPluginEnabled("Residence");
+        if (respect_residence)
+            debug("Respecting `Residence` was " + (residence ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {
