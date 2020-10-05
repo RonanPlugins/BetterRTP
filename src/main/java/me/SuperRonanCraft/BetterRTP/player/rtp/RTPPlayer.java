@@ -36,6 +36,7 @@ public class RTPPlayer {
             Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
             chunk.thenAccept(result -> {
+                Main.debug("Checking location for " + p.getName());
                 Location tpLoc;
                 float yaw = p.getLocation().getYaw();
                 float pitch = p.getLocation().getPitch();
@@ -47,10 +48,11 @@ public class RTPPlayer {
                         tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
                 }
                 //Valid location?
-                if (tpLoc != null && checkDepends(tpLoc))
-                    if (getPl().getEco().charge(p, pWorld))
+                if (tpLoc != null && checkDepends(tpLoc)) {
+                    if (getPl().getEco().charge(p, pWorld)) {
                         settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts());
-                else
+                    }
+                } else
                     randomlyTeleport(sendi);
             });
         }

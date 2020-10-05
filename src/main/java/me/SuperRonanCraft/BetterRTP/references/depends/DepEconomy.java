@@ -57,7 +57,7 @@ public class DepEconomy {
         Player player = pWorld.getPlayer();
         //Hunger Stuff
         if (hunger != 0
-                && sendi == player
+                && !Main.getInstance().getPerms().getBypassHunger(sendi)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
@@ -69,9 +69,10 @@ public class DepEconomy {
         if (e != null && pWorld.getPrice() != 0 && !Main.getInstance().getPerms().getBypassEconomy(sendi)) {
             try {
                 boolean passed_economy = e.getBalance(player) >= pWorld.getPrice();
-                if (!passed_economy)
+                if (!passed_economy) {
                     Main.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
-                return passed_economy;
+                    return false;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

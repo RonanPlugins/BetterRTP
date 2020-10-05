@@ -139,20 +139,19 @@ public class Commands {
 
     private boolean checkDelay(CommandSender sendi, Player player) {
         if (rtping.containsKey(player.getUniqueId()) && rtping.get(player.getUniqueId())) {
-            pl.getText().getAlready(player);
+            pl.getText().getAlready(sendi);
             return false;
         } else if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
             return true;
         } else if (cooldowns.enabled) { //Cooling down?
-            Player p = (Player) sendi;
-            UUID id = p.getUniqueId();
+            UUID id = player.getUniqueId();
             if (cooldowns.exists(id)) {
                 if (cooldowns.locked(id)) { //Infinite cooldown (locked)
                     pl.getText().getNoPermission(sendi);
                     return false;
                 } else { //Normal cooldown
                     long Left = cooldowns.timeLeft(id);
-                    if (pl.getSettings().delayEnabled && !pl.getPerms().getBypassDelay(p))
+                    if (pl.getSettings().delayEnabled && !pl.getPerms().getBypassDelay(sendi))
                         Left = Left + delayTimer;
                     if (Left > 0) {
                         //Still cooling down
