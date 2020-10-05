@@ -86,6 +86,11 @@
             <id>factions-uuid</id>
             <url>http://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
+        <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
+        <repository>
+            <id>residence-repo</id>
+            <url>file:${project.basedir}/LocalJars/Residence4.9.1.9.jar</url>
+        </repository>
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -169,14 +174,6 @@
             <artifactId>LandsAPI</artifactId>
             <version>4.9.4</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
-        <dependency>
-            <groupId>com.zrips</groupId>
-            <artifactId>residence</artifactId>
-            <version>4.9.1.9</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/LocalJars/Residence4.9.1.9.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

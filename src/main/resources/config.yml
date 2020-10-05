@@ -17,6 +17,8 @@ Settings:
     FactionsUUID: false
     ## Respect Lands areas (https://www.spigotmc.org/resources/lands.53313/)
     Lands: false
+    ## Respect Residence areas (https://www.spigotmc.org/resources/residence.11480/)
+    Residence: false
   ## Output to console some debugging info
   Debugger: false
   ## Amount of chunks to preload around a safe location
