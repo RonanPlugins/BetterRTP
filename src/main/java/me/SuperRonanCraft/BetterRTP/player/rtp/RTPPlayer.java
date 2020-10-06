@@ -60,6 +60,7 @@ public class RTPPlayer {
 
     // Compressed code for MaxAttempts being met
     private void metMax(CommandSender sendi, Player p) {
+        settings.teleport.failed(p);
         if (p == sendi)
             getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
         else
