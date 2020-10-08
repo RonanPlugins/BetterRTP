@@ -47,6 +47,28 @@
                     <outputDirectory>../../Java/plugins</outputDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>hack-binary</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/LocalJars/Residence4.9.1.9.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.bekvon.bukkit</groupId>
+                            <artifactId>residence</artifactId>
+                            <version>4.9.1.9</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
     </build>
@@ -86,7 +108,7 @@
             <id>factions-uuid</id>
             <url>http://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
-        <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
+        <!-- Residence -->
         <repository>
             <id>residence-repo</id>
             <url>file:${project.basedir}/LocalJars/Residence4.9.1.9.jar</url>
@@ -173,6 +195,13 @@
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
             <version>4.9.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
+        <dependency>
+            <groupId>com.bekvon.bukkit</groupId>
+            <artifactId>Residence</artifactId>
+            <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
