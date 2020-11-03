@@ -25,10 +25,12 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 2) {
-            for (World w : Bukkit.getWorlds())
-                if (w.getName().startsWith(args[1]) && !Main.getInstance().getRTP().disabledWorlds().contains(w.getName()) &&
-                        Main.getInstance().getPerms().getAWorld(sendi, w.getName()))
-                    list.add(w.getName());
+            for (World w : Bukkit.getWorlds()) {
+                String _wName = w.getName().replace(" ", "_");
+                if (w.getName().startsWith(args[1]) && !Main.getInstance().getRTP().disabledWorlds().contains(_wName)
+                        && Main.getInstance().getPerms().getAWorld(sendi, _wName))
+                    list.add(_wName);
+            }
         } else if (args.length >= 3) {
             if (CommandTypes.BIOME.getCmd().permission(sendi))
                 getCmd().addBiomes(list, args);

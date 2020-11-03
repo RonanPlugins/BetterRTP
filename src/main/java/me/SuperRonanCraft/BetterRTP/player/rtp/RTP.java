@@ -116,18 +116,18 @@ public class RTP {
         return disabledWorlds;
     }
 
-    public WorldPlayer getPlayerWorld(CommandSender p, String worldName, List<String> biomes, boolean personal) {
-        WorldPlayer pWorld = new WorldPlayer(p, Bukkit.getWorld(worldName));
+    public WorldPlayer getPlayerWorld(CommandSender sendi, String world_name, List<String> biomes, boolean personal) {
+        WorldPlayer pWorld = new WorldPlayer(sendi, Bukkit.getWorld(world_name));
         // Set all methods
-        if (customWorlds.containsKey(worldName)) {
+        if (customWorlds.containsKey(world_name)) {
             RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
             pWorld.setup(cWorld, cWorld.getPrice(), biomes, personal);
         } else
             pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes, personal);
         //World type
         WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
-        if (this.world_type.containsKey(worldName))
-            world_type = this.world_type.get(worldName);
+        if (this.world_type.containsKey(world_name))
+            world_type = this.world_type.get(world_name);
         pWorld.setWorldtype(world_type);
         return pWorld;
     }
@@ -138,8 +138,19 @@ public class RTP {
 
     public void start(Player p, CommandSender sendi, String world_name, List<String> biomes, boolean delay) {
         // Check overrides
-        if (world_name == null)
+        if (world_name == null) {
             world_name = p.getWorld().getName();
+        } else { // Check if nulled or world doesnt exist
+            World _world = Bukkit.getWorld(world_name);
+            if (_world == null) { //Check if world has spaces instead of underscores
+                _world = Bukkit.getWorld(world_name.replace("_", " "));
+                world_name = world_name.replace("_", "");
+            }
+            if (_world == null) {
+                getPl().getText().getNotExist(sendi, world_name);
+                return;
+            }
+        }
         if (overriden.containsKey(world_name))
             world_name = overriden.get(world_name);
         // Not forced and has 'betterrtp.world.<world>'
@@ -150,11 +161,6 @@ public class RTP {
         // Check disabled worlds
         if (disabledWorlds.contains(world_name)) {
             getPl().getText().getDisabledWorld(sendi, world_name);
-            return;
-        }
-        // Check if nulled or world doesnt exist
-        if (Bukkit.getWorld(world_name) == null) {
-            getPl().getText().getNotExist(sendi, world_name);
             return;
         }
         WorldPlayer pWorld = getPlayerWorld(p, world_name, biomes, true);

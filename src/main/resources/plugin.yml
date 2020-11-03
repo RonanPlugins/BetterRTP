@@ -1,5 +1,5 @@
 main: me.SuperRonanCraft.BetterRTP.Main
-version: '2.14.3'
+version: '2.14.4'
 name: BetterRTP
 author: SuperRonanCraft
 softdepend: [Vault, WorldGuard, GriefPrevention, Towny, Factions, RedProtect, Lands, Residence]
