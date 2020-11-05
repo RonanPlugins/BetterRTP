@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.Main;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
@@ -90,7 +91,7 @@ public class Commands {
 
     public void rtp(CommandSender sendi, String cmd, String world, List<String> biomes) {
         if (sendi instanceof Player)
-            tp((Player) sendi, sendi, world, biomes);
+            tp((Player) sendi, sendi, world, biomes, RTP_TYPE.COMMAND);
         else
             msgNotPlayer(sendi, cmd);
     }
@@ -126,14 +127,14 @@ public class Commands {
         pl.getText().getNoPermission(sendi);
     }
 
-    public void tp(Player player, CommandSender sendi, String world, List<String> biomes) {
+    public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType) {
         if (checkDelay(sendi, player)) { //Cooling down or rtp'ing
             boolean delay = false;
             if (sendi == player) //Forced?
                 if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
                     if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
                         delay = true;
-            pl.getRTP().start(player, sendi, world, biomes, delay);
+            pl.getRTP().start(player, sendi, world, biomes, delay, rtpType);
         }
     }
 

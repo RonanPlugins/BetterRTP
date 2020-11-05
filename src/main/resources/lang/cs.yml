@@ -1,0 +1,57 @@
+# Translation author: Lewisparkle (Discord)
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success:
+    Paid: '&aByl/a jsi teleportován/a na&7 x=%x% y=%y% z=%z% za &c$%price%&7 po &f%attempts% &7pokusech!'
+    Bypass: '&aByl/a jsi teleportován/a na&7 x=%x% y=%y% z=%z% po &f%attempts% &7pokusech!'
+    Loading: '&aNalezeno bezpečné místo! &7Načítám chunky...'
+    Teleport: '&aTeleportuji... &fProsím, počkejte, než nalezneme bezpečné místo!'
+  Failed:
+    Price: '&cNebyl/a jsi teleportován, protože nemáš dostatek peněz! &7Musíš mít alespoň $%price% &7pro teleport!'
+    NotSafe: '&cNepodařilo se najít bezpečné místo po %attempts% pokusech! &7Nebyl/a jsi teleportován/a!'
+    Hunger: '&cNebyl/a jsi teleportován, protože jsi... &7příliš hladový/á.&c Sněz něco, kámo!'
+  Other:
+    Success: '&a%player% byl/a teleportován/a na&7 x=%x% y=%y% z=%z% po &f%attempts% &7pokusech!'
+    NotSafe: '&cNepodařilo se najít bezpečné místo po %attempts% pokusech! &7%player% nebyl/a teleportován/a!'
+    Biome: '&cVypadá to, že biom&7 %biome%&c neexistuje! &7Zkus použít tabulátor!'
+  Reload: '&eConfig úspěšně načten!'
+  NoPermission:
+    Basic: '&cPozor! &7Na tento příkaz nemáš práva!'
+    World: '&cPozor! &7Ve světě %world% se nelze teleportovat!'
+  DisabledWorld: '&cSvět %world% je uzamčen! &7Teleport nebyl možný!'
+  Cooldown: '&cPozor! &7Nemůžeš se teleportovat ještě &c%time% &7sekund!'
+  Locked: '&cPozor! &7Využil/a jsi všechny své teleporty!'
+  Invalid: '&cNeplatný příkaz. Zkus ''/%command% help''.'
+  NotOnline: '&cHráč &7%player% &cnení online!'
+  Delay: '&aTeleportuji za &f%time% &asekund! Nehýbej se!'
+  Moved: '&cPohl/a jsi se! &7Teleport byl zrušen!'
+  NotExist: '&cVypadá to, že svět &7%world% &cneexistuje!'
+  Already: '&cUps! &7Vypadá to, že se už teleportuješ! Měj trochu strpení!'
+  Sign: '&7Cedulka s příkazem vytvořena! &7Příkaz je... ''&f/rtp %command%&7''.'
+  Edit:
+    Error: '&cError! &7Zadána neplatná hodnota!'
+    Set: '&bÚspěch! &7%type% nastaveno na %value%'
+    Remove: '&cOdstraněno! &7Vymazal jsi vlastní svět %world%'
+
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| Pomoc &e&m-----'
+  Main: ' &7- &e/%command% &7- Náhodně tě teleportuje!'
+  Biome: ' &7- &e/%command% biome <biom1, biom2...> &7- Náhodně tě teleportuje do zadaných biomů'
+  Edit: ' &7- &e/%command% edit <default/svět> [hodnoty...] &7- Úprava některých nastavení'
+  Help: ' &7- &e/%command% help &7- Zobrazí pomoc'
+  Info: ' &7- &e/%command% info [svět/částice/tvary/efekty_lektvarů] &7- Zobrazí konkrétní informace o nastavení pluginu'
+  Player: ' &7- &e/%command% player <hráč> [svět] [biom1, biom2...] &7- Náhodně teleportuje jiného hráče'
+  Reload: ' &7- &e/%command% reload &7- Znovu načte plugin'
+  Settings: ' &7- &e/%command% settings &7- Zobrazí GUI s nastavením'
+  Test: ' &7- &e/%command% test &7- Vyzkoušet efekty po teleportu bez pohybu'
+  Version: ' &7- &e/%command% version &7- Zobrazí verzi pluginu'
+  World: ' &7- &e/%command% world <svět> [biom1, biom2...] &7- Náhodně tě teleportuje do jiného světa'
+
+Usage:
+  Player: '&cPoužití&7: /%command% player <hráč> [svět] [biom1, biom2]'
+  World: '&cPoužití&7: /%command% world <svět> [biom1, biom2...]'
+  Biome: '&cPoužití&7: /%command% biome <biom1, biom2...>'
+  Edit:
+    Base: '&cPoužití&7: /%command% edit <default/svět> [hodnoty...]'
+    Default: '&cPoužití&7: /%command% edit default <max/min/useworldborder/center> <hodnota>'
+    World: '&cPoužití&7: /%command% edit world <svět> <max/min/useworldborder/center> <hodnota>'

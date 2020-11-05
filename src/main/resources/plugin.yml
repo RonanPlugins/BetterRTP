@@ -20,6 +20,7 @@ permissions:
             betterrtp.reload: true
             betterrtp.updater: true
             betterrtp.biome: true
+            betterrtp.version: true
     betterrtp.world.*:
         description: RTP in all enabled worlds
     betterrtp.bypass.*:
@@ -30,6 +31,8 @@ permissions:
     betterrtp.use:
         description: Use RTP command
         default: true
+    betterrtp.version:
+        description: See which version is running
     betterrtp.world:
         description: Use world command
     betterrtp.player:

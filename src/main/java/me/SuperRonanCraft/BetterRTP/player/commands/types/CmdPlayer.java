@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -19,14 +20,14 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2)
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
-                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld().getName(), null);
+                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld().getName(), null, RTP_TYPE.FORCED);
             else if (Bukkit.getPlayer(args[1]) != null)
                 getCmd().playerNotOnline(sendi, args[1]);
             else
                 usage(sendi, label);
         else if (args.length >= 3)
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
-                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getWorld(args[2]).getName(), getCmd().getBiomes(args, 3, sendi));
+                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getWorld(args[2]).getName(), getCmd().getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
             else if (Bukkit.getPlayer(args[1]) != null)
                 getCmd().playerNotOnline(sendi, args[1]);
             else

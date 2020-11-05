@@ -28,6 +28,7 @@ Settings:
   RtpOnFirstJoin: # Will execute as console to override delays
     Enabled: false # Make the player rtp when joining the server for the first time
     World: 'world' # World to first rtp in
+    SetAsRespawn: false # Save this first rtp as players new spawn point
   Cooldown:
     Enabled: true # Enabled or disabled cooldown timer
     LockAfter: 0 # Lock the player in an infinite cooldown after # rtp's (0 to disable)

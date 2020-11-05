@@ -26,6 +26,10 @@ Titles:
     Title: ''
     Subtitle: '&7loading chunks... please wait'
     SendMessage: true # Allow the loading message in chat
+  Failed:
+    Title: ''
+    Subtitle: '&cFailed! No safe spots located'
+    SendMessage: true
 Particles: #Use `rtp info particles` for a list of particles
   Enabled: true
   Type: 'EXPLOSION_NORMAL' #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java

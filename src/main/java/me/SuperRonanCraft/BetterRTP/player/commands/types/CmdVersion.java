@@ -18,7 +18,7 @@ public class CmdVersion implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return true;
+        return Main.getInstance().getPerms().getVersion(sendi);
     }
 
     @Override

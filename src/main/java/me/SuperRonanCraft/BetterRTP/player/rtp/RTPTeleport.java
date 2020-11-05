@@ -57,6 +57,10 @@ public class RTPTeleport {
                                 if (sendi != p) //Tell player who requested that the player rtp'd
                                     sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
                                 getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
+                                //Save respawn location if first join
+                                if (Main.getInstance().getpInfo().getRTPType(p) == RTP_TYPE.JOIN) //RTP Type was Join
+                                    if (Main.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
+                                        p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                             }
                         });
                     } catch (Exception e) {
@@ -67,6 +71,8 @@ public class RTPTeleport {
             }.runTask(getPl());
         });
     }
+
+    //Effects
 
     public void afterTeleport(Player p, Location loc, int price, int attempts) { //Only a successful rtp should run this OR '/rtp test'
         eSounds.playTeleport(p);
@@ -103,6 +109,17 @@ public class RTPTeleport {
             getPl().getText().getSuccessLoading(sendi);
     }
 
+    public void failedTeleport(Player p, CommandSender sendi) {
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
+        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.FAILED))
+            if (p == sendi)
+                getPl().getText().getFailedNotSafe(sendi, Main.getInstance().getRTP().maxAttempts);
+            else
+                getPl().getText().getOtherNotSafe(sendi, Main.getInstance().getRTP().maxAttempts, p.getName());
+    }
+
+    //Processing
+
     private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
         int range = Math.round(Math.max(0, Math.min(16, getPl().getSettings().preloadRadius)));
@@ -133,9 +150,5 @@ public class RTPTeleport {
 
     private Main getPl() {
         return Main.getInstance();
-    }
-
-    public void failed(Player p) {
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
     }
 }

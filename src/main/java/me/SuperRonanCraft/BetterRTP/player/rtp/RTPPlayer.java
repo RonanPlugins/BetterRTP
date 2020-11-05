@@ -30,7 +30,7 @@ public class RTPPlayer {
     }
 
     void randomlyTeleport(CommandSender sendi) {
-        if (pWorld.getAttempts() >= settings.maxAttempts) //Cancel out, too many tried
+        if (pWorld.getAttempts() >= settings.maxAttempts) //Cancel out, too many tries
             metMax(sendi, p);
         else { //Try again to find a safe location
             Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
@@ -60,11 +60,11 @@ public class RTPPlayer {
 
     // Compressed code for MaxAttempts being met
     private void metMax(CommandSender sendi, Player p) {
-        settings.teleport.failed(p);
-        if (p == sendi)
+        settings.teleport.failedTeleport(p, sendi);
+        /*if (p == sendi)
             getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
         else
-            getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());
+            getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());*/
         getPl().getCmd().cooldowns.remove(p.getUniqueId());
         //getPl().getEco().unCharge(p, pWorld);
         getPl().getCmd().rtping.put(p.getUniqueId(), false);

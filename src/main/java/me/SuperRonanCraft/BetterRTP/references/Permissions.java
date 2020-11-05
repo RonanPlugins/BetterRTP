@@ -71,6 +71,10 @@ public class Permissions {
         return perm(pre + "test", sendi);
     }
 
+    public boolean getVersion(CommandSender sendi) {
+        return perm(pre + "version", sendi);
+    }
+
     public boolean getAWorld(CommandSender sendi, String world) {
         if (perm(pre + "world.*", sendi))
             return true;

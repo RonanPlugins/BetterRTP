@@ -54,7 +54,7 @@ public class LangFile {
         }
     }
 
-    private final String[] defaultLangs = {"en.yml", "fr.yml", "ja.yml", "ru.yml", "chs.yml", "cht.yml", "du.yml"};
+    private final String[] defaultLangs = {"en.yml", "fr.yml", "ja.yml", "ru.yml", "chs.yml", "cht.yml", "du.yml", "es.yml", "cs.yml"};
 
     private void generateDefaults() {
         //Generate all language files

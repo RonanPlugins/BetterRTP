@@ -136,7 +136,7 @@ public class RTP {
         return Main.getInstance();
     }
 
-    public void start(Player p, CommandSender sendi, String world_name, List<String> biomes, boolean delay) {
+    public void start(Player p, CommandSender sendi, String world_name, List<String> biomes, boolean delay, RTP_TYPE rtpType) {
         // Check overrides
         if (world_name == null) {
             world_name = p.getWorld().getName();
@@ -165,9 +165,9 @@ public class RTP {
         }
         WorldPlayer pWorld = getPlayerWorld(p, world_name, biomes, true);
         // Economy
-        if (!getPl().getEco().hasBalance(sendi, pWorld)) {
+        if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        }
+        Main.getInstance().getpInfo().setRTPType(p, rtpType);
         rtp(sendi, pWorld, delay);
     }
 
