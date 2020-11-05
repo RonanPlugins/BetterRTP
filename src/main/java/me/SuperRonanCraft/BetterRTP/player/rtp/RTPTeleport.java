@@ -2,7 +2,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -135,5 +133,9 @@ public class RTPTeleport {
 
     private Main getPl() {
         return Main.getInstance();
+    }
+
+    public void failed(Player p) {
+        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
     }
 }

@@ -54,7 +54,7 @@ public class RTPTitles {
     }
 
     enum RTP_TITLE_TYPE {
-        NODELAY("NoDelay"), TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading");
+        NODELAY("NoDelay"), TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading"), FAILED("Failed");
         String path;
         RTP_TITLE_TYPE(String path) {
             this.path = path;
