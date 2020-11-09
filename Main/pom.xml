@@ -45,7 +45,7 @@
                         <id>hack-binary</id>
                         <phase>clean</phase>
                         <configuration>
-                            <file>${basedir}/LocalJars/Residence4.9.1.9.jar</file>
+                            <file>${basedir}/../LocalJars/Residence4.9.1.9.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.bekvon.bukkit</groupId>
                             <artifactId>residence</artifactId>
