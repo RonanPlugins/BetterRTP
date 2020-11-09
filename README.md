@@ -3,7 +3,7 @@
 </p>
 
 ## Where's the Lang files?/Want to Contribute translating?  
-All language files are located [here](src/main/resources/lang)
+All language files are located [here](BetterRTP-Main/src/main/resources/lang)
 feel free to fork one of the language files and help translate!
 
 ## Libraries
