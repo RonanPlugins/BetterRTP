@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ public class Updater {
 
     public static String updatedVersion;
 
-    public Updater(Main pl) {
+    public Updater(BetterRTP pl) {
         try {
             URLConnection con = new URL(getUrl() + project()).openConnection();
             updatedVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();

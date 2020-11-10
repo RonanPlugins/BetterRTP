@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
@@ -49,7 +49,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public String getHelp() {
-        return Main.getInstance().getText().getHelpInfo();
+        return BetterRTP.getInstance().getText().getHelpInfo();
     }
 
     enum CmdInfoSub { //Sub commands, future expansions
@@ -59,7 +59,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     //Particles
     private void infoParticles(CommandSender sendi) {
         List<String> info = new ArrayList<>();
-        Main pl = Main.getInstance();
+        BetterRTP pl = BetterRTP.getInstance();
 
         for (ParticleEffect eff : ParticleEffect.VALUES) {
             if (info.isEmpty() || info.size() % 2 == 0) {
@@ -85,7 +85,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), Main.getInstance().getText().color(str)));
+                info.set(info.indexOf(str), BetterRTP.getInstance().getText().color(str)));
         sendi.sendMessage(info.toString());
     }
 
@@ -93,7 +93,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     private void sendInfoWorld(CommandSender sendi, List<String> list) { //Send info
         list.add(0, "&e&m-----&6 BetterRTP &8| Info &e&m-----");
         list.forEach(str ->
-                list.set(list.indexOf(str), Main.getInstance().getText().color(str)));
+                list.set(list.indexOf(str), BetterRTP.getInstance().getText().color(str)));
         sendi.sendMessage(list.toArray(new String[0]));
     }
 
@@ -106,7 +106,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
     private List<String> infoGetWorld(CommandSender sendi, World w, boolean personal) { //Specific world
         List<String> info = new ArrayList<>();
-        Main pl = Main.getInstance();
+        BetterRTP pl = BetterRTP.getInstance();
         String _true = "&aTrue", _false = "&bFalse";
         info.add("&eWorld: &7" + w.getName() + (personal ? " &7(personalized)" : ""));
         if (personal)
@@ -120,8 +120,8 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
             else {
                 info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), WORLD_TYPE.NORMAL).name());
                 info.add("&7- &6Overriden: " + _false);
-                WorldPlayer _rtpworld = Main.getInstance().getRTP().getPlayerWorld(sendi, w.getName(), null, personal);
-                info.add("&7- &6Custom: " + (Main.getInstance().getRTP().customWorlds.containsKey(w.getName()) ? _true : _false));
+                WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(sendi, w.getName(), null, personal);
+                info.add("&7- &6Custom: " + (BetterRTP.getInstance().getRTP().customWorlds.containsKey(w.getName()) ? _true : _false));
                 info.add("&7- &6UseWorldBorder: " + (_rtpworld.getUseWorldborder() ? _true : _false));
                 info.add("&7- &6Permission Group: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
                 info.add("&7- &6Center X: &f" + _rtpworld.getCenterX());
@@ -145,7 +145,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), Main.getInstance().getText().color(str)));
+                info.set(info.indexOf(str), BetterRTP.getInstance().getText().color(str)));
         sendi.sendMessage(info.toString());
     }
 
@@ -167,6 +167,6 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return Main.getInstance().getPerms().getInfo(sendi);
+        return BetterRTP.getInstance().getPerms().getInfo(sendi);
     }
 }

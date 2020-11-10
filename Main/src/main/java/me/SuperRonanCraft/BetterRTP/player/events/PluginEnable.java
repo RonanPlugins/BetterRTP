@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.event.server.PluginEnableEvent;
 
 public class PluginEnable {
@@ -10,9 +10,9 @@ public class PluginEnable {
         String name = e.getPlugin().getName();
         //System.out.println(name);
         if (name.equalsIgnoreCase("WorldGuard"))
-            Main.getInstance().getSettings().getsDepends().registerWorldguard();
+            BetterRTP.getInstance().getSettings().getsDepends().registerWorldguard();
         else if (name.equalsIgnoreCase("GriefPrevention"))
-            Main.getInstance().getSettings().getsDepends().registerGriefPrevention();
+            BetterRTP.getInstance().getSettings().getsDepends().registerGriefPrevention();
 
     }
 

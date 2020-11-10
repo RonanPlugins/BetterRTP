@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.settings;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
@@ -53,7 +53,7 @@ public class SoftDepends {
     }
 
     void load() {
-        FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
         respect_worldguard = config.getBoolean(     pre + "WorldGuard");
         respect_griefprevention = config.getBoolean(pre + "GriefPrevention");
@@ -114,7 +114,7 @@ public class SoftDepends {
     }
 
     private void debug(String str) {
-        if (Main.getInstance().getSettings().debug)
-            Main.getInstance().getLogger().log(Level.INFO, str);
+        if (BetterRTP.getInstance().getSettings().debug)
+            BetterRTP.getInstance().getLogger().log(Level.INFO, str);
     }
 }

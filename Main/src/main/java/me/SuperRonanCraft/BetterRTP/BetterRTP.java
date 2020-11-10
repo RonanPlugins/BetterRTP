@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.Listener;
+import me.SuperRonanCraft.BetterRTP.player.events.RTPEventInitiator;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
@@ -18,18 +19,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-public class Main extends JavaPlugin {
+public class BetterRTP extends JavaPlugin {
     private final Permissions perms = new Permissions();
     private final Messages text = new Messages();
     private final DepEconomy eco = new DepEconomy();
     private final Commands cmd = new Commands(this);
     private final RTP rtp = new RTP();
     private final Listener listener = new Listener();
-    private static Main instance;
+    private static BetterRTP instance;
     private final Files files = new Files();
     private final RTPInventories invs = new RTPInventories();
     private final PlayerInfo pInfo = new PlayerInfo();
     private final Settings settings = new Settings();
+    private final RTPEventInitiator events = new RTPEventInitiator();
 
     public void onEnable() {
         instance = this;
@@ -47,7 +49,7 @@ public class Main extends JavaPlugin {
         return files;
     }
 
-    public static Main getInstance() {
+    public static BetterRTP getInstance() {
         return instance;
     }
 
@@ -120,5 +122,9 @@ public class Main extends JavaPlugin {
     public static void debug(String str) {
         if (getInstance().getSettings().debug)
             getInstance().getLogger().info(str);
+    }
+
+    public RTPEventInitiator getEvents() {
+        return events;
     }
 }

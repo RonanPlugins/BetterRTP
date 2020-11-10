@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -79,7 +79,7 @@ public class RTP {
                 }
             if (getPl().getSettings().debug)
                 for (String world : world_type.keySet())
-                    Main.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
+                    BetterRTP.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
         } catch (Exception e) {
             e.printStackTrace();
             //No World Types
@@ -101,7 +101,7 @@ public class RTP {
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
                     if (getPl().getSettings().debug)
-                        Main.debug("- Custom World '" + entry.getKey() + "' registered");
+                        BetterRTP.debug("- Custom World '" + entry.getKey() + "' registered");
                 }
         } catch (Exception e) {
             //No Custom Worlds
@@ -132,8 +132,8 @@ public class RTP {
         return pWorld;
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 
     public void start(Player p, CommandSender sendi, String world_name, List<String> biomes, boolean delay, RTP_TYPE rtpType) {
@@ -167,7 +167,7 @@ public class RTP {
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        Main.getInstance().getpInfo().setRTPType(p, rtpType);
+        BetterRTP.getInstance().getpInfo().setRTPType(p, rtpType);
         rtp(sendi, pWorld, delay);
     }
 

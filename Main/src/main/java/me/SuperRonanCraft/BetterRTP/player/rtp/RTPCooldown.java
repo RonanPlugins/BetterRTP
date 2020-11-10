@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -123,7 +123,7 @@ public class RTPCooldown {
 
     private void loadFile() {
         config = null;
-        configfile = new File(Main.getInstance().getDataFolder(), "data/cooldowns.yml");
+        configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
         YamlConfiguration config = getFile();
         if (config != null)
             for (String id : config.getKeys(false)) {
@@ -136,7 +136,7 @@ public class RTPCooldown {
                     locked.put(uuid, attempts);
                 }
             } catch (IllegalArgumentException e) {
-                Main.getInstance().getLogger().info("UUID of `" + id + "` is invalid, please delete this!");
+                BetterRTP.getInstance().getLogger().info("UUID of `" + id + "` is invalid, please delete this!");
                 //Bad uuid
             }
         }

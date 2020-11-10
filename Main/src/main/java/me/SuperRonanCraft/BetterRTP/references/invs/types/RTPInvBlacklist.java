@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.invs.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTP_INV_ITEMS;
@@ -40,7 +40,7 @@ public class RTPInvBlacklist extends RTPInventory {
                 switch (type) {
                     case BACK:
                         if (slot == e.getInventory().getSize() - 9 + type.slot)
-                            Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) e.getWhoClicked());
+                            BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) e.getWhoClicked());
                     default:
                         break;
                 }

@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -13,7 +13,7 @@ public class RTPPermissionGroup {
 
     public RTPPermConfiguration getGroup(CommandSender p) {
         for (RTPPermConfiguration group : groups)
-            if (Main.getInstance().getPerms().getPermissionGroup(p, group.name))
+            if (BetterRTP.getInstance().getPerms().getPermissionGroup(p, group.name))
                 return group;
         return null;
     }
@@ -22,7 +22,7 @@ public class RTPPermissionGroup {
         for (RTPPermConfiguration group : groups)
             group.worlds.clear();
         groups.clear();
-        YamlConfiguration config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG).getConfig();
+        YamlConfiguration config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG).getConfig();
         if (!config.getBoolean("PermissionGroup.Enabled")) return;
         List<Map<?, ?>> list = config.getMapList("PermissionGroup.Groups");
         for (Map<?, ?> m : list)
@@ -30,12 +30,12 @@ public class RTPPermissionGroup {
                 RTPPermConfiguration group = new RTPPermConfiguration(entry);
                 if (group.isValid()) {
                     groups.add(group);
-                    Main.debug("- Group " + group.name + " has " + group.worlds.size() + " worlds setup, permission: 'betterrtp.group." + group.name + "'");
+                    BetterRTP.debug("- Group " + group.name + " has " + group.worlds.size() + " worlds setup, permission: 'betterrtp.group." + group.name + "'");
                     for (RTPPermConfigurationWorld world : group.worlds) {
-                        Main.debug("  - World '" + world.name + "' MaxRad = " + world.maxRad + ", MinRad = " + world.minRad);
+                        BetterRTP.debug("  - World '" + world.name + "' MaxRad = " + world.maxRad + ", MinRad = " + world.minRad);
                     }
                 } else {
-                    Main.debug("ERROR! Group " + group.name + " was not setup correctly!");
+                    BetterRTP.debug("ERROR! Group " + group.name + " was not setup correctly!");
                 }
             }
     }
@@ -55,7 +55,7 @@ public class RTPPermissionGroup {
                     if (worldConfig.isValid())
                         this.worlds.add(worldConfig);
                     else
-                        Main.debug("ERROR! Group " + group + " world " + worldConfig.name + " was not setup correctly!");
+                        BetterRTP.debug("ERROR! Group " + group + " world " + worldConfig.name + " was not setup correctly!");
                 }
             }
             this.name = group;

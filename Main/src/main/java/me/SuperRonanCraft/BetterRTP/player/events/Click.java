@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,9 +18,9 @@ public class Click {
 
     private void handler(InventoryClickEvent e) {
         try {
-            PlayerInfo pInfo = Main.getInstance().getpInfo();
+            PlayerInfo pInfo = BetterRTP.getInstance().getpInfo();
             Player p = (Player) e.getWhoClicked();
-            RTPInventories menu = Main.getInstance().getInvs();
+            RTPInventories menu = BetterRTP.getInstance().getInvs();
             menu.getInv(pInfo.getInvType(p)).clickEvent(e);
         } catch (NullPointerException ex) {
             //ex.printStackTrace();
@@ -36,10 +36,10 @@ public class Click {
             return false;
         else if (e.getWhoClicked() instanceof Player) {
             // Clicks the inventory
-            if (!e.getInventory().equals(Main.getInstance().getpInfo().getInv((Player) e.getWhoClicked())))
+            if (!e.getInventory().equals(BetterRTP.getInstance().getpInfo().getInv((Player) e.getWhoClicked())))
                 return false;
                 // Clicks their own inventory
-            else if (!e.getClickedInventory().equals(Main.getInstance().getpInfo().getInv((Player) e
+            else if (!e.getClickedInventory().equals(BetterRTP.getInstance().getpInfo().getInv((Player) e
                     .getWhoClicked()))) {
                 e.setCancelled(true);
                 return false;

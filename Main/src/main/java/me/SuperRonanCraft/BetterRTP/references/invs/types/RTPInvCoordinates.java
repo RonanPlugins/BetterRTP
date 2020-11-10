@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.invs.types;
 
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics.FILETYPE;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTP_INV_ITEMS;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class RTPInvCoordinates extends RTPInventory {
 
     public void show(Player p) {
-        if (Main.getInstance().getpInfo().getInvWorld(p) == null) {
-            Main.getInstance().getpInfo().setNextInv(p, this.type);
-            Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.WORLDS).show(p);
+        if (BetterRTP.getInstance().getpInfo().getInvWorld(p) == null) {
+            BetterRTP.getInstance().getpInfo().setNextInv(p, this.type);
+            BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.WORLDS).show(p);
             return;
         }
         int slots = (RTP_COORDINATES_SETTINGS.values().length - (RTP_COORDINATES_SETTINGS.values().length % 9) + 1) * 9;
@@ -47,7 +47,7 @@ public class RTPInvCoordinates extends RTPInventory {
                 switch (type) {
                     case BACK:
                         if (slot == e.getInventory().getSize() - 9 + type.slot)
-                            Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) e.getWhoClicked());
+                            BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) e.getWhoClicked());
                     default:
                         break;
                 }
@@ -94,7 +94,7 @@ enum RTP_COORDINATES_SETTINGS {
     }
 
     void setValue(Object value) {
-        Main.getInstance().getFiles().getType(filetype).setValue(path, value);
+        BetterRTP.getInstance().getFiles().getType(filetype).setValue(path, value);
     }
 
     public Object[] getInfo() {return info;}
@@ -102,7 +102,7 @@ enum RTP_COORDINATES_SETTINGS {
     public Object getValue() {
         String path = this.path;
         if (path == null && condition != null) {
-            if (Main.getInstance().getFiles().getType(filetype).getBoolean(condition[0]))
+            if (BetterRTP.getInstance().getFiles().getType(filetype).getBoolean(condition[0]))
                 path = condition[1];
             else
                 path = condition[2];
@@ -113,11 +113,11 @@ enum RTP_COORDINATES_SETTINGS {
     private Object getValuePath(String path) {
         if (path != null) {
             if (getType() == SETTINGS_TYPE.BOOLEAN)
-                return Main.getInstance().getFiles().getType(filetype).getBoolean(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getBoolean(path);
             else if (getType() == SETTINGS_TYPE.STRING)
-                return Main.getInstance().getFiles().getType(filetype).getString(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getString(path);
             else if (getType() == SETTINGS_TYPE.INTEGER)
-                return Main.getInstance().getFiles().getType(filetype).getInt(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getInt(path);
         }
         return null;
     }

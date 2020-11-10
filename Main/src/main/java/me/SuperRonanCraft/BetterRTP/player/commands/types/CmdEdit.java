@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
@@ -34,7 +34,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                         return;
                                     }
                                 }
-                                Main.getInstance().getText().getNotExist(sendi, label);
+                                BetterRTP.getInstance().getText().getNotExist(sendi, label);
                                 return;
                             }
                             usage(sendi, label, cmd);
@@ -65,7 +65,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             value = cmd.getResult(val);
         } catch (Exception e) {
             e.printStackTrace();
-            Main.getInstance().getText().getEditError(sendi);
+            BetterRTP.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -81,7 +81,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                     Map<Object, Object> values = (Map<Object, Object>) map2;
                     values.put(cmd.get(), value);
 
-                    Main.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+                    BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
                 }
                 break;
             }
@@ -98,7 +98,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
         try {
             config.save(file.getFile());
-            Main.getInstance().getRTP().loadWorldSettings();
+            BetterRTP.getInstance().getRTP().loadWorldSettings();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             value = cmd.getResult(val);
         } catch (Exception e) {
             e.printStackTrace();
-            Main.getInstance().getText().getEditError(sendi);
+            BetterRTP.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -121,8 +121,8 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
         try {
             config.save(file.getFile());
-            Main.getInstance().getRTP().loadWorldSettings();
-            Main.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+            BetterRTP.getInstance().getRTP().loadWorldSettings();
+            BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,24 +187,24 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
     @Override
     public boolean permission(CommandSender sendi) {
-        return Main.getInstance().getPerms().getEdit(sendi);
+        return BetterRTP.getInstance().getPerms().getEdit(sendi);
     }
 
     private void usage(CommandSender sendi, String label, RTP_CMD_EDIT type) {
         if (type != null)
             switch (type) {
                 case DEFAULT:
-                    Main.getInstance().getText().getUsageEditDefault(sendi, label); break;
+                    BetterRTP.getInstance().getText().getUsageEditDefault(sendi, label); break;
                 case WORLD:
-                    Main.getInstance().getText().getUsageEditWorld(sendi, label); break;
+                    BetterRTP.getInstance().getText().getUsageEditWorld(sendi, label); break;
             }
         else
-            Main.getInstance().getText().getUsageEdit(sendi, label);
+            BetterRTP.getInstance().getText().getUsageEdit(sendi, label);
     }
 
     @Override
     public String getHelp() {
-        return Main.getInstance().getText().getHelpEdit();
+        return BetterRTP.getInstance().getText().getHelpEdit();
     }
 
     enum RTP_CMD_EDIT {

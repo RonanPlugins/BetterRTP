@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.file;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -40,7 +40,7 @@ public class LangFile {
         }
         try {
             config.load(file);
-            InputStream in = Main.getInstance().getResource(fileName);
+            InputStream in = BetterRTP.getInstance().getResource(fileName);
             if (in == null)
                 in = getPl().getResource(fileName.replace(File.separator, "/"));
             if (in != null) {
@@ -74,7 +74,7 @@ public class LangFile {
             YamlConfiguration config = new YamlConfiguration();
             config.load(file);
             String fileNameDef = "lang" + File.separator + fNameDef;
-            InputStream in = Main.getInstance().getResource(fileNameDef);
+            InputStream in = BetterRTP.getInstance().getResource(fileNameDef);
             if (in == null)
                 in = getPl().getResource(fileNameDef.replace(File.separator, "/"));
             if (in != null) {
@@ -89,7 +89,7 @@ public class LangFile {
 
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

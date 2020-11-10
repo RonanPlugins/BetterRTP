@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class CmdVersion implements RTPCommand, RTPCommandHelpable {
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        sendi.sendMessage(Main.getInstance().getText().colorPre("&aVersion #&e" + Main.getInstance().getDescription().getVersion()));
+        sendi.sendMessage(BetterRTP.getInstance().getText().colorPre("&aVersion #&e" + BetterRTP.getInstance().getDescription().getVersion()));
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
@@ -18,11 +18,11 @@ public class CmdVersion implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return Main.getInstance().getPerms().getVersion(sendi);
+        return BetterRTP.getInstance().getPerms().getVersion(sendi);
     }
 
     @Override
     public String getHelp() {
-        return Main.getInstance().getText().getHelpVersion();
+        return BetterRTP.getInstance().getText().getHelpVersion();
     }
 }

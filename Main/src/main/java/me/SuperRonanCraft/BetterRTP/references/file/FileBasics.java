@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.file;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -30,7 +30,7 @@ public class FileBasics {
 
         FILETYPE(String str) {
             this.fileName = str + ".yml";
-            this.file = new File(Main.getInstance().getDataFolder(), fileName);
+            this.file = new File(BetterRTP.getInstance().getDataFolder(), fileName);
         }
 
         //PUBLIC
@@ -85,7 +85,7 @@ public class FileBasics {
         //PROCCESSING
         private void load() {
             if (!file.exists()) {
-                Main.getInstance().saveResource(fileName, false);
+                BetterRTP.getInstance().saveResource(fileName, false);
                 try {
                     config.load(file);
                 } catch (Exception e) {
@@ -94,7 +94,7 @@ public class FileBasics {
             } else {
                 try {
                     config.load(file);
-                    final InputStream in = Main.getInstance().getResource(fileName);
+                    final InputStream in = BetterRTP.getInstance().getResource(fileName);
                     if (in != null) {
                         config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
                         config.options().copyDefaults(true);

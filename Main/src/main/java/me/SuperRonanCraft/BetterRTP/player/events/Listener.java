@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,7 +16,7 @@ public class Listener implements org.bukkit.event.Listener {
     private final Click click = new Click();
     //private final PluginEnable pEnable = new PluginEnable();
 
-    public void registerEvents(Main pl) {
+    public void registerEvents(BetterRTP pl) {
         PluginManager pm = pl.getServer().getPluginManager();
         pm.registerEvents(this, pl);
     }

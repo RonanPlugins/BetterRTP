@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,9 +24,9 @@ class RTPDelay implements Listener {
 
     private void delay(CommandSender sendi, int delay) {
         getPl().getRTP().getTeleport().beforeTeleportDelay(rtp.getPlayer(), delay);
-        run = Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), run(sendi, this), delay * 20);
+        run = Bukkit.getScheduler().scheduleSyncDelayedTask(BetterRTP.getInstance(), run(sendi, this), delay * 20);
         if (cancelOnMove || cancelOnDamage)
-            Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
+            Bukkit.getPluginManager().registerEvents(this, BetterRTP.getInstance());
     }
 
     @EventHandler
@@ -72,7 +72,7 @@ class RTPDelay implements Listener {
         };
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

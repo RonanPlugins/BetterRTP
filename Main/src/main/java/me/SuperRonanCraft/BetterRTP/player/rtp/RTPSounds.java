@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class RTPSounds {
         try {
             return Sound.valueOf(sound.toUpperCase());
         } catch (IllegalArgumentException e) {
-            Main.getInstance().getLogger().info("The sound '" + sound + "' is invalid!");
+            BetterRTP.getInstance().getLogger().info("The sound '" + sound + "' is invalid!");
             return null;
         }
     }

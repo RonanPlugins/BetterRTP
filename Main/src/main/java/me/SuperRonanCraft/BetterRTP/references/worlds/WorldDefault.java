@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -16,7 +16,7 @@ public class WorldDefault implements RTPWorld {
     public void setup() {
         //Setups
         String pre = "Default";
-        FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         //Booleans
         useWorldborder = config.getBoolean(pre + ".UseWorldBorder");
         //Integers
@@ -24,18 +24,18 @@ public class WorldDefault implements RTPWorld {
         CenterZ = config.getInt(pre + ".CenterZ");
         maxBorderRad = config.getInt(pre + ".MaxRadius");
         if (maxBorderRad <= 0) {
-            Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                     "WARNING! Default Maximum radius of '" + maxBorderRad + "' is not allowed! Set to '1000'");
             maxBorderRad = 1000;
         }
         minBorderRad = config.getInt(pre + ".MinRadius");
         if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
-            Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                     "WARNING! Default Minimum radius of '" + minBorderRad + "' is not allowed! Set to '0'");
             minBorderRad = 0;
         }
-        if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-            price = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Economy.Price");
+        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            price = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Economy.Price");
         else
             price = 0;
         //Other

@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -40,10 +40,10 @@ public class WorldPlayer implements RTPWorld {
             list.addAll(biomes);
         setBiomes(list);
         if (personal)
-            setupGroup(Main.getInstance().getRTP().permConfig);
+            setupGroup(BetterRTP.getInstance().getRTP().permConfig);
         //Make sure our borders will not cause an invalid integer
         if (getMaxRad() <= getMinRad()) {
-            setMinRad(Main.getInstance().getRTP().defaultWorld.getMinRad());
+            setMinRad(BetterRTP.getInstance().getRTP().defaultWorld.getMinRad());
             if (getMaxRad() <= getMinRad())
                 setMinRad(0);
         }

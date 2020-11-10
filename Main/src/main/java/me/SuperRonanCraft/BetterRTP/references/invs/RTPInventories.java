@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.invs;
 
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory_Defaults;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,7 +20,7 @@ public class RTPInventories {
     }
 
     public void closeAll() {
-        Main main = Main.getInstance();
+        BetterRTP main = BetterRTP.getInstance();
         for (Player p : Bukkit.getOnlinePlayers())
             if (main.getpInfo().playerExists(p)) {
                 //main.getText().getReloadMenu(p);

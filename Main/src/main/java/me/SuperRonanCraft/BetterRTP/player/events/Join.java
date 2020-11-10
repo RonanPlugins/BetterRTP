@@ -3,7 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.events;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -30,7 +30,7 @@ public class Join {
             getPl().getCmd().tp(p, Bukkit.getConsoleSender(), getPl().getSettings().rtpOnFirstJoin_World, null, RTP_TYPE.JOIN); //Console is sender to override delays
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

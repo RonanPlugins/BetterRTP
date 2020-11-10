@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.invs.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTP_INV_ITEMS;
@@ -41,7 +41,7 @@ public class RTPInvWorlds extends RTPInventory {
                 switch (type) {
                     case BACK:
                         if (slot == e.getInventory().getSize() - 9 + type.slot) {
-                            Main.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show(p);
+                            BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show(p);
                             return;
                         }
                     default:
@@ -52,8 +52,8 @@ public class RTPInvWorlds extends RTPInventory {
         int _index = 0;
         for (World world : Bukkit.getWorlds()) {
             if (_index == slot) {
-                Main.getInstance().getpInfo().setInvWorld(p, world);
-                Main.getInstance().getInvs().getInv(Main.getInstance().getpInfo().getNextInv(p)).show(p);
+                BetterRTP.getInstance().getpInfo().setInvWorld(p, world);
+                BetterRTP.getInstance().getInvs().getInv(BetterRTP.getInstance().getpInfo().getNextInv(p)).show(p);
             }
             _index ++;
         }

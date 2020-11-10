@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
@@ -14,7 +14,7 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
     //rtp biome <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 2)
-            Main.getInstance().getCmd().rtp(sendi, label, null, Main.getInstance().getCmd().getBiomes(args, 1, sendi));
+            BetterRTP.getInstance().getCmd().rtp(sendi, label, null, BetterRTP.getInstance().getCmd().getBiomes(args, 1, sendi));
         else
             usage(sendi, label);
     }
@@ -27,19 +27,19 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return Main.getInstance().getPerms().getBiome(sendi);
+        return BetterRTP.getInstance().getPerms().getBiome(sendi);
     }
 
     public void usage(CommandSender sendi, String label) {
-        Main.getInstance().getText().getUsageBiome(sendi, label);
+        BetterRTP.getInstance().getText().getUsageBiome(sendi, label);
     }
 
     private Commands getCmd() {
-        return Main.getInstance().getCmd();
+        return BetterRTP.getInstance().getCmd();
     }
 
     @Override
     public String getHelp() {
-        return Main.getInstance().getText().getHelpBiome();
+        return BetterRTP.getInstance().getText().getHelpBiome();
     }
 }

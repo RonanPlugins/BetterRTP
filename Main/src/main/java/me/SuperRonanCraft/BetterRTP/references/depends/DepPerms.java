@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.depends;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -17,8 +17,8 @@ public class DepPerms {
 
     public void register() {
         try {
-            if (Main.getInstance().getServer().getPluginManager().isPluginEnabled("Vault")) {
-                RegisteredServiceProvider<Permission> permissionProvider = Main.getInstance().getServer()
+            if (BetterRTP.getInstance().getServer().getPluginManager().isPluginEnabled("Vault")) {
+                RegisteredServiceProvider<Permission> permissionProvider = BetterRTP.getInstance().getServer()
                         .getServicesManager().getRegistration(Permission.class);
                 p = permissionProvider.getProvider();
             } else

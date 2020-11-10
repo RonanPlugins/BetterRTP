@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -46,8 +46,8 @@ public class RTPTitles {
         // int fadeIn = getPl().text.getFadeIn();
         // int stay = text.getStay();
         // int fadeOut = text.getFadeOut();
-        title = Main.getInstance().getText().color(title);
-        sub = Main.getInstance().getText().color(sub);
+        title = BetterRTP.getInstance().getText().color(title);
+        sub = BetterRTP.getInstance().getText().color(sub);
         p.sendTitle(title, sub);
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
     }

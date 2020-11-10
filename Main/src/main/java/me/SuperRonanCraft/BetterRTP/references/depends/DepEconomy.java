@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -25,7 +25,7 @@ public class DepEconomy {
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
-                Main.getInstance().getText().getFailedHunger(sendi);
+                BetterRTP.getInstance().getText().getFailedHunger(sendi);
                 return false;
             } else {
                 player.setFoodLevel(player.getFoodLevel() - hunger);
@@ -33,12 +33,12 @@ public class DepEconomy {
             }
         }
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !Main.getInstance().getPerms().getBypassEconomy(sendi)) {
+        if (e != null && pWorld.getPrice() != 0 && !BetterRTP.getInstance().getPerms().getBypassEconomy(sendi)) {
             try {
                 EconomyResponse r = e.withdrawPlayer(player, pWorld.getPrice());
                 boolean passed_economy = r.transactionSuccess();
                 if (!passed_economy) {
-                    Main.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
+                    BetterRTP.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
                     if (took_food)
                         player.setFoodLevel(player.getFoodLevel() + hunger);
                 } else
@@ -57,20 +57,20 @@ public class DepEconomy {
         Player player = pWorld.getPlayer();
         //Hunger Stuff
         if (hunger != 0
-                && !Main.getInstance().getPerms().getBypassHunger(sendi)
+                && !BetterRTP.getInstance().getPerms().getBypassHunger(sendi)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
-                Main.getInstance().getText().getFailedHunger(sendi);
+                BetterRTP.getInstance().getText().getFailedHunger(sendi);
                 return false;
             }
         }
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !Main.getInstance().getPerms().getBypassEconomy(sendi)) {
+        if (e != null && pWorld.getPrice() != 0 && !BetterRTP.getInstance().getPerms().getBypassEconomy(sendi)) {
             try {
                 boolean passed_economy = e.getBalance(player) >= pWorld.getPrice();
                 if (!passed_economy) {
-                    Main.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
+                    BetterRTP.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
                     return false;
                 }
             } catch (Exception e) {
@@ -93,17 +93,17 @@ public class DepEconomy {
     private void check(boolean force) {
         if (!checked || force)
             registerEconomy();
-        if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Hunger.Enabled"))
-            hunger = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Hunger.Honches");
+        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Hunger.Enabled"))
+            hunger = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Hunger.Honches");
         else
             hunger = 0;
     }
 
     private void registerEconomy() {
         try {
-            if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-                if (Main.getInstance().getServer().getPluginManager().isPluginEnabled("Vault")) {
-                    RegisteredServiceProvider<Economy> rsp = Main.getInstance().getServer().getServicesManager().getRegistration(Economy.class);
+            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+                if (BetterRTP.getInstance().getServer().getPluginManager().isPluginEnabled("Vault")) {
+                    RegisteredServiceProvider<Economy> rsp = BetterRTP.getInstance().getServer().getServicesManager().getRegistration(Economy.class);
                     e = rsp.getProvider();
                 }
         } catch (NullPointerException e) {

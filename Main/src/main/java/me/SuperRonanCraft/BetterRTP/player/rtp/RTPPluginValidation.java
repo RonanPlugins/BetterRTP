@@ -11,7 +11,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
@@ -116,7 +116,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean result = true;
         if (getPl().getSettings().getsDepends().isLands())
             try {
-                result = new LandsIntegration(Main.getInstance()).isClaimed(loc);
+                result = new LandsIntegration(BetterRTP.getInstance()).isClaimed(loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,7 +137,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

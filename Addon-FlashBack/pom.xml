@@ -9,9 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Addon-TimedRTP</artifactId>
+    <artifactId>Addon-FlashBack</artifactId>
     <version>1.0</version>
     <build>
         <finalName>${project.parent.artifactId}-${project.name}-${project.version}</finalName>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>Main</artifactId>
+            <version>2.14.5</version>
+        </dependency>
+    </dependencies>
 </project>

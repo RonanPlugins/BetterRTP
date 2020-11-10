@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -17,7 +17,7 @@ public class WorldCustom implements RTPWorld {
 
     public WorldCustom(String world) {
         String pre = "CustomWorlds.";
-        FileBasics.FILETYPE config = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
         this.world = world;
 
@@ -46,20 +46,20 @@ public class WorldCustom implements RTPWorld {
                     if (test.get("MaxRadius").getClass() == Integer.class)
                         maxBorderRad = Integer.parseInt((test.get("MaxRadius")).toString());
                     if (maxBorderRad <= 0) {
-                        Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
-                        maxBorderRad = Main.getInstance().getRTP().defaultWorld.getMaxRad();
+                        maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
                     }
                 }
                 if (test.get("MinRadius") != null) {
                     if (test.get("MinRadius").getClass() == Integer.class)
                         minBorderRad = Integer.parseInt((test.get("MinRadius")).toString());
                     if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
-                        Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
-                        minBorderRad = Main.getInstance().getRTP().defaultWorld.getMinRad();
+                        minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
                         if (minBorderRad >= maxBorderRad)
-                            maxBorderRad = Main.getInstance().getRTP().defaultWorld.getMaxRad();
+                            maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
                     }
                 }
                 if (test.get("Biomes") != null) {
@@ -86,10 +86,10 @@ public class WorldCustom implements RTPWorld {
             minBorderRad = Main.getInstance().getRTP().Default.getMinRad();
         }
         */
-        if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-            if (Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean(pre + "Enabled")) {
+        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean(pre + "Enabled")) {
                 map.clear();
-                map = Main.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds");
+                map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds");
                 for (Map<?, ?> m : map)
                     for (Map.Entry<?, ?> entry : m.entrySet()) {
                         String key = entry.getKey().toString();
@@ -101,7 +101,7 @@ public class WorldCustom implements RTPWorld {
                             price = Integer.valueOf((test.get("Price")).toString());
                     }
             } else
-                price = Main.getInstance().getRTP().defaultWorld.getPrice();
+                price = BetterRTP.getInstance().getRTP().defaultWorld.getPrice();
         //Other
         this.Biomes = config.getStringList(pre + world + ".Biomes");
     }

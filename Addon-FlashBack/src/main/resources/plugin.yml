@@ -1,0 +1,6 @@
+main: me.SuperRonanCraft.BetterRTP.Addon.FlashBack
+version: 1.0
+api-version: '1.13'
+name: BetterRTP-Addon-FlashBack
+depend: [BetterRTP]
+

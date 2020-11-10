@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.block.Biome;
@@ -15,12 +15,12 @@ import java.util.UUID;
 
 public class Commands {
 
-    private final Main pl;
+    private final BetterRTP pl;
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
     public RTPCooldown cooldowns = new RTPCooldown();
     private int delayTimer;
 
-    public Commands(Main pl) {
+    public Commands(BetterRTP pl) {
         this.pl = pl;
     }
 
@@ -104,7 +104,7 @@ public class Commands {
     public List<String> getBiomes(String[] args, int start, CommandSender sendi) {
         List<String> biomes = new ArrayList<>();
         boolean error_sent = false;
-        if (Main.getInstance().getPerms().getBiome(sendi))
+        if (BetterRTP.getInstance().getPerms().getBiome(sendi))
             for (int i = start; i < args.length; i++) {
                 String str = args[i];
                 try {

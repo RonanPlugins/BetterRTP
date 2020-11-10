@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.invs;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics.FILETYPE;
 
 public enum RTP_SETTINGS {
@@ -30,7 +30,7 @@ public enum RTP_SETTINGS {
     }
 
     void setValue(Object value) {
-        Main.getInstance().getFiles().getType(filetype).setValue(path, value);
+        BetterRTP.getInstance().getFiles().getType(filetype).setValue(path, value);
     }
 
     public Object[] getInfo() {return info;}
@@ -38,7 +38,7 @@ public enum RTP_SETTINGS {
     public Object getValue() {
         String path = this.path;
         if (path == null && condition != null) {
-            if (Main.getInstance().getFiles().getType(filetype).getBoolean(condition[0]))
+            if (BetterRTP.getInstance().getFiles().getType(filetype).getBoolean(condition[0]))
                 path = condition[1];
             else
                 path = condition[2];
@@ -49,11 +49,11 @@ public enum RTP_SETTINGS {
     private Object getValuePath(String path) {
         if (path != null) {
             if (getType() == SETTINGS_TYPE.BOOLEAN)
-                return Main.getInstance().getFiles().getType(filetype).getBoolean(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getBoolean(path);
             else if (getType() == SETTINGS_TYPE.STRING)
-                return Main.getInstance().getFiles().getType(filetype).getString(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getString(path);
             else if (getType() == SETTINGS_TYPE.INTEGER)
-                return Main.getInstance().getFiles().getType(filetype).getInt(path);
+                return BetterRTP.getInstance().getFiles().getType(filetype).getInt(path);
         }
         return null;
     }

@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -39,10 +39,10 @@ public class RTPPotions { //Potions AND Invincibility
                         int amplifier = ary.length >= 3 ? Integer.parseInt(ary[2]) : 1;
                         potionEffects.put(effect, new Integer[] {duration, amplifier});
                     } catch (NumberFormatException e) {
-                        Main.getInstance().getLogger().info("The potion duration or amplifier `" + ary[1] + "` is not an integer. Effect was removed!");
+                        BetterRTP.getInstance().getLogger().info("The potion duration or amplifier `" + ary[1] + "` is not an integer. Effect was removed!");
                     }
                 } else
-                    Main.getInstance().getLogger().info("The potion effect `" + type + "` does not exist! " +
+                    BetterRTP.getInstance().getLogger().info("The potion effect `" + type + "` does not exist! " +
                             "Please fix or remove this potion effect! Try '/rtp info potion_effects' to get a list of valid effects!");
             }
         }

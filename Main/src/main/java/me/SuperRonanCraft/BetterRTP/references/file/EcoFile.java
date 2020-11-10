@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.file;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -14,7 +14,7 @@ public class EcoFile {
     private File langFile;
 
     void load() {
-        Main pl = Main.getInstance();
+        BetterRTP pl = BetterRTP.getInstance();
         langFile = new File(pl.getDataFolder(), "economy.yml");
         if (!langFile.exists())
             pl.saveResource("economy.yml", false);
@@ -54,7 +54,7 @@ public class EcoFile {
     }
 
     private void setDefaults() {
-        final InputStream defConfigStream = Main.getInstance().getResource("economy.yml");
+        final InputStream defConfigStream = BetterRTP.getInstance().getResource("economy.yml");
         if (defConfigStream == null)
             return;
         lang.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream)));

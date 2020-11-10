@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
@@ -44,7 +44,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                     list.add(p.getName());
         } else if (args.length == 3) {
             for (World w : Bukkit.getWorlds())
-                if (w.getName().startsWith(args[2]) && !Main.getInstance().getRTP().disabledWorlds().contains(w.getName()))
+                if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().disabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
             if (CommandTypes.BIOME.getCmd().permission(sendi))
@@ -54,19 +54,19 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return Main.getInstance().getPerms().getRtpOther(sendi);
+        return BetterRTP.getInstance().getPerms().getRtpOther(sendi);
     }
 
     public void usage(CommandSender sendi, String label) {
-        Main.getInstance().getText().getUsageRTPOther(sendi, label);
+        BetterRTP.getInstance().getText().getUsageRTPOther(sendi, label);
     }
 
     private Commands getCmd() {
-        return Main.getInstance().getCmd();
+        return BetterRTP.getInstance().getCmd();
     }
 
     @Override
     public String getHelp() {
-        return Main.getInstance().getText().getHelpPlayer();
+        return BetterRTP.getInstance().getText().getHelpPlayer();
     }
 }

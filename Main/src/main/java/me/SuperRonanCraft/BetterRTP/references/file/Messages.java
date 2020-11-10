@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.file;
 
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -10,7 +10,7 @@ public class Messages {
     private final String preM = "Messages.", preH = "Help.", preU = "Usage.";
 
     private LangFile getLang() {
-        return Main.getInstance().getFiles().getLang();
+        return BetterRTP.getInstance().getFiles().getLang();
     }
 
     public void sms(CommandSender sendi, String msg) {

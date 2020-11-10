@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.settings;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 
 public class Settings {
 
@@ -29,7 +29,7 @@ public class Settings {
         return depends;
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

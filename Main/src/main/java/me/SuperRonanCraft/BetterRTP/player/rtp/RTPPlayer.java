@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,7 +36,7 @@ public class RTPPlayer {
             Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
             chunk.thenAccept(result -> {
-                Main.debug("Checking location for " + p.getName());
+                BetterRTP.debug("Checking location for " + p.getName());
                 Location tpLoc;
                 float yaw = p.getLocation().getYaw();
                 float pitch = p.getLocation().getPitch();
@@ -133,7 +133,7 @@ public class RTPPlayer {
         //FALSE MEANS NO BAD BLOCKS/BIOME WHERE FOUND!
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

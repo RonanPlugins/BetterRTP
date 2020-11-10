@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
-import me.SuperRonanCraft.BetterRTP.Main;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -58,8 +58,8 @@ public class RTPTeleport {
                                     sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
                                 getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
                                 //Save respawn location if first join
-                                if (Main.getInstance().getpInfo().getRTPType(p) == RTP_TYPE.JOIN) //RTP Type was Join
-                                    if (Main.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
+                                if (BetterRTP.getInstance().getpInfo().getRTPType(p) == RTP_TYPE.JOIN) //RTP Type was Join
+                                    if (BetterRTP.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
                                         p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                             }
                         });
@@ -81,6 +81,7 @@ public class RTPTeleport {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getName(), loc, price, true, attempts);
+        getPl().getEvents().eventCall_Teleport(p);
     }
 
     public void beforeTeleportInstant(CommandSender sendi, Player p) {
@@ -113,9 +114,9 @@ public class RTPTeleport {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.FAILED))
             if (p == sendi)
-                getPl().getText().getFailedNotSafe(sendi, Main.getInstance().getRTP().maxAttempts);
+                getPl().getText().getFailedNotSafe(sendi, BetterRTP.getInstance().getRTP().maxAttempts);
             else
-                getPl().getText().getOtherNotSafe(sendi, Main.getInstance().getRTP().maxAttempts, p.getName());
+                getPl().getText().getOtherNotSafe(sendi, BetterRTP.getInstance().getRTP().maxAttempts, p.getName());
     }
 
     //Processing
@@ -148,7 +149,7 @@ public class RTPTeleport {
             getPl().getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
     }
 
-    private Main getPl() {
-        return Main.getInstance();
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }
