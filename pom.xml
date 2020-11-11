@@ -6,13 +6,8 @@
 
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>2.14.5</version>
-
-    <modules>
-        <module>Addon-FlashBack</module>
-        <module>Main</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -20,14 +15,60 @@
     </properties>
 
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>hack-binary</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/LocalJars/Residence4.9.1.9.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.bekvon.bukkit</groupId>
+                            <artifactId>residence</artifactId>
+                            <version>4.9.1.9</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Shade PaperLib into project -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <!-- Local Server Building -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <outputDirectory>../../../Java/plugins</outputDirectory>
+                    <outputDirectory>../../Java/plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -103,18 +144,18 @@
             <version>1.0.5</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Particles Library -->
-        <dependency>
-            <groupId>xyz.xenondevs</groupId>
-            <artifactId>particle</artifactId>
-            <version>1.5.1</version>
-        </dependency>
         <!-- Worldguard (https://dev.bukkit.org/projects/worldguard) -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.3</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- Particles Library -->
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.5.1</version>
         </dependency>
         <!-- GriefPrevention (https://www.spigotmc.org/resources/griefprevention.1884/) -->
         <dependency>

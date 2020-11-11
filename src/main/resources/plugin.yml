@@ -1,0 +1,68 @@
+main: me.SuperRonanCraft.BetterRTP.BetterRTP
+version: '2.14.4'
+name: BetterRTP
+author: SuperRonanCraft
+softdepend: [Vault, WorldGuard, GriefPrevention, Towny, Factions, RedProtect, Lands, Residence]
+api-version: '1.13'
+
+commands:
+    betterrtp:
+        aliases: [brtp, rtp]
+        description: Randomly teleport to a location
+
+permissions:
+    betterrtp.*:
+        children:
+            betterrtp.use: true
+            betterrtp.world.*: true
+            betterrtp.bypass.*: true
+            betterrtp.player: true
+            betterrtp.reload: true
+            betterrtp.updater: true
+            betterrtp.biome: true
+            betterrtp.version: true
+    betterrtp.world.*:
+        description: RTP in all enabled worlds
+    betterrtp.bypass.*:
+            children:
+                betterrtp.bypass.cooldown: true
+                betterrtp.bypass.delay: true
+                betterrtp.bypass.economy: true
+    betterrtp.use:
+        description: Use RTP command
+        default: true
+    betterrtp.version:
+        description: See which version is running
+    betterrtp.world:
+        description: Use world command
+    betterrtp.player:
+        description: RTP another player
+    betterrtp.biome:
+        description: RTP to specific biomes
+    betterrtp.group.*:
+        description: Use a permission group to rtp with different restrictions
+    betterrtp.sign:
+        description: Ability to create an RTP sign
+    betterrtp.bypass.cooldown:
+        description: Bypass cooldowns
+    betterrtp.bypass.delay:
+        description: Bypass delays
+    betterrtp.bypass.economy:
+        description: Bypass economy
+    betterrtp.bypass.hunger:
+        description: Bypass hunger
+    betterrtp.reload:
+        description: Reload the config
+        default: op
+    betterrtp.updater:
+        description: Get notification on new updates
+        default: op
+    betterrtp.info:
+        description: View info about all worlds rtp will work in
+        default: op
+    betterrtp.test:
+        description: While debugger enabled, be able to test particles, potion effects and sounds
+        default: op
+    betterrtp.edit:
+        description: Edit a custom/default world rtp center/radius
+        default: op
