@@ -12,6 +12,10 @@ import java.util.List;
 
 public class CmdHelp implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "help";
+    }
+
     public void execute(CommandSender sendi, String label, String[] args) {
         Messages txt = BetterRTP.getInstance().getText();
         List<String> list = new ArrayList<>();

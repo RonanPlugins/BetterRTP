@@ -16,6 +16,10 @@ import java.util.List;
 
 public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "player";
+    }
+
     //rtp player <world> <biome1> <biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2)

@@ -24,6 +24,7 @@ public class Commands {
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
     public RTPCooldown cooldowns = new RTPCooldown();
     private int delayTimer;
+    List<RTPCommand> commands = new ArrayList<>();
 
     public Commands(BetterRTP pl) {
         this.pl = pl;
@@ -34,22 +35,28 @@ public class Commands {
         delayTimer = config.getInt("Settings.Delay.Time");
         cooldowns.load();
         rtping.clear();
+        commands.clear();
+        for (RTPCommandType cmd : RTPCommandType.values())
+           registerCommand(cmd.getCmd(), false);
+    }
+
+    public void registerCommand(RTPCommand cmd, boolean forced) {
+        if (!cmd.isDebugOnly() || pl.getSettings().debug || forced) //If debug only, can it be enabled?
+            commands.add(cmd);
     }
 
     public void commandExecuted(CommandSender sendi, String label, String[] args) {
         if (pl.getPerms().getUse(sendi)) {
             if (args != null && args.length > 0) {
-                for (RTPCommandType cmd : RTPCommandType.values()) {
-                    if (cmd.name().equalsIgnoreCase(args[0])) {
-                        if (!cmd.isDebugOnly() || pl.getSettings().debug) { //Debug only?
-                            if (cmd.getCmd().permission(sendi)) {
-                                cmd.getCmd().execute(sendi, label, args);
-                                //Command Event
-                                Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
-                            } else
-                                noPerm(sendi);
-                            return;
-                        }
+                for (RTPCommand cmd : commands) {
+                    if (cmd.getName().equalsIgnoreCase(args[0])) {
+                        if (cmd.permission(sendi)) {
+                            //Command Event
+                            Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
+                            cmd.execute(sendi, label, args);
+                        } else
+                            noPerm(sendi);
+                        return;
                     }
                 }
                 invalid(sendi, label);
@@ -66,21 +73,19 @@ public class Commands {
     public List<String> onTabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            for (RTPCommandType cmd : RTPCommandType.values()) {
-                if (cmd.name().toLowerCase().startsWith(args[0].toLowerCase()))
-                    if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
-                        if (cmd.getCmd().permission(sendi))
-                            list.add(cmd.name().toLowerCase());
+            for (RTPCommand cmd : commands) {
+                if (cmd.getName().toLowerCase().startsWith(args[0].toLowerCase()))
+                    if (cmd.permission(sendi))
+                        list.add(cmd.getName().toLowerCase());
             }
         } else if (args.length > 1) {
-            for (RTPCommandType cmd : RTPCommandType.values()) {
-                if (cmd.name().equalsIgnoreCase(args[0]))
-                    if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
-                        if (cmd.getCmd().permission(sendi)) {
-                            List<String> _cmdlist = cmd.getCmd().tabComplete(sendi, args);
-                            if (_cmdlist != null)
-                                list.addAll(_cmdlist);
-                        }
+            for (RTPCommand cmd : commands) {
+                if (cmd.getName().equalsIgnoreCase(args[0]))
+                    if (cmd.permission(sendi)) {
+                        List<String> _cmdlist = cmd.tabComplete(sendi, args);
+                        if (_cmdlist != null)
+                            list.addAll(_cmdlist);
+                    }
             }
         }
         return list;

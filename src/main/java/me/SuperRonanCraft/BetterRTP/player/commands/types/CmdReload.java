@@ -9,6 +9,10 @@ import java.util.List;
 
 public class CmdReload implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "reload";
+    }
+
     public void execute(CommandSender sendi, String label, String[] args) {
         BetterRTP.getInstance().reload(sendi);
     }

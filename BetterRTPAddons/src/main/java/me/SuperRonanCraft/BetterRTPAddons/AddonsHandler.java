@@ -1,9 +1,10 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
-import me.SuperRonanCraft.BetterRTPAddons.flashBack.AddonFlashback;
+import me.SuperRonanCraft.BetterRTPAddons.flashback.AddonFlashback;
+import me.SuperRonanCraft.BetterRTPAddons.interfaces.AddonInterface;
+import me.SuperRonanCraft.BetterRTPAddons.portals.AddonPortals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -21,12 +22,14 @@ public class AddonsHandler {
                 addon.load();
                 addons.add(addon);
             } else {
-                Main.getInstance().getLogger().log(Level.INFO, "Addon was not loaded " + addon.name());
+                Main.getInstance().getLogger().log(Level.INFO, "Addon " + addon.name() + " was NOT enabled.");
             }
     }
 
     enum Addons {
-        FLASH_BACK(new AddonFlashback());
+        FLASH_BACK(new AddonFlashback()),
+        PORTALS(new AddonPortals()),
+        INTERFACES(new AddonInterface());
 
         Addon addon;
 
@@ -39,13 +42,13 @@ public class AddonsHandler {
         }
 
         void load() {
-            Main.getInstance().getLogger().log(Level.INFO, "Addon loaded " + this.name());
             addon.register();
             addon.load();
+            Main.getInstance().getLogger().log(Level.INFO, "Addon " + this.name() + " has been enabled!");
         }
 
         void disable() {
-            addon.disable();
+            addon.unregister();
         }
     }
 

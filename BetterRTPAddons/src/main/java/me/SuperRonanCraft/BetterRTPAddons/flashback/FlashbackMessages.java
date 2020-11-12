@@ -1,14 +1,14 @@
-package me.SuperRonanCraft.BetterRTPAddons.flashBack;
+package me.SuperRonanCraft.BetterRTPAddons.flashback;
 
 import me.SuperRonanCraft.BetterRTPAddons.AddonsMessages;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
 import org.bukkit.command.CommandSender;
 
-public class MessagesFlashback implements AddonsMessages {
+public class FlashbackMessages implements AddonsMessages {
     private static String preM = "Messages";
 
     private Files.FILETYPE getLang() {
-        return Files.FILETYPE.EFFECTS;
+        return Files.FILETYPE.FLASHBACK;
     }
 
     public void getWarning(CommandSender sendi) {

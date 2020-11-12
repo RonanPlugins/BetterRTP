@@ -11,6 +11,10 @@ import java.util.List;
 
 public class CmdSettings implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "settings";
+    }
+
     public void execute(CommandSender sendi, String label, String[] args) {
         if (sendi instanceof Player)
             BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) sendi);

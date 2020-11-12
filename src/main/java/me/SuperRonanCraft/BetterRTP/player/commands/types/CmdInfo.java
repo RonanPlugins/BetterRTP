@@ -18,6 +18,10 @@ import java.util.List;
 
 public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "info";
+    }
+
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length > 1) {
             if (args[1].equalsIgnoreCase(CmdInfoSub.PARTICLES.name()))

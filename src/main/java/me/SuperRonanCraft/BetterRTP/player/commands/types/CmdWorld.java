@@ -14,6 +14,10 @@ import java.util.List;
 
 public class CmdWorld implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "world";
+    }
+
     //rtp world <world> <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 2)

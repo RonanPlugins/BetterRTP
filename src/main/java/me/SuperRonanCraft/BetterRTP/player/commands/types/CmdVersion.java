@@ -9,6 +9,10 @@ import java.util.List;
 
 public class CmdVersion implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "version";
+    }
+
     public void execute(CommandSender sendi, String label, String[] args) {
         sendi.sendMessage(BetterRTP.getInstance().getText().colorPre("&aVersion #&e" + BetterRTP.getInstance().getDescription().getVersion()));
     }

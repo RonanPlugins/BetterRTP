@@ -11,6 +11,10 @@ import java.util.List;
 //Meant to just test particles and effects without actually rtp'ing around the world
 public class CmdTest implements RTPCommand, RTPCommandHelpable {
 
+    public String getName() {
+        return "test";
+    }
+
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
         if (sendi instanceof Player) {
@@ -35,4 +39,8 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
         return BetterRTP.getInstance().getText().getHelpTest();
     }
 
+    @Override
+    public boolean isDebugOnly() {
+        return true;
+    }
 }

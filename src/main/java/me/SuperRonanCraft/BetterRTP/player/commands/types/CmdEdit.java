@@ -15,6 +15,10 @@ import java.util.*;
 
 public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds properties
 
+    public String getName() {
+        return "edit";
+    }
+
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 4) {

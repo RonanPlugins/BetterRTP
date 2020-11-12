@@ -11,4 +11,10 @@ public interface RTPCommand {
     List<String> tabComplete(CommandSender sendi, String[] args);
 
     boolean permission(CommandSender sendi);
+
+    String getName();
+
+    default boolean isDebugOnly() {
+        return false;
+    }
 }

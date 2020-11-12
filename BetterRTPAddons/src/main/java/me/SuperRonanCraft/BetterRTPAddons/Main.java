@@ -11,6 +11,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        new ReloadListener(this);
         load();
     }
 
