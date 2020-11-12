@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.types.*;
 
-public enum CommandTypes {
+public enum RTPCommandType {
     BIOME(new CmdBiome()),
     EDIT(new CmdEdit()),
     HELP(new CmdHelp()),
@@ -17,11 +17,11 @@ public enum CommandTypes {
     private final RTPCommand cmd;
     private boolean debugOnly = false;
 
-    CommandTypes(RTPCommand cmd) {
+    RTPCommandType(RTPCommand cmd) {
         this.cmd = cmd;
     }
 
-    CommandTypes(RTPCommand cmd, boolean debugOnly) {
+    RTPCommandType(RTPCommand cmd, boolean debugOnly) {
         this.cmd = cmd;
         this.debugOnly = debugOnly;
     }

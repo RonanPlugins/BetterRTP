@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
@@ -47,7 +47,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().disabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
-            if (CommandTypes.BIOME.getCmd().permission(sendi))
+            if (RTPCommandType.BIOME.getCmd().permission(sendi))
                 getCmd().addBiomes(list, args);
         }
         return list;

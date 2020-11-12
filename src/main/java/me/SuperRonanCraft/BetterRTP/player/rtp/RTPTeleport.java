@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.*;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -83,7 +83,7 @@ public class RTPTeleport {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getName(), loc, price, true, attempts);
-        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportEvent(p, loc, oldLoc));
+        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc));
     }
 
     public void beforeTeleportInstant(CommandSender sendi, Player p) {
@@ -91,6 +91,7 @@ public class RTPTeleport {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.NODELAY))
             getPl().getText().getSuccessTeleport(sendi);
+        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPreEvent(p));
     }
 
     public void beforeTeleportDelay(Player p, int delay) { //Only Delays should call this

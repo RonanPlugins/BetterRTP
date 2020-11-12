@@ -5,7 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private static Main instance;
-    private final Events events = new Events();
+    private final AddonsHandler addonsHandler = new AddonsHandler();
+    private final Files files = new Files();
 
     @Override
     public void onEnable() {
@@ -14,7 +15,8 @@ public class Main extends JavaPlugin {
     }
 
     void load() {
-        events.load();
+        files.load();
+        addonsHandler.load();
     }
 
     public static Main getInstance() {

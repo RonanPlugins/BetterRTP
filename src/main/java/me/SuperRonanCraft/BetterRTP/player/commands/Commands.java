@@ -1,9 +1,14 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
+import com.bekvon.bukkit.residence.commands.list;
+import com.bekvon.bukkit.residence.containers.cmd;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,12 +39,14 @@ public class Commands {
     public void commandExecuted(CommandSender sendi, String label, String[] args) {
         if (pl.getPerms().getUse(sendi)) {
             if (args != null && args.length > 0) {
-                for (CommandTypes cmd : CommandTypes.values()) {
+                for (RTPCommandType cmd : RTPCommandType.values()) {
                     if (cmd.name().equalsIgnoreCase(args[0])) {
                         if (!cmd.isDebugOnly() || pl.getSettings().debug) { //Debug only?
-                            if (cmd.getCmd().permission(sendi))
+                            if (cmd.getCmd().permission(sendi)) {
                                 cmd.getCmd().execute(sendi, label, args);
-                            else
+                                //Command Event
+                                Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
+                            } else
                                 noPerm(sendi);
                             return;
                         }
@@ -59,14 +66,14 @@ public class Commands {
     public List<String> onTabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            for (CommandTypes cmd : CommandTypes.values()) {
+            for (RTPCommandType cmd : RTPCommandType.values()) {
                 if (cmd.name().toLowerCase().startsWith(args[0].toLowerCase()))
                     if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
                         if (cmd.getCmd().permission(sendi))
                             list.add(cmd.name().toLowerCase());
             }
         } else if (args.length > 1) {
-            for (CommandTypes cmd : CommandTypes.values()) {
+            for (RTPCommandType cmd : RTPCommandType.values()) {
                 if (cmd.name().equalsIgnoreCase(args[0]))
                     if (!cmd.isDebugOnly() || pl.getSettings().debug) //Debug only?
                         if (cmd.getCmd().permission(sendi)) {

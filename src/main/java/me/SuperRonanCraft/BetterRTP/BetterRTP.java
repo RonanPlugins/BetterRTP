@@ -30,7 +30,6 @@ public class BetterRTP extends JavaPlugin {
     private final RTPInventories invs = new RTPInventories();
     private final PlayerInfo pInfo = new PlayerInfo();
     private final Settings settings = new Settings();
-    private final RTPEventRegistry events = new RTPEventRegistry();
 
     public void onEnable() {
         instance = this;
@@ -121,9 +120,5 @@ public class BetterRTP extends JavaPlugin {
     public static void debug(String str) {
         if (getInstance().getSettings().debug)
             getInstance().getLogger().info(str);
-    }
-
-    public RTPEventRegistry getEvents() {
-        return events;
     }
 }

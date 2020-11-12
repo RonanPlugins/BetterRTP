@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.block.Block;
@@ -34,7 +34,7 @@ class Interact {
                     action(e.getPlayer(), null);
                     return;
                 } else
-                    for (CommandTypes cmd : CommandTypes.values())
+                    for (RTPCommandType cmd : RTPCommandType.values())
                         if (command.equalsIgnoreCase(cmd.name())) {
                             action(e.getPlayer(), cmd(sign.getLines()).split(" "));
                             return;

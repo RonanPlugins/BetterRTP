@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.file.Messages;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
@@ -17,7 +17,7 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
         List<String> list = new ArrayList<>();
         list.add(txt.getHelpPrefix());
         list.add(txt.getHelpMain());
-        for (CommandTypes cmd : CommandTypes.values())
+        for (RTPCommandType cmd : RTPCommandType.values())
             if (!cmd.isDebugOnly() || BetterRTP.getInstance().getSettings().debug)
                 if (cmd.getCmd().permission(sendi))
                     if (cmd.getCmd() instanceof RTPCommandHelpable) {

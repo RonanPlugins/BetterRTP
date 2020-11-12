@@ -3,7 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.CommandTypes;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -32,7 +32,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
                     list.add(_wName);
             }
         } else if (args.length >= 3) {
-            if (CommandTypes.BIOME.getCmd().permission(sendi))
+            if (RTPCommandType.BIOME.getCmd().permission(sendi))
                 getCmd().addBiomes(list, args);
         }
         return list;
