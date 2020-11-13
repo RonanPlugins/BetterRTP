@@ -1,11 +1,19 @@
 package me.SuperRonanCraft.BetterRTPAddons.portals;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTPAddons.portals.cmds.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class PortalsCommand implements RTPCommand {
+public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
+    AddonPortals pl;
+
+    PortalsCommand(AddonPortals pl) {
+        this.pl = pl;
+    }
 
     public String getName() {
         return "portals";
@@ -13,7 +21,13 @@ public class PortalsCommand implements RTPCommand {
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
-        System.out.println("Portals command!");
+        for (subCmd subCmd : subCmd.values()) {
+            if (args[1].equalsIgnoreCase(subCmd.name())) {
+                subCmd.cmd.execute(sendi, label, args);
+                return;
+            }
+        }
+        sendi.sendMessage("Invalid command!");
     }
 
     @Override
@@ -23,6 +37,23 @@ public class PortalsCommand implements RTPCommand {
 
     @Override
     public boolean permission(CommandSender sendi) {
-        return true;
+        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.portals", sendi);
+    }
+
+    @Override
+    public String getHelp() {
+        return pl.msgs.getHelp();
+    }
+
+    private enum subCmd {
+        LOC1(new PortalsCommand_Loc1()),
+        LOC2(new PortalsCommand_Loc2()),
+        CREATE(new PortalsCommand_Create());
+
+        PortalsCommands cmd;
+
+        subCmd(PortalsCommands cmd) {
+            this.cmd = cmd;
+        }
     }
 }

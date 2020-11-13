@@ -1,1 +1,4 @@
 Enabled: false
+
+Messages:
+  Help: ' &7- &e/%command% portals <loc1, loc2, create> &7- Setup an rtp portal'

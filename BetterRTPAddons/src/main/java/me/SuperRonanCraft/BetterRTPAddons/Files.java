@@ -23,7 +23,7 @@ public class Files {
     }
 
     public enum FILETYPE {
-        CONFIG("config"), FLASHBACK("flashback"), PORTALS("portals"), INTERFACE("interface");
+        CONFIG("config"), FLASHBACK("flashback"), PORTALS("portals"), INTERFACE("interface"), LOGGER("logger");
 
         private final String fileName;
         private final YamlConfiguration config = new YamlConfiguration();

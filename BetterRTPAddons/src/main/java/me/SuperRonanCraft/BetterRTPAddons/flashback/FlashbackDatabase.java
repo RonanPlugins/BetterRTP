@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTPAddons.LocSerialization;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.PlayerInfo;
 import me.SuperRonanCraft.BetterRTPAddons.database.Database;
+import me.SuperRonanCraft.BetterRTPAddons.database.DatabaseColumn;
 import me.SuperRonanCraft.BetterRTPAddons.database.Errors;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,17 +18,42 @@ import java.util.logging.Level;
 
 public class FlashbackDatabase extends Database {
 
+    enum Columns implements DatabaseColumn {
+        UUID("uuid", "varchar(32)"),
+        NAME("player", "varchar(16)"),
+        LOCATION_OLD("location_old", "longtext"),
+        TIME_GOAL("time_goal", "bigint(19)");
+
+        private final String name;
+        private final String type;
+
+        Columns(String name, String type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getType() {
+            return type;
+        }
+    }
+
     List<PlayerInfo> playerInfos = new ArrayList<>();
 
-    public FlashbackDatabase(Main instance){
-        super(instance, "addon_flashback");
+    public FlashbackDatabase(){
+        super("addon_flashback");
     }
 
     private final String createTable = "CREATE TABLE IF NOT EXISTS " + table + " (" +
-            "`" + COLUMNS.UUID.name + "` " + COLUMNS.UUID.type + " PRIMARY KEY NOT NULL," +
-            "`" + COLUMNS.NAME.name + "` " + COLUMNS.NAME.type + "," +
-            "`" + COLUMNS.LOCATION_OLD.name + "` " + COLUMNS.LOCATION_OLD.type + " NOT NULL," +
-            "`" + COLUMNS.TIME_GOAL.name + "` " + COLUMNS.LOCATION_OLD.type + " NOT NULL" +
+            "`" + Columns.UUID.name + "` " + Columns.UUID.type + " PRIMARY KEY NOT NULL," +
+            "`" + Columns.NAME.name + "` " + Columns.NAME.type + "," +
+            "`" + Columns.LOCATION_OLD.name + "` " + Columns.LOCATION_OLD.type + " NOT NULL," +
+            "`" + Columns.TIME_GOAL.name + "` " + Columns.LOCATION_OLD.type + " NOT NULL" +
             ");";
 
 
@@ -37,9 +63,9 @@ public class FlashbackDatabase extends Database {
     }
 
     @Override
-    public void load() {
+    public void load(DatabaseColumn[] columns) {
         playerInfos.clear();
-        super.load();
+        super.load(columns);
     }
 
     public PlayerInfo getPlayer(Player p) {
@@ -48,12 +74,12 @@ public class FlashbackDatabase extends Database {
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + COLUMNS.UUID.name + " = ?");
+            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + Columns.UUID.name + " = ?");
             UUID id = p.getUniqueId();
             ps.setString(1, id != null ? id.toString() : console_id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                Location loc = LocSerialization.getLocationFromString(rs.getString(COLUMNS.LOCATION_OLD.name));
+                Location loc = LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_OLD.name));
                 return new PlayerInfo(p, loc);
             }
         } catch (SQLException ex) {
@@ -70,8 +96,8 @@ public class FlashbackDatabase extends Database {
         boolean success = true;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("INSERT INTO " + table + "(" + COLUMNS.UUID.name + ", " + COLUMNS.LOCATION_OLD.name + ") VALUES (?, ?) "
-                    + "ON CONFLICT(" + COLUMNS.UUID.name + ") DO UPDATE SET " + COLUMNS.LOCATION_OLD.name + " = + ?");
+            ps = conn.prepareStatement("INSERT INTO " + table + "(" + Columns.UUID.name + ", " + Columns.LOCATION_OLD.name + ") VALUES (?, ?) "
+                    + "ON CONFLICT(" + Columns.UUID.name + ") DO UPDATE SET " + Columns.LOCATION_OLD.name + " = + ?");
             UUID id = p.getUniqueId();
             ps.setString(1, id != null ? id.toString() : console_id);
             String serialLocation = LocSerialization.getStringFromLocation(oldLocation);

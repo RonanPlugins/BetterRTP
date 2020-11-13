@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-public interface Addon extends Listener {
+public interface Addon {
 
     //Addon will check if it can be enabled
     boolean isEnabled();
@@ -14,13 +14,5 @@ public interface Addon extends Listener {
 
     //Unload the addon if enabled
     void unload();
-
-    default void register() {
-        Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
-    }
-
-    default void unregister() {
-        HandlerList.unregisterAll(this);
-    }
 
 }

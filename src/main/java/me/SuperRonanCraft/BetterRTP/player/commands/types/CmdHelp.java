@@ -21,13 +21,12 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
         List<String> list = new ArrayList<>();
         list.add(txt.getHelpPrefix());
         list.add(txt.getHelpMain());
-        for (RTPCommandType cmd : RTPCommandType.values())
-            if (!cmd.isDebugOnly() || BetterRTP.getInstance().getSettings().debug)
-                if (cmd.getCmd().permission(sendi))
-                    if (cmd.getCmd() instanceof RTPCommandHelpable) {
-                        String help = ((RTPCommandHelpable) cmd.getCmd()).getHelp();
-                        list.add(help);
-                    }
+        for (RTPCommand cmd : BetterRTP.getInstance().getCmd().commands)
+            if (cmd.permission(sendi))
+                if (cmd instanceof RTPCommandHelpable) {
+                    String help = ((RTPCommandHelpable) cmd).getHelp();
+                    list.add(help);
+                }
         for (int i = 0; i < list.size(); i++)
             list.set(i, list.get(i).replace("%command%", label));
         BetterRTP.getInstance().getText().sms(sendi, list);

@@ -1,33 +1,51 @@
 package me.SuperRonanCraft.BetterRTPAddons.portals;
 
-import me.SuperRonanCraft.BetterRTPAddons.LocSerialization;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.PlayerInfo;
 import me.SuperRonanCraft.BetterRTPAddons.database.Database;
-import me.SuperRonanCraft.BetterRTPAddons.database.Errors;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import me.SuperRonanCraft.BetterRTPAddons.database.DatabaseColumn;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
 
 public class PortalsDatabase extends Database {
 
+    enum Columns implements DatabaseColumn {
+        ID("portal", "integer"),
+        LOCATION_1("location_1", "longtext"),
+        LOCATION_2("location_2", "longtext"),
+        TITLE("title", "varchar(255)");
+
+        private final String name;
+        private final String type;
+
+        Columns(String name, String type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getType() {
+            return type;
+        }
+    }
+
     List<PlayerInfo> playerInfos = new ArrayList<>();
 
-    public PortalsDatabase(Main instance){
-        super(instance, "addon_flashback");
+    public PortalsDatabase(){
+        super(Main.getInstance(), "addon_portals");
     }
 
     private final String createTable = "CREATE TABLE IF NOT EXISTS " + table + " (" +
-            "`" + COLUMNS.UUID.name + "` " + COLUMNS.UUID.type + " PRIMARY KEY NOT NULL," +
-            "`" + COLUMNS.NAME.name + "` " + COLUMNS.NAME.type +
+            "`" + Columns.ID.name + "` " + Columns.ID.type + " PRIMARY KEY AUTOINCREMENT," +
+            "`" + Columns.LOCATION_1.name + "` " + Columns.LOCATION_2.type + "," +
+            "`" + Columns.LOCATION_2.name + "` " + Columns.LOCATION_2.type + "," +
+            "`" + Columns.TITLE.name + "` " + Columns.TITLE.type +
             ");";
 
 
@@ -37,23 +55,23 @@ public class PortalsDatabase extends Database {
     }
 
     @Override
-    public void load() {
+    public void load(DatabaseColumn[] columns) {
         playerInfos.clear();
-        super.load();
+        super.load(columns);
     }
 
-    public PlayerInfo getPlayer(Player p) {
+    /*public PlayerInfo getPlayer(Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + COLUMNS.UUID.name + " = ?");
+            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + Columns.UUID.name + " = ?");
             UUID id = p.getUniqueId();
             ps.setString(1, id != null ? id.toString() : console_id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                Location loc = LocSerialization.getLocationFromString(rs.getString(COLUMNS.LOCATION_OLD.name));
+                Location loc = LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_OLD.name));
                 return new PlayerInfo(p, loc);
             }
         } catch (SQLException ex) {
@@ -70,8 +88,8 @@ public class PortalsDatabase extends Database {
         boolean success = true;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("INSERT INTO " + table + "(" + COLUMNS.UUID.name + ", " + COLUMNS.LOCATION_OLD.name + ") VALUES (?, ?) "
-                    + "ON CONFLICT(" + COLUMNS.UUID.name + ") DO UPDATE SET " + COLUMNS.LOCATION_OLD.name + " = + ?");
+            ps = conn.prepareStatement("INSERT INTO " + table + "(" + Columns.UUID.name + ", " + Columns.LOCATION_OLD.name + ") VALUES (?, ?) "
+                    + "ON CONFLICT(" + Columns.UUID.name + ") DO UPDATE SET " + Columns.LOCATION_OLD.name + " = + ?");
             UUID id = p.getUniqueId();
             ps.setString(1, id != null ? id.toString() : console_id);
             String serialLocation = LocSerialization.getStringFromLocation(oldLocation);
@@ -85,5 +103,5 @@ public class PortalsDatabase extends Database {
             close(ps, null, conn);
         }
         return success;
-    }
+    }*/
 }

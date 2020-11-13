@@ -21,7 +21,8 @@ public class FlashbackPlayer {
     }
 
     private Runnable getTimedFlash(Long seconds) {
-        plugin.database.setPlayer(p, oldLoc, System.currentTimeMillis() + (seconds * 1000));
+        if (plugin.database.setPlayer(p, oldLoc, System.currentTimeMillis() + (seconds * 1000)))
+            p.sendMessage("A Database error has occurred!");
         return () -> {
             plugin.msgs.getWarning(p);
             PaperLib.teleportAsync(p, oldLoc);

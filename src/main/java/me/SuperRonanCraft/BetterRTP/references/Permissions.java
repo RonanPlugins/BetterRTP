@@ -16,86 +16,86 @@ public class Permissions {
     private final String pre = "betterrtp.";
 
     public boolean getUse(CommandSender sendi) {
-        return perm(pre + "use", sendi);
+        return checkPerm(pre + "use", sendi);
     }
 
     public boolean getBypassEconomy(CommandSender sendi) {
-        return perm(pre + "bypass.economy", sendi);
+        return checkPerm(pre + "bypass.economy", sendi);
     }
 
     public boolean getBypassHunger(CommandSender sendi) {
-        return perm(pre + "bypass.hunger", sendi);
+        return checkPerm(pre + "bypass.hunger", sendi);
     }
 
     public boolean getBypassCooldown(CommandSender sendi) {
-        return perm(pre + "bypass.cooldown", sendi);
+        return checkPerm(pre + "bypass.cooldown", sendi);
     }
 
     public boolean getBypassDelay(CommandSender sendi) {
-        return perm(pre + "bypass.delay", sendi);
+        return checkPerm(pre + "bypass.delay", sendi);
     }
 
     public boolean getReload(CommandSender sendi) {
-        return perm(pre + "reload", sendi);
+        return checkPerm(pre + "reload", sendi);
     }
 
     public boolean getSettings(CommandSender sendi) {
-        return perm(pre + "settings", sendi);
+        return checkPerm(pre + "settings", sendi);
     }
 
     public boolean getInfo(CommandSender sendi) {
-        return perm(pre + "info", sendi);
+        return checkPerm(pre + "info", sendi);
     }
 
     public boolean getUpdate(CommandSender sendi) {
-        return perm(pre + "updater", sendi);
+        return checkPerm(pre + "updater", sendi);
     }
 
     public boolean getRtpOther(CommandSender sendi) {
-        return perm(pre + "player", sendi);
+        return checkPerm(pre + "player", sendi);
     }
 
     public boolean getBiome(CommandSender sendi) {
-        return perm(pre + "biome", sendi);
+        return checkPerm(pre + "biome", sendi);
     }
 
     public boolean getWorld(CommandSender sendi) {
-        return perm(pre + "world", sendi);
+        return checkPerm(pre + "world", sendi);
     }
 
     public boolean getSignCreate(CommandSender sendi) {
-        return perm(pre + "sign", sendi);
+        return checkPerm(pre + "sign", sendi);
     }
 
     public boolean getTest(CommandSender sendi) {
-        return perm(pre + "test", sendi);
+        return checkPerm(pre + "test", sendi);
     }
 
     public boolean getVersion(CommandSender sendi) {
-        return perm(pre + "version", sendi);
+        return checkPerm(pre + "version", sendi);
     }
 
     public boolean getAWorld(CommandSender sendi, String world) {
-        if (perm(pre + "world.*", sendi))
+        if (checkPerm(pre + "world.*", sendi))
             return true;
         else if (world == null) {
             for (World w : Bukkit.getWorlds())
-                if (perm(pre + "world." + w.getName(), sendi))
+                if (checkPerm(pre + "world." + w.getName(), sendi))
                     return true;
         } else
-            return perm(pre + "world." + world, sendi);
+            return checkPerm(pre + "world." + world, sendi);
         return false;
     }
 
     public boolean getEdit(CommandSender sendi) {
-        return perm(pre + "edit", sendi);
+        return checkPerm(pre + "edit", sendi);
     }
 
     public boolean getPermissionGroup(CommandSender sendi, String group) {
-        return perm(pre + "group." + group, sendi);
+        return checkPerm(pre + "group." + group, sendi);
     }
 
-    private boolean perm(String str, CommandSender sendi) {
+    public boolean checkPerm(String str, CommandSender sendi) {
         return depPerms.hasPerm(str, sendi);
     }
 }

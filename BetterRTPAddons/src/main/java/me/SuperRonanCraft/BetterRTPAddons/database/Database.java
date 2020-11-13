@@ -15,23 +15,8 @@ public abstract class Database {
     public String db_name;
     public final String table = "BRTP_Data";
 
-    public enum COLUMNS {
-        UUID("uuid", "varchar(32)"),
-        NAME("player", "varchar(16)"),
-        LOCATION_OLD("location_old", "longtext"),
-        TIME_GOAL("time_goal", "bigint(19)");
-
-        public String name;
-        public String type;
-
-        COLUMNS(String name, String type) {
-            this.name = name;
-            this.type = type;
-        }
-    }
-
-    public Database(Main instance, String db_name) {
-        plugin = instance;
+    public Database(String db_name) {
+        plugin = Main.getInstance();
         this.db_name = db_name;
     }
 
@@ -63,15 +48,15 @@ public abstract class Database {
     //Get the layout of the database table
     public abstract String getTableFormat();
 
-    public void load() {
+    public void load(DatabaseColumn[] columns) {
         connection = getSQLConnection();
         try {
             Statement s = connection.createStatement();
             s.executeUpdate(getTableFormat());
-            for (COLUMNS c : COLUMNS.values()) { //Add missing columns dynamically
+            for (DatabaseColumn c : columns) { //Add missing columns dynamically
                 try {
                     String addMissingColumns = "ALTER TABLE " + table + " ADD COLUMN %column% %type%";
-                    s.executeUpdate(addMissingColumns.replace("%column%", c.name).replace("%type%", c.type));
+                    s.executeUpdate(addMissingColumns.replace("%column%", c.getName()).replace("%type%", c.getType()));
                 } catch (SQLException e) {
                     //e.printStackTrace();
                 }
@@ -80,16 +65,16 @@ public abstract class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        initialize();
+        initialize(columns[0]);
     }
 
-    private void initialize() {
+    private void initialize(DatabaseColumn testColumn) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + COLUMNS.UUID.name + " = ?");
+            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + testColumn.getName() + " = ?");
 
             rs = ps.executeQuery();
         } catch (SQLException ex) {

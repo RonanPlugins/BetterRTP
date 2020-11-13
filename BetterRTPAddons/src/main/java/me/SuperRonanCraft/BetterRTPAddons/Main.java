@@ -20,6 +20,10 @@ public class Main extends JavaPlugin {
         addonsHandler.load();
     }
 
+    public AddonsHandler getAddonsHandler() {
+        return addonsHandler;
+    }
+
     public static Main getInstance() {
         return instance;
     }

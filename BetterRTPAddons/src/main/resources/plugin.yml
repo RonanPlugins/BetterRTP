@@ -4,3 +4,7 @@ api-version: '1.13'
 name: BetterRTPAddons
 depend: [BetterRTP]
 
+permissions:
+  betterrtp.addon.portals:
+    description: Ability to use the portals addon commands
+

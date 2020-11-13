@@ -4,17 +4,20 @@ import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEven
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //When rtp'ing, a player will be teleported back to old location after a set amount of time
-public class AddonFlashback implements Addon {
+public class AddonFlashback implements Addon, Listener {
 
     private Long time;
-    public FlashbackMessages msgs = new FlashbackMessages();
-    public FlashbackDatabase database;
+    public final FlashbackMessages msgs = new FlashbackMessages();
+    public final FlashbackDatabase database = new FlashbackDatabase();
     List<FlashbackPlayer> players = new ArrayList<>();
 
     public boolean isEnabled() {
@@ -25,8 +28,8 @@ public class AddonFlashback implements Addon {
     public void load() {
         Files.FILETYPE file = Files.FILETYPE.FLASHBACK;
         this.time = file.getConfig().getLong("Time");
-        this.database = new FlashbackDatabase(Main.getInstance());
-        this.database.load();
+        this.database.load(FlashbackDatabase.Columns.values());
+        Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
     }
 
     @Override
@@ -34,6 +37,7 @@ public class AddonFlashback implements Addon {
         for (FlashbackPlayer fbp : players)
             fbp.cancel();
         players.clear();
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler

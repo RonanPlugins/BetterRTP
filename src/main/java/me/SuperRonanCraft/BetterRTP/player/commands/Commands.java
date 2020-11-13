@@ -24,7 +24,7 @@ public class Commands {
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
     public RTPCooldown cooldowns = new RTPCooldown();
     private int delayTimer;
-    List<RTPCommand> commands = new ArrayList<>();
+    public List<RTPCommand> commands = new ArrayList<>();
 
     public Commands(BetterRTP pl) {
         this.pl = pl;
