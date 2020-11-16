@@ -4,7 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
 
-//With a gui, a player
+//Create portals for rtp'ing
 public class AddonPortals implements Addon {
 
     public PortalsMessages msgs = new PortalsMessages();
