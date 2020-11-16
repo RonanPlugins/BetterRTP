@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.interfaces;
+package me.SuperRonanCraft.BetterRTPAddons.addons.interfaces;
 
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
@@ -7,7 +7,7 @@ public class AddonInterface implements Addon {
 
     @Override
     public boolean isEnabled() {
-        return Files.FILETYPE.INTERFACE.getBoolean("Enabled");
+        return getFile(Files.FILETYPE.INTERFACE).getBoolean("Enabled");
     }
 
     @Override

@@ -1,6 +1,5 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdReload;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import org.bukkit.Bukkit;

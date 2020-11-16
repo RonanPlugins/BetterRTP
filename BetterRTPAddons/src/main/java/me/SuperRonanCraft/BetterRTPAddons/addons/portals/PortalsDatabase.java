@@ -1,28 +1,19 @@
-package me.SuperRonanCraft.BetterRTPAddons.flashback;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
-import me.SuperRonanCraft.BetterRTPAddons.LocSerialization;
-import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.PlayerInfo;
 import me.SuperRonanCraft.BetterRTPAddons.database.Database;
 import me.SuperRonanCraft.BetterRTPAddons.database.DatabaseColumn;
-import me.SuperRonanCraft.BetterRTPAddons.database.Errors;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
 
-public class FlashbackDatabase extends Database {
+public class PortalsDatabase extends Database {
 
     enum Columns implements DatabaseColumn {
-        UUID("uuid", "varchar(32)"),
-        NAME("player", "varchar(16)"),
-        LOCATION_OLD("location_old", "longtext"),
-        TIME_GOAL("time_goal", "bigint(19)");
+        ID("portal", "integer"),
+        LOCATION_1("location_1", "longtext"),
+        LOCATION_2("location_2", "longtext"),
+        TITLE("title", "varchar(255)");
 
         private final String name;
         private final String type;
@@ -45,15 +36,15 @@ public class FlashbackDatabase extends Database {
 
     List<PlayerInfo> playerInfos = new ArrayList<>();
 
-    public FlashbackDatabase(){
-        super("addon_flashback");
+    public PortalsDatabase(){
+        super("addon_portals");
     }
 
     private final String createTable = "CREATE TABLE IF NOT EXISTS " + table + " (" +
-            "`" + Columns.UUID.name + "` " + Columns.UUID.type + " PRIMARY KEY NOT NULL," +
-            "`" + Columns.NAME.name + "` " + Columns.NAME.type + "," +
-            "`" + Columns.LOCATION_OLD.name + "` " + Columns.LOCATION_OLD.type + " NOT NULL," +
-            "`" + Columns.TIME_GOAL.name + "` " + Columns.LOCATION_OLD.type + " NOT NULL" +
+            "`" + Columns.ID.name + "` " + Columns.ID.type + " PRIMARY KEY AUTOINCREMENT," +
+            "`" + Columns.LOCATION_1.name + "` " + Columns.LOCATION_2.type + "," +
+            "`" + Columns.LOCATION_2.name + "` " + Columns.LOCATION_2.type + "," +
+            "`" + Columns.TITLE.name + "` " + Columns.TITLE.type +
             ");";
 
 
@@ -68,7 +59,7 @@ public class FlashbackDatabase extends Database {
         super.load(columns);
     }
 
-    public PlayerInfo getPlayer(Player p) {
+    /*public PlayerInfo getPlayer(Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -90,7 +81,7 @@ public class FlashbackDatabase extends Database {
         return null;
     }
 
-    public boolean setPlayer(Player p, Location oldLocation, Long timeGoal) {
+    public boolean setPlayer(Player p, Location oldLocation) {
         Connection conn = null;
         PreparedStatement ps = null;
         boolean success = true;
@@ -111,5 +102,5 @@ public class FlashbackDatabase extends Database {
             close(ps, null, conn);
         }
         return success;
-    }
+    }*/
 }

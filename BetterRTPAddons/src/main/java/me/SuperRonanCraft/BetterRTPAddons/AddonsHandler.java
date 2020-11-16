@@ -1,13 +1,10 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTPAddons.flashback.AddonFlashback;
-import me.SuperRonanCraft.BetterRTPAddons.interfaces.AddonInterface;
-import me.SuperRonanCraft.BetterRTPAddons.logger.AddonLogger;
-import me.SuperRonanCraft.BetterRTPAddons.portals.AddonPortals;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
+import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
+import me.SuperRonanCraft.BetterRTPAddons.addons.interfaces.AddonInterface;
+import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +16,7 @@ public class AddonsHandler {
     AddonsCommand cmd = new AddonsCommand();
 
     public void load() {
-        for (Addons addon : addons) {
-            addon.disable();
-        }
-        addons.clear();
+        unload();
         for (Addons addon : Addons.values())
             if (addon.isEnabled()) {
                 addon.load();
@@ -33,11 +27,18 @@ public class AddonsHandler {
         BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
     }
 
+    public void unload() {
+        for (Addons addon : addons)
+            addon.disable();
+        addons.clear();
+    }
+
     enum Addons {
+        LOGGER(new AddonLogger()),
         FLASH_BACK(new AddonFlashback()),
         PORTALS(new AddonPortals()),
-        INTERFACES(new AddonInterface()),
-        LOGGER(new AddonLogger());
+        INTERFACES(new AddonInterface())
+        ;
 
         Addon addon;
 

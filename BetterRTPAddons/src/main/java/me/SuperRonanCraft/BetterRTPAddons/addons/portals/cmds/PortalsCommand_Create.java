@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.portals.cmds;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
 
 import org.bukkit.command.CommandSender;
 

@@ -15,9 +15,18 @@ public class Main extends JavaPlugin {
         load();
     }
 
+    @Override
+    public void onDisable() {
+        addonsHandler.unload();
+    }
+
     void load() {
         files.load();
         addonsHandler.load();
+    }
+
+    public Files getFiles() {
+        return files;
     }
 
     public AddonsHandler getAddonsHandler() {

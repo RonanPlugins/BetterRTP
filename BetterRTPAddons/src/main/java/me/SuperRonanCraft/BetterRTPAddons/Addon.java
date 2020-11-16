@@ -15,4 +15,9 @@ public interface Addon {
     //Unload the addon if enabled
     void unload();
 
+    //Ability to grab a file
+    default Files.FILETYPE getFile(Files.FILETYPE filetype) {
+        return Main.getInstance().getFiles().getType(filetype);
+    }
+
 }

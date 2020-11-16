@@ -1,12 +1,8 @@
-package me.SuperRonanCraft.BetterRTPAddons.portals;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
-import me.SuperRonanCraft.BetterRTPAddons.Main;
-import me.SuperRonanCraft.BetterRTPAddons.flashback.FlashbackDatabase;
-import org.bukkit.event.EventHandler;
 
 //With a gui, a player
 public class AddonPortals implements Addon {
@@ -16,7 +12,7 @@ public class AddonPortals implements Addon {
     private final PortalsDatabase database = new PortalsDatabase();;
 
     public boolean isEnabled() {
-        return Files.FILETYPE.PORTALS.getBoolean("Enabled");
+        return getFile(Files.FILETYPE.PORTALS).getBoolean("Enabled");
     }
 
     @Override

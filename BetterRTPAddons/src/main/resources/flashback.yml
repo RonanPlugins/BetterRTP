@@ -1,2 +1,8 @@
-Enabled: false
-Time: 120 #In seconds
+Enabled: true
+Timer:
+  Delay: 15 #In Seconds
+  Warnings: #Warning messages to send to a player when X amount of time is left
+    - 5: "&eYou have 5 seconds left! Grab all your materials quick!"
+    - 1: "&eHang on!"
+Messages:
+  Warning: '&6This Teleport is temporary! &7You will be teleported back soon...'

@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.flashback;
+package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTPAddons.Main;

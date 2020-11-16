@@ -1,21 +1,17 @@
-package me.SuperRonanCraft.BetterRTPAddons.portals;
+package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
 import me.SuperRonanCraft.BetterRTPAddons.AddonsMessages;
 import me.SuperRonanCraft.BetterRTPAddons.Files;
 import org.bukkit.command.CommandSender;
 
-public class PortalsMessages implements AddonsMessages {
-    private static final String preM = "Messages.";
+public class FlashbackMessages implements AddonsMessages {
+    private static String preM = "Messages";
 
     private Files.FILETYPE getLang() {
-        return Files.FILETYPE.PORTALS;
+        return Files.FILETYPE.FLASHBACK;
     }
 
     public void getWarning(CommandSender sendi) {
         sms(sendi, getLang().getString(preM + "Warning"));
-    }
-
-    public String getHelp() {
-        return getLang().getString(preM + "Help");
     }
 }

@@ -1,12 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
-import com.bekvon.bukkit.residence.commands.list;
-import com.bekvon.bukkit.residence.containers.cmd;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;

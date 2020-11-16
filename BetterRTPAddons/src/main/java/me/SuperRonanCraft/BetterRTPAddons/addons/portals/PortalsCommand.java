@@ -1,9 +1,9 @@
-package me.SuperRonanCraft.BetterRTPAddons.portals;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTPAddons.portals.cmds.*;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
