@@ -15,6 +15,6 @@ public class PortalsCommand_Loc2 implements PortalsCommands, LocationFinder {
         Player p = (Player) sendi;
         Location loc = getTargetBlock(p, 10).getLocation();
         addonPortals.getPortals().setPortal(p, loc, true);
-        sendi.sendMessage("Location 2 set to this location " + loc.toString());
+        sendi.sendMessage("Location 2 set to this location!");
     }
 }

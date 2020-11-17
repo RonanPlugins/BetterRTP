@@ -3,6 +3,7 @@ version: 1.0
 api-version: '1.13'
 name: BetterRTPAddons
 depend: [BetterRTP]
+softdepend: [ProtocolLib]
 
 permissions:
   betterrtp.addon.portals:
