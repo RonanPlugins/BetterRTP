@@ -3,28 +3,31 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+
 public class PortalsCache {
 
-    Player p;
-    Location loc_1, loc_2;
+    private final HashMap<Player, PortalsCreation> portalsBeingCreated = new HashMap<>();
 
-    public PortalsCache(Player p) {
-        this.p = p;
+    void unload() {
+        portalsBeingCreated.clear();
     }
 
-    void setLoc_1(Location loc) {
-        this.loc_1 = loc;
+    void uncache(Player p) {
+        portalsBeingCreated.remove(p);
     }
 
-    void setLoc_2(Location loc) {
-        this.loc_2 = loc;
+    public void setPortal(Player p, Location loc, boolean loc2) {
+        PortalsCreation portal;
+        if (portalsBeingCreated.containsKey(p)) {
+            portal = portalsBeingCreated.get(p);
+        } else
+            portal = new PortalsCreation(p);
+        if (loc2) portal.loc_2 = loc;
+        else portal.loc_1 = loc;
     }
 
-    Location getLoc_1() {
-        return this.loc_1;
-    }
-
-    Location getLoc_2() {
-        return this.loc_2;
+    public PortalsCreation getPortal(Player p) {
+        return portalsBeingCreated.getOrDefault(p, null);
     }
 }
