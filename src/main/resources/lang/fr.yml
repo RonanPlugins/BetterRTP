@@ -6,7 +6,7 @@ Messages:
     Paid: '&aTu as été téléporté à&7 x=%x% y=%y% z=%z% pour &c$%price%&7 en &f%attempts% &7tentatives!'
     Bypass: '&aTu as été téléporté à&7 x=%x% y=%y% z=%z% en &f%attempts% &7tentatives!'
 #    Loading: '&aEndroit sûr trouvé! &7Chargement des chunks...'
-#    Teleport: '&aTéléportation... &fMerci de patienter pendant la recherche d'un endroit sûr!'
+#    Teleport: '&aTéléportation... &fMerci de patienter pendant la recherche d''un endroit sûr!'
   Failed:
     Price: '&cTu n''as pas pu être téléporté; Manque de fonds! &7Tu dois avoir au moins $%price% &7pour te téléporter!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives! &7Tu n''as pas été téléporté!'
