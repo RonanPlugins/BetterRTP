@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
+package me.SuperRonanCraft.BetterRTPAddons.packets;
 
 import java.lang.reflect.InvocationTargetException;
 

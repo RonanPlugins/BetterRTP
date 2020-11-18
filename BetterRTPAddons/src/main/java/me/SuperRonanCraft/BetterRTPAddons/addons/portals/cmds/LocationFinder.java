@@ -13,11 +13,11 @@ public interface LocationFinder {
         BlockIterator iter = new BlockIterator(player, range);
         Block lastBlock = null;
         while (iter.hasNext()) {
-            lastBlock = iter.next();
-            if (lastBlock.getType() == Material.AIR) {
-                continue;
+            Block block = iter.next();
+            if (block.getType() != Material.AIR) {
+                lastBlock = block;
+                break;
             }
-            break;
         }
         return lastBlock;
     }

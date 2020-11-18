@@ -13,8 +13,13 @@ public class PortalsCommand_Loc2 implements PortalsCommands, LocationFinder {
     @Override
     public void execute(CommandSender sendi, String label, String[] args, AddonPortals addonPortals) {
         Player p = (Player) sendi;
-        Location loc = getTargetBlock(p, 10).getLocation();
-        addonPortals.getPortals().setPortal(p, loc, true);
-        sendi.sendMessage("Location 2 set to this location!");
+        Block block = getTargetBlock(p, 10);
+        if (block != null) {
+            Location loc = block.getLocation();
+            addonPortals.getPortals().setPortal(p, loc, true);
+            sendi.sendMessage("Location 2 set to this location!");
+        } else {
+            sendi.sendMessage("Please look at a block!");
+        }
     }
 }

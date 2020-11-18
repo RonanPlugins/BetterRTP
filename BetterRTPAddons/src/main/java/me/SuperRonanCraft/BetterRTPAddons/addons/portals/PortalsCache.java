@@ -8,15 +8,16 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.ChunkCoordIntPair;
 import com.comphenix.protocol.wrappers.MultiBlockChangeInfo;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.WrapperPlayServerBlockChange;
+import me.SuperRonanCraft.BetterRTPAddons.packets.BlockChangeArray;
+import me.SuperRonanCraft.BetterRTPAddons.packets.WrapperPlayServerBlockChange;
+import me.SuperRonanCraft.BetterRTPAddons.packets.WrapperPlayServerMultiBlockChange;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -43,26 +44,39 @@ public class PortalsCache {
         }
         Location old_loc1 = portal.loc_1;
         Location old_loc2 = portal.loc_1;
-        if (loc2) portal.loc_2 = loc;
-        else portal.loc_1 = loc;
+        if (loc2)
+            portal.loc_2 = loc;
+        else
+            portal.loc_1 = loc;
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             ProtocolManager pm = ProtocolLibrary.getProtocolManager();
-            WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(pm.createPacket(PacketType.Play.Server.BLOCK_CHANGE));
-            block.setBlockData(WrappedBlockData.createData(Material.GLOWSTONE));
-            block.setLocation(new BlockPosition(loc.toVector()));
-            block.sendPacket(p);
 
-
-        }
-
-        if (portal.loc_1 != null && portal.loc_2 != null) {
-            //if (Math.abs(portal.loc_1.getBlockX() - portal.loc_2.getBlockX()) <= 10)
-            //if (Math.abs(portal.loc_1.getBlockZ() - portal.loc_2.getBlockZ()) <= 10)
-            //if (Math.abs(portal.loc_1.getBlockY() - portal.loc_2.getBlockY()) <= 10) {
-            preview(portal.loc_1, portal.loc_2);
-            //}
-        } else {
-            p.sendMessage((portal.loc_1 == null) + " " + (portal.loc_2 == null));
+            if (portal.loc_1 != null && portal.loc_2 != null) {
+                //if (Math.abs(portal.loc_1.getBlockX() - portal.loc_2.getBlockX()) <= 10)
+                //if (Math.abs(portal.loc_1.getBlockZ() - portal.loc_2.getBlockZ()) <= 10)
+                //if (Math.abs(portal.loc_1.getBlockY() - portal.loc_2.getBlockY()) <= 10) {
+                //preview(portal.loc_1, portal.loc_2);
+                //}
+                Location max = portal.loc_1;
+                Location min = portal.loc_2;
+                for (int x = Math.max(max.getBlockX(), min.getBlockX()); x >= Math.min(min.getBlockX(), max.getBlockX()); x--) {
+                    for (int y = Math.max(max.getBlockY(), min.getBlockY()); y >= Math.min(min.getBlockY(), max.getBlockY()); y--) {
+                        for (int z = Math.max(max.getBlockZ(), min.getBlockZ()); z >= Math.min(min.getBlockZ(), max.getBlockZ()); z--) {
+                            WrapperPlayServerBlockChange packet = new WrapperPlayServerBlockChange(pm.createPacket(PacketType.Play.Server.BLOCK_CHANGE));
+                            packet.setBlockData(WrappedBlockData.createData(Material.REDSTONE_BLOCK));
+                            packet.setLocation(new BlockPosition(new Location(max.getWorld(), x, y, z).toVector()));
+                            packet.sendPacket(p);
+                            //Block block = max.getWorld().getBlockAt(x, y, z);
+                            //block.setType(Material.GLOWSTONE);
+                        }
+                    }
+                }
+            } else {
+                WrapperPlayServerBlockChange packet = new WrapperPlayServerBlockChange(pm.createPacket(PacketType.Play.Server.BLOCK_CHANGE));
+                packet.setBlockData(WrappedBlockData.createData(Material.GLOWSTONE));
+                packet.setLocation(new BlockPosition(loc.toVector()));
+                packet.sendPacket(p);
+            }
         }
     }
 
@@ -72,21 +86,24 @@ public class PortalsCache {
             PacketContainer packet = pm
                     .createPacket(PacketType.Play.Server.MULTI_BLOCK_CHANGE);
             Chunk chunk = loc1.getChunk();
-            ChunkCoordIntPair chunkcoords = new ChunkCoordIntPair(chunk.getX(),
-                    chunk.getZ());
-            MultiBlockChangeInfo[] change = new MultiBlockChangeInfo[256];
+            BlockChangeArray change = new BlockChangeArray(256);
 
-
+            WrapperPlayServerMultiBlockChange wrapper = new WrapperPlayServerMultiBlockChange(packet);
+            //wrapper.setChunk(new ChunkCoordIntPair(chunk.getX(), chunk.getZ()));
             for (int x = 0; x <= 15; x++) {
                 for(int z = 0; z <= 15; z++) {
-                    change[(16 * x) + z] = new MultiBlockChangeInfo(new Location(loc1.getWorld(), loc1.getX() + x, 100, loc1.getZ() + z), WrappedBlockData.createData(Material.GOLD_BLOCK));
+                    int index = (16 * x) + z;
+                    BlockChangeArray.BlockChange block = change.getBlockChange(index);
+                    block.setBlockID(WrappedBlockData.createData(Material.GOLD_BLOCK).getType().getId());
+                    Location loc = loc1.clone();
+                    loc.setX(loc.getX() + x);
+                    loc.setZ(loc.getZ() + z);
+                    block.setLocation(loc);
+                    change.setBlockChange(index, block);
                 }
             }
 
-            packet.getChunkCoordIntPairs().write(0, chunkcoords);
-            packet.getMultiBlockChangeInfoArrays().write(0, change);
-
-
+            wrapper.setRecordData(change);
             for (Player player : Bukkit.getOnlinePlayers()) {
                 try {
                     pm.sendServerPacket(player, packet);
