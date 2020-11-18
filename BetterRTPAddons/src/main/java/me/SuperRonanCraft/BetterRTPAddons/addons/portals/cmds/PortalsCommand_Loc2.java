@@ -2,11 +2,9 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
 
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.BlockIterator;
 
 public class PortalsCommand_Loc2 implements PortalsCommands, LocationFinder {
 
@@ -16,10 +14,10 @@ public class PortalsCommand_Loc2 implements PortalsCommands, LocationFinder {
         Block block = getTargetBlock(p, 10);
         if (block != null) {
             Location loc = block.getLocation();
-            addonPortals.getPortals().setPortal(p, loc, true);
-            sendi.sendMessage("Location 2 set to this location!");
+            addonPortals.getPortals().cachePortal(p, loc, true);
+            addonPortals.msgs.getLocation_2(sendi);
         } else {
-            sendi.sendMessage("Please look at a block!");
+            addonPortals.msgs.getLocation_Look(sendi);
         }
     }
 }

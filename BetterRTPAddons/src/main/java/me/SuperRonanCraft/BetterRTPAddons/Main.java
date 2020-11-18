@@ -1,5 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
+import me.SuperRonanCraft.BetterRTPAddons.util.ReloadListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -20,7 +22,7 @@ public class Main extends JavaPlugin {
         addonsHandler.unload();
     }
 
-    void load() {
+    public void load() {
         files.load();
         addonsHandler.load();
     }

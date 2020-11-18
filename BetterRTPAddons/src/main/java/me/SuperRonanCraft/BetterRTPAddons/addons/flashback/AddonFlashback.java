@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
-import me.SuperRonanCraft.BetterRTPAddons.Files;
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 //When rtp'ing, a player will be teleported back to old location after a set amount of time
 public class AddonFlashback implements Addon, Listener {
+
+    private String name = "Flashback";
 
     private Long time;
     public final FlashbackMessages msgs = new FlashbackMessages();
@@ -25,18 +26,18 @@ public class AddonFlashback implements Addon, Listener {
     HashMap<Long, String> warnings = new HashMap<>();
 
     public boolean isEnabled() {
-        return getFile(Files.FILETYPE.FLASHBACK).getBoolean("Enabled");
+        return getFile(Files.FILETYPE.CONFIG).getBoolean(name + ".Enabled");
     }
 
     @Override
     public void load() {
-        Files.FILETYPE file = getFile(Files.FILETYPE.FLASHBACK);
-        this.time = file.getConfig().getLong("Time");
+        Files.FILETYPE file = getFile(Files.FILETYPE.CONFIG);
+        this.time = file.getConfig().getLong(name + ".Time");
         this.database.load(FlashbackDatabase.Columns.values());
 
         warnings.clear();
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
-        List<Map<?, ?>> override_map = file.getConfig().getMapList("Timer.Warnings");
+        List<Map<?, ?>> override_map = file.getConfig().getMapList(name + ".Timer.Warnings");
         for (Map<?, ?> m : override_map)
             for (Map.Entry<?, ?> entry : m.entrySet()) {
                 try {

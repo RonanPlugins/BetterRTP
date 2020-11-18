@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
-import me.SuperRonanCraft.BetterRTPAddons.LocSerialization;
-import me.SuperRonanCraft.BetterRTPAddons.PlayerInfo;
+import me.SuperRonanCraft.BetterRTPAddons.util.LocSerialization;
 import me.SuperRonanCraft.BetterRTPAddons.database.Database;
 import me.SuperRonanCraft.BetterRTPAddons.database.DatabaseColumn;
 import me.SuperRonanCraft.BetterRTPAddons.database.Errors;
@@ -41,7 +40,7 @@ public class FlashbackDatabase extends Database {
         }
     }
 
-    List<PlayerInfo> playerInfos = new ArrayList<>();
+    List<FlashbackPlayerInfo> playerInfos = new ArrayList<>();
 
     public FlashbackDatabase(){
         super("addon_flashback");
@@ -66,7 +65,7 @@ public class FlashbackDatabase extends Database {
         super.load(columns);
     }
 
-    public PlayerInfo getPlayer(Player p) {
+    public FlashbackPlayerInfo getPlayer(Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -78,7 +77,7 @@ public class FlashbackDatabase extends Database {
             rs = ps.executeQuery();
             if (rs.next()) {
                 Location loc = LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_OLD.name));
-                return new PlayerInfo(p, loc);
+                return new FlashbackPlayerInfo(p, loc);
             }
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);

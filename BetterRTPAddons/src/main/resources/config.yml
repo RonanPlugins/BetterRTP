@@ -1,0 +1,17 @@
+Language-File: 'en.yml'
+#Addon Flashback
+Flashback:
+  Enabled: true
+  Timer:
+    Delay: 15 #In Seconds
+    Warnings: #Warning messages to send to a player when X amount of time is left
+      - 5: "&eYou have 5 seconds left! Grab all your materials quick!"
+      - 1: "&eHang on!"
+#Addon Logger
+Logger:
+  Enabled: true
+  LogToConsole: true
+  Format: 'yyyy-MM-dd HH:mm:ss'
+#Addon Portals
+Portals:
+  Enabled: true

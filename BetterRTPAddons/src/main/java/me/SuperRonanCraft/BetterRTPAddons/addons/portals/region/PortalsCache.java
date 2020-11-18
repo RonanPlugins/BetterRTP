@@ -1,14 +1,13 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals.region;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
-import com.comphenix.protocol.wrappers.ChunkCoordIntPair;
-import com.comphenix.protocol.wrappers.MultiBlockChangeInfo;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import me.SuperRonanCraft.BetterRTPAddons.packets.BlockChangeArray;
 import me.SuperRonanCraft.BetterRTPAddons.packets.WrapperPlayServerBlockChange;
 import me.SuperRonanCraft.BetterRTPAddons.packets.WrapperPlayServerMultiBlockChange;
@@ -16,17 +15,27 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 
 public class PortalsCache {
 
-    private final HashMap<Player, PortalsCreation> portalsBeingCreated = new HashMap<>();
+    AddonPortals addonPortals;
+    private List<PortalsRegionInfo> registeredPortals;
+    private final HashMap<Player, PortalsRegionInfo> portalsBeingCreated = new HashMap<>();
 
-    void unload() {
+    public PortalsCache(AddonPortals addonPortals) {
+        this.addonPortals = addonPortals;
+    }
+
+    public void load() {
+        registeredPortals = addonPortals.getDatabase().getPortals();
+    }
+
+    public void unload() {
         portalsBeingCreated.clear();
     }
 
@@ -34,12 +43,29 @@ public class PortalsCache {
         portalsBeingCreated.remove(p);
     }
 
-    public void setPortal(Player p, Location loc, boolean loc2) {
-        PortalsCreation portal;
+    public List<PortalsRegionInfo> getRegisteredPortals() {
+        return registeredPortals;
+    }
+
+    public boolean removeRegisteredPortal(PortalsRegionInfo portal) {
+        registeredPortals.remove(portal);
+        return addonPortals.getDatabase().removePortal(portal);
+    }
+
+    public boolean setPortal(Player p, String name) {
+        if (!portalsBeingCreated.containsKey(p))
+            return false;
+        PortalsRegionInfo portal = portalsBeingCreated.get(p);
+        portal.name = name;
+        return addonPortals.getDatabase().setPortal(portal);
+    }
+
+    public void cachePortal(Player p, Location loc, boolean loc2) {
+        PortalsRegionInfo portal;
         if (portalsBeingCreated.containsKey(p)) {
             portal = portalsBeingCreated.get(p);
         } else {
-            portal = new PortalsCreation(p);
+            portal = new PortalsRegionInfo();
             portalsBeingCreated.put(p, portal);
         }
         Location old_loc1 = portal.loc_1;
@@ -57,7 +83,7 @@ public class PortalsCache {
                 //if (Math.abs(portal.loc_1.getBlockY() - portal.loc_2.getBlockY()) <= 10) {
                 //preview(portal.loc_1, portal.loc_2);
                 //}
-                Location max = portal.loc_1;
+                /*Location max = portal.loc_1;
                 Location min = portal.loc_2;
                 for (int x = Math.max(max.getBlockX(), min.getBlockX()); x >= Math.min(min.getBlockX(), max.getBlockX()); x--) {
                     for (int y = Math.max(max.getBlockY(), min.getBlockY()); y >= Math.min(min.getBlockY(), max.getBlockY()); y--) {
@@ -70,7 +96,7 @@ public class PortalsCache {
                             //block.setType(Material.GLOWSTONE);
                         }
                     }
-                }
+                }*/
             } else {
                 WrapperPlayServerBlockChange packet = new WrapperPlayServerBlockChange(pm.createPacket(PacketType.Play.Server.BLOCK_CHANGE));
                 packet.setBlockData(WrappedBlockData.createData(Material.GLOWSTONE));
@@ -89,7 +115,8 @@ public class PortalsCache {
             BlockChangeArray change = new BlockChangeArray(256);
 
             WrapperPlayServerMultiBlockChange wrapper = new WrapperPlayServerMultiBlockChange(packet);
-            //wrapper.setChunk(new ChunkCoordIntPair(chunk.getX(), chunk.getZ()));
+            wrapper.setChunkX(chunk.getX());
+            wrapper.setChunkZ(chunk.getZ());
             for (int x = 0; x <= 15; x++) {
                 for(int z = 0; z <= 15; z++) {
                     int index = (16 * x) + z;
@@ -116,7 +143,7 @@ public class PortalsCache {
         });
     }
 
-    public PortalsCreation getPortal(Player p) {
+    public PortalsRegionInfo getPortal(Player p) {
         return portalsBeingCreated.getOrDefault(p, null);
     }
 }

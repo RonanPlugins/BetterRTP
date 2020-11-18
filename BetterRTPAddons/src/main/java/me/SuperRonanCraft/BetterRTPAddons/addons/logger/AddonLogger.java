@@ -1,12 +1,11 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.logger;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdReload;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
-import me.SuperRonanCraft.BetterRTPAddons.Files;
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -21,6 +20,7 @@ import java.util.logging.*;
 
 public class AddonLogger implements Addon, Listener {
 
+    private final String name = "Logger";
     private String format;
     private boolean toConsole;
     Logger logger;
@@ -29,14 +29,14 @@ public class AddonLogger implements Addon, Listener {
 
     @Override
     public boolean isEnabled() {
-        return getFile(Files.FILETYPE.LOGGER).getBoolean("Enabled");
+        return getFile(Files.FILETYPE.CONFIG).getBoolean(name + ".Enabled");
     }
 
     @Override
     public void load() {
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
-        this.format = getFile(Files.FILETYPE.LOGGER).getString("Format");
-        this.toConsole = getFile(Files.FILETYPE.LOGGER).getBoolean("LogToConsole");
+        this.format = getFile(Files.FILETYPE.CONFIG).getString(name + ".Format");
+        this.toConsole = getFile(Files.FILETYPE.CONFIG).getBoolean(name + ".LogToConsole");
         try {
             File f = new File(Main.getInstance().getDataFolder() + File.separator + "log.txt");
             handler = new FileHandler(f.getPath(), true);

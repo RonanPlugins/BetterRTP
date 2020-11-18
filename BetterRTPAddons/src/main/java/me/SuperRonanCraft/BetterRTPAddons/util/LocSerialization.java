@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons;
+package me.SuperRonanCraft.BetterRTPAddons.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

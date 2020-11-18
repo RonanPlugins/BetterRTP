@@ -1,8 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 
 public interface Addon {
 

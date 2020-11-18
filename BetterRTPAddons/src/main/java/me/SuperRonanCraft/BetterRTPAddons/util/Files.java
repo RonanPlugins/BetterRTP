@@ -1,5 +1,6 @@
-package me.SuperRonanCraft.BetterRTPAddons;
+package me.SuperRonanCraft.BetterRTPAddons.util;
 
+import me.SuperRonanCraft.BetterRTPAddons.Main;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -11,22 +12,28 @@ import java.util.List;
 import java.util.Map;
 
 public class Files {
-    private List<FILETYPE> types = new ArrayList<>();
+    private final List<FILETYPE> types = new ArrayList<>();
+    private final LangFile langFile = new LangFile();
 
     public FILETYPE getType(FILETYPE type) {
         return types.get(types.indexOf(type));
     }
 
-    void load() {
+    public void load() {
         types.clear();
         for (FILETYPE type : FILETYPE.values()) {
             type.load();
             types.add(type);
         }
+        langFile.load();
+    }
+
+    public LangFile getLang() {
+        return langFile;
     }
 
     public enum FILETYPE {
-        CONFIG("config"), FLASHBACK("flashback"), PORTALS("portals"), INTERFACE("interface"), LOGGER("logger");
+        CONFIG("config");
 
         private final String fileName;
         private final YamlConfiguration config = new YamlConfiguration();

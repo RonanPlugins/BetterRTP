@@ -58,7 +58,8 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
     private enum subCmd {
         LOC1(new PortalsCommand_Loc1()),
         LOC2(new PortalsCommand_Loc2()),
-        CREATE(new PortalsCommand_Create());
+        CREATE(new PortalsCommand_Create()),
+        REMOVE(new PortalsCommand_Remove());
 
         PortalsCommands cmd;
 

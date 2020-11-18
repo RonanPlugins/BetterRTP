@@ -17,13 +17,14 @@ public class AddonsHandler {
 
     public void load() {
         unload();
+        //int addonCount = 0;
         for (Addons addon : Addons.values())
             if (addon.isEnabled()) {
                 addon.load();
                 addons.add(addon);
-            } else {
-                Main.getInstance().getLogger().log(Level.INFO, "Addon " + addon.name() + " was NOT enabled.");
+                //addonCount++;
             }
+        //Main.getInstance().getLogger().log(Level.INFO, addonCount + "/" + Addons.values().length + " addons were enabled!");
         BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
     }
 
@@ -37,7 +38,7 @@ public class AddonsHandler {
         LOGGER(new AddonLogger()),
         FLASH_BACK(new AddonFlashback()),
         PORTALS(new AddonPortals()),
-        INTERFACES(new AddonInterface())
+        //INTERFACES(new AddonInterface())
         ;
 
         Addon addon;
@@ -52,7 +53,7 @@ public class AddonsHandler {
 
         void load() {
             addon.load();
-            Main.getInstance().getLogger().log(Level.INFO, "Addon " + this.name() + " has been enabled!");
+            //Main.getInstance().getLogger().log(Level.INFO, "Addon " + this.name() + " has been enabled!");
         }
 
         void disable() {

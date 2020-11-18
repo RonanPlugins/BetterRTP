@@ -1,0 +1,23 @@
+Flashback:
+  Warning: '&6This Teleport is temporary! &7You will be teleported back soon...'
+Portals:
+  Created:
+    Confirm: '&7Portal &a%name% &7has been created!'
+    Invalid: '&7Portal location was not setup, please create a region!'
+    Name: '&7Please provide a name for this portal!'
+    Duplicate: '&7This name is already being used for another portal, please choose another!'
+  Location:
+    1: '&7Location &a1 &7has been set'
+    2: '&7Location &a2 &7has been set'
+    Look: '&7Please look towards a block and try again!'
+  Remove:
+    Confirm: '&cPortal &7%name% &chas been removed!'
+    None: '&cNo portal by the name &7%name% &cexist!'
+
+Usage:
+  Portals:
+    Remove: '&cUsage: &7/%command% portals remove <portal_name>'
+
+
+Help:
+  Portals: ' &7- &e/%command% portals <loc1, loc2, create> &7- Setup an rtp portal'
