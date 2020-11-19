@@ -16,7 +16,10 @@ public class PortalsCommand_Create implements PortalsCommands {
         Player p = (Player) sendi;
         PortalsRegionInfo portal = addonPortals.getPortals().getPortal(p);
         //Valid region
-        if (portal == null || portal.getLoc1() == null || portal.getLoc2() == null) {
+        if (    portal == null ||
+                portal.getLoc1() == null ||
+                portal.getLoc2() == null ||
+                portal.getLoc1().getWorld() != portal.getLoc2().getWorld()) {
             addonPortals.msgs.getCreateInvalid(sendi);
             return;
         }
@@ -33,7 +36,7 @@ public class PortalsCommand_Create implements PortalsCommands {
                 return;
             }
         }
-        if (addonPortals.getPortals().setPortal(p, name))
+        if (addonPortals.getPortals().addRegisteredPortal(p, name))
             addonPortals.msgs.getCreateConfirm(sendi, name);
         else
             sendi.sendMessage("Something went wrong when creating a portal!");

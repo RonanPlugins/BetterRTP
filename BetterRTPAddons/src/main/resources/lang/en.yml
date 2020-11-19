@@ -13,6 +13,10 @@ Portals:
   Remove:
     Confirm: '&cPortal &7%name% &chas been removed!'
     None: '&cNo portal by the name &7%name% &cexist!'
+  List:
+    Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Portals List &e&m-----'
+    Portal: ' &7- &6%name% &8| &7%location%'
+    None: '&7There are no portals! &8Create one with `/rtp portals create`'
 
 Usage:
   Portals:

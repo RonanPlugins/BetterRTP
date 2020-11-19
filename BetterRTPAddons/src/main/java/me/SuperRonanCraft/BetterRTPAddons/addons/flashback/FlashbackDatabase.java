@@ -73,7 +73,7 @@ public class FlashbackDatabase extends Database {
             conn = getSQLConnection();
             ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + Columns.UUID.name + " = ?");
             UUID id = p.getUniqueId();
-            ps.setString(1, id != null ? id.toString() : console_id);
+            ps.setString(1, id.toString());
             rs = ps.executeQuery();
             if (rs.next()) {
                 Location loc = LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_OLD.name));
@@ -93,13 +93,24 @@ public class FlashbackDatabase extends Database {
         boolean success = true;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("INSERT INTO " + table + "(" + Columns.UUID.name + ", " + Columns.LOCATION_OLD.name + ") VALUES (?, ?) "
-                    + "ON CONFLICT(" + Columns.UUID.name + ") DO UPDATE SET " + Columns.LOCATION_OLD.name + " = + ?");
+            ps = conn.prepareStatement("INSERT INTO " + table +
+                    "(" +
+                    Columns.UUID.name + ", " +
+                    Columns.TIME_GOAL.name + ", " +
+                    Columns.LOCATION_OLD.name +
+                    ") VALUES (?, ?, ?) "
+                    + "ON CONFLICT(" + Columns.UUID.name +
+                    ") DO UPDATE SET " +
+                    Columns.TIME_GOAL.name + " = + ?, " +
+                    Columns.LOCATION_OLD.name + " = + ?"
+            );
             UUID id = p.getUniqueId();
-            ps.setString(1, id != null ? id.toString() : console_id);
+            ps.setString(1, id.toString());
+            ps.setInt(2, timeGoal.intValue());
             String serialLocation = LocSerialization.getStringFromLocation(oldLocation);
-            ps.setString(2, serialLocation);
             ps.setString(3, serialLocation);
+            ps.setInt(4, timeGoal.intValue());
+            ps.setString(5, serialLocation);
             ps.executeUpdate();
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);

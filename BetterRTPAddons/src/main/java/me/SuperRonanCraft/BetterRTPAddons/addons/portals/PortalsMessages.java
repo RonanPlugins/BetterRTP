@@ -56,6 +56,22 @@ public class PortalsMessages implements AddonsMessages {
         sms(sendi, getLang().getString(preM + "Remove.None").replace("%name%", name));
     }
 
+    //List
+
+    public String getListPrefix() {
+        return getLang().getString(preM + "List.Prefix");
+    }
+
+    public String getListPortal() {
+        return getLang().getString(preM + "List.Portal");
+    }
+
+    public void getListNone(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "List.None"));
+    }
+
+    //Usages
+
     public void usageRemove(CommandSender sendi, String label) {
         sms(sendi, getLang().getString(preM + "Usage.Remove").replace("%command%", label));
     }

@@ -74,6 +74,8 @@ public class PortalsDatabase extends Database {
                PortalsRegionInfo info = new PortalsRegionInfo();
                info.setLoc1(LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_1.name)));
                info.setLoc2(LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_2.name)));
+               info.setName(rs.getString(Columns.NAME.name));
+               list.add(info);
             }
             return list;
         } catch (SQLException ex) {

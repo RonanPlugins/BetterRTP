@@ -36,7 +36,7 @@ public class RTPPlayer {
             Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
             chunk.thenAccept(result -> {
-                BetterRTP.debug("Checking location for " + p.getName());
+                //BetterRTP.debug("Checking location for " + p.getName());
                 Location tpLoc;
                 float yaw = p.getLocation().getYaw();
                 float pitch = p.getLocation().getPitch();

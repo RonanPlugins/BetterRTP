@@ -24,6 +24,10 @@ public class PortalsRegionInfo {
         loc_2 = loc;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

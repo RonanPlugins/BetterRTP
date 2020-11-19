@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsCache;
 

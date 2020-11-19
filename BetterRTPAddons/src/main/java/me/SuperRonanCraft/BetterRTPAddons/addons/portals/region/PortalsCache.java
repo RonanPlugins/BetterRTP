@@ -52,11 +52,12 @@ public class PortalsCache {
         return addonPortals.getDatabase().removePortal(portal);
     }
 
-    public boolean setPortal(Player p, String name) {
+    public boolean addRegisteredPortal(Player p, String name) {
         if (!portalsBeingCreated.containsKey(p))
             return false;
         PortalsRegionInfo portal = portalsBeingCreated.get(p);
         portal.name = name;
+        registeredPortals.add(portal);
         return addonPortals.getDatabase().setPortal(portal);
     }
 
@@ -77,7 +78,7 @@ public class PortalsCache {
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 
-            if (portal.loc_1 != null && portal.loc_2 != null) {
+            //if (portal.loc_1 != null && portal.loc_2 != null) {
                 //if (Math.abs(portal.loc_1.getBlockX() - portal.loc_2.getBlockX()) <= 10)
                 //if (Math.abs(portal.loc_1.getBlockZ() - portal.loc_2.getBlockZ()) <= 10)
                 //if (Math.abs(portal.loc_1.getBlockY() - portal.loc_2.getBlockY()) <= 10) {
@@ -97,12 +98,12 @@ public class PortalsCache {
                         }
                     }
                 }*/
-            } else {
+            //} else {
                 WrapperPlayServerBlockChange packet = new WrapperPlayServerBlockChange(pm.createPacket(PacketType.Play.Server.BLOCK_CHANGE));
                 packet.setBlockData(WrappedBlockData.createData(Material.GLOWSTONE));
                 packet.setLocation(new BlockPosition(loc.toVector()));
                 packet.sendPacket(p);
-            }
+            //}
         }
     }
 

@@ -1,8 +1,9 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
+package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.*;
 import org.bukkit.command.CommandSender;
 
@@ -13,7 +14,7 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
 
     AddonPortals pl;
 
-    PortalsCommand(AddonPortals pl) {
+    public PortalsCommand(AddonPortals pl) {
         this.pl = pl;
     }
 
@@ -59,7 +60,8 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
         LOC1(new PortalsCommand_Loc1()),
         LOC2(new PortalsCommand_Loc2()),
         CREATE(new PortalsCommand_Create()),
-        REMOVE(new PortalsCommand_Remove());
+        REMOVE(new PortalsCommand_Remove()),
+        LIST(new PortalsCommand_List());
 
         PortalsCommands cmd;
 
