@@ -24,7 +24,7 @@ public class AddonPortals implements Addon {
     public void load() {
         BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
         database.load(PortalsDatabase.Columns.values());
-        events.register();
+        events.load();
         portalsCache.load();
     }
 

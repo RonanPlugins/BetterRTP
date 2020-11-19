@@ -1,5 +1,6 @@
 Language-File: 'en.yml'
-#Addon Flashback
+
+##Addon Flashback
 Flashback:
   Enabled: true
   Timer:
@@ -7,11 +8,37 @@ Flashback:
     Warnings: #Warning messages to send to a player when X amount of time is left
       - 5: "&eYou have 5 seconds left! Grab all your materials quick!"
       - 1: "&eHang on!"
-#Addon Logger
+
+##Addon Logger
 Logger:
   Enabled: true
   LogToConsole: true
   Format: 'yyyy-MM-dd HH:mm:ss'
-#Addon Portals
+
+##Addon Portals
 Portals:
   Enabled: true
+  IgnoreDelay: true
+  IgnoreCooldown: true
+
+##Addon ExtraEffects
+ExtraEffects:
+  Enabled: true
+  YOffset:
+    Enabled: true
+    Offset: 50
+
+##Addon MagicStick
+MagicStick:
+  Enabled: false
+  GiveFirstJoin:
+    Enabled: true
+    Amount: 1
+  Item:
+    Name: '&d&lMagic RTP Stick &8(Right-Click)'
+    Material: 'Stick'
+    Lore:
+      - ''
+      - '&7Right click this stick and unlock'
+      - '&7a brand new adventure!'
+  Take: true

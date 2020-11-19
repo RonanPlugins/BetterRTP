@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,13 +21,16 @@ public class PortalsEvents implements Listener {
 
     AddonPortals addonPortals;
     private final HashMap<Player, PortalsRegionInfo> playerPortaling = new HashMap<>();
+    private boolean ignoreDelay, ignoreCooldown;
 
     PortalsEvents(AddonPortals addonPortals) {
         this.addonPortals = addonPortals;
     }
 
-    public void register() {
+    public void load() {
         Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
+        ignoreDelay = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG).getBoolean("Portals.IgnoreDelay");
+        ignoreCooldown = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG).getBoolean("Portals.IgnoreCooldown");
     }
 
     public void unregiter() {
@@ -52,7 +56,7 @@ public class PortalsEvents implements Listener {
                         && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
                     playerPortaling.put(e.getPlayer(), portal);
                     BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(),
-                            e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON);
+                            e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON, ignoreCooldown, ignoreDelay);
                     return;
                 }
             }

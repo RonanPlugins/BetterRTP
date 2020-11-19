@@ -41,17 +41,20 @@ public class RTPTeleport {
 //        CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).cancel(true);
 //    }
 
-    void sendPlayer(final CommandSender sendi, final Player p, final Location loc, final int price,
+    void sendPlayer(final CommandSender sendi, final Player p, final Location location, final int price,
                     final int attempts) throws NullPointerException {
         Location oldLoc = p.getLocation();
         loadingTeleport(p, sendi); //Send loading message to player who requested
-        List<CompletableFuture<Chunk>> asyncChunks = getChunks(loc); //Get a list of chunks
+        List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
         //playerLoads.put(p, asyncChunks);
         CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
             new BukkitRunnable() { //Run synchronously
                 @Override
                 public void run() {
                     try {
+                        RTP_TeleportEvent event = new RTP_TeleportEvent(p, location);
+                        getPl().getServer().getPluginManager().callEvent(event);
+                        Location loc = event.getLocation();
                         PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
                             @Override
                             public void run() {

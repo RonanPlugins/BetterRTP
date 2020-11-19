@@ -106,10 +106,10 @@ public class FlashbackDatabase extends Database {
             );
             UUID id = p.getUniqueId();
             ps.setString(1, id.toString());
-            ps.setInt(2, timeGoal.intValue());
+            ps.setLong(2, timeGoal);
             String serialLocation = LocSerialization.getStringFromLocation(oldLocation);
             ps.setString(3, serialLocation);
-            ps.setInt(4, timeGoal.intValue());
+            ps.setLong(4, timeGoal);
             ps.setString(5, serialLocation);
             ps.executeUpdate();
         } catch (SQLException ex) {

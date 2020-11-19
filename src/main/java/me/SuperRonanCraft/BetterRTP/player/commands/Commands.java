@@ -48,9 +48,9 @@ public class Commands {
                 for (RTPCommand cmd : commands) {
                     if (cmd.getName().equalsIgnoreCase(args[0])) {
                         if (cmd.permission(sendi)) {
+                            cmd.execute(sendi, label, args);
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
-                            cmd.execute(sendi, label, args);
                         } else
                             noPerm(sendi);
                         return;
@@ -137,21 +137,32 @@ public class Commands {
     }
 
     public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType) {
-        if (checkDelay(sendi, player)) { //Cooling down or rtp'ing
-            boolean delay = false;
-            if (sendi == player) //Forced?
-                if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
-                    if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
-                        delay = true;
-            pl.getRTP().start(player, sendi, world, biomes, delay, rtpType);
+        this.tp(player, sendi, world, biomes, rtpType, false, false);
+    }
+
+    public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType, boolean ignoreCooldown, boolean ignoreDelay) {
+        if (checkRTPing(player, sendi)) { //Is RTP'ing
+            if (!ignoreCooldown || checkCooldown(sendi, player)) { //Is Cooling down
+                boolean delay = false;
+                if (!ignoreDelay && sendi == player) //Forced?
+                    if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
+                        if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
+                            delay = true;
+                pl.getRTP().start(player, sendi, world, biomes, delay, rtpType);
+            }
         }
     }
 
-    private boolean checkDelay(CommandSender sendi, Player player) {
+    private boolean checkRTPing(Player player, CommandSender sendi) {
         if (rtping.containsKey(player.getUniqueId()) && rtping.get(player.getUniqueId())) {
             pl.getText().getAlready(sendi);
             return false;
-        } else if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
+        }
+        return true;
+    }
+
+    private boolean checkCooldown(CommandSender sendi, Player player) {
+        if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
             return true;
         } else if (cooldowns.enabled) { //Cooling down?
             UUID id = player.getUniqueId();

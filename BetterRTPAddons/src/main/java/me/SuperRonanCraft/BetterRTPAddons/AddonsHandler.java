@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
 import me.SuperRonanCraft.BetterRTPAddons.addons.interfaces.AddonInterface;
 import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
+import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class AddonsHandler {
         FLASH_BACK(new AddonFlashback()),
         PORTALS(new AddonPortals()),
         //INTERFACES(new AddonInterface())
+        MAGICSTICK(new AddonMagicStick()),
         ;
 
         Addon addon;
