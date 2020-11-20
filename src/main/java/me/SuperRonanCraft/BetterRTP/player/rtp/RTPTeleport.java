@@ -42,7 +42,7 @@ public class RTPTeleport {
 //    }
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location location, final int price,
-                    final int attempts) throws NullPointerException {
+                    final int attempts, RTP_TYPE type) throws NullPointerException {
         Location oldLoc = p.getLocation();
         loadingTeleport(p, sendi); //Send loading message to player who requested
         List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
@@ -58,12 +58,12 @@ public class RTPTeleport {
                         PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
                             @Override
                             public void run() {
-                                afterTeleport(p, loc, price, attempts, oldLoc);
+                                afterTeleport(p, loc, price, attempts, oldLoc, type);
                                 if (sendi != p) //Tell player who requested that the player rtp'd
                                     sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
                                 getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
                                 //Save respawn location if first join
-                                if (BetterRTP.getInstance().getpInfo().getRTPType(p) == RTP_TYPE.JOIN) //RTP Type was Join
+                                if (type == RTP_TYPE.JOIN) //RTP Type was Join
                                     if (BetterRTP.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
                                         p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                             }
@@ -79,14 +79,14 @@ public class RTPTeleport {
 
     //Effects
 
-    public void afterTeleport(Player p, Location loc, int price, int attempts, Location oldLoc) { //Only a successful rtp should run this OR '/rtp test'
+    public void afterTeleport(Player p, Location loc, int price, int attempts, Location oldLoc, RTP_TYPE type) { //Only a successful rtp should run this OR '/rtp test'
         eSounds.playTeleport(p);
         eParticles.display(p);
         ePotions.giveEffects(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getName(), loc, price, true, attempts);
-        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc));
+        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, type));
     }
 
     public void beforeTeleportInstant(CommandSender sendi, Player p) {

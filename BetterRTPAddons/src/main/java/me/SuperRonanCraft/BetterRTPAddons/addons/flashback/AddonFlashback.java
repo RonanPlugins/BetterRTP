@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -32,7 +33,7 @@ public class AddonFlashback implements Addon, Listener {
     @Override
     public void load() {
         Files.FILETYPE file = getFile(Files.FILETYPE.CONFIG);
-        this.time = file.getConfig().getLong(name + ".Time");
+        this.time = file.getConfig().getLong(name + ".Timer.Delay");
         this.database.load(FlashbackDatabase.Columns.values());
 
         warnings.clear();
@@ -67,6 +68,7 @@ public class AddonFlashback implements Addon, Listener {
     @EventHandler
     void onTeleport(RTP_TeleportPostEvent e) {
         System.out.println("Player " + e.getPlayer().getName() + " was rtp'd!");
-        players.add(new FlashbackPlayer(this, e.getPlayer(), e.getOldLocation(), time));
+        if (e.getType() != RTP_TYPE.ADDON_PORTAL)
+            players.add(new FlashbackPlayer(this, e.getPlayer(), e.getOldLocation(), time));
     }
 }

@@ -18,11 +18,13 @@ public class RTPPlayer {
     private final Player p;
     private final RTP settings;
     WorldPlayer pWorld;
+    RTP_TYPE type;
 
-    RTPPlayer(Player p, RTP settings, WorldPlayer pWorld) {
+    RTPPlayer(Player p, RTP settings, WorldPlayer pWorld, RTP_TYPE type) {
         this.p = p;
         this.settings = settings;
         this.pWorld = pWorld;
+        this.type = type;
     }
 
     public Player getPlayer() {
@@ -50,7 +52,7 @@ public class RTPPlayer {
                 //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc)) {
                     if (getPl().getEco().charge(p, pWorld)) {
-                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts());
+                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts(), type);
                     }
                 } else
                     randomlyTeleport(sendi);

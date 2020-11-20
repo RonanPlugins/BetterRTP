@@ -14,7 +14,7 @@ public class PlayerInfo {
     private final HashMap<Player, RTP_INV_SETTINGS> invType = new HashMap<>();
     private final HashMap<Player, World> invWorld = new HashMap<>();
     private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
-    private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
+    //private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
 
     public Inventory getInv(Player p) {
         return invs.get(p);
@@ -32,9 +32,9 @@ public class PlayerInfo {
         return invNextInv.get(p);
     }
 
-    public RTP_TYPE getRTPType(Player p) {
-        return rtpType.getOrDefault(p, RTP_TYPE.COMMAND);
-    }
+    //public RTP_TYPE getRTPType(Player p) {
+    //    return rtpType.getOrDefault(p, RTP_TYPE.COMMAND);
+    //}
 
     public void setInv(Player p, Inventory inv) {
         invs.put(p, inv);
@@ -52,9 +52,9 @@ public class PlayerInfo {
         invNextInv.put(p, type);
     }
 
-    public void setRTPType(Player p, RTP_TYPE rtpType) {
-        this.rtpType.put(p, rtpType);
-    }
+    //public void setRTPType(Player p, RTP_TYPE rtpType) {
+    //    this.rtpType.put(p, rtpType);
+    //}
 
     //--Logic--
 

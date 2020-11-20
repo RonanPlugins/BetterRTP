@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,7 +20,7 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (sendi instanceof Player) {
             Player p = (Player) sendi;
-            BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, p.getLocation(), 0, 0, p.getLocation());
+            BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, p.getLocation(), 0, 0, p.getLocation(), RTP_TYPE.COMMAND);
         } else
             sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
     }

@@ -167,17 +167,17 @@ public class RTP {
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        BetterRTP.getInstance().getpInfo().setRTPType(p, rtpType);
-        rtp(sendi, pWorld, delay);
+        //BetterRTP.getInstance().getpInfo().setRTPType(p, rtpType);
+        rtp(sendi, pWorld, delay, rtpType);
     }
 
-    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay) {
+    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay, RTP_TYPE type) {
         //Cooldown
         Player p = pWorld.getPlayer();
         getPl().getCmd().cooldowns.add(p.getUniqueId());
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
-        RTPPlayer rtp = new RTPPlayer(p, this, pWorld);
+        RTPPlayer rtp = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
         if (getPl().getSettings().delayEnabled && delay) {
             new RTPDelay(sendi, rtp, delayTime, cancelOnMove, cancelOnDamage);

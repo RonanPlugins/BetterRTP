@@ -56,7 +56,7 @@ public class PortalsEvents implements Listener {
                         && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
                     playerPortaling.put(e.getPlayer(), portal);
                     BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(),
-                            e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON, ignoreCooldown, ignoreDelay);
+                            e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
                     return;
                 }
             }
