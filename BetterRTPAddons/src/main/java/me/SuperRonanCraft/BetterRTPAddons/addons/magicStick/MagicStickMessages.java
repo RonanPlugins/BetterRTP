@@ -14,4 +14,12 @@ public class MagicStickMessages implements AddonsMessages {
     public void getGive(CommandSender sendi, String name) {
         sms(sendi, getLang().getString(preM + "Give").replace("%name%", name));
     }
+
+    public void getGiven(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Given"));
+    }
+
+    public void getPlayerError(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "Player").replace("%player%", name));
+    }
 }

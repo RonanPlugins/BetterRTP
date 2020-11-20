@@ -1,5 +1,5 @@
 Flashback:
-  Warning: '&6This Teleport is temporary! &7You will be teleported back soon...'
+  Warning: '&7This random teleport was temporary! You were teleported back to your original location.'
 Portals:
   Created:
     Confirm: '&7Portal &a%name% &7has been created!'
@@ -18,10 +18,13 @@ Portals:
     Portal: ' &7- &6%name% &8| &7%location%'
     None: '&7There are no portals! &8Create one with `/rtp portals create`'
 MagicStick:
-  Give: '&7Magic Stick has been given to &a%player%'
+  Give: '&dMagic Stick&7 has been given to &a%player%'
+  Given: '&7A &dMagic Stick&7 has been given to you'
+  Player: '&cWhoops! &7Seems like their is no player by the name of &a%player% &7online!'
 
 Usage:
   Portals:
+    Base: '&cUsage: &7/%command% portals <remove, create, loc1, loc2>'
     Remove: '&cUsage: &7/%command% portals remove <portal_name>'
 
 

@@ -18,7 +18,7 @@ import java.util.Map;
 //When rtp'ing, a player will be teleported back to old location after a set amount of time
 public class AddonFlashback implements Addon, Listener {
 
-    private String name = "Flashback";
+    private final String name = "Flashback";
 
     private Long time;
     public final FlashbackMessages msgs = new FlashbackMessages();
@@ -66,8 +66,7 @@ public class AddonFlashback implements Addon, Listener {
     }
 
     @EventHandler
-    void onTeleport(RTP_TeleportPostEvent e) {
-        System.out.println("Player " + e.getPlayer().getName() + " was rtp'd!");
+    void onTeleport(RTP_TeleportPostEvent e) { //Create a timer to teleport player back
         if (e.getType() != RTP_TYPE.ADDON_PORTAL)
             players.add(new FlashbackPlayer(this, e.getPlayer(), e.getOldLocation(), time));
     }

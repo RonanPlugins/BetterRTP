@@ -75,4 +75,8 @@ public class PortalsMessages implements AddonsMessages {
     public void usageRemove(CommandSender sendi, String label) {
         sms(sendi, getLang().getString(preM + "Usage.Remove").replace("%command%", label));
     }
+
+    public void usageBase(CommandSender sendi, String label) {
+        sms(sendi, getLang().getString(preM + "Usage.Base").replace("%command%", label));
+    }
 }

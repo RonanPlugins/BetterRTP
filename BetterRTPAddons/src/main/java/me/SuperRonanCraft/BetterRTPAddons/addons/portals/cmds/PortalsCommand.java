@@ -31,7 +31,7 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
                     return;
                 }
             }
-        sendi.sendMessage("Invalid argument!");
+        pl.msgs.usageBase(sendi, label);
     }
 
     @Override
