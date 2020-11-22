@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
@@ -65,6 +66,11 @@ public class PortalsEvents implements Listener {
 
     @EventHandler
     void teleport(RTP_TeleportPostEvent e) {
+        playerPortaling.remove(e.getPlayer());
+    }
+
+    @EventHandler
+    void cancelled(RTP_CancelledEvent e) {
         playerPortaling.remove(e.getPlayer());
     }
 }

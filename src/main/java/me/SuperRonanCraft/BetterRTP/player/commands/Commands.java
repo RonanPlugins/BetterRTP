@@ -142,7 +142,7 @@ public class Commands {
 
     public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType, boolean ignoreCooldown, boolean ignoreDelay) {
         if (checkRTPing(player, sendi)) { //Is RTP'ing
-            if (!ignoreCooldown || checkCooldown(sendi, player)) { //Is Cooling down
+            if (ignoreCooldown || checkCooldown(sendi, player)) { //Is Cooling down
                 boolean delay = false;
                 if (!ignoreDelay && sendi == player) //Forced?
                     if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?

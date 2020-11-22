@@ -7,20 +7,37 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.*;
+
 public class FlashbackPlayer {
     Player p;
     Location oldLoc;
     AddonFlashback plugin;
-    BukkitTask task;
+    List<BukkitTask> tasks = new ArrayList<>();
 
-    public FlashbackPlayer(AddonFlashback plugin, Player p, Location oldLoc, Long seconds) {
+    public FlashbackPlayer(AddonFlashback plugin, Player p, Location oldLoc, Long seconds, HashMap<Long, String> warnings) {
         this.plugin = plugin;
         this.p = p;
         this.oldLoc = oldLoc;
-        this.task = Bukkit.getScheduler().runTaskLater(Main.getInstance(), getTimedFlash(seconds), 20L * seconds);
+        if (warnings != null)
+            createTimers(seconds, orderMap(warnings));
+        tasks.add(Bukkit.getScheduler().runTaskLater(Main.getInstance(), runFlashback(seconds), 20L * seconds));
     }
 
-    private Runnable getTimedFlash(Long seconds) {
+    void createTimers(Long seconds, TreeMap<Long, String> warnings) {
+        for (Map.Entry<Long, String> entry : warnings.entrySet()) {
+            String str = entry.getValue();
+            long time = seconds - entry.getKey();
+            if (time >= 0)
+                tasks.add(Bukkit.getScheduler().runTaskLater(Main.getInstance(), runWarning(str), 20L * time));
+        }
+    }
+
+    TreeMap<Long, String> orderMap(HashMap<Long, String> warnings) {
+        return new TreeMap<>(warnings);
+    }
+
+    private Runnable runFlashback(Long seconds) {
         if (!plugin.database.setPlayer(p, oldLoc, System.currentTimeMillis() + (seconds * 1000)))
             p.sendMessage("A Database error has occurred!");
         return () -> {
@@ -30,11 +47,17 @@ public class FlashbackPlayer {
         };
     }
 
+    private Runnable runWarning(String msg) {
+        return () -> plugin.msgs.sms(p, msg);
+    }
+
     public void cancel() {
-        task.cancel();
+        for (BukkitTask task : tasks)
+            task.cancel();
     }
 
     private void completed() {
         plugin.players.remove(this);
+        plugin.database.removePlayer(p);
     }
 }

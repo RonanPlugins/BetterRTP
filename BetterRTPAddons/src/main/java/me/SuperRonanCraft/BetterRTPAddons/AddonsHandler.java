@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
 import me.SuperRonanCraft.BetterRTPAddons.addons.interfaces.AddonInterface;
 import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
@@ -36,11 +37,12 @@ public class AddonsHandler {
     }
 
     enum Addons {
-        LOGGER(new AddonLogger()),
-        FLASH_BACK(new AddonFlashback()),
-        PORTALS(new AddonPortals()),
+        LOGGER(new AddonLogger()),              //Does this thing work?
+        FLASH_BACK(new AddonFlashback()),       //Never get lost adventuring
+        PORTALS(new AddonPortals()),            //Fancy walk-in portals
         //INTERFACES(new AddonInterface())
-        MAGICSTICK(new AddonMagicStick()),
+        MAGICSTICK(new AddonMagicStick()),      //Handy teleport want
+        EXTRAEFFECTS(new AddonExtraEffects()),  //New cosmetica!
         ;
 
         Addon addon;

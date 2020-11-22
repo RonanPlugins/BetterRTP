@@ -1,11 +1,15 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
 
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
+import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsCache;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PortalsCommand_Remove implements PortalsCommands {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PortalsCommand_Remove implements PortalsCommands, PortalsCommandsTabable {
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args, AddonPortals addonPortals) {
@@ -25,5 +29,17 @@ public class PortalsCommand_Remove implements PortalsCommands {
         }
         //None found
         addonPortals.msgs.getRemoveNone(sendi, portalName);
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sendi, String[] args, AddonPortals addonPortals) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 3) {
+            for (PortalsRegionInfo portal : addonPortals.getPortals().getRegisteredPortals()) {
+                if (portal.getName().toLowerCase().startsWith(args[2].toLowerCase()))
+                    list.add(portal.getName());
+            }
+        }
+        return list;
     }
 }

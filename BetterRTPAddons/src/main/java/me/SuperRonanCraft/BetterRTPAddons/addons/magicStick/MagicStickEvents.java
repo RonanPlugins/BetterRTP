@@ -1,7 +1,9 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.magicStick;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds.MagicStickCommand;
@@ -41,7 +43,7 @@ public class MagicStickEvents implements Listener {
         assert meta != null;
         meta.setDisplayName(BetterRTP.getInstance().getText().color(title));
         meta.setLore(lore);
-        lore.forEach((str) -> {lore.set(lore.indexOf(str), BetterRTP.getInstance().getText().color(str)); });
+        lore.forEach((str) -> lore.set(lore.indexOf(str), BetterRTP.getInstance().getText().color(str)));
         item.setItemMeta(meta);
 
         this.take = file.getBoolean("MagicStick.Take");
@@ -88,9 +90,10 @@ public class MagicStickEvents implements Listener {
 
         @EventHandler
         void tp(RTP_TeleportPostEvent e) {
-            if (e.getPlayer() == p && e.getType() == RTP_TYPE.ADDON_MAGICSTICK) {
+            if (e.getPlayer() == p) {
+                if (e.getType() == RTP_TYPE.ADDON_MAGICSTICK)
+                    e.getPlayer().getInventory().removeItem(item);
                 teleportingPlayers.remove(this);
-                e.getPlayer().getInventory().removeItem(item);
                 this.unload();
             }
         }
@@ -99,6 +102,14 @@ public class MagicStickEvents implements Listener {
         void drop(PlayerDropItemEvent e) {
             if (e.getPlayer() == p)
                 e.setCancelled(true);
+        }
+
+        @EventHandler
+        void cancelled(RTP_CancelledEvent e) {
+            if (e.getPlayer() == p) {
+                teleportingPlayers.remove(this);
+                this.unload();
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -61,6 +62,7 @@ class RTPDelay implements Listener {
             //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
             getPl().getCmd().cooldowns.remove(rtp.getPlayer().getUniqueId());
             getPl().getCmd().rtping.put(rtp.getPlayer().getUniqueId(), false);
+            Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
         }
     }
 

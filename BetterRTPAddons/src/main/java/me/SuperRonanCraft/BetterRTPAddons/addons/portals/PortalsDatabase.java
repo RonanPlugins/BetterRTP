@@ -92,19 +92,9 @@ public class PortalsDatabase extends Database {
         boolean success = true;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("INSERT INTO " + table + "(" +
-                    Columns.NAME.name + ", " +
-                    Columns.LOCATION_1.name + ", " +
-                    Columns.LOCATION_2.name + ") VALUES (?, ?, ?) "
-                    + "ON CONFLICT(" + Columns.NAME.name + ") DO UPDATE SET " +
-                    Columns.LOCATION_1.name + " = + ?, " + Columns.LOCATION_2.name + " = ?");
+            ps = conn.prepareStatement("DELETE FROM " + table +
+                    " WHERE " + Columns.NAME.name + " = ?");
             ps.setString(1, portal.getName());
-            String serialLocation_1 = LocSerialization.getStringFromLocation(portal.getLoc1());
-            String serialLocation_2 = LocSerialization.getStringFromLocation(portal.getLoc2());
-            ps.setString(2, serialLocation_1);
-            ps.setString(3, serialLocation_2);
-            ps.setString(4, serialLocation_1);
-            ps.setString(5, serialLocation_2);
             ps.executeUpdate();
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);

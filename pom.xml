@@ -114,6 +114,11 @@
             <id>residence-repo</id>
             <url>file:${project.basedir}/LocalJars/Residence4.9.1.9.jar</url>
         </repository>
+        <!-- ProtocolLib Repo -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -203,6 +208,13 @@
             <groupId>com.bekvon.bukkit</groupId>
             <artifactId>Residence</artifactId>
             <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ProtocolLib -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

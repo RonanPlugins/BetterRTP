@@ -3,9 +3,13 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 //Teleport the player VERY high into the sky
 public class ExtraEffectsEffect_Skyhigh implements ExtraEffectsEffect, Listener {
@@ -32,5 +36,27 @@ public class ExtraEffectsEffect_Skyhigh implements ExtraEffectsEffect, Listener 
     @EventHandler
     void tpEvent(RTP_TeleportEvent e) {
         e.changeLocation(e.getLocation().add(0, offset, 0));
+        new PlayerFalling(e.getPlayer());
+    }
+
+    private static class PlayerFalling implements Listener {
+        Player p;
+
+        PlayerFalling(Player p) {
+            this.p = p;
+            Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
+        }
+
+        @EventHandler
+        void event(EntityDamageEvent e) {
+            if (e.getEntityType() == EntityType.PLAYER && e.getEntity() == p) {
+                e.setCancelled(true);
+                unload();
+            }
+        }
+
+        void unload() {
+            HandlerList.unregisterAll(this);
+        }
     }
 }

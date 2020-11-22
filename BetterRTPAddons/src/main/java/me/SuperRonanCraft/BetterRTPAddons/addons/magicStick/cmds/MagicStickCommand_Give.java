@@ -23,14 +23,14 @@ public class MagicStickCommand_Give implements MagicStickCommands {
         } else {
             Player p = null;
             for (Player plr : Bukkit.getOnlinePlayers()) {
-                if (plr.getName().startsWith(args[2])) {
+                if (plr.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                     p = plr;
                     break;
                 }
             }
             if (p != null) {
                 p.getInventory().addItem(addon.events.item.clone());
-                addon.msgs.getGiven(sendi);
+                addon.msgs.getGiven(p);
                 addon.msgs.getGive(sendi, p.getName());
             } else
                 addon.msgs.getPlayerError(sendi, args[2]);

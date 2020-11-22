@@ -4,10 +4,11 @@ Language-File: 'en.yml'
 Flashback:
   Enabled: true
   Timer:
-    Delay: 15 #In Seconds
+    Delay: 600 #In Seconds
     Warnings: #Warning messages to send to a player when X amount of time is left
-      - 5: "&eYou have 5 seconds left! Grab all your materials quick!"
-      - 1: "&eHang on!"
+      - 600: "&cYou have 10 minutes here, collect and explore and much as you can!"
+      - 60: "&eYou have 60 seconds left! Grab all your materials quick!"
+      - 1: "&eHang on! It's going to get bumpy!"
 
 ##Addon Logger
 Logger:

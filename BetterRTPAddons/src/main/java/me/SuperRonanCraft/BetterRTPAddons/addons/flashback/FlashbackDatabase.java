@@ -77,7 +77,8 @@ public class FlashbackDatabase extends Database {
             rs = ps.executeQuery();
             if (rs.next()) {
                 Location loc = LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_OLD.name));
-                return new FlashbackPlayerInfo(p, loc);
+                Long time = rs.getLong(Columns.TIME_GOAL.name);
+                return new FlashbackPlayerInfo(p, loc, time);
             }
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
@@ -119,5 +120,24 @@ public class FlashbackDatabase extends Database {
             close(ps, null, conn);
         }
         return success;
+    }
+
+    public void removePlayer(Player p) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        //boolean success = true;
+        try {
+            conn = getSQLConnection();
+            ps = conn.prepareStatement("DELETE FROM " + table +
+                    " WHERE " + Columns.UUID.name + " = ?");
+            UUID id = p.getUniqueId();
+            ps.setString(1, id.toString());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
+            //success = false;
+        } finally {
+            close(ps, null, conn);
+        }
     }
 }
