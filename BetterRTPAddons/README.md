@@ -12,7 +12,7 @@ BetterRTPAddons uses and is compiled with the following libraries:
 - [PaperLib](https://github.com/PaperMC/PaperLib) (included) - Library for interfacing with PaperMC specific APIs, used for async chunk loading.
 
 ## Where's the Wiki?  
-The wiki is available [here](../../wiki)!
+The wiki is available [here](../../../wiki)!
     
 <p align="center">
   <b>Chat with us on Discord</b><br/>
