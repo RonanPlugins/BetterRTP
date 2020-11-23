@@ -2,8 +2,12 @@
 To-Do list for BetterRTP
 
 
-Worlds with spaces
+Worlds with spaces:
 - Support for worlds with spaces in their names
 
-Version Permission
- - Add a permission to disallow the '/rtp version' command
+Add kingdoms support:
+ Wiki: https://github.com/CryptoMorin/KingdomsX/wiki/API
+ Plugin: https://www.spigotmc.org/resources/kingdomsx.77670/
+
+Queue System:
+- Allow for safe spots to save every so often to not run in real time when players are rtp'ing
