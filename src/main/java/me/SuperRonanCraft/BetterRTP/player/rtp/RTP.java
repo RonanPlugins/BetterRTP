@@ -4,10 +4,12 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,6 +186,27 @@ public class RTP {
         } else {
             teleport.beforeTeleportInstant(sendi, p);
             rtp.randomlyTeleport(sendi);
+        }
+    }
+
+    private static class Queue {
+
+        private int queueAmount;
+        private final List<Location> locationList = new ArrayList<>();
+
+        Location getQueue() {
+            Location loc = null;
+            if (!locationList.isEmpty())
+                loc = locationList.get(0);
+            return loc;
+        }
+
+        void removeFromQueue(Location loc) {
+            locationList.remove(loc);
+        }
+
+        void startQueue() {
+
         }
     }
 }

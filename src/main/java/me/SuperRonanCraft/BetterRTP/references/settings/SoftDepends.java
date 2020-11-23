@@ -15,6 +15,7 @@ public class SoftDepends {
     private boolean respect_factionsUUID = false;
     private boolean respect_lands = false;
     private boolean respect_residence = false;
+    private boolean respect_kingdomsx = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
@@ -23,6 +24,7 @@ public class SoftDepends {
     private boolean factionsUUID = false;
     private boolean lands = false;
     private boolean residence = false;
+    private boolean kingdomsx = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -52,6 +54,10 @@ public class SoftDepends {
         return residence;
     }
 
+    public boolean isKingdomsX() {
+        return kingdomsx;
+    }
+
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
@@ -62,6 +68,7 @@ public class SoftDepends {
         respect_factionsUUID = config.getBoolean(   pre + "FactionsUUID");
         respect_lands = config.getBoolean(          pre + "Lands");
         respect_residence = config.getBoolean(      pre + "Residence");
+        respect_kingdomsx = config.getBoolean(      pre + "KingdomsX");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -69,6 +76,7 @@ public class SoftDepends {
         registerFactionsUUID();
         registerLands();
         registerResidence();
+        registerKingdomsX();
     }
 
     public void registerWorldguard() {
@@ -111,6 +119,12 @@ public class SoftDepends {
         residence = respect_residence && Bukkit.getPluginManager().isPluginEnabled("Residence");
         if (respect_residence)
             debug("Respecting `Residence` was " + (residence ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerKingdomsX() {
+        kingdomsx = respect_kingdomsx && Bukkit.getPluginManager().isPluginEnabled("Kingdoms");
+        if (respect_kingdomsx)
+            debug("Respecting `KingdomsX` was " + (kingdomsx ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {

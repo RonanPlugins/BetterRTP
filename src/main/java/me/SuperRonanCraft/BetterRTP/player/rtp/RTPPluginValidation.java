@@ -15,6 +15,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
+import org.kingdoms.constants.land.Land;
 
 public class RTPPluginValidation { //Safe locations depending on enabled dependencies
 
@@ -26,13 +27,15 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean plugin_factionsUUID = getFactionsUUID(loc);
         boolean plugin_lands = getLands(loc);
         boolean plugin_residence = getResidence(loc);
+        boolean plugin_kingdomsx = getKingdomsx(loc);
         return  plugin_worldguard
                 && plugin_griefPrevention
                 && plugin_towny
                 && plugin_redProtect
                 && plugin_factionsUUID
                 && plugin_lands
-                && plugin_residence;
+                && plugin_residence
+                && plugin_kingdomsx;
     }
 
     // TESTED (v2.12.3)
@@ -131,6 +134,21 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         if (getPl().getSettings().getsDepends().isResidence())
             try {
                 result = Residence.getInstance().getResidenceManager().getByLoc(loc) == null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
+    // NOT TESTED (2.14.3)
+    // KingdomsX (v1.10.5.2)
+    // https://www.spigotmc.org/resources/kingdomsx.77670/
+    private boolean getKingdomsx(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isKingdomsX())
+            try {
+                Land land = Land.getLand(loc);
+                result = land == null || !land.isClaimed();
             } catch (Exception e) {
                 e.printStackTrace();
             }

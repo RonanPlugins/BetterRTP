@@ -1,8 +1,18 @@
 main: me.SuperRonanCraft.BetterRTP.BetterRTP
-version: '3.0.0'
+version: '3.0.1'
 name: BetterRTP
 author: SuperRonanCraft
-softdepend: [Vault, WorldGuard, GriefPrevention, Towny, Factions, RedProtect, Lands, Residence, ProtocolLib]
+softdepend:
+    - Vault
+    - WorldGuard
+    - GriefPrevention
+    - Towny
+    - Factions
+    - RedProtect
+    - Lands
+    - Residence
+    - ProtocolLib
+    - Kingdoms
 api-version: '1.13'
 
 commands:
