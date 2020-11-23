@@ -47,7 +47,7 @@ public class MagicStickCommand implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.portals", sendi);
+        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.magicstick", sendi);
     }
 
     @Override
