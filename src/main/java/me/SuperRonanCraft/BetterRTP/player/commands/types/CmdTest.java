@@ -20,7 +20,7 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (sendi instanceof Player) {
             Player p = (Player) sendi;
-            BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, p.getLocation(), 0, 0, p.getLocation(), RTP_TYPE.COMMAND);
+            BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, p.getLocation(), 0, 0, p.getLocation(), RTP_TYPE.TEST);
         } else
             sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
     }

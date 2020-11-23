@@ -72,8 +72,12 @@ public class AddonFlashback implements Addon, Listener {
 
     @EventHandler
     void onTeleport(RTP_TeleportPostEvent e) { //Create a timer to teleport player back
-        if (e.getType() != RTP_TYPE.ADDON_PORTAL)
+        if (e.getType() != RTP_TYPE.ADDON_PORTAL &&
+                e.getType() != RTP_TYPE.JOIN &&
+                e.getType() != RTP_TYPE.TEST) {
+            cancelPlayer(e.getPlayer());
             players.add(new FlashbackPlayer(this, e.getPlayer(), e.getOldLocation(), time, warnings));
+        }
     }
 
     @EventHandler
@@ -83,8 +87,12 @@ public class AddonFlashback implements Addon, Listener {
 
     @EventHandler
     void onLeave(PlayerQuitEvent e) {
+        cancelPlayer(e.getPlayer());
+    }
+
+    private void cancelPlayer(Player p) {
         for (FlashbackPlayer fbp : players)
-            if (fbp.p == e.getPlayer())
+            if (fbp.p == p)
                 fbp.cancel();
     }
 

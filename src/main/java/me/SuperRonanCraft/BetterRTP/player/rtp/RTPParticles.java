@@ -7,7 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import xyz.xenondevs.particle.ParticleEffect;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 //---
@@ -19,7 +21,7 @@ import java.util.Random;
 public class RTPParticles {
 
     private boolean enabled;
-    private ParticleEffect effect;
+    private List<ParticleEffect> effects = new ArrayList<>();
     private String shape;
     private final int
             radius = 30,
@@ -38,12 +40,23 @@ public class RTPParticles {
         enabled = config.getBoolean("Particles.Enabled");
         if (!enabled) return;
         //Enabled? Load all this junk
-        String type = config.getString("Particles.Type");
+        List<String> types;
+        if (config.isList("Particles.Type"))
+            types = config.getStringList("Particles.Type");
+        else {
+            types = new ArrayList<>();
+            types.add(config.getString("Particles.Type"));
+        }
+        String typeTrying = null;
         try {
-            effect = ParticleEffect.valueOf(type.toUpperCase());
+            for (String type : types) {
+                typeTrying = type;
+                effects.add(ParticleEffect.valueOf(type.toUpperCase()));
+            }
         } catch (IllegalArgumentException | NullPointerException e) {
-            effect = ParticleEffect.ASH;
-            getPl().getLogger().severe("The particle '" + type + "' doesn't exist! Default particle enabled... " +
+            effects.clear();
+            effects.add(ParticleEffect.ASH);
+            getPl().getLogger().severe("The particle '" + typeTrying + "' doesn't exist! Default particle enabled... " +
                     "Try using '/rtp info particles' to get a list of available particles");
         }
         shape = config.getString("Particles.Shape").toUpperCase();
@@ -72,7 +85,9 @@ public class RTPParticles {
         Location loc = p.getLocation().add(new Vector(0, pHeight, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index, precision, radius);
-            effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
+            for (ParticleEffect effect : effects) {
+                effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
+            }
         }
     }
 
@@ -82,7 +97,9 @@ public class RTPParticles {
         for (int index = 1; index < precision; index++) {
             double yran = ran.nextGaussian() * pHeight;
             Vector vec = getVecCircle(index, precision, radius).add(new Vector(0, yran, 0));
-            effect.display(loc.clone().add(vec));
+            for (ParticleEffect effect : effects) {
+                effect.display(loc.clone().add(vec));
+            }
         }
     }
 
@@ -90,7 +107,9 @@ public class RTPParticles {
         Location loc = p.getLocation().add(new Vector(0, 1, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index, precision, radius);
-            effect.display(loc.clone().add(vec), vec, 1.5f, 0, null);
+            for (ParticleEffect effect : effects) {
+                effect.display(loc.clone().add(vec), vec, 1.5f, 0, null);
+            }
         }
     }
 
