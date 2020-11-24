@@ -53,7 +53,7 @@ public class RTPSounds {
             packet.setEffectPositionY(loc.getBlockY());
             packet.setEffectPositionZ(loc.getBlockZ());
             packet.sendPacket(p);
-        } catch (Exception e) {
+        } catch (NoClassDefFoundError | Exception e) {
             p.playSound(p.getLocation(), getSound(sound), 1F, 1F);
         }
     }
