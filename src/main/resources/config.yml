@@ -20,7 +20,7 @@ Settings:
     ## Respect Residence areas (https://www.spigotmc.org/resources/residence.11480/)
     Residence: false
     ## Respect KingdomsX areas (https://www.spigotmc.org/resources/kingdomsx.77670/)
-    KingdomsX: false
+    #KingdomsX: false
   ## Output to console some debugging info
   Debugger: false
   ## Amount of chunks to preload around a safe location
