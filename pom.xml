@@ -157,26 +157,6 @@
             <version>7.0.3</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Particles Library -->
-        <dependency>
-            <groupId>xyz.xenondevs</groupId>
-            <artifactId>particle</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <!-- GriefPrevention (https://www.spigotmc.org/resources/griefprevention.1884/) -->
-        <dependency>
-            <groupId>com.github.TechFortress</groupId>
-            <artifactId>GriefPrevention</artifactId>
-            <version>16.15.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Towny (https://www.spigotmc.org/resources/towny.72694/) -->
-        <dependency>
-            <groupId>com.github.TownyAdvanced</groupId>
-            <artifactId>Towny</artifactId>
-            <version>0.96.1.11</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- RedProtect (https://www.spigotmc.org/resources/redprotect.15841/) -->
         <dependency>
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
@@ -218,12 +198,32 @@
             <version>4.5.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- KingdomsX v1.10.5.2 (https://www.spigotmc.org/resources/kingdomsx.77670/) -->
+        <!-- Towny (https://www.spigotmc.org/resources/towny.72694/) -->
         <dependency>
+            <groupId>com.github.TownyAdvanced</groupId>
+            <artifactId>Towny</artifactId>
+            <version>0.96.1.11</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- GriefPrevention (https://www.spigotmc.org/resources/griefprevention.1884/) -->
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.15.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- KingdomsX v1.10.5.2 (https://www.spigotmc.org/resources/kingdomsx.77670/) -->
+        <!--dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>kingdoms</artifactId>
             <version>1.10.5.2</version>
             <scope>provided</scope>
+        </dependency-->
+        <!-- Particles Library -->
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.5.1</version>
         </dependency>
     </dependencies>
 </project>

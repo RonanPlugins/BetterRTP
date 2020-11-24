@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.Bukkit;
@@ -35,6 +36,8 @@ public class ExtraEffectsEffect_Skyhigh implements ExtraEffectsEffect, Listener 
 
     @EventHandler
     void tpEvent(RTP_TeleportEvent e) {
+        if (e.getWorldType() == WORLD_TYPE.NETHER)
+            return;
         e.changeLocation(e.getLocation().add(0, offset, 0));
         new PlayerFalling(e.getPlayer());
     }

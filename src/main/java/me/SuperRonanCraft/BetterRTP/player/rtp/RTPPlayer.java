@@ -52,7 +52,7 @@ public class RTPPlayer {
                 //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc)) {
                     if (getPl().getEco().charge(p, pWorld)) {
-                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts(), type);
+                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts(), type, pWorld.getWorldtype());
                     }
                 } else
                     randomlyTeleport(sendi);

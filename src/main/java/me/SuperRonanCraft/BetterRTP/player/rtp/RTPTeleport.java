@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.*;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -42,7 +43,7 @@ public class RTPTeleport {
 //    }
 
     void sendPlayer(final CommandSender sendi, final Player p, final Location location, final int price,
-                    final int attempts, RTP_TYPE type) throws NullPointerException {
+                    final int attempts, RTP_TYPE type, WORLD_TYPE worldType) throws NullPointerException {
         Location oldLoc = p.getLocation();
         loadingTeleport(p, sendi); //Send loading message to player who requested
         List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
@@ -52,7 +53,7 @@ public class RTPTeleport {
                 @Override
                 public void run() {
                     try {
-                        RTP_TeleportEvent event = new RTP_TeleportEvent(p, location);
+                        RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, worldType);
                         getPl().getServer().getPluginManager().callEvent(event);
                         Location loc = event.getLocation();
                         PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport

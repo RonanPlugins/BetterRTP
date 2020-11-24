@@ -13,9 +13,10 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.angeschossen.lands.api.integration.LandsIntegration;
+import me.angeschossen.lands.api.land.Land;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
-import org.kingdoms.constants.land.Land;
+//import org.kingdoms.constants.land.Land;
 
 public class RTPPluginValidation { //Safe locations depending on enabled dependencies
 
@@ -147,8 +148,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean result = true;
         if (getPl().getSettings().getsDepends().isKingdomsX())
             try {
-                Land land = Land.getLand(loc);
-                result = land == null || !land.isClaimed();
+                //Land land = Land.getLand(loc);
+                //result = land == null || !land.isClaimed();
             } catch (Exception e) {
                 e.printStackTrace();
             }

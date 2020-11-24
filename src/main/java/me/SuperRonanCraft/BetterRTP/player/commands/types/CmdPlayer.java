@@ -30,9 +30,13 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
             else
                 usage(sendi, label);
         else if (args.length >= 3)
-            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
-                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getWorld(args[2]).getName(), getCmd().getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
-            else if (Bukkit.getPlayer(args[1]) != null)
+            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
+                World world = Bukkit.getWorld(args[2]);
+                if (world != null) {
+                    getCmd().tp(Bukkit.getPlayer(args[1]), sendi, world.getName(), getCmd().getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
+                } else
+                    BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
+            } else if (Bukkit.getPlayer(args[1]) != null)
                 getCmd().playerNotOnline(sendi, args[1]);
             else
                 usage(sendi, label);

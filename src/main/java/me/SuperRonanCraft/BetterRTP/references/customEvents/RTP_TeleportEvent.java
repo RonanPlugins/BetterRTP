@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
+import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -9,11 +10,13 @@ public class RTP_TeleportEvent extends Event {
 
     Player p;
     Location loc;
+    WORLD_TYPE worldType;
     private static final HandlerList handler = new HandlerList();
 
-    public RTP_TeleportEvent(Player p, Location loc) {
+    public RTP_TeleportEvent(Player p, Location loc, WORLD_TYPE worldType) {
         this.p = p;
         this.loc = loc;
+        this.worldType = worldType;
     }
 
     public Player getPlayer() {
@@ -35,5 +38,9 @@ public class RTP_TeleportEvent extends Event {
 
     public void changeLocation(Location loc) {
         this.loc = loc;
+    }
+
+    public WORLD_TYPE getWorldType() {
+        return worldType;
     }
 }
