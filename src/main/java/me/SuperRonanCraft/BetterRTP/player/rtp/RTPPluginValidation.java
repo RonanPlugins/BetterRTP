@@ -16,7 +16,6 @@ import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.angeschossen.lands.api.land.Land;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
-//import org.kingdoms.constants.land.Land;
 
 public class RTPPluginValidation { //Safe locations depending on enabled dependencies
 
@@ -148,8 +147,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean result = true;
         if (getPl().getSettings().getsDepends().isKingdomsX())
             try {
-                //Land land = Land.getLand(loc);
-                //result = land == null || !land.isClaimed();
+                org.kingdoms.constants.land.Land land = org.kingdoms.constants.land.Land.getLand(loc);
+                result = land == null || !land.isClaimed();
             } catch (Exception e) {
                 e.printStackTrace();
             }

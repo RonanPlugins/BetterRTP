@@ -213,12 +213,18 @@
             <scope>provided</scope>
         </dependency>
         <!-- KingdomsX v1.10.5.2 (https://www.spigotmc.org/resources/kingdomsx.77670/) -->
-        <!--dependency>
+        <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>kingdoms</artifactId>
-            <version>1.10.5.2</version>
+            <version>1.10.5.3</version>
             <scope>provided</scope>
-        </dependency-->
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- Particles Library -->
         <dependency>
             <groupId>xyz.xenondevs</groupId>
