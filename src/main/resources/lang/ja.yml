@@ -18,7 +18,6 @@ Messages:
   NoPermission:
     Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！'
     World: '&cごめんなさい！ &7ワールド%world%ではrtpが許可されていません！'
-  ##
   DisabledWorld: '&cワールド%world%は無効です！ &7RTPできませんでした！'
   Cooldown: '&cごめんなさい！ &7あなたは&c%time%&7秒間RTPできません！'
   Locked: '&cSorry! &7You''ve used up all your RTP''s!'

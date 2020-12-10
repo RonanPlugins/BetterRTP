@@ -18,7 +18,6 @@ Messages:
   NoPermission:
     Basic: '&c抱歉，&7您沒有權限使用此指令！'
     World: '&c抱歉，&7您不能在%world%世界傳送！'
-  ## %world% 是玩家嘗試傳送到但設定已禁用的世界! #
   DisabledWorld: '&c%world%世界已被禁止使用此指令，&7您無法傳送！'
   Cooldown: '&c抱歉，&7您需要在&c%time%&7秒後才能嘗試傳送！'
   Locked: '&cSorry! &7You''ve used up all your RTP''s!'

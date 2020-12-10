@@ -18,7 +18,6 @@ Messages:
   NoPermission:
     Basic: '&c对不起，&7你没有权限使用此命令！'
     World: '&c对不起，&7你并没有被准许在%world%世界传送！'
-  ## %world% 是被设置为玩家无法随机传送的世界。#
   DisabledWorld: '&c%world%世界已被禁止使用此命令，&7无法传送！'
   Cooldown: '&c对不起，&7你需要在&c%time%&7秒后才能传送！'
   Locked: '&c对不起，&7你已经用完了你的随机传送次数了！'

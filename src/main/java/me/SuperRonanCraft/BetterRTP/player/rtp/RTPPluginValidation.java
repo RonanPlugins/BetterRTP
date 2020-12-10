@@ -140,7 +140,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    // NOT TESTED (2.14.3)
+    // NOT TESTED (3.0.2)
     // KingdomsX (v1.10.5.2)
     // https://www.spigotmc.org/resources/kingdomsx.77670/
     private boolean getKingdomsx(Location loc) {

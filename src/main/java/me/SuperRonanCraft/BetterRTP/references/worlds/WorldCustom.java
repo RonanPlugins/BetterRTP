@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class WorldCustom implements RTPWorld {
     public String world;
-    private boolean useWorldborder = false;
+    private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
 
@@ -20,6 +20,16 @@ public class WorldCustom implements RTPWorld {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
         this.world = world;
+
+        //Set Defaults
+        WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
+        maxBorderRad = worldDefault.getMaxRad();
+        minBorderRad = worldDefault.getMinRad();
+        useWorldborder = worldDefault.getUseWorldborder();
+        CenterX = worldDefault.getCenterX();
+        CenterZ = worldDefault.getCenterZ();
+        price = worldDefault.getPrice();
+        Biomes = worldDefault.getBiomes();
 
         //Find Custom World and cache values
         for (Map<?, ?> m : map) {
@@ -39,8 +49,9 @@ public class WorldCustom implements RTPWorld {
                         CenterX = Integer.parseInt((test.get("CenterX")).toString());
                 }
                 if (test.get("CenterZ") != null) {
-                    if (test.get("CenterZ").getClass() == Integer.class)
+                    if (test.get("CenterZ").getClass() == Integer.class) {
                         CenterZ = Integer.parseInt((test.get("CenterZ")).toString());
+                    }
                 }
                 if (test.get("MaxRadius") != null) {
                     if (test.get("MaxRadius").getClass() == Integer.class)
@@ -73,19 +84,18 @@ public class WorldCustom implements RTPWorld {
         //Integers
         CenterX = config.getInt(pre + world + ".CenterX");
         CenterZ = config.getInt(pre + world + ".CenterZ");
-        maxBorderRad = config.getInt(pre + world + ".MaxRadius");
+        maxBorderRad = config.getInt(pre + world + ".MaxRadius");*/
         if (maxBorderRad <= 0) {
-            Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                     "WARNING! Custom world '" + world + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
-            maxBorderRad = Main.getInstance().getRTP().Default.getMaxRad();
+            maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
         }
-        minBorderRad = config.getInt(pre + world + ".MinRadius");
+        //minBorderRad = config.getInt(pre + world + ".MinRadius");
         if (minBorderRad <= 0 || minBorderRad >= maxBorderRad) {
-            Main.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                     "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
-            minBorderRad = Main.getInstance().getRTP().Default.getMinRad();
+            minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
         }
-        */
         if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
             if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean(pre + "Enabled")) {
                 map.clear();

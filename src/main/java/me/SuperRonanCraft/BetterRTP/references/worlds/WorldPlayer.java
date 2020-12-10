@@ -36,8 +36,10 @@ public class WorldPlayer implements RTPWorld {
         setMinRad(world.getMinRad());
         setPrice(price);
         List<String> list = new ArrayList<>(world.getBiomes());
-        if (biomes != null)
+        if (biomes != null) {
+            list.clear();
             list.addAll(biomes);
+        }
         setBiomes(list);
         if (personal)
             setupGroup(BetterRTP.getInstance().getRTP().permConfig);
