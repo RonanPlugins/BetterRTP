@@ -12,3 +12,6 @@ Add KingdomsX support:
 
 Queue System:
 - Allow for safe spots to save every so often to not run in real time when players are rtp'ing
+
+CustomWorlds:
+ - If a world has a custom config, if its missing a centerx/z, there will be a RNG error
