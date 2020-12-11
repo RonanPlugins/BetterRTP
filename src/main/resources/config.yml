@@ -85,12 +85,13 @@ CustomWorlds:
       MinRadius: 100
       CenterX: 0
       CenterZ: 0
-      Price: 75
+      Price: 50
   - other_custom_world:
-      MaxRadius: 100000
-      MinRadius: 1000
+      MaxRadius: 10000
+      MinRadius: 150
       CenterX: 123
       CenterZ: -123
+      Price: 0
       ## Biomes are optional, but useful! More biomes: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html
       Biomes:
         - 'desert'

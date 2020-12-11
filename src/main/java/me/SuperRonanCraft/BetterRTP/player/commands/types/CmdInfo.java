@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldDefault;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
@@ -125,16 +126,37 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6WorldType: &f" + pl.getRTP().world_type.getOrDefault(w.getName(), WORLD_TYPE.NORMAL).name());
                 info.add("&7- &6Overriden: " + _false);
                 WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(sendi, w.getName(), null, personal);
+                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
                 info.add("&7- &6Custom: " + (BetterRTP.getInstance().getRTP().customWorlds.containsKey(w.getName()) ? _true : _false));
                 info.add("&7- &6UseWorldBorder: " + (_rtpworld.getUseWorldborder() ? _true : _false));
                 info.add("&7- &6Permission Group: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
-                info.add("&7- &6Center X: &f" + _rtpworld.getCenterX());
-                info.add("&7- &6Center Z: &f" + _rtpworld.getCenterZ());
-                info.add("&7- &6MaxRad: &f" + _rtpworld.getMaxRad());
-                info.add("&7- &6MinRad: &f" + _rtpworld.getMinRad());
+                info.add("&7- &6Center X: &f" + _rtpworld.getCenterX() + getInfo(_rtpworld, worldDefault, "centerx"));
+                info.add("&7- &6Center Z: &f" + _rtpworld.getCenterZ() + getInfo(_rtpworld, worldDefault, "centerz"));
+                info.add("&7- &6MaxRad: &f" + _rtpworld.getMaxRad() + getInfo(_rtpworld, worldDefault, "max"));
+                info.add("&7- &6MinRad: &f" + _rtpworld.getMinRad() + getInfo(_rtpworld, worldDefault, "min"));
+                info.add("&7- &6Price: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
+                info.add("&7- &6World Type: &f" + _rtpworld.getWorldtype().name());
+                info.add("&7- &6Biomes: &f" + _rtpworld.getBiomes().toString());
             }
         }
         return info;
+    }
+
+    //Janky, but it works
+    private String getInfo(WorldPlayer worldPlayer, WorldDefault worldDefault, String type) {
+        switch (type) {
+            case "centerx":
+                return worldPlayer.getUseWorldborder() || worldPlayer.getCenterX() != worldDefault.getCenterX() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : "&a*" : "";
+            case "centerz":
+                return worldPlayer.getUseWorldborder() || worldPlayer.getCenterX() != worldDefault.getCenterZ() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : "&a*" : "";
+            case "max":
+                return worldPlayer.getUseWorldborder() || worldPlayer.getMaxRad() != worldDefault.getMaxRad() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : "&a*" : "";
+            case "min":
+                return worldPlayer.getMinRad() != worldDefault.getMinRad() ? "&a*" : "";
+            case "price":
+                return worldPlayer.getPrice() != worldDefault.getPrice() ? "&a*" : "";
+        }
+        return "";
     }
 
     //Effects

@@ -28,13 +28,16 @@ public class WorldPlayer implements RTPWorld {
         this.world = world;
     }
 
-    public void setup(RTPWorld world, int price, List<String> biomes, boolean personal) {
+    public void setup(RTPWorld world, List<String> biomes, boolean personal) {
         setUseWorldborder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
         setCenterZ(world.getCenterZ());
         setMaxRad(world.getMaxRad());
         setMinRad(world.getMinRad());
-        setPrice(price);
+        if (world instanceof WorldDefault)
+            setPrice(((WorldDefault) world).getPrice(world.getWorld().getName()));
+        else
+            setPrice(world.getPrice());
         List<String> list = new ArrayList<>(world.getBiomes());
         if (biomes != null) {
             list.clear();

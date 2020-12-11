@@ -123,9 +123,9 @@ public class RTP {
         // Set all methods
         if (customWorlds.containsKey(world_name)) {
             RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
-            pWorld.setup(cWorld, cWorld.getPrice(), biomes, personal);
+            pWorld.setup(cWorld, biomes, personal);
         } else
-            pWorld.setup(defaultWorld, defaultWorld.getPrice(), biomes, personal);
+            pWorld.setup(defaultWorld, biomes, personal);
         //World type
         WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
         if (this.world_type.containsKey(world_name))

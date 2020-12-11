@@ -16,7 +16,7 @@ public class WorldCustom implements RTPWorld {
     private List<String> Biomes;
 
     public WorldCustom(String world) {
-        String pre = "CustomWorlds.";
+        //String pre = "CustomWorlds.";
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
         this.world = world;
@@ -75,8 +75,16 @@ public class WorldCustom implements RTPWorld {
                 }
                 if (test.get("Biomes") != null) {
                     if (test.get("Biomes").getClass() == ArrayList.class)
-                        this.Biomes = new ArrayList<>((ArrayList) test.get("Biomes"));
+                        this.Biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
                 }
+                if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+                    if (test.get("Price") != null) {
+                        if (test.get("Price").getClass() == Integer.class)
+                            this.price = Integer.parseInt(test.get("Price").toString());
+                        else
+                            price = worldDefault.getPrice(world);
+                    } else
+                        price = worldDefault.getPrice(world);
             }
         }
         //Booleans
@@ -96,24 +104,22 @@ public class WorldCustom implements RTPWorld {
                     "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
             minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
         }
-        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean(pre + "Enabled")) {
-                map.clear();
-                map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds");
-                for (Map<?, ?> m : map)
+        /*if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("CustomWorlds.Enabled")) {
+                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds.Worlds");
+                for (Map<?, ?> m : world_map)
                     for (Map.Entry<?, ?> entry : m.entrySet()) {
-                        String key = entry.getKey().toString();
-                        Map<?, ?> test = ((Map<?, ?>) m.get(key));
-                        if (!key.equals(world))
+                        String _world = entry.getKey().toString();
+                        //System.out.println("Custom World Price " + _world + ":" + entry.getValue().toString());
+                        if (!_world.equals(world))
                             continue;
-                        if (test.get("Price") != null)
-                            if (test.get("Price").getClass() == Integer.class)
-                            price = Integer.valueOf((test.get("Price")).toString());
+                        if (entry.getValue().getClass() == Integer.class)
+                            price = Integer.parseInt((entry.getValue().toString()));
                     }
             } else
-                price = BetterRTP.getInstance().getRTP().defaultWorld.getPrice();
+                price = worldDefault.getPrice();*/
         //Other
-        this.Biomes = config.getStringList(pre + world + ".Biomes");
+        //this.Biomes = config.getStringList("CustomWorlds." + world + ".Biomes");
     }
 
     @Override
