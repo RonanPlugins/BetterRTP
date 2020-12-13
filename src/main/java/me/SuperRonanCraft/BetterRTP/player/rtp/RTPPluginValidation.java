@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
 import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.commands.set;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
@@ -9,11 +10,11 @@ import com.palmergames.bukkit.towny.TownyAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.angeschossen.lands.api.integration.LandsIntegration;
-import me.angeschossen.lands.api.land.Land;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
 
@@ -48,6 +49,9 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionQuery query = container.createQuery();
                 ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(loc));
+                //for (ProtectedRegion region : set.getRegions()) {
+                 //   region.getId()
+                //}
                 result = set.size() == 0;
             } catch (Exception e) {
                e.printStackTrace();

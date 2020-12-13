@@ -15,7 +15,7 @@ public class WorldDefault implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
-    private HashMap<String, Integer> prices = new HashMap<>();
+    private final HashMap<String, Integer> prices = new HashMap<>();
 
     public void setup() {
         //Setups
@@ -42,7 +42,7 @@ public class WorldDefault implements RTPWorld {
         if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled")) {
             price = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Economy.Price");
             if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("CustomWorlds.Enabled")) {
-                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds.Worlds");
+                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds.Prices");
                 for (Map<?, ?> m : world_map)
                     for (Map.Entry<?, ?> entry : m.entrySet()) {
                         String _world = entry.getKey().toString();

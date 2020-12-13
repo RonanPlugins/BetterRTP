@@ -35,7 +35,7 @@ public class WorldPlayer implements RTPWorld {
         setMaxRad(world.getMaxRad());
         setMinRad(world.getMinRad());
         if (world instanceof WorldDefault)
-            setPrice(((WorldDefault) world).getPrice(world.getWorld().getName()));
+            setPrice(((WorldDefault) world).getPrice(getWorld().getName()));
         else
             setPrice(world.getPrice());
         List<String> list = new ArrayList<>(world.getBiomes());
