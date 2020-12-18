@@ -26,6 +26,7 @@ public class AddonLogger implements Addon, Listener {
     Logger logger;
     FileHandler handler;
     ConsoleHandler consoleHandler_rtp, consoleHandler_main;
+    private final LoggerDatabase database = new LoggerDatabase();
 
     @Override
     public boolean isEnabled() {
@@ -52,6 +53,7 @@ public class AddonLogger implements Addon, Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        database.load(LoggerDatabase.Columns.values());
     }
 
     @Override
@@ -78,6 +80,7 @@ public class AddonLogger implements Addon, Listener {
                 + " in world " + e.getLocation().getWorld().getName()
                 + " at" + getDate();
         log(_str, Level.INFO);
+        database.log(e.getPlayer(), e.getOldLocation(), e.getLocation());
     }
 
     private String getDate() {
