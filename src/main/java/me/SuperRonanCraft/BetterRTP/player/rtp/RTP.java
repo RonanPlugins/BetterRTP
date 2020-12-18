@@ -179,34 +179,13 @@ public class RTP {
         getPl().getCmd().cooldowns.add(p.getUniqueId());
         getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
-        RTPPlayer rtp = new RTPPlayer(p, this, pWorld, type);
+        RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
         if (getPl().getSettings().delayEnabled && delay) {
-            new RTPDelay(sendi, rtp, delayTime, cancelOnMove, cancelOnDamage);
+            new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             teleport.beforeTeleportInstant(sendi, p);
-            rtp.randomlyTeleport(sendi);
-        }
-    }
-
-    private static class Queue {
-
-        private int queueAmount;
-        private final List<Location> locationList = new ArrayList<>();
-
-        Location getQueue() {
-            Location loc = null;
-            if (!locationList.isEmpty())
-                loc = locationList.get(0);
-            return loc;
-        }
-
-        void removeFromQueue(Location loc) {
-            locationList.remove(loc);
-        }
-
-        void startQueue() {
-
+            rtpPlayer.randomlyTeleport(sendi);
         }
     }
 }

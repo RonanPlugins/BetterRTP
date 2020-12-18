@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
@@ -35,7 +36,14 @@ public class RTPPlayer {
         if (pWorld.getAttempts() >= settings.maxAttempts) //Cancel out, too many tries
             metMax(sendi, p);
         else { //Try again to find a safe location
-            Location loc = pWorld.generateRandomXZ(settings.defaultWorld); //randomLoc(pWorld);
+            //Find a queue'd  location
+            RTP_FindLocationEvent event = new RTP_FindLocationEvent(p, pWorld); //Find a queue'd location
+            Location loc;
+            if (event.getLocation() != null && pWorld.checkIsValid(event.getLocation()))
+                loc = event.getLocation();
+            else
+                loc = pWorld.generateRandomXZ();
+            //Load chunk and find out if safe location
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
             chunk.thenAccept(result -> {
                 //BetterRTP.debug("Checking location for " + p.getName());

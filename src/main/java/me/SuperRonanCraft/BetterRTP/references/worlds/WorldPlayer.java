@@ -91,7 +91,27 @@ public class WorldPlayer implements RTPWorld {
         return (Player) p;
     }
 
-    public Location generateRandomXZ(WorldDefault defaultWorld) {
+    public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid
+        if (loc.getWorld() != getWorld())
+            return false;
+        int _xLMax = getCenterX() - getMaxRad(); //I|-||
+        int _xLMin = getCenterX() - getMinRad(); //|I-||
+        int _xRMax = getCenterX() + getMaxRad(); //||-|I
+        int _xRMin = getCenterX() + getMinRad(); //||-I|
+        int _xLoc = loc.getBlockX();
+        if (_xLoc < _xLMax || (_xLoc > _xLMin && _xLoc < _xRMin) || _xLoc > _xRMax)
+            return false;
+        int _zLMax = getCenterZ() - getMaxRad(); //I|-||
+        int _zLMin = getCenterZ() - getMinRad(); //|I-||
+        int _zRMax = getCenterZ() + getMaxRad(); //||-|I
+        int _zRMin = getCenterZ() + getMinRad(); //||-I|
+        int _zLoc = loc.getBlockX();
+        if (_zLoc < _zLMax || (_zLoc > _zLMin && _zLoc < _zRMin) || _zLoc > _zRMax)
+            return false;
+        return true;
+    }
+
+    public Location generateRandomXZ() {
         int borderRad = getMaxRad();
         int minVal = getMinRad();
 
