@@ -75,7 +75,7 @@ public abstract class Database {
         try {
             conn = getSQLConnection();
             ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + testColumn.getName() + " = ?");
-
+            ps.setString(1, "");
             rs = ps.executeQuery();
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, "Unable to retreive connection", ex);
