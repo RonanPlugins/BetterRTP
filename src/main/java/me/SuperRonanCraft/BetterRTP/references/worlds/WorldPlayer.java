@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -20,6 +21,7 @@ public class WorldPlayer implements RTPWorld {
     private final World world;
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
+    private RTP_SHAPE shape = RTP_SHAPE.SQUARE;
     //Economy
     public boolean eco_money_taken = false;
 
@@ -106,37 +108,57 @@ public class WorldPlayer implements RTPWorld {
         int _zRMax = getCenterZ() + getMaxRad(); //||-|I
         int _zRMin = getCenterZ() + getMinRad(); //||-I|
         int _zLoc = loc.getBlockX();
-        if (_zLoc < _zLMax || (_zLoc > _zLMin && _zLoc < _zRMin) || _zLoc > _zRMax)
-            return false;
-        return true;
+        return _zLoc >= _zLMax && (_zLoc <= _zLMin || _zLoc >= _zRMin) && _zLoc <= _zRMax;
     }
 
-    public Location generateRandomXZ() {
-        int borderRad = getMaxRad();
-        int minVal = getMinRad();
+    public Location generateLocation() {
+        Location loc = null;
+        switch (shape) {
+            //case ROUND: //DISABLED UNTIL NEXT PATCH
+            //    loc = generateRound(getMaxRad(), getMinRad()); break;
+            default:
+                loc = generateSquare(getMaxRad(), getMinRad()); break;
+        }
 
+        addAttempt(); //Add an attempt to keep track of the times we've attempted to generate a good location
+        return loc;
+    }
+
+    private Location generateSquare(int maxRad, int min) {
         //Generate a random X and Z based off the quadrant selected
-        int max = borderRad - minVal;
+        int max = maxRad - min;
         int x, z;
         int quadrant = new Random().nextInt(4);
         switch (quadrant) {
             case 0: // Positive X and Z
-                x = new Random().nextInt(max) + minVal;
-                z = new Random().nextInt(max) + minVal; break;
+                x = new Random().nextInt(max) + min;
+                z = new Random().nextInt(max) + min; break;
             case 1: // Negative X and Z
-                x = -new Random().nextInt(max) - minVal;
-                z = -(new Random().nextInt(max) + minVal); break;
+                x = -new Random().nextInt(max) - min;
+                z = -(new Random().nextInt(max) + min); break;
             case 2: // Negative X and Positive Z
-                x = -new Random().nextInt(max) - minVal;
-                z = new Random().nextInt(max) + minVal;  break;
+                x = -new Random().nextInt(max) - min;
+                z = new Random().nextInt(max) + min;  break;
             default: // Positive X and Negative Z
-                x = new Random().nextInt(max) + minVal;
-                z = -(new Random().nextInt(max) + minVal); break;
+                x = new Random().nextInt(max) + min;
+                z = -(new Random().nextInt(max) + min); break;
         }
         x += getCenterX();
         z += getCenterZ();
-        addAttempt();
         //System.out.println(quadrant);
+        return new Location(getWorld(), x, 0, z);
+    }
+
+    private Location generateRound(int maxRad, int min) {
+        //Generate a random X and Z based off the quadrant selected
+        int max = maxRad - min;
+        int x, z;
+        double r = max * Math.sqrt(new Random().nextDouble());
+        double theta = (new Random().nextDouble()) * 2 * Math.PI;
+        x = (int) (r * Math.cos(theta));
+        z = (int) (r * Math.sin(theta));
+        x += getCenterX();
+        z += getCenterZ();
         return new Location(getWorld(), x, 0, z);
     }
 

@@ -42,9 +42,9 @@ public class RTPPlayer {
             if (event.getLocation() != null && pWorld.checkIsValid(event.getLocation()))
                 loc = event.getLocation();
             else
-                loc = pWorld.generateRandomXZ();
+                loc = pWorld.generateLocation();
             //Load chunk and find out if safe location
-            CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(pWorld.getWorld(), loc.getBlockX(), loc.getBlockZ());
+            CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
             chunk.thenAccept(result -> {
                 //BetterRTP.debug("Checking location for " + p.getName());
                 Location tpLoc;

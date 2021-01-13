@@ -131,13 +131,12 @@ public class RTPTeleport {
     private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
         int range = Math.round(Math.max(0, Math.min(16, getPl().getSettings().preloadRadius)));
-        for (int x = -range; x <= range; x++) {
+        for (int x = -range; x <= range; x++)
             for (int z = -range; z <= range; z++) {
                 Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (z * 16));
                 CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(locLoad, true);
                 asyncChunks.add(chunk);
             }
-        }
         return asyncChunks;
     }
 
