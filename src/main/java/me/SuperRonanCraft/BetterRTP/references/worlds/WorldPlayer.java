@@ -21,7 +21,7 @@ public class WorldPlayer implements RTPWorld {
     private final World world;
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
-    private RTP_SHAPE shape = RTP_SHAPE.SQUARE;
+    private RTP_SHAPE shape;
     //Economy
     public boolean eco_money_taken = false;
 
@@ -36,6 +36,7 @@ public class WorldPlayer implements RTPWorld {
         setCenterZ(world.getCenterZ());
         setMaxRad(world.getMaxRad());
         setMinRad(world.getMinRad());
+        setShape(world.getShape());
         if (world instanceof WorldDefault)
             setPrice(((WorldDefault) world).getPrice(getWorld().getName()));
         else
@@ -114,8 +115,8 @@ public class WorldPlayer implements RTPWorld {
     public Location generateLocation() {
         Location loc = null;
         switch (shape) {
-            //case ROUND: //DISABLED UNTIL NEXT PATCH
-            //    loc = generateRound(getMaxRad(), getMinRad()); break;
+            case CIRCLE: //DISABLED UNTIL NEXT PATCH
+                loc = generateRound(getMaxRad(), getMinRad()); break;
             default:
                 loc = generateSquare(getMaxRad(), getMinRad()); break;
         }
@@ -204,6 +205,11 @@ public class WorldPlayer implements RTPWorld {
         return Biomes;
     }
 
+    @Override
+    public RTP_SHAPE getShape() {
+        return shape;
+    }
+
     private void setUseWorldborder(boolean bool) {
         useWorldborder = bool;
     }
@@ -241,6 +247,10 @@ public class WorldPlayer implements RTPWorld {
     //Custom World type
     public void setWorldtype(WORLD_TYPE type) {
         this.world_type = type;
+    }
+
+    public void setShape(RTP_SHAPE shape) {
+        this.shape = shape;
     }
 
     public RTPPermissionGroup.RTPPermConfiguration getConfig() {

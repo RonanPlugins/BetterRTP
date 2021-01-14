@@ -52,6 +52,7 @@ Default:
   ## If "UseWorldBorder" is set to true above, Center X and Z will be ignored! #
   CenterX: 0
   CenterZ: 0
+  Shape: 'square'
 
 ## Blocks BetterRTP will NOT teleport onto. More Blocks at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html #
 BlacklistedBlocks:
@@ -86,6 +87,7 @@ CustomWorlds:
       CenterX: 0
       CenterZ: 0
       Price: 50
+      Shape: 'square'
   - other_custom_world:
       MaxRadius: 10000
       MinRadius: 150
@@ -96,6 +98,7 @@ CustomWorlds:
       Biomes:
         - 'desert'
         - 'forest'
+      Shape: 'circle'
 
 ## Override a world and rtp a player executing the command in one world, to another
 Overrides:

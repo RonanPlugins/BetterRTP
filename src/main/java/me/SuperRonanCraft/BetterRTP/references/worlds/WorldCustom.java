@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ public class WorldCustom implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
+    private RTP_SHAPE shape;
 
     public WorldCustom(String world) {
         //String pre = "CustomWorlds.";
@@ -30,6 +32,7 @@ public class WorldCustom implements RTPWorld {
         CenterZ = worldDefault.getCenterZ();
         price = worldDefault.getPrice();
         Biomes = worldDefault.getBiomes();
+        shape = worldDefault.getShape();
 
         //Find Custom World and cache values
         for (Map<?, ?> m : map) {
@@ -85,6 +88,15 @@ public class WorldCustom implements RTPWorld {
                             price = worldDefault.getPrice(world);
                     } else
                         price = worldDefault.getPrice(world);
+                if (test.get("Shape") != null) {
+                    if (test.get("Shape").getClass() == String.class) {
+                        try {
+                            this.shape = RTP_SHAPE.valueOf(test.get("Shape").toString().toUpperCase());
+                        } catch (Exception e) {
+                            //Invalid shape
+                        }
+                    }
+                }
             }
         }
         //Booleans
@@ -160,5 +172,10 @@ public class WorldCustom implements RTPWorld {
     @Override
     public World getWorld() {
         return Bukkit.getWorld(world);
+    }
+
+    @Override
+    public RTP_SHAPE getShape() {
+        return shape;
     }
 }

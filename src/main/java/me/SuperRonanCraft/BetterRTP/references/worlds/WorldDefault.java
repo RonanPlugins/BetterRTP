@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ public class WorldDefault implements RTPWorld {
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
     private final HashMap<String, Integer> prices = new HashMap<>();
+    private RTP_SHAPE shape;
 
     public void setup() {
         //Setups
@@ -27,6 +29,11 @@ public class WorldDefault implements RTPWorld {
         CenterX = config.getInt(pre + ".CenterX");
         CenterZ = config.getInt(pre + ".CenterZ");
         maxBorderRad = config.getInt(pre + ".MaxRadius");
+        try {
+            shape = RTP_SHAPE.valueOf(config.getString(pre + ".Shape").toUpperCase());
+        } catch (Exception e) {
+            shape = RTP_SHAPE.SQUARE;
+        }
         if (maxBorderRad <= 0) {
             BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                     "WARNING! Default Maximum radius of '" + maxBorderRad + "' is not allowed! Set to '1000'");
@@ -99,5 +106,10 @@ public class WorldDefault implements RTPWorld {
     @Override
     public World getWorld() {
         return null;
+    }
+
+    @Override
+    public RTP_SHAPE getShape() {
+        return shape;
     }
 }
