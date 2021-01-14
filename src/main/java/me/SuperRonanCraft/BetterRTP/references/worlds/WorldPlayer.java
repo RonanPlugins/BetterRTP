@@ -154,7 +154,7 @@ public class WorldPlayer implements RTPWorld {
         //Generate a random X and Z based off the quadrant selected
         int max = maxRad - min;
         int x, z;
-        double r = max * Math.sqrt(new Random().nextDouble());
+        double r = max * Math.sqrt(new Random().nextDouble()) + min;
         double theta = (new Random().nextDouble()) * 2 * Math.PI;
         x = (int) (r * Math.cos(theta));
         z = (int) (r * Math.sin(theta));
