@@ -43,3 +43,15 @@ MagicStick:
       - '&7Right click this stick and unlock'
       - '&7a brand new adventure!'
   Take: true
+
+Commands:
+  Enabled: false
+  Events:
+    Teleport:
+      Enabled: true
+      Commands:
+        - 'broadcast &cThe player %player_name% just teleported!'
+    Cancelled:
+      Enabled: false
+      Commands:
+        - 'broadcast &e%player_name% moved while trying to rtp, chump!'

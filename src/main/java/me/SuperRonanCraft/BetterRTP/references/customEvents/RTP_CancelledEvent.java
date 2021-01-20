@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RTP_CancelledEvent extends Event {
+public class RTP_CancelledEvent extends Event implements RTPEvent { //Called when a delayed rtp is cancelled cause player moved
 
     Player p;
     private static final HandlerList handler = new HandlerList();

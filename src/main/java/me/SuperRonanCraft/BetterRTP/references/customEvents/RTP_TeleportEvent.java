@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RTP_TeleportEvent extends Event {
+public class RTP_TeleportEvent extends Event implements RTPEvent {
 
     Player p;
     Location loc;

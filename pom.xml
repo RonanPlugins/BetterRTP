@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.0.4-1</version>
+    <version>3.0.5</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -230,6 +230,12 @@
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>BetterRTP</artifactId>
+            <version>3.0.3-1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

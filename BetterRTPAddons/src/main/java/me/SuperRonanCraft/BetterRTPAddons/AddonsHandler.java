@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTPAddons.addons.commands.AddonCommands;
 import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
 import me.SuperRonanCraft.BetterRTPAddons.addons.interfaces.AddonInterface;
@@ -43,6 +44,7 @@ public class AddonsHandler {
         //INTERFACES(new AddonInterface())
         MAGICSTICK(new AddonMagicStick()),      //Handy teleport want
         EXTRAEFFECTS(new AddonExtraEffects()),  //New cosmetica!
+        COMMANDS(new AddonCommands()),          //Commands on rtp events
         ;
 
         Addon addon;
