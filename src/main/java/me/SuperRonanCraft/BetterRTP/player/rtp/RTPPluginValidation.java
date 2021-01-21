@@ -117,13 +117,13 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     }
 
     // NOT TESTED (2.14.3)
-    // Lands (v4.9.4)
+    // Lands (v5.0.5)
     // https://www.spigotmc.org/resources/lands.53313/
     private boolean getLands(Location loc) {
         boolean result = true;
         if (getPl().getSettings().getsDepends().isLands())
             try {
-                result = new LandsIntegration(BetterRTP.getInstance()).isClaimed(loc);
+                result = !(new LandsIntegration(BetterRTP.getInstance()).isClaimed(loc));
             } catch (Exception e) {
                 e.printStackTrace();
             }

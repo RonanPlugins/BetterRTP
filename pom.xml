@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.0.5</version>
+    <version>3.0.4-2</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>4.9.4</version>
+            <version>5.0.5</version>
             <scope>provided</scope>
         </dependency>
         <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
