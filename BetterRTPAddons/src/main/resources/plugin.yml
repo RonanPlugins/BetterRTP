@@ -1,5 +1,5 @@
 main: me.SuperRonanCraft.BetterRTPAddons.Main
-version: 1.2
+version: 1.3
 api-version: '1.13'
 name: BetterRTPAddons
 depend: [BetterRTP]

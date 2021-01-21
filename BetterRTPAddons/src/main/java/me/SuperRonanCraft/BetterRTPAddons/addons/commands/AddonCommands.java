@@ -20,6 +20,6 @@ public class AddonCommands implements Addon {
 
     @Override
     public void unload() {
-
+        loader.unload();
     }
 }
