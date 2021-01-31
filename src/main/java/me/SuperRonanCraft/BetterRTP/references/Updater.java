@@ -10,16 +10,18 @@ import java.net.URLConnection;
 
 public class Updater {
 
-    public static String updatedVersion;
+    public static String updatedVersion = BetterRTP.getInstance().getDescription().getVersion();
 
     public Updater(BetterRTP pl) {
-        try {
-            URLConnection con = new URL(getUrl() + project()).openConnection();
-            updatedVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
-        } catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage("[BetterRTP] Failed to check for an update on spigot");
-            updatedVersion = pl.getDescription().getVersion();
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(pl, () -> {
+            try {
+                URLConnection con = new URL(getUrl() + project()).openConnection();
+                updatedVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+            } catch (Exception ex) {
+                Bukkit.getConsoleSender().sendMessage("[BetterRTP] Failed to check for an update on spigot");
+                updatedVersion = pl.getDescription().getVersion();
+            }
+        });
     }
 
     private String getUrl() {

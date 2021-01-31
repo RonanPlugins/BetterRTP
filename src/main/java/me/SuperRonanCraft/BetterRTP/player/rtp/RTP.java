@@ -49,6 +49,8 @@ public class RTP {
                     overriden.put(entry.getKey().toString(), entry.getValue().toString());
                     if (getPl().getSettings().debug)
                         getPl().getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
+                    if (Bukkit.getWorld(entry.getValue().toString()) == null)
+                        getPl().getLogger().warning("The world `" + entry.getValue() + "` doesn't seem to exist! Please update `" + entry.getKey() + "'s` override! Maybe there are capital letters?");
                 }
         } catch (Exception e) {
             //No Overrides
