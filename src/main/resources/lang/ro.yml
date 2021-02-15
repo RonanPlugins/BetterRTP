@@ -1,0 +1,56 @@
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success: ## PlaceHolder-ele! %x% %y% si %z% sunt x, y, si z coordonatelor ce apare player-ilor! #
+    Paid: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% pentru &c$%price%&7 in &f%attempts% &7incercari!'
+    Bypass: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% in &f%attempts% &7incercari'
+    Loading: '&aUn loc sigur a fost gasit! &7Se incarca chunk-urile...'
+    Teleport: '&aTe teleportezi... &fte rugam sa astepti pana gasim un loc sigur!'
+  Failed:
+    Price: '&cNu te-am putut teleporta fiindca nu ai fonduri suficiente! &7Trebuie sa ai macar $%price% &7pentru a te teleporta!'
+    NotSafe: '&cNu am putut gasi un loc sigur in %attempts% incercari! &7Nu ai fost teleportat/a!'
+    Hunger: '&cNu te-am putut teleporta pentru ca esti... &7prea infometat&c, mananca ceva!'
+  Other:
+    Success: '&a%player% a fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% in &f%attempts% &7incercari!'
+    NotSafe: '&cNu am putut gasi un loc sigur in %attempts% incercari! &7%player% nu a fost teleportat/a!'
+    Biome: '&cSe pare ca biome-ul &7 %biome%&c nu exista! &7Incerca sa folosesti Tab-ul!'
+  Reload: '&eConfiguratia a fost reincarcata cu success!'
+  NoPermission:
+    Basic: '&cScuze! &7Nu ai permisiunile necesare pentru a folosi aceasta comanda!'
+    World: '&cScuze! &7Nu ai voie sa te teleportezi in lumea %world%!'
+  DisabledWorld: '&cLumea %world% este dezactivata! &7Nu te-am putut teleporta!'
+  Cooldown: '&cScuze! &7Nu te mai poti teleporta pentru inca &c%time% &7secunde!'
+  Locked: '&cScuze! &7Ti-ai folosit toate rtp-urile!'
+  Invalid: '&cArgument Invalid. Incearca ''/%command% help'''
+  NotOnline: '&cJucatorul &7%player% &cnu este online!'
+  Delay: '&aTe teleportezi in &f%time% &asecunde! NU TE MISCA!'
+  Moved: '&cTe-ai miscat! &7Teleportarea a fost anulata!'
+  NotExist: '&cSe pare ca lumea &7%world% &cnu exista!'
+  Already: '&cWhoops! &7Se pare ca te teleportezi deja, ai putina rabdare!'
+  Sign: '&7Sign Command-ul a fost creat! &7Comanda este... ''&f/rtp %command%&7'''
+  Edit:
+    Error: '&cEroare! &7Argumente Invalide!'
+    Set: '&bSuccess! &7%type% setat la %value%'
+    Remove: '&cSters! &7Ai sters lumea custom %world%'
+
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| Ajutor &e&m-----'
+  Main: ' &7- &e/%command% &7- Te teleporteaza random!'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Te teleporteaza random intre aceste biome-uri'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Editeaza niste setari ale plugin-ului'
+  Help: ' &7- &e/%command% help &7- Arata pagina de ajutor al acestui plugin'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Vezi informatii specifice despre niste parametrii ai acestui plugin'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Teleporteaza random alt jucator'
+  Reload: ' &7- &e/%command% reload &7- Reincarca plugin-ul'
+  Settings: ' &7- &e/%command% settings &7- Apare un GUI si poti edita niste setari'
+  Test: ' &7- &e/%command% test &7- Testezi efectele teleportarii fara a te misca'
+  Version: ' &7- &e/%command% version &7- Vezi versiunea curenta'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Te teleporteaza random in alta lume'
+
+Usage:
+  Player: '&cFolosire&7: /%command% player <nume> [world] [biome1, biome2]'
+  World: '&cFolosire&7: /%command% world <lume> [biome1, biome2...]'
+  Biome: '&cFolosire&7: /%command% biome <biome1, biome2...>'
+  Edit:
+    Base: '&cFolosire&7: /%command% edit <default/world> [args...]'
+    Default: '&cFolosire&7: /%command% edit default <max/min/useworldborder/center> <value>'
+    World: '&cFolosire&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
