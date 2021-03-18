@@ -1,0 +1,134 @@
+# BetterRTP plugin by SuperRonanCraft! (Join my Public Server mc.RonanCraft.net) #
+# Need help? go to https://ronancraft.net/discord! #
+
+Language-File: 'en.yml'
+
+Settings:
+  Respect:
+    ## Respect WorldGuard areas (https://dev.bukkit.org/projects/worldguard)
+    WorldGuard: false
+    ## Respect GriefPrevention areas (https://www.spigotmc.org/resources/griefprevention.1884/)
+    GriefPrevention: false
+    ## Respect Towny areas (https://www.spigotmc.org/resources/towny.72694/)
+    Towny: false
+    ## Respect RedProtect areas (https://www.spigotmc.org/resources/redprotect.15841/)
+    RedProtect: false
+    ## Respect FactionsUUID areas (https://www.spigotmc.org/resources/factionsuuid.1035/)
+    FactionsUUID: false
+    ## Respect Lands areas (https://www.spigotmc.org/resources/lands.53313/)
+    Lands: false
+    ## Respect Residence areas (https://www.spigotmc.org/resources/residence.11480/)
+    Residence: false
+    ## Respect KingdomsX areas (https://www.spigotmc.org/resources/kingdomsx.77670/)
+    KingdomsX: false
+  ## Output to console some debugging info
+  Debugger: false
+  ## Amount of chunks to preload around a safe location
+  PreloadRadius: 5
+  ## Maximum amount of tries before BetterRTP gives up and sends a NotSafeMessage #
+  MaxAttempts: 32
+  RtpOnFirstJoin: # Will execute as console to override delays
+    Enabled: false # Make the player rtp when joining the server for the first time
+    World: 'world' # World to first rtp in
+    SetAsRespawn: false # Save this first rtp as players new spawn point
+  Cooldown:
+    Enabled: true # Enabled or disabled cooldown timer
+    LockAfter: 0 # Lock the player in an infinite cooldown after # rtp's (0 to disable)
+    Time: 600 # in SECONDS
+  ## Time between command and actually rtp'ing, time is in SECONDS. Set to "0" to disable delay timer #
+  Delay:
+    Enabled: true
+    Time: 5
+    CancelOnMove: true
+  StatusMessages: true # Send extra information about current status of RTP
+  DisableUpdater: false
+
+Default:
+  UseWorldBorder: false
+  ## "Biomes: []" means all biomes are allowed! #
+  ## Biomes are optional, more biomes at https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html #
+  Biomes: []
+  MaxRadius: 1000
+  MinRadius: 10
+  ## If "UseWorldBorder" is set to true above, Center X and Z will be ignored! #
+  CenterX: 0
+  CenterZ: 0
+  Shape: 'square'
+
+## Blocks BetterRTP will NOT teleport onto. More Blocks at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html #
+BlacklistedBlocks:
+  - stationary_water
+  - stationary_lava
+  - water
+  - flowing_water
+  - lava
+  - flowing_lava
+  - cactus
+  - leaves
+  - leaves_2
+  - air
+  - void_air
+  - bedrock
+  - oak_leaves
+  - jungle_leaves
+
+## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
+DisabledWorlds:
+  - prison
+  - creative
+
+## Worlds you want to have a custom min/max and spawn center in #
+## [MaxRadius] and [MinRadius] MUST be positive! These cannot be equal to each other!
+CustomWorlds:
+  - custom_world_1:
+      UseWorldBorder: false
+      ## If UseWorldBorder is true, everything will be ignored EXCEPT "MinRadius"!
+      MaxRadius: 1000
+      MinRadius: 100
+      CenterX: 0
+      CenterZ: 0
+      Price: 50
+      Shape: 'square'
+  - other_custom_world:
+      MaxRadius: 10000
+      MinRadius: 150
+      CenterX: 123
+      CenterZ: -123
+      Price: 0
+      ## Biomes are optional, but useful! More biomes: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/Biome.html
+      Biomes:
+        - 'desert'
+        - 'forest'
+      Shape: 'circle'
+
+## Override a world and rtp a player executing the command in one world, to another
+Overrides:
+  #FORMAT - <CURRENT WORLD>:<DESIRED WORLD>
+  - master_world: 'world'
+  - creative_world: 'world'
+
+WorldType: # Available types are NORMAL, NETHER
+  - world: NORMAL
+  - world_nether: NETHER
+  - world_the_end: NORMAL
+
+PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger these configs
+  Enabled: false
+  Groups:
+    - vip: # permission: betterrtp.config.vip
+        - Build_World: #World named "Build_World"
+            MaxRadius: 10000
+            MinRadius: 1000
+            Price: 100
+        - Survival_World:
+            UseWorldBorder: false
+            MaxRadius: 5000
+            MinRadius: 1000
+            CenterX: 10
+            CenterZ: 10
+            Price: 10
+    - vip2: # permission: betterrtp.config.vip2
+        - Build_World:
+            MaxRadius: 25000
+            MinRadius: 10000
+            Price: 15

@@ -113,7 +113,7 @@ public class RTPTeleport {
 
     private void loadingTeleport(Player p, CommandSender sendi) {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.LOADING) || sendi != p) //Show msg if enabled or if not same player
+        if ((eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) || sendi != p) //Show msg if enabled or if not same player
             getPl().getText().getSuccessLoading(sendi);
     }
 
@@ -153,6 +153,10 @@ public class RTPTeleport {
                 getPl().getText().getSuccessPaid(sendi, price, x, y, z, world, attempts);
         } else
             getPl().getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
+    }
+
+    private boolean sendStatusMessage() {
+        return getPl().getSettings().statusMessages;
     }
 
     private BetterRTP getPl() {
