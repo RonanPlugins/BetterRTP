@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -29,9 +30,9 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                             if (args.length >= 5) {
                                 for (World world : Bukkit.getWorlds()) {
                                     if (world.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
-                                        for (RTP_CMD_EDIT_SUB cmde : RTP_CMD_EDIT_SUB.values())
-                                            if (cmde.name().toLowerCase().startsWith(args[3].toLowerCase())) {
-                                                editWorld(sendi, cmde, args[4], args[2]);
+                                        for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values())
+                                            if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[3].toLowerCase())) {
+                                                editWorld(sendi, sub_cmd, args[4], args[2]);
                                                 return;
                                             }
                                         usage(sendi, label, cmd);
@@ -44,9 +45,9 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                             usage(sendi, label, cmd);
                             return;
                         case DEFAULT:
-                            for (RTP_CMD_EDIT_SUB cmde : RTP_CMD_EDIT_SUB.values())
-                                if (cmde.name().toLowerCase().startsWith(args[2].toLowerCase())) {
-                                    editDefault(sendi, cmde, args[3]);
+                            for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values())
+                                if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[2].toLowerCase())) {
+                                    editDefault(sendi, sub_cmd, args[3]);
                                     return;
                                 }
                             usage(sendi, label, cmd);
@@ -141,7 +142,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().toLowerCase().startsWith(args[1].toLowerCase()))
                     list.add(cmd.name().toLowerCase());
-        } else if (args.length == 3) {
+        } else if (args.length == 3) { //rtp edit <sub_cmd> <type>
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().equalsIgnoreCase(args[1])) {
                     switch (cmd) {
@@ -151,7 +152,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                     list.add(world.getName());
                             break;
                         case DEFAULT:
-                            list.addAll(tabCompleteSub(args));
+                            list.addAll(tabCompleteSub(args, cmd));
                     }
                 }
         } else if (args.length == 4) {
@@ -159,7 +160,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                 if (cmd.name().equalsIgnoreCase(args[1]))
                     switch (cmd) {
                         case WORLD:
-                            list.addAll(tabCompleteSub(args)); break;
+                            list.addAll(tabCompleteSub(args, cmd)); break;
                         case DEFAULT:
                             if (args[2].equalsIgnoreCase(RTP_CMD_EDIT_SUB.CENTER_X.name()))
                                 list.add(String.valueOf(((Player) sendi).getLocation().getBlockX()));
@@ -180,13 +181,22 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         return list;
     }
 
-    private List<String> tabCompleteSub(String[] args) {
+    private List<String> tabCompleteSub(String[] args, RTP_CMD_EDIT cmd) {
         List<String> list = new ArrayList<>();
-        for (RTP_CMD_EDIT_SUB cmd : RTP_CMD_EDIT_SUB.values()) {
-            if (cmd.name().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-                list.add(cmd.name().toLowerCase());
+        for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values()) {
+
+            if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                list.add(sub_cmd.name().toLowerCase());
         }
         return list;
+    }
+
+    private boolean isAllowedAccess(RTP_CMD_EDIT cmd, RTP_CMD_EDIT_SUB sub) {
+        //Check if this sub command is allowed
+        for (RTP_CMD_EDIT cmd_checking : sub.getAllowed())
+            if (cmd_checking == cmd)
+                return true;
+        return false;
     }
 
     @Override
@@ -212,22 +222,25 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     enum RTP_CMD_EDIT {
-        WORLD, DEFAULT
+        WORLD, DEFAULT, WORLD_TYPE
     }
 
     enum RTP_CMD_EDIT_SUB {
-        CENTER_X("CenterX", "INT"),
-        CENTER_Z("CenterZ", "INT"),
-        MAX("MaxRadius", "INT"),
-        MIN("MinRadius", "INT"),
-        USEWORLDBORDER("UseWorldBorder", "BOL");
+        CENTER_X("CenterX", "INT", null),
+        CENTER_Z("CenterZ", "INT", null),
+        MAX("MaxRadius", "INT", null),
+        MIN("MinRadius", "INT", null),
+        USEWORLDBORDER("UseWorldBorder", "BOL", null),
+        WORLDTYPE("WorldType", "WORLDTYPE", new RTP_CMD_EDIT[]{RTP_CMD_EDIT.WORLD_TYPE});
 
-        private String type;
-        private String str;
+        private final String type;
+        private final String str;
+        private final RTP_CMD_EDIT[] allowed;
 
-        RTP_CMD_EDIT_SUB(String str, String type) {
+        RTP_CMD_EDIT_SUB(String str, String type, RTP_CMD_EDIT[] allowed_cmds) {
             this.str = str;
             this.type = type;
+            this.allowed = allowed_cmds;
         }
 
         String get() {
@@ -239,7 +252,15 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                 return Integer.parseInt(input);
             else if (this.type.equalsIgnoreCase("BOL"))
                 return Boolean.valueOf(input);
+            else if (this.type.equalsIgnoreCase("WORLDTYPE")) //WILL CAUSE ERROR IF INCORRECT
+                return WORLD_TYPE.valueOf(input).name();
             return null;
+        }
+
+        RTP_CMD_EDIT[] getAllowed() {
+            if (this.allowed == null)
+                return new RTP_CMD_EDIT[]{RTP_CMD_EDIT.WORLD, RTP_CMD_EDIT.DEFAULT};
+            return allowed;
         }
     }
 }

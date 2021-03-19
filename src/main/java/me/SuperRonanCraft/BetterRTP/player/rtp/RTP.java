@@ -129,9 +129,16 @@ public class RTP {
         } else
             pWorld.setup(defaultWorld, biomes, personal);
         //World type
-        WORLD_TYPE world_type = WORLD_TYPE.NORMAL; //World rtp type
+        WORLD_TYPE world_type; //World rtp type
         if (this.world_type.containsKey(world_name))
             world_type = this.world_type.get(world_name);
+        else {
+            world_type = WORLD_TYPE.NORMAL;
+            this.world_type.put(world_name, world_type); //Defaults this so the error message isn't spammed
+            getPl().getLogger().warning("Seems like the world `" + world_name + "` does not have a `WorldType` declared. " +
+                    "Please add/fix this in the config.yml file! " +
+                    "This world will be treated as an overworld!");
+        }
         pWorld.setWorldtype(world_type);
         return pWorld;
     }
