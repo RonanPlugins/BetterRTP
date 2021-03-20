@@ -6,7 +6,9 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -29,9 +31,9 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                         case WORLD:
                             if (args.length >= 5) {
                                 for (World world : Bukkit.getWorlds()) {
-                                    if (world.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
+                                    if (world.getName().startsWith(args[2])) {
                                         for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values())
-                                            if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[3].toLowerCase())) {
+                                            if (sub_cmd.name().toLowerCase().startsWith(args[3].toLowerCase())) {
                                                 editWorld(sendi, sub_cmd, args[4], args[2]);
                                                 return;
                                             }
@@ -39,18 +41,46 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                         return;
                                     }
                                 }
-                                BetterRTP.getInstance().getText().getNotExist(sendi, label);
+                                BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
                                 return;
                             }
                             usage(sendi, label, cmd);
                             return;
                         case DEFAULT:
                             for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values())
-                                if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[2].toLowerCase())) {
+                                if (sub_cmd.name().toLowerCase().startsWith(args[2].toLowerCase())) {
                                     editDefault(sendi, sub_cmd, args[3]);
                                     return;
                                 }
                             usage(sendi, label, cmd);
+                            return;
+                        case WORLD_TYPE:
+                            for (World world : Bukkit.getWorlds()) {
+                                if (world.getName().startsWith(args[2])) {
+                                    editWorldtype(sendi, args[2], args[3]);
+                                    //usage(sendi, label, cmd);
+                                    return;
+                                }
+                            }
+                            BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
+                            return;
+                        case OVERRIDE:
+                            for (World world : Bukkit.getWorlds()) {
+                                if (world.getName().startsWith(args[2])) {
+                                    editOverride(sendi, args[2], args[3]);
+                                    //usage(sendi, label, cmd);
+                                    return;
+                                }
+                            }
+                            BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
+                            return;
+                        case BLACKLISTEDBLOCKS:
+                            if (args[2].equalsIgnoreCase("add")) {
+                                editBlacklisted(sendi, args[3], true);
+                            } else if (args[2].equalsIgnoreCase("remove")) {
+                                editBlacklisted(sendi, args[3], false);
+                            } else
+                                usage(sendi, label, cmd);
                             return;
                     }
                 }
@@ -110,7 +140,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     private void editDefault(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String val) {
-        Object value = val;
+        Object value;
         try {
             value = cmd.getResult(val);
         } catch (Exception e) {
@@ -133,8 +163,110 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         }
     }
 
+    private void editWorldtype(CommandSender sendi, String world, String val) {
+        //sendi.sendMessage("Editting worldtype for world " + world + " to " + val);
+        WORLD_TYPE type;
+        try {
+            type = WORLD_TYPE.valueOf(val.toUpperCase());
+        } catch (Exception e) {
+            //e.printStackTrace();
+            BetterRTP.getInstance().getText().getEditError(sendi);
+            return;
+        }
+
+        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        YamlConfiguration config = file.getConfig();
+
+        List<Map<?, ?>> world_map = config.getMapList("WorldType");
+        List<Map<?, ?>> removeList = new ArrayList<>();
+        for (Map<?, ?> m : world_map) {
+            for (Map.Entry<?, ?> entry : m.entrySet()) {
+                if (entry.getKey().equals(world))
+                    removeList.add(m);
+            }
+        }
+        for (Map<?, ?> o : removeList)
+            world_map.remove(o);
+        Map<String, String> newIndex = new HashMap<>();
+        newIndex.put(world, type.name());
+        world_map.add(newIndex);
+        config.set("WorldType", world_map);
+
+        try {
+            config.save(file.getFile());
+            BetterRTP.getInstance().getRTP().load();
+            BetterRTP.getInstance().getText().getEditSet(sendi, RTP_CMD_EDIT.WORLD_TYPE.name(), val);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void editOverride(CommandSender sendi, String world, String val) {
+
+        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        YamlConfiguration config = file.getConfig();
+
+        List<Map<?, ?>> world_map = config.getMapList("Overrides");
+        List<Map<?, ?>> removeList = new ArrayList<>();
+        for (Map<?, ?> m : world_map) {
+            for (Map.Entry<?, ?> entry : m.entrySet()) {
+                if (entry.getKey().equals(world))
+                    removeList.add(m);
+            }
+        }
+        for (Map<?, ?> o : removeList)
+            world_map.remove(o);
+        if (!val.equals("REMOVE_OVERRIDE")) {
+            Map<String, String> newIndex = new HashMap<>();
+            newIndex.put(world, val);
+            world_map.add(newIndex);
+        } else {
+            val = "(removed override)";
+        }
+        config.set("Overrides", world_map);
+
+        try {
+            config.save(file.getFile());
+            BetterRTP.getInstance().getRTP().load();
+            BetterRTP.getInstance().getText().getEditSet(sendi, RTP_CMD_EDIT.OVERRIDE.name(), val);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void editBlacklisted(CommandSender sendi, String block, boolean add) {
+
+        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        YamlConfiguration config = file.getConfig();
+
+        List<String> world_map = config.getStringList("BlacklistedBlocks");
+        List<String> removeList = new ArrayList<>();
+        for (String m : world_map) {
+            if (m.equals(block)) {
+                removeList.add(m);
+            }
+        }
+        for (String o : removeList)
+            world_map.remove(o);
+        if (add) {
+            world_map.add(block);
+        } else {
+            block = "(removed " + block + ")";
+        }
+        config.set("BlacklistedBlocks", world_map);
+
+        try {
+            config.save(file.getFile());
+            BetterRTP.getInstance().getRTP().load();
+            BetterRTP.getInstance().getText().getEditSet(sendi, RTP_CMD_EDIT.BLACKLISTEDBLOCKS.name(), block);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //rtp edit default <max/min/center/useworldborder> <value>
     //rtp edit world [<world>] <max/min/center/useworldborder> <value>
+    //rtp edit worldtype <world> <value>
     @Override
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
@@ -146,6 +278,8 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().equalsIgnoreCase(args[1])) {
                     switch (cmd) {
+                        case WORLD_TYPE:
+                        case OVERRIDE:
                         case WORLD: //List all worlds
                             for (World world : Bukkit.getWorlds())
                                 if (world.getName().toLowerCase().startsWith(args[2].toLowerCase()))
@@ -153,6 +287,11 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                             break;
                         case DEFAULT:
                             list.addAll(tabCompleteSub(args, cmd));
+                            break;
+                        case BLACKLISTEDBLOCKS:
+                            list.add("add");
+                            list.add("remove");
+                            break;
                     }
                 }
         } else if (args.length == 4) {
@@ -166,6 +305,31 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                 list.add(String.valueOf(((Player) sendi).getLocation().getBlockX()));
                             else if (args[2].equalsIgnoreCase(RTP_CMD_EDIT_SUB.CENTER_Z.name()))
                                 list.add(String.valueOf(((Player) sendi).getLocation().getBlockZ()));
+                            break;
+                        case WORLD_TYPE:
+                            for (WORLD_TYPE _type : WORLD_TYPE.values())
+                                list.add(_type.name());
+                            break;
+                        case OVERRIDE:
+                            for (World world : Bukkit.getWorlds())
+                                if (world.getName().toLowerCase().startsWith(args[2].toLowerCase()))
+                                    list.add(world.getName());
+                            list.add("REMOVE_OVERRIDE");
+                            break;
+                        case BLACKLISTEDBLOCKS:
+                            if (args[2].equalsIgnoreCase("add")) {
+                                for (Material block : Material.values()) {
+                                    if (list.size() > 20)
+                                        break;
+                                    if (block.name().startsWith(args[3].toUpperCase()))
+                                        list.add(block.name());
+                                }
+                            } else if (args[2].equalsIgnoreCase("remove")) {
+                                for (String block : BetterRTP.getInstance().getRTP().blockList) {
+                                    if (block.startsWith(args[3]))
+                                        list.add(block);
+                                }
+                            }
                             break;
                     }
         } else if (args.length == 5) {
@@ -185,18 +349,10 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         List<String> list = new ArrayList<>();
         for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values()) {
 
-            if (isAllowedAccess(cmd, sub_cmd) && sub_cmd.name().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+            if (sub_cmd.name().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
                 list.add(sub_cmd.name().toLowerCase());
         }
         return list;
-    }
-
-    private boolean isAllowedAccess(RTP_CMD_EDIT cmd, RTP_CMD_EDIT_SUB sub) {
-        //Check if this sub command is allowed
-        for (RTP_CMD_EDIT cmd_checking : sub.getAllowed())
-            if (cmd_checking == cmd)
-                return true;
-        return false;
     }
 
     @Override
@@ -211,6 +367,12 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                     BetterRTP.getInstance().getText().getUsageEditDefault(sendi, label); break;
                 case WORLD:
                     BetterRTP.getInstance().getText().getUsageEditWorld(sendi, label); break;
+                case WORLD_TYPE:
+                    BetterRTP.getInstance().getText().getUsageWorldtype(sendi, label); break;
+                case OVERRIDE:
+                    BetterRTP.getInstance().getText().getUsageOverride(sendi, label); break;
+                case BLACKLISTEDBLOCKS:
+                    BetterRTP.getInstance().getText().getUsageBlacklistedBlocks(sendi, label); break;
             }
         else
             BetterRTP.getInstance().getText().getUsageEdit(sendi, label);
@@ -222,25 +384,22 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     enum RTP_CMD_EDIT {
-        WORLD, DEFAULT, WORLD_TYPE
+        WORLD, DEFAULT, WORLD_TYPE, OVERRIDE, BLACKLISTEDBLOCKS
     }
 
     enum RTP_CMD_EDIT_SUB {
-        CENTER_X("CenterX", "INT", null),
-        CENTER_Z("CenterZ", "INT", null),
-        MAX("MaxRadius", "INT", null),
-        MIN("MinRadius", "INT", null),
-        USEWORLDBORDER("UseWorldBorder", "BOL", null),
-        WORLDTYPE("WorldType", "WORLDTYPE", new RTP_CMD_EDIT[]{RTP_CMD_EDIT.WORLD_TYPE});
+        CENTER_X("CenterX", "INT"),
+        CENTER_Z("CenterZ", "INT"),
+        MAX("MaxRadius", "INT"),
+        MIN("MinRadius", "INT"),
+        USEWORLDBORDER("UseWorldBorder", "BOL");
 
         private final String type;
         private final String str;
-        private final RTP_CMD_EDIT[] allowed;
 
-        RTP_CMD_EDIT_SUB(String str, String type, RTP_CMD_EDIT[] allowed_cmds) {
+        RTP_CMD_EDIT_SUB(String str, String type) {
             this.str = str;
             this.type = type;
-            this.allowed = allowed_cmds;
         }
 
         String get() {
@@ -255,12 +414,6 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             else if (this.type.equalsIgnoreCase("WORLDTYPE")) //WILL CAUSE ERROR IF INCORRECT
                 return WORLD_TYPE.valueOf(input).name();
             return null;
-        }
-
-        RTP_CMD_EDIT[] getAllowed() {
-            if (this.allowed == null)
-                return new RTP_CMD_EDIT[]{RTP_CMD_EDIT.WORLD, RTP_CMD_EDIT.DEFAULT};
-            return allowed;
         }
     }
 }

@@ -23,7 +23,7 @@ public class RTP {
     public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public HashMap<String, String> overriden = new HashMap<>();
     public WorldDefault defaultWorld = new WorldDefault();
-    List<String> disabledWorlds, blockList;
+    public List<String> disabledWorlds, blockList;
     int maxAttempts, delayTime;
     boolean cancelOnMove, cancelOnDamage;
     public HashMap<String, WORLD_TYPE> world_type = new HashMap<>();

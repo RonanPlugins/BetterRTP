@@ -223,6 +223,18 @@ public class Messages {
         sms(sendi, getLang().getString(preU + "Edit.World").replaceAll("%command%", cmd));
     }
 
+    public void getUsageWorldtype(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.Worldtype").replaceAll("%command%", cmd));
+    }
+
+    public void getUsageOverride(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.Override").replaceAll("%command%", cmd));
+    }
+
+    public void getUsageBlacklistedBlocks(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.BlacklistedBlocks").replaceAll("%command%", cmd));
+    }
+
     // Not Found
     public void error(CommandSender sendi) {
         sms(sendi, "&cERROR &7Seems like your Administrator did not update their language file!");

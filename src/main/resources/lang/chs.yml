@@ -55,3 +55,6 @@ Usage:
     Base: '&c用法&7：/%command% edit <default/世界> [参数...]'
     Default: '&c用法&7：/%command% edit default <max/min/useworldborder/center> <值>'
     World: '&c用法&7：/%command% edit world <world> <max/min/useworldborder/center> <值>'
+#    Worldtype: '&cUsage&7: /%command% edit world_type <world> <NETHER/NORMAL>'
+#    Override: '&cUsage&7: /%command% edit override <world> <world_to>'
+#    BlacklistedBlocks: '&cUsage&7: /%command% edit blacklistedblocks <add/remove> <block_id>'
