@@ -46,11 +46,13 @@ Help:
   Test: ' &7- &e/%command% test &7- Teste les effets du plugin après une téléportation sans bouger'
   Version: ' &7- &e/%command% version &7- Voir la version en cours d''exécution'
   World: ' &7- &e/%command% world <monde> &7- Te téléporte aléatoirement dans un autre monde'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&cUtilisation&7: /%command% player <joeur> [monde]'
   World: '&cUtilisation&7: /%command% world <monde>'
   Biome: '&cUtilisation&7: /%command% biome <biome1, biome2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
   Edit:
     Base: '&cUtilisation&7: /%command% edit <default/world> [args...]'
     Default: '&cUtilisation&7: /%command% edit default <max/min/useworldborder/center> <value>'

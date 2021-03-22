@@ -46,11 +46,13 @@ Help:
   Test: ' &7- &e/%command% test &7- протестировать эффект плагина после телелепортации'
   Version: ' &7- &e/%command% version &7- отобразить текущую версию плагина'
   World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- телепортирует Вас в рандомное место в указанных биомах в указанный мир'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&cUsage&7: /%command% player <игрок> [мир] [биом1, биом2]'
   World: '&cUsage&7: /%command% world <мир> [биом1, биом2...]'
   Biome: '&cUsage&7: /%command% biome <биом1, биом2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
   Edit:
     Base: '&cUsage&7: /%command% edit <default/world> [аргументы...]'
     Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'

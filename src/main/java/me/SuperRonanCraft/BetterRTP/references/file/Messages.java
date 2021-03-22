@@ -198,6 +198,10 @@ public class Messages {
         return getLang().getString(preH + "World");
     }
 
+    public String getHelpLocation() { //rtp location
+        return getLang().getString(preH + "Location");
+    }
+
     //Usage
     public void getUsageRTPOther(CommandSender sendi, String cmd) {
         sms(sendi, getLang().getString(preU + "Player").replaceAll("%command%", cmd));
@@ -209,6 +213,10 @@ public class Messages {
 
     public void getUsageBiome(CommandSender sendi, String cmd) {
         sms(sendi, getLang().getString(preU + "Biome").replaceAll("%command%", cmd));
+    }
+
+    public void getUsageLocation(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Location").replaceAll("%command%", cmd));
     }
 
     public void getUsageEdit(CommandSender sendi, String cmd) {

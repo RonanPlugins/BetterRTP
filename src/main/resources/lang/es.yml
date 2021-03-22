@@ -46,11 +46,13 @@ Help:
   Test: ' &7- &e/%command% test &7- Prueba los efectos posteriores a teletransportarse sin moverse del lugar'
   Version: ' &7- &e/%command% version &7- Ver la versión actualmente'
   World: ' &7- &e/%command% world <mundo> [bioma1, bioma2...] &7- Teletransportarse aleatoriamente en otro mundo'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&cUso&7&7: /%command% player <jugador> [mundo] [bioma1, bioma2]'
   World: '&cUso&7&77: /%command% world <mundo> [bioma1, bioma2...]'
   Biome: '&cUso&7: /%command% biome <bioma1, bioma2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
   Edit:
     Base: '&cUso&7: /%command% edit <default/world> [args...]'
     Default: '&cUso&7: /%command% edit default <max/min/useworldborder/center> <value>'

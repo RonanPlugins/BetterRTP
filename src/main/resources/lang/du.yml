@@ -46,11 +46,13 @@ Help:
 #  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
 #  Version: ' &7- &e/%command% version &7- View currently running version'
   World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Random teleport in een andere wereld'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&cUsage&7: /%command% player <player> [world] [biome1, biome2]'
   World: '&cUsage&7: /%command% world <world> [biome1, biome2...]'
   Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
 #  Edit:
 #    Base: '&cUsage&7: /%command% edit <default/world> [args...]'
 #    Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'

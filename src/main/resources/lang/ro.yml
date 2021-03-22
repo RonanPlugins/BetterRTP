@@ -45,11 +45,13 @@ Help:
   Test: ' &7- &e/%command% test &7- Testezi efectele teleportarii fara a te misca'
   Version: ' &7- &e/%command% version &7- Vezi versiunea curenta'
   World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Te teleporteaza random in alta lume'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&cFolosire&7: /%command% player <nume> [world] [biome1, biome2]'
   World: '&cFolosire&7: /%command% world <lume> [biome1, biome2...]'
   Biome: '&cFolosire&7: /%command% biome <biome1, biome2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
   Edit:
     Base: '&cFolosire&7: /%command% edit <default/world> [args...]'
     Default: '&cFolosire&7: /%command% edit default <max/min/useworldborder/center> <value>'

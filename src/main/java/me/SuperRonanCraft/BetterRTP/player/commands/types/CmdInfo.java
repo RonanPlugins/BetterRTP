@@ -2,8 +2,10 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldDefault;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
@@ -128,7 +130,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Overriden&7: " + _false);
                 WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(sendi, w.getName(), null, personal);
                 WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
-                info.add("&7- &6Custom World&7: " + (BetterRTP.getInstance().getRTP().customWorlds.containsKey(w.getName()) ? _true : _false + " &8(using defaults)"));
+                info.add("&7- &6Setup Type&7: " + _rtpworld.setup_type.name() + (_rtpworld.setup_type == RTP_SETUP_TYPE.LOCATION ? "&7(" + _rtpworld.setup_name + ")" : ""));
                 info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
                 info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
                 info.add("&7- &6Center X&7: &f" + _rtpworld.getCenterX() + getInfo(_rtpworld, worldDefault, "centerx"));

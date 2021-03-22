@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
@@ -22,15 +23,26 @@ public class WorldPlayer implements RTPWorld {
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
     private RTP_SHAPE shape;
+    public RTP_SETUP_TYPE setup_type = RTP_SETUP_TYPE.DEFAULT;
+    public String setup_name;
     //Economy
-    public boolean eco_money_taken = false;
+    public boolean eco_money_taken = false, setup = false;
 
     public WorldPlayer(CommandSender p, World world) {
         this.p = p;
         this.world = world;
     }
 
-    public void setup(RTPWorld world, List<String> biomes, boolean personal) {
+    public boolean isSetup() {
+        return setup;
+    }
+
+    public void setup(String setup_name, RTPWorld world, List<String> biomes, boolean personal) {
+        if (world instanceof WorldLocations) {
+            setup_type = RTP_SETUP_TYPE.LOCATION;
+        } else if (world instanceof WorldCustom)
+            setup_type = RTP_SETUP_TYPE.CUSTOM_WORLD;
+        this.setup_name = setup_name;
         setUseWorldborder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
         setCenterZ(world.getCenterZ());
@@ -64,6 +76,7 @@ public class WorldPlayer implements RTPWorld {
             setCenterX(border.getCenter().getBlockX());
             setCenterZ(border.getCenter().getBlockZ());
         }
+        setup = true;
     }
 
     private void setupGroup(RTPPermissionGroup permConfig) {

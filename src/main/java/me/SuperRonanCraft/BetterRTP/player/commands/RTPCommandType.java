@@ -9,6 +9,7 @@ public enum RTPCommandType {
     INFO(new CmdInfo()),
     PLAYER(new CmdPlayer()),
     RELOAD(new CmdReload()),
+    LOCATION(new CmdLocation()),
     //SETTINGS(new CmdSettings(), true),
     TEST(new CmdTest(), true),
     VERSION(new CmdVersion()),

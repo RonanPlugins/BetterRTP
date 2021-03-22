@@ -46,11 +46,13 @@ Help:
   Test: ' &7- &e/%command% test &7- 测试传送后的插件效果。'
   Version: ' &7- &e/%command% version &7- 显示目前使用的插件版本。'
   World: ' &7- &e/%command% world <世界> [生物群系1, 生物群系2...] &7- 在其他世界随机传送。'
+#  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
 
 Usage:
   Player: '&c用法&7：/%command% player <玩家> [世界] [生物群系1, 生物群系2]'
   World: '&c用法&7：/%command% world <世界> [生物群系1, 生物群系2...]'
   Biome: '&c用法&7：/%command% biome <生物群系1, 生物群系2...>'
+#  Location: '&cUsage&7: /%command% location <location_name>'
   Edit:
     Base: '&c用法&7：/%command% edit <default/世界> [参数...]'
     Default: '&c用法&7：/%command% edit default <max/min/useworldborder/center> <值>'

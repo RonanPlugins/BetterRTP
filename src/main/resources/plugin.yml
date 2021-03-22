@@ -49,6 +49,8 @@ permissions:
         description: RTP another player
     betterrtp.biome:
         description: RTP to specific biomes
+    betterrtp.location:
+        description: RTP using a specific location
     betterrtp.group.*:
         description: Use a permission group to rtp with different restrictions
     betterrtp.sign:
