@@ -22,7 +22,7 @@ public class FileBasics {
     }
 
     public enum FILETYPE {
-        CONFIG("config"), ECO("economy"), SIGNS("signs"), EFFECTS("effects");
+        CONFIG("config"), ECO("economy"), SIGNS("signs"), EFFECTS("effects"), LOCATIONS("locations");
 
         private final String fileName;
         private final YamlConfiguration config = new YamlConfiguration();

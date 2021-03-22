@@ -27,6 +27,7 @@ public class RTP {
     int maxAttempts, delayTime;
     boolean cancelOnMove, cancelOnDamage;
     public HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
+    private HashMap<String, WorldLocations> worldLocations = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -40,9 +41,22 @@ public class RTP {
         cancelOnMove = config.getBoolean("Settings.Delay.CancelOnMove");
         cancelOnDamage = config.getBoolean("Settings.Delay.CancelOnDamage");
         blockList = config.getStringList("BlacklistedBlocks");
-        //OVER-RIDES
+        //Overrides
+        loadOverrides();
+        //WorldType
+        loadWorldTypes();
+        //CustomWorlds
+        loadCustomWorlds();
+        //Locations
+        loadWorldLocations();
+        teleport.load(); //Load teleporting stuff
+        permConfig.load(); //Load permission configs
+    }
+
+    private void loadOverrides() {
+        overriden.clear();
         try {
-            overriden.clear();
+            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
             List<Map<?, ?>> override_map = config.getMapList("Overrides");
             for (Map<?, ?> m : override_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -55,9 +69,12 @@ public class RTP {
         } catch (Exception e) {
             //No Overrides
         }
+    }
 
+    private void loadWorldTypes() {
+        world_type.clear();
         try {
-            world_type.clear();
+            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
             for (World world : Bukkit.getWorlds())
                 world_type.put(world.getName(), WORLD_TYPE.NORMAL);
             List<Map<?, ?>> world_map = config.getMapList("WorldType");
@@ -88,18 +105,13 @@ public class RTP {
             e.printStackTrace();
             //No World Types
         }
-
-        loadWorldSettings();
-        teleport.load(); //Load teleporting stuff
-        permConfig.load(); //Load permission configs
     }
 
-    public void loadWorldSettings() {
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+    public void loadCustomWorlds() {
         defaultWorld.setup();
-        //CUSTOM WORLDS
+        customWorlds.clear();
         try {
-            customWorlds.clear();
+            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
             List<Map<?, ?>> map = config.getMapList("CustomWorlds");
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -110,6 +122,23 @@ public class RTP {
         } catch (Exception e) {
             //No Custom Worlds
         }
+    }
+
+    public void loadWorldLocations() {
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
+        worldLocations.clear();
+        if (!config.getBoolean("Settings.Enabled"))
+            return;
+        List<Map<?, ?>> map = config.getMapList("Locations");
+        for (Map<?, ?> m : map)
+            for (Map.Entry<?, ?> entry : m.entrySet()) {
+                WorldLocations location = new WorldLocations(entry.getKey().toString());
+                if (location.isValid()) {
+                    worldLocations.put(entry.getKey().toString(), location);
+                    if (getPl().getSettings().debug)
+                        BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
+                }
+            }
     }
 
     public List<String> disabledWorlds() {
