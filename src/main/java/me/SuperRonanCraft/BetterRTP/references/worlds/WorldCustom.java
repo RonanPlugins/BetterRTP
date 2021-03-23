@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WorldCustom implements RTPWorld {
+public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     public String world;
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
-    private List<String> Biomes;
+    private int centerX, centerZ, maxBorderRad, minBorderRad, price;
+    private List<String> biomes;
     private RTP_SHAPE shape;
 
     public WorldCustom(String world) {
@@ -24,15 +24,7 @@ public class WorldCustom implements RTPWorld {
         this.world = world;
 
         //Set Defaults
-        WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
-        maxBorderRad = worldDefault.getMaxRad();
-        minBorderRad = worldDefault.getMinRad();
-        useWorldborder = worldDefault.getUseWorldborder();
-        CenterX = worldDefault.getCenterX();
-        CenterZ = worldDefault.getCenterZ();
-        price = worldDefault.getPrice();
-        Biomes = worldDefault.getBiomes();
-        shape = worldDefault.getShape();
+        setupDefaults();
 
         //Find Custom World and cache values
         for (Map<?, ?> m : map) {
@@ -49,11 +41,11 @@ public class WorldCustom implements RTPWorld {
                 }
                 if (test.get("CenterX") != null) {
                     if (test.get("CenterX").getClass() == Integer.class)
-                        CenterX = Integer.parseInt((test.get("CenterX")).toString());
+                        centerX = Integer.parseInt((test.get("CenterX")).toString());
                 }
                 if (test.get("CenterZ") != null) {
                     if (test.get("CenterZ").getClass() == Integer.class) {
-                        CenterZ = Integer.parseInt((test.get("CenterZ")).toString());
+                        centerZ = Integer.parseInt((test.get("CenterZ")).toString());
                     }
                 }
                 if (test.get("MaxRadius") != null) {
@@ -78,16 +70,16 @@ public class WorldCustom implements RTPWorld {
                 }
                 if (test.get("Biomes") != null) {
                     if (test.get("Biomes").getClass() == ArrayList.class)
-                        this.Biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
+                        this.biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
                 }
                 if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                     if (test.get("Price") != null) {
                         if (test.get("Price").getClass() == Integer.class)
                             this.price = Integer.parseInt(test.get("Price").toString());
-                        else
-                            price = worldDefault.getPrice(world);
-                    } else
-                        price = worldDefault.getPrice(world);
+                        //else
+                            //price = worldDefault.getPrice(world);
+                    } //else
+                        //price = worldDefault.getPrice(world);
                 if (test.get("Shape") != null) {
                     if (test.get("Shape").getClass() == String.class) {
                         try {
@@ -141,12 +133,12 @@ public class WorldCustom implements RTPWorld {
 
     @Override
     public int getCenterX() {
-        return CenterX;
+        return centerX;
     }
 
     @Override
     public int getCenterZ() {
-        return CenterZ;
+        return centerZ;
     }
 
     @Override
@@ -166,7 +158,7 @@ public class WorldCustom implements RTPWorld {
 
     @Override
     public List<String> getBiomes() {
-        return Biomes;
+        return biomes;
     }
 
     @Override
@@ -177,5 +169,51 @@ public class WorldCustom implements RTPWorld {
     @Override
     public RTP_SHAPE getShape() {
         return shape;
+    }
+
+    //Setters
+    @Override
+    public void setUseWorldBorder(boolean value) {
+        this.useWorldborder = value;
+    }
+
+    @Override
+    public void setCenterX(int value) {
+        this.centerX = value;
+    }
+
+    @Override
+    public void setCenterZ(int value) {
+        this.centerZ = value;
+    }
+
+    @Override
+    public void setMaxRad(int value) {
+        this.maxBorderRad = value;
+    }
+
+    @Override
+    public void setMinRad(int value) {
+        this.minBorderRad = value;
+    }
+
+    @Override
+    public void setPrice(int value) {
+        this.price = value;
+    }
+
+    @Override
+    public void setBiomes(List<String> value) {
+        this.biomes = value;
+    }
+
+    @Override
+    public void setWorld(String value) {
+        this.world = value;
+    }
+
+    @Override
+    public void setShape(RTP_SHAPE value) {
+        this.shape = value;
     }
 }

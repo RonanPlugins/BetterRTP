@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
@@ -148,7 +149,8 @@ public class Commands {
                     if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
                         if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
-                pl.getRTP().start(player, sendi, world, biomes, delay, rtpType);
+                RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true, biomes, delay, rtpType, null);
+                pl.getRTP().start(setup_info);
             }
         }
     }

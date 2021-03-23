@@ -1,32 +1,28 @@
 package me.SuperRonanCraft.BetterRTP.references.worlds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.WorldBorder;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-public class WorldLocations implements RTPWorld {
+public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
-    private List<String> Biomes;
+    private int centerX, centerZ, maxBorderRad, minBorderRad, price;
+    private List<String> biomes;
     private String world;
     private RTP_SHAPE shape;
 
     public WorldLocations(String location_name) {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);
         List<Map<?, ?>> map = config.getMapList("Locations");
-        WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
+        //WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
+
+        setupDefaults();
 
         //Find Location and cache its values
         for (Map<?, ?> m : map) {
@@ -50,11 +46,11 @@ public class WorldLocations implements RTPWorld {
                 }
                 if (test.get("CenterX") != null) {
                     if (test.get("CenterX").getClass() == Integer.class)
-                        CenterX = Integer.parseInt((test.get("CenterX")).toString());
+                        centerX = Integer.parseInt((test.get("CenterX")).toString());
                 }
                 if (test.get("CenterZ") != null) {
                     if (test.get("CenterZ").getClass() == Integer.class) {
-                        CenterZ = Integer.parseInt((test.get("CenterZ")).toString());
+                        centerZ = Integer.parseInt((test.get("CenterZ")).toString());
                     }
                 }
                 if (test.get("MaxRadius") != null) {
@@ -79,16 +75,16 @@ public class WorldLocations implements RTPWorld {
                 }
                 if (test.get("Biomes") != null) {
                     if (test.get("Biomes").getClass() == ArrayList.class)
-                        this.Biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
+                        this.biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
                 }
                 if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                     if (test.get("Price") != null) {
                         if (test.get("Price").getClass() == Integer.class)
                             this.price = Integer.parseInt(test.get("Price").toString());
-                        else
-                            price = worldDefault.getPrice(world);
-                    } else
-                        price = worldDefault.getPrice(world);
+                        //else
+                           // price = worldDefault.getPrice(world);
+                    } //else
+                        //price = worldDefault.getPrice(world);
                 if (test.get("Shape") != null) {
                     if (test.get("Shape").getClass() == String.class) {
                         try {
@@ -113,17 +109,17 @@ public class WorldLocations implements RTPWorld {
 
     @Override
     public boolean getUseWorldborder() {
-        return useWorldborder;
+        return false;//useWorldborder;
     }
 
     @Override
     public int getCenterX() {
-        return CenterX;
+        return centerX;
     }
 
     @Override
     public int getCenterZ() {
-        return CenterZ;
+        return centerZ;
     }
 
     @Override
@@ -143,11 +139,58 @@ public class WorldLocations implements RTPWorld {
 
     @Override
     public List<String> getBiomes() {
-        return Biomes;
+        return biomes;
     }
 
     @Override
     public RTP_SHAPE getShape() {
         return shape;
+    }
+
+    //Setters
+
+    @Override
+    public void setUseWorldBorder(boolean value) {
+        this.useWorldborder = value;
+    }
+
+    @Override
+    public void setCenterX(int value) {
+        this.centerX = value;
+    }
+
+    @Override
+    public void setCenterZ(int value) {
+        this.centerZ = value;
+    }
+
+    @Override
+    public void setMaxRad(int value) {
+        this.maxBorderRad = value;
+    }
+
+    @Override
+    public void setMinRad(int value) {
+        this.minBorderRad = value;
+    }
+
+    @Override
+    public void setPrice(int value) {
+        this.price = value;
+    }
+
+    @Override
+    public void setBiomes(List<String> value) {
+        this.biomes = value;
+    }
+
+    @Override
+    public void setWorld(String value) {
+        this.world = value;
+    }
+
+    @Override
+    public void setShape(RTP_SHAPE value) {
+        this.shape = value;
     }
 }
