@@ -13,11 +13,12 @@ softdepend:
     - Residence
     - ProtocolLib
     - Kingdoms
+    - hClaims
 api-version: '1.13'
 
 commands:
     betterrtp:
-        aliases: [brtp, rtp]
+        aliases: [brtp, rtp, randomtp]
         description: Randomly teleport to a location
 
 permissions:

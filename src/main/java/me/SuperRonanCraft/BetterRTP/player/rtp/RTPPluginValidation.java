@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.commands.set;
+import com.hakan.claimsystem.api.ClaimAPI;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
@@ -29,6 +30,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean plugin_lands = getLands(loc);
         boolean plugin_residence = getResidence(loc);
         boolean plugin_kingdomsx = getKingdomsx(loc);
+        boolean plugin_claims_pandomim = getClaimAPIPandomim(loc);
         return  plugin_worldguard
                 && plugin_griefPrevention
                 && plugin_towny
@@ -36,7 +38,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
                 && plugin_factionsUUID
                 && plugin_lands
                 && plugin_residence
-                && plugin_kingdomsx;
+                && plugin_kingdomsx
+                && plugin_claims_pandomim;
     }
 
     // TESTED (v2.12.3)
@@ -153,6 +156,20 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
             try {
                 org.kingdoms.constants.land.Land land = org.kingdoms.constants.land.Land.getLand(loc);
                 result = land == null || !land.isClaimed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
+    // NOT TESTED (3.0.5)
+    // hClaims (v1.1.1)
+    // https://github.com/pixelnw/claimapi (Local Repo)
+    private boolean getClaimAPIPandomim(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isClaimAPIPandomim())
+            try {
+                result = ClaimAPI.isClaimed(loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }

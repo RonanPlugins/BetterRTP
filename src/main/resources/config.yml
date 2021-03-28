@@ -21,6 +21,8 @@ Settings:
     Residence: false
     ## Respect KingdomsX areas (https://www.spigotmc.org/resources/kingdomsx.77670/)
     KingdomsX: false
+    ## Respect hClaims areas (https://github.com/pixelnw/claimapi)
+    hClaims: false
   ## Output to console some debugging info
   Debugger: false
   ## Amount of chunks to preload around a safe location

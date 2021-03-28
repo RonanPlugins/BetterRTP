@@ -37,6 +37,22 @@
                             <goal>install-file</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>hack-binary-2</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/LocalJars/hClaims.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.hakan</groupId>
+                            <artifactId>claimsystem</artifactId>
+                            <version>1.1.1</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -224,6 +240,13 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- ClaimAPI for Pandomim on Discord -->
+        <dependency>
+            <groupId>com.hakan</groupId>
+            <artifactId>claimapi</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Particles Library -->
         <dependency>

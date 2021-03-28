@@ -16,6 +16,7 @@ public class SoftDepends {
     private boolean respect_lands = false;
     private boolean respect_residence = false;
     private boolean respect_kingdomsx = false;
+    private boolean respect_claimAPIPandomim = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
@@ -25,6 +26,7 @@ public class SoftDepends {
     private boolean lands = false;
     private boolean residence = false;
     private boolean kingdomsx = false;
+    private boolean claimAPIPandomim = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -58,17 +60,22 @@ public class SoftDepends {
         return kingdomsx;
     }
 
+    public boolean isClaimAPIPandomim() {
+        return claimAPIPandomim;
+    }
+
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
-        respect_worldguard = config.getBoolean(     pre + "WorldGuard");
-        respect_griefprevention = config.getBoolean(pre + "GriefPrevention");
-        respect_towny = config.getBoolean(          pre + "Towny");
-        respect_redProtect = config.getBoolean(     pre + "RedProtect");
-        respect_factionsUUID = config.getBoolean(   pre + "FactionsUUID");
-        respect_lands = config.getBoolean(          pre + "Lands");
-        respect_residence = config.getBoolean(      pre + "Residence");
-        respect_kingdomsx = config.getBoolean(      pre + "KingdomsX");
+        respect_worldguard = config.getBoolean(         pre + "WorldGuard");
+        respect_griefprevention = config.getBoolean(    pre + "GriefPrevention");
+        respect_towny = config.getBoolean(              pre + "Towny");
+        respect_redProtect = config.getBoolean(         pre + "RedProtect");
+        respect_factionsUUID = config.getBoolean(       pre + "FactionsUUID");
+        respect_lands = config.getBoolean(              pre + "Lands");
+        respect_residence = config.getBoolean(          pre + "Residence");
+        respect_kingdomsx = config.getBoolean(          pre + "KingdomsX");
+        respect_claimAPIPandomim = config.getBoolean(   pre + "hClaims");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -77,6 +84,7 @@ public class SoftDepends {
         registerLands();
         registerResidence();
         registerKingdomsX();
+        registerClaimAPIPandomim();
     }
 
     public void registerWorldguard() {
@@ -125,6 +133,12 @@ public class SoftDepends {
         kingdomsx = respect_kingdomsx && Bukkit.getPluginManager().isPluginEnabled("Kingdoms");
         if (respect_kingdomsx)
             debug("Respecting `KingdomsX` was " + (kingdomsx ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerClaimAPIPandomim() {
+        claimAPIPandomim = respect_claimAPIPandomim && Bukkit.getPluginManager().isPluginEnabled("hClaim");
+        if (respect_claimAPIPandomim)
+            debug("Respecting `hClaims` was " + (claimAPIPandomim ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {
