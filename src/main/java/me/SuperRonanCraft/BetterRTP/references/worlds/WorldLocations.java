@@ -94,6 +94,15 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                         }
                     }
                 }
+                if (test.get("UseWorldBorder") != null) {
+                    if (test.get("UseWorldBorder").getClass() == Boolean.class) {
+                        try {
+                            this.useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
+                        } catch (Exception e) {
+                            //No UseWorldBorder
+                        }
+                    }
+                }
             }
         }
     }
@@ -109,7 +118,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
 
     @Override
     public boolean getUseWorldborder() {
-        return false;//useWorldborder;
+        return useWorldborder;
     }
 
     @Override

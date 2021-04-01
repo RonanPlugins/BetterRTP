@@ -26,15 +26,18 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     //rtp location <location name>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2) {
-            for (String location_name : getLocations().keySet()) {
-                if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                    //LOCATION RTP CODE
-                    //**********************************
-                    //**********************************
-                    return;
+            if (sendi instanceof  Player) {
+                for (String location_name : getLocations().keySet()) {
+                    if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
+                        Player p = (Player) sendi;
+                        BetterRTP.getInstance().getCmd().tp(p, sendi, null, null, RTP_TYPE.COMMAND,
+                                false, false, (WorldLocations) getLocations().get(location_name));
+                        return;
+                    }
                 }
-            }
-            usage(sendi, label);
+                usage(sendi, label);
+            } else
+                sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
         } else
             usage(sendi, label);
     }

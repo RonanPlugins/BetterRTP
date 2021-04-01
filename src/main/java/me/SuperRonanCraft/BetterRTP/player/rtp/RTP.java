@@ -211,6 +211,14 @@ public class RTP {
         Player p = setup_info.player;
         CommandSender sendi = setup_info.sender;
 
+        // Locations
+        if (setup_info.location != null) {
+            WorldLocations location = setup_info.location;
+            world_name = location.getWorld().getName();
+            setup_info.world = world_name;
+            setup_info.biomes = location.getBiomes();
+        }
+
         // Check overrides
         if (world_name == null) {
             world_name = p.getWorld().getName();

@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,18 +19,7 @@ public class RTPSetupInformation {
     public RTP_TYPE rtp_type;
 
     public RTPSetupInformation(String world, CommandSender sender, Player player, boolean personalized) {
-        this.world = world;
-        this.sender = sender;
-        this.player = player;
-        this.personalized = personalized;
-    }
-
-    public RTPSetupInformation(String world, CommandSender sender, Player player, boolean personalized, List<String> biomes) {
-        this.world = world;
-        this.sender = sender;
-        this.player = player;
-        this.personalized = personalized;
-        this.biomes = biomes;
+        this(world, sender, player, personalized, null, false, null, null);
     }
 
     public RTPSetupInformation(String world, CommandSender sender, Player player, boolean personalized, List<String> biomes,
@@ -42,5 +32,11 @@ public class RTPSetupInformation {
         this.delay = delay;
         this.rtp_type = rtp_type;
         this.location = location;
+        if (this.world == null) {
+            if (player != null)
+                this.world = player.getWorld().getName();
+            else if (this.location != null)
+                this.world = this.location.getWorld().getName();
+        }
     }
 }

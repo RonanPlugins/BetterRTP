@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
@@ -141,7 +142,13 @@ public class Commands {
         this.tp(player, sendi, world, biomes, rtpType, false, false);
     }
 
-    public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType, boolean ignoreCooldown, boolean ignoreDelay) {
+    public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
+                   boolean ignoreCooldown, boolean ignoreDelay) {
+        this.tp(player, sendi, world, biomes, rtpType, ignoreCooldown, ignoreDelay, null);
+    }
+
+    public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
+                   boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
         if (checkRTPing(player, sendi)) { //Is RTP'ing
             if (ignoreCooldown || checkCooldown(sendi, player)) { //Is Cooling down
                 boolean delay = false;
@@ -149,7 +156,7 @@ public class Commands {
                     if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
                         if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
-                RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true, biomes, delay, rtpType, null);
+                RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true, biomes, delay, rtpType, locations);
                 pl.getRTP().start(setup_info);
             }
         }
