@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.0.6</version>
+    <version>3.1.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -241,11 +241,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- ClaimAPI for Pandomim on Discord -->
+        <!-- ClaimAPI for Pandomim on Discord (https://www.spigotmc.org/resources/hclaims.90540/) -->
         <dependency>
             <groupId>com.hakan</groupId>
             <artifactId>claimapi</artifactId>
             <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- GriefDefender (https://www.spigotmc.org/resources/griefdefender.68900/) -->
+        <dependency>
+            <groupId>com.github.bloodmc</groupId>
+            <artifactId>GriefDefenderApi</artifactId>
+            <version>920a610</version>
             <scope>provided</scope>
         </dependency>
         <!-- Particles Library -->

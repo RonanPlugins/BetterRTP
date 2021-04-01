@@ -16,7 +16,8 @@ public class SoftDepends {
     private boolean respect_lands = false;
     private boolean respect_residence = false;
     private boolean respect_kingdomsx = false;
-    private boolean respect_claimAPIPandomim = false;
+    private boolean respect_hClaims = false;
+    private boolean respect_griefDefender = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
@@ -26,7 +27,8 @@ public class SoftDepends {
     private boolean lands = false;
     private boolean residence = false;
     private boolean kingdomsx = false;
-    private boolean claimAPIPandomim = false;
+    private boolean hClaims = false;
+    private boolean griefDefender = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -60,8 +62,12 @@ public class SoftDepends {
         return kingdomsx;
     }
 
-    public boolean isClaimAPIPandomim() {
-        return claimAPIPandomim;
+    public boolean ishClaims() {
+        return hClaims;
+    }
+
+    public boolean isGriefDefender() {
+        return griefDefender;
     }
 
     void load() {
@@ -75,7 +81,8 @@ public class SoftDepends {
         respect_lands = config.getBoolean(              pre + "Lands");
         respect_residence = config.getBoolean(          pre + "Residence");
         respect_kingdomsx = config.getBoolean(          pre + "KingdomsX");
-        respect_claimAPIPandomim = config.getBoolean(   pre + "hClaims");
+        respect_hClaims = config.getBoolean(   pre + "hClaims");
+        respect_griefDefender = config.getBoolean(      pre + "GriefDefender");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -85,6 +92,7 @@ public class SoftDepends {
         registerResidence();
         registerKingdomsX();
         registerClaimAPIPandomim();
+        registerGriefDefender();
     }
 
     public void registerWorldguard() {
@@ -136,9 +144,15 @@ public class SoftDepends {
     }
 
     public void registerClaimAPIPandomim() {
-        claimAPIPandomim = respect_claimAPIPandomim && Bukkit.getPluginManager().isPluginEnabled("hClaim");
-        if (respect_claimAPIPandomim)
-            debug("Respecting `hClaims` was " + (claimAPIPandomim ? "SUCCESSFULLY" : "NOT") + " registered");
+        hClaims = respect_hClaims && Bukkit.getPluginManager().isPluginEnabled("hClaim");
+        if (respect_hClaims)
+            debug("Respecting `hClaims` was " + (hClaims ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerGriefDefender() {
+        griefDefender = respect_griefDefender && Bukkit.getPluginManager().isPluginEnabled("GriefDefender");
+        if (respect_griefDefender)
+            debug("Respecting `GriefDefender` was " + (griefDefender ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {

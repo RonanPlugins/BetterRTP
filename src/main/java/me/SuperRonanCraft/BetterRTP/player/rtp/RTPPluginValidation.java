@@ -2,7 +2,8 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
 import com.bekvon.bukkit.residence.Residence;
-import com.bekvon.bukkit.residence.commands.set;
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.claim.Claim;
 import com.hakan.claimsystem.api.ClaimAPI;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
@@ -11,7 +12,6 @@ import com.palmergames.bukkit.towny.TownyAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
@@ -30,7 +30,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean plugin_lands = getLands(loc);
         boolean plugin_residence = getResidence(loc);
         boolean plugin_kingdomsx = getKingdomsx(loc);
-        boolean plugin_claims_pandomim = getClaimAPIPandomim(loc);
+        boolean plugin_hClaims = gethClaims(loc);
+        boolean plugin_griefDefender = getGriefDefender(loc);
         return  plugin_worldguard
                 && plugin_griefPrevention
                 && plugin_towny
@@ -39,7 +40,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
                 && plugin_lands
                 && plugin_residence
                 && plugin_kingdomsx
-                && plugin_claims_pandomim;
+                && plugin_hClaims
+                && plugin_griefDefender;
     }
 
     // TESTED (v2.12.3)
@@ -162,12 +164,12 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    // NOT TESTED (3.0.5)
+    // NOT TESTED (3.1.0)
     // hClaims (v1.1.1)
-    // https://github.com/pixelnw/claimapi (Local Repo)
-    private boolean getClaimAPIPandomim(Location loc) {
+    // https://www.spigotmc.org/resources/hclaims.90540/ (Local Repo)
+    private boolean gethClaims(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isClaimAPIPandomim())
+        if (getPl().getSettings().getsDepends().ishClaims())
             try {
                 result = ClaimAPI.isClaimed(loc);
             } catch (Exception e) {
@@ -175,6 +177,23 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
             }
         return result;
     }
+
+    // NOT TESTED (3.1.0)
+    // GriefDefender (v1.5.10)
+    // https://www.spigotmc.org/resources/griefdefender.68900/
+    private boolean getGriefDefender(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isGriefDefender())
+            try {
+                for (Claim claim : GriefDefender.getCore().getAllClaims())
+                    if (claim.contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()))
+                        return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
 
     private BetterRTP getPl() {
         return BetterRTP.getInstance();
