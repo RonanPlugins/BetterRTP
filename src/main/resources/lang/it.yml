@@ -19,7 +19,7 @@ Messages:
     Basic: '&cNon hai il permesso di usare questo comando!'
     World: '&cNon hai i permessi per teletrasportati nel mondo &f%world%&c!'
   DisabledWorld: '&cIl mondo &f%world%&c è disabilitato! &7Teletrasporto non avvenuto!'
-  Cooldown: '&cAttendi ancora &f%time% &7seconds &cprima di teletrasportarti nuovamente!'
+  Cooldown: '&cAttendi ancora &f%time% &7secondi &cprima di teletrasportarti nuovamente!'
   Locked: '&cHai esaurito tutti i tuoi RTP disponibili!'
   Invalid: '&cArgomento non valido, digita ''/%command% help'''
   NotOnline: '&cIl giocatore &7%player% &cnon è online!'
