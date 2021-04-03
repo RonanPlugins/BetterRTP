@@ -14,6 +14,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import com.songoda.ultimateclaims.UltimateClaims;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -32,6 +33,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean plugin_kingdomsx = getKingdomsx(loc);
         boolean plugin_hClaims = gethClaims(loc);
         boolean plugin_griefDefender = getGriefDefender(loc);
+        boolean plugin_ultimateClaims = getUltimateClaims(loc);
         return  plugin_worldguard
                 && plugin_griefPrevention
                 && plugin_towny
@@ -41,7 +43,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
                 && plugin_residence
                 && plugin_kingdomsx
                 && plugin_hClaims
-                && plugin_griefDefender;
+                && plugin_griefDefender
+                && plugin_ultimateClaims;
     }
 
     // TESTED (v2.12.3)
@@ -186,14 +189,29 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         if (getPl().getSettings().getsDepends().isGriefDefender())
             try {
                 for (Claim claim : GriefDefender.getCore().getAllClaims())
-                    if (claim.contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()))
-                        return false;
+                    if (claim.contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
+                        result = false;
+                        break;
+                    }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         return result;
     }
 
+    // NOT TESTED (3.1.0)
+    // UltimateClaims (v1.6.1)
+    // https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65
+    private boolean getUltimateClaims(Location loc) {
+        boolean result = true;
+        if (getPl().getSettings().getsDepends().isUltimateClaims())
+            try {
+                result = UltimateClaims.getInstance().getClaimManager().getClaim(loc.getChunk()) == null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
 
     private BetterRTP getPl() {
         return BetterRTP.getInstance();

@@ -64,7 +64,8 @@ public class LangFile {
             "du.yml", //Dutch
             "es.yml", //Spanish
             "cs.yml", //Czech
-            "pl.yml" //Polish
+            "pl.yml", //Polish
+            "it.yml"  //Italian
     };
 
     private void generateDefaults() {

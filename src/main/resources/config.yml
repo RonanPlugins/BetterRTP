@@ -25,6 +25,9 @@ Settings:
     hClaims: false
     ## Respect GriefDefender areas (https://www.spigotmc.org/resources/griefdefender.68900/)
     GriefDefender: false
+    ## Respect UltimateClaims areas (https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65)
+    UltimateClaims: false
+
   ## Output to console some debugging info
   Debugger: false
   ## Amount of chunks to preload around a safe location

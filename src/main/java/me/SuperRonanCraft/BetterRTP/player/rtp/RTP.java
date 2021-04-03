@@ -124,7 +124,7 @@ public class RTP {
     public void loadWorldLocations() {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
         worldLocations.clear();
-        if (!config.getBoolean("Settings.Enabled"))
+        if (!config.getBoolean("Enabled"))
             return;
         List<Map<?, ?>> map = config.getMapList("Locations");
         for (Map<?, ?> m : map)

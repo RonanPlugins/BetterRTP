@@ -18,6 +18,7 @@ public class SoftDepends {
     private boolean respect_kingdomsx = false;
     private boolean respect_hClaims = false;
     private boolean respect_griefDefender = false;
+    private boolean respect_ultimateClaims = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
@@ -29,6 +30,7 @@ public class SoftDepends {
     private boolean kingdomsx = false;
     private boolean hClaims = false;
     private boolean griefDefender = false;
+    private boolean ultimateClaims = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -70,6 +72,10 @@ public class SoftDepends {
         return griefDefender;
     }
 
+    public boolean isUltimateClaims() {
+        return ultimateClaims;
+    }
+
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
@@ -83,6 +89,7 @@ public class SoftDepends {
         respect_kingdomsx = config.getBoolean(          pre + "KingdomsX");
         respect_hClaims = config.getBoolean(   pre + "hClaims");
         respect_griefDefender = config.getBoolean(      pre + "GriefDefender");
+        respect_ultimateClaims = config.getBoolean(      pre + "UltimateClaims");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -93,6 +100,7 @@ public class SoftDepends {
         registerKingdomsX();
         registerClaimAPIPandomim();
         registerGriefDefender();
+        registerUltimateClaims();
     }
 
     public void registerWorldguard() {
@@ -153,6 +161,12 @@ public class SoftDepends {
         griefDefender = respect_griefDefender && Bukkit.getPluginManager().isPluginEnabled("GriefDefender");
         if (respect_griefDefender)
             debug("Respecting `GriefDefender` was " + (griefDefender ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerUltimateClaims() {
+        ultimateClaims = respect_ultimateClaims && Bukkit.getPluginManager().isPluginEnabled("UltimateClaims");
+        if (respect_ultimateClaims)
+            debug("Respecting `UltimateClaims` was " + (ultimateClaims ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {

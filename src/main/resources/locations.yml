@@ -6,8 +6,9 @@
 #   CenterY: 150
 #   MaxRadius: 100
 #   MinRadius: 5
-Settings:
-  Enabled: false
+
+Enabled: false
+
 Locations:
   - main_loc:
       World: world
