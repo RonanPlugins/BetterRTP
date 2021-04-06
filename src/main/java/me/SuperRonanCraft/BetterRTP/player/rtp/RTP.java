@@ -233,8 +233,10 @@ public class RTP {
                 return;
             }
         }
-        if (overriden.containsKey(world_name))
+        if (overriden.containsKey(world_name)) {
             world_name = overriden.get(world_name);
+            setup_info.world = world_name;
+        }
         // Not forced and has 'betterrtp.world.<world>'
         if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name)) {
             getPl().getText().getNoPermissionWorld(p, world_name);
