@@ -9,7 +9,7 @@ Messages:
   Failed:
     Price: '&cNie udało się wykonać losowej teleportacji z powodu niewystarczających środków! &7Musisz mieć przynajmniej $%price% &7by się teleportować!'
     NotSafe: '&cNie udało się znaleź bezpiecznego miejsca po %attempts% próbach! &7Nie zostałeś przeniesiony!'
-    Hunger: '&cNie można wykonać losowej teleportacji, ponieważ jesteś &7zbyt głodny&c, zjedz coś!'
+    Hunger: '&cNie udało się wykonać losowej teleportacji, ponieważ jesteś &7zbyt głodny&c, zjedz coś!'
   Other:
     Success: '&a%player% został przeteleportowany do&7 x=%x% y=%y% z=%z% po &f%attempts% &7próbach!'
     NotSafe: '&cNie udało się znaleźć bezpiecznego miejsca po %attempts% próbach! &7%player% nie został przeteleportowany!'
@@ -18,7 +18,7 @@ Messages:
   NoPermission:
     Basic: '&cHej! &7Nie masz uprawnień do tej komendy!'
     World: '&cHej! &7Nie masz uprawnień aby wykonać losową teleoprtację w świecie %world%!'
-  DisabledWorld: '&cŚwiat %world% jest wyłączony! &7Nie można wykonać losowej teleportacji!'
+  DisabledWorld: '&cŚwiat %world% jest wyłączony! &7Nie udało się wykonać losowej teleportacji!'
   Cooldown: '&cWybacz! &7Nie możesz wykonać losowej teleportacji przez następne &c%time% &7sekund!'
   Locked: '&cWybacz! &7Wykorzystałeś wszystkie losowe teleportacje!'
   Invalid: '&cNiewłaściwy argument. Spróbuj ''/%command% help'''
