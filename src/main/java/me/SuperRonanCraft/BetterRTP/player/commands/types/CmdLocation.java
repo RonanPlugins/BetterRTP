@@ -53,7 +53,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().getRtpOther(sendi);
+        return BetterRTP.getInstance().getPerms().getLocation(sendi);
     }
 
     public void usage(CommandSender sendi, String label) {

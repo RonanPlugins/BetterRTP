@@ -13,7 +13,7 @@ Locations:
   - main_loc:
       World: world
       CenterX: 100
-      CenterY: 150
+      CenterZ: 150
       MaxRadius: 100 #optional
       MinRadius: 5 #optional
       Shape: square #optional
