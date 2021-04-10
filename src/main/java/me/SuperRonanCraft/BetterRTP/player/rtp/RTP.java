@@ -147,7 +147,7 @@ public class RTP {
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
-        WorldPlayer pWorld = new WorldPlayer(setup_info.sender, Bukkit.getWorld(setup_info.world));
+        WorldPlayer pWorld = new WorldPlayer(setup_info.player, Bukkit.getWorld(setup_info.world));
 
         //Locations
         if (setup_info.location == null) {

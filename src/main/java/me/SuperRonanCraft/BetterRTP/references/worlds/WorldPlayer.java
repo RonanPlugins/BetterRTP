@@ -18,7 +18,7 @@ public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, attempts;
     private List<String> Biomes;
-    private final CommandSender p;
+    private final Player p;
     private final World world;
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
@@ -28,7 +28,7 @@ public class WorldPlayer implements RTPWorld {
     //Economy
     public boolean eco_money_taken = false, setup = false;
 
-    public WorldPlayer(CommandSender p, World world) {
+    public WorldPlayer(Player p, World world) {
         this.p = p;
         this.world = world;
     }
@@ -104,7 +104,7 @@ public class WorldPlayer implements RTPWorld {
     }
 
     public Player getPlayer() {
-        return (Player) p;
+        return p;
     }
 
     public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid
