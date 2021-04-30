@@ -1,0 +1,62 @@
+# Hjelp med å oversette denne filen til flere språk!
+Messages:
+  Prefix: '&7 [&6BetterRTP &7]'
+  Success: ## Plassholdere! %x% %y%og %z% er koordinatene x, y og z som spilleren blir teleportert til! #
+    Paid: '&aDu har blitt teleportert til &7 x=%x%, y=%y%, z=%z%, for &c $%price%&7 i &f%forsøk%&7 forsøk!'
+    Bypass: '&aYou have been teleportert to &7 x=%x% y=%y% z=%z% etter &f%forsøk%&7 forsøk'
+    Loading: 'Trygt sted funnet! &7Laster biter ... '
+    Teleport: '&a Teleportering ... &7vent, mens vi finner et trygt sted!'
+  Failed:
+    Price: '&cKan ikke teleportere på grunn av manglende penger! &7Du må ha minst $%price% &7til rtp! '
+    NotSafe: '&cKan ikke finne et trygt sted innen%forsøk%forsøk! &7Du ble ikke teleportert! '
+    Hunger: '&cKan ikke rtp fordi du er ... &7for sulten &c, spis noe!'
+  Other:
+    Success: '&en%spiller% er blitt teleportert til &7 x=%x% y=%y% z =%z% i &f%forsøk%&7 forsøk!'
+    NotSafe: '&cKan ikke finne et trygt sted innen %forsøk% forsøk! &7%spiller% ble ikke teleportert! '
+    Biome: '&cSer ut som at %biome%&c ikke eksisterer! &7Prøv å bruke fanelisten! '
+    Reload: '&eKonfigurasjonsfil lastet inn på nytt!'
+  NoPermission:
+    Basic: '&cBeklager! &7Du har ikke tillatelse til å bruke denne kommandoen! '
+    World: '&cBeklager! &7Du har ikke tillatelse rtp i %world%! '
+  DisabledWorld: '&cDeaktivert verden %world%! &7Kan ikke RTP! '
+  Cooldown: '&cBeklager! &7Du kan ikke bruke RTP før om &c%tid% &7sekunder! '
+  Locked: '&cBeklager! &7Du har brukt opp alle RTP-ene dine! '
+  Invalid: '&cUgyldig argument. Prøv '' /%command% help '' '
+  NotOnline: '&cSpilleren &7%player% &cer ikke online!'
+  Delay: '&aTeleporterer om &f%tid% &asekunder! Ikke flytt deg! '
+  Moved: '&cDu har flyttet deg! &7RTP ble kansellert! '
+  NotExist: '&cSer ut som &7%world% &cIkke eksisterer!'
+  Already: '&cWhoops! &7 Ser ut som om du allerede rtp''er, ha litt tålmodighet! '
+  Sign: '&7Kommandoskilt er opprettet! &7Kommandoen er ... '' &f/rtp %command%&7 '' '
+  Edit: 
+    Error: '&cError! &7Ugyldig verdi er gitt! '
+    Set: '&bSuksess! &7%type% satt til %verdi%'
+    Remove: '&cFjernet! &7Du fjernet egendefinert verden %world%'
+
+Help:
+  Prefix: '&e &m ----- &6 &l BetterRTP &8 | Hjelp &e &m ----- '
+  Main: '&7- &e /%command%&7- Teleporterer deg tilfeldig!'
+  Biome: '&7- &e /%command% biome <biome1, biome2 ...> &7- Tilfeldig teleportering med disse biomene'
+  Edit: '&7- &e /%command% edit <default / world> [args ...] &7- Edit some plugin settings'
+  Help: '&7- &e /%command% help &7- viser hjelpeliste'
+  Info: '&7- &e /%command% info [verden / partikler / former / potion_effects] &7- Vis spesifikk informasjon om plugin-parametere'
+  Player: '&7- &e /%command% player <spiller> [verden] [biome1, biome2 ...] &7- Tilfeldig teleportere en annen spiller'
+  Reload: '&7- &e /%command% reload &7- Last inn plugin'
+  Settings: '&7- &e /%command% settings &7- Trekk opp en gui og rediger noen innstillinger'
+  Test: '&7- &e /%command% test &7- Test ut plugin-effekter etter en teleport uten å bevege seg'
+  Version: '&7- &e /%command% version &7- Vis for øyeblikket kjørende versjon'
+  World: '&7- &e /%command% world <world> [biome1, biome2 ...] &7- Tilfeldig teleportering i en annen verden'
+  Location: '&7- &e /%command% location <location_name> &7- Rtp using a specific location'
+
+Usage:
+  Player: '&cUsage &7: /%command% player <player> [world] [biome1, biome2]'
+  World: '&cUsage &7: /%command% world <world> [biome1, biome2 ...]'
+  Biome: '&cUsage &7: /%command% biome <biome1, biome2 ...>'
+  Location: '&cUsage &7: /%command% location <location_name>'
+  Edit: 
+    Base: '&cUsage &7: /%command% edit <default / world> [args ...]'
+    Default: '&cUsage &7: /%command% edit default <max / min / useworldborder / center> <value>'
+    World: '&cUsage &7: /%command% edit world <world> <max / min / useworldborder / center> <value>'
+    Worldtype: '&cUsage &7: /%command% edit world_type <world> <NETHER / NORMAL>'
+    Override: '&cUsage &7: /%command% edit override <world> <world_to>'
+    BlacklistedBlocks: '&cUsage &7: /%command% edit blacklistedblocks <add / remove> <block_id>'
