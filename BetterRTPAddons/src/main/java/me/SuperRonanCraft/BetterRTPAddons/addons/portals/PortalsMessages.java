@@ -17,7 +17,11 @@ public class PortalsMessages implements AddonsMessages {
     //Create
 
     public void getCreateConfirm(CommandSender sendi, String name) {
-        sms(sendi, getLang().getString(preM + "Created.Confirm").replace("%name%", name));
+        sms(sendi, getLang().getString(preM + "Created.Confirmation.Default").replace("%name%", name));
+    }
+
+    public void getCreateConfirmWorld(CommandSender sendi, String name, String world) {
+        sms(sendi, getLang().getString(preM + "Created.Confirmation.Destination").replace("%name%", name).replace("%world%", world));
     }
 
     public void getCreateInvalid(CommandSender sendi) {

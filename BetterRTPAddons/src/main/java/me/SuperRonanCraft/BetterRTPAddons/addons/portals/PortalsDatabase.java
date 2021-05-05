@@ -19,7 +19,8 @@ public class PortalsDatabase extends Database {
     enum Columns implements DatabaseColumn {
         LOCATION_1("location_1", "longtext"),
         LOCATION_2("location_2", "longtext"),
-        NAME("name", "varchar(255)");
+        NAME("name", "varchar(255)"),
+        WORLD("world", "text");
 
         private final String name;
         private final String type;
@@ -47,7 +48,8 @@ public class PortalsDatabase extends Database {
     private final String createTable = "CREATE TABLE IF NOT EXISTS " + table + " (" +
             "`" + Columns.NAME.name + "` " + Columns.NAME.type + " PRIMARY KEY," +
             "`" + Columns.LOCATION_1.name + "` " + Columns.LOCATION_2.type + "," +
-            "`" + Columns.LOCATION_2.name + "` " + Columns.LOCATION_2.type +
+            "`" + Columns.LOCATION_2.name + "` " + Columns.LOCATION_2.type + "," +
+            "`" + Columns.WORLD.name + "` " + Columns.WORLD.type +
             ");";
 
 
@@ -75,6 +77,7 @@ public class PortalsDatabase extends Database {
                info.setLoc1(LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_1.name)));
                info.setLoc2(LocSerialization.getLocationFromString(rs.getString(Columns.LOCATION_2.name)));
                info.setName(rs.getString(Columns.NAME.name));
+               info.setWorld(rs.getString(Columns.WORLD.name));
                list.add(info);
             }
             return list;
@@ -114,16 +117,19 @@ public class PortalsDatabase extends Database {
             ps = conn.prepareStatement("INSERT INTO " + table + "(" +
                     Columns.NAME.name + ", " +
                     Columns.LOCATION_1.name + ", " +
-                    Columns.LOCATION_2.name + ") VALUES (?, ?, ?) "
+                    Columns.LOCATION_2.name + ", " +
+                    Columns.WORLD.name + ") VALUES (?, ?, ?, ?) "
                     + "ON CONFLICT(" + Columns.NAME.name + ") DO UPDATE SET " +
-                    Columns.LOCATION_1.name + " = + ?, " + Columns.LOCATION_2.name + " = ?");
+                    Columns.LOCATION_1.name + " = ?, " + Columns.LOCATION_2.name + " = ?, " + Columns.WORLD.name + " = ?");
             ps.setString(1, portal.getName());
             String serialLocation_1 = LocSerialization.getStringFromLocation(portal.getLoc1());
             String serialLocation_2 = LocSerialization.getStringFromLocation(portal.getLoc2());
             ps.setString(2, serialLocation_1);
             ps.setString(3, serialLocation_2);
-            ps.setString(4, serialLocation_1);
-            ps.setString(5, serialLocation_2);
+            ps.setString(4, portal.getWorld());
+            ps.setString(5, serialLocation_1);
+            ps.setString(6, serialLocation_2);
+            ps.setString(7, portal.getWorld());
             ps.executeUpdate();
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);

@@ -2,7 +2,9 @@ Flashback:
   Warning: '&7This random teleport was temporary! You were teleported back to your original location.'
 Portals:
   Created:
-    Confirm: '&7Portal &a%name% &7has been created!'
+    Confirmation:
+      Default: '&7Portal &a%name% &7has been created!'
+      Destination: '&7Portal &a%name% &7has been created, it''s headed for the world "%world%"'
     Invalid: '&7Portal location was not setup, please create a region!'
     Name: '&7Please provide a name for this portal!'
     Duplicate: '&7This name is already being used for another portal, please choose another!'
@@ -29,5 +31,5 @@ Usage:
 
 
 Help:
-  Portals: ' &7- &e/%command% portals <loc1, loc2, create> &7- Setup an rtp portal'
+  Portals: ' &7- &e/%command% portals <loc1, loc2, create> [args...] &7- Setup an rtp portal'
   MagicStick: ' &7- &e/%command% magicstick give [player] &7- Give a magic stick to a player'

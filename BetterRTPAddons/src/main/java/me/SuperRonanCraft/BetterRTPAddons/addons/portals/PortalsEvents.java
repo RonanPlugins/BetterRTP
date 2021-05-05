@@ -40,28 +40,29 @@ public class PortalsEvents implements Listener {
 
     @EventHandler (priority = EventPriority.MONITOR)
     void move(PlayerMoveEvent e) {
-        if (e.getFrom().getBlockX() != e.getTo().getBlockX()
-                || e.getFrom().getBlockY() != e.getTo().getBlockY()
-                || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
-            if (playerPortaling.containsKey(e.getPlayer()))
-                return;
-            for (PortalsRegionInfo portal : addonPortals.getPortals().getRegisteredPortals()) {
-                Location loc1 = portal.getLoc1(), loc2 = portal.getLoc2(), ploc = e.getTo();
-                assert ploc != null;
-
-                if (ploc.getBlockX() <= Math.max(loc1.getBlockX(), loc2.getBlockX())
-                        && ploc.getBlockX() >= Math.min(loc1.getBlockX(), loc2.getBlockX()))
-                if (ploc.getBlockZ() <= Math.max(loc1.getBlockZ(), loc2.getBlockZ())
-                        && ploc.getBlockZ() >= Math.min(loc1.getBlockZ(), loc2.getBlockZ()))
-                if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
-                        && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
-                    playerPortaling.put(e.getPlayer(), portal);
-                    BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(),
-                            e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
+        if (e.getTo() != null)
+            if (e.getFrom().getBlockX() != e.getTo().getBlockX()
+                    || e.getFrom().getBlockY() != e.getTo().getBlockY()
+                    || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+                if (playerPortaling.containsKey(e.getPlayer()))
                     return;
+                for (PortalsRegionInfo portal : addonPortals.getPortals().getRegisteredPortals()) {
+                    Location loc1 = portal.getLoc1(), loc2 = portal.getLoc2(), ploc = e.getTo();
+                    assert ploc != null;
+
+                    if (ploc.getBlockX() <= Math.max(loc1.getBlockX(), loc2.getBlockX())
+                            && ploc.getBlockX() >= Math.min(loc1.getBlockX(), loc2.getBlockX()))
+                    if (ploc.getBlockZ() <= Math.max(loc1.getBlockZ(), loc2.getBlockZ())
+                            && ploc.getBlockZ() >= Math.min(loc1.getBlockZ(), loc2.getBlockZ()))
+                    if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
+                            && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
+                        playerPortaling.put(e.getPlayer(), portal);
+                        BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(),
+                                portal.getWorld(), null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
+                        return;
+                    }
                 }
             }
-        }
     }
 
     @EventHandler
