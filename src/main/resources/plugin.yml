@@ -16,6 +16,7 @@ softdepend:
     - hClaims
     - GriefDefender
     - UltimateClaims
+    - Pueblos
 api-version: '1.13'
 
 commands:

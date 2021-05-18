@@ -19,6 +19,7 @@ public class SoftDepends {
     private boolean respect_hClaims = false;
     private boolean respect_griefDefender = false;
     private boolean respect_ultimateClaims = false;
+    private boolean respect_pueblos = false;
     //RETURNABLES
     private boolean worldguard = false;
     private boolean griefprevention = false;
@@ -31,6 +32,7 @@ public class SoftDepends {
     private boolean hClaims = false;
     private boolean griefDefender = false;
     private boolean ultimateClaims = false;
+    private boolean pueblos = false;
 
     public boolean isWorldguard() {
         return worldguard;
@@ -87,9 +89,10 @@ public class SoftDepends {
         respect_lands = config.getBoolean(              pre + "Lands");
         respect_residence = config.getBoolean(          pre + "Residence");
         respect_kingdomsx = config.getBoolean(          pre + "KingdomsX");
-        respect_hClaims = config.getBoolean(   pre + "hClaims");
+        respect_hClaims = config.getBoolean(            pre + "hClaims");
         respect_griefDefender = config.getBoolean(      pre + "GriefDefender");
-        respect_ultimateClaims = config.getBoolean(      pre + "UltimateClaims");
+        respect_ultimateClaims = config.getBoolean(     pre + "UltimateClaims");
+        respect_pueblos = config.getBoolean(            pre + "Pueblos");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -101,6 +104,7 @@ public class SoftDepends {
         registerClaimAPIPandomim();
         registerGriefDefender();
         registerUltimateClaims();
+        registerPueblos();
     }
 
     public void registerWorldguard() {
@@ -167,6 +171,12 @@ public class SoftDepends {
         ultimateClaims = respect_ultimateClaims && Bukkit.getPluginManager().isPluginEnabled("UltimateClaims");
         if (respect_ultimateClaims)
             debug("Respecting `UltimateClaims` was " + (ultimateClaims ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerPueblos() {
+        pueblos = respect_pueblos && Bukkit.getPluginManager().isPluginEnabled("Pueblos");
+        if (respect_pueblos)
+            debug("Respecting `Pueblos` was " + (pueblos ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {

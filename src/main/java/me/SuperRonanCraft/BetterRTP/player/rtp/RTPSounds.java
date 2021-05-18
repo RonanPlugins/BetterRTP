@@ -42,17 +42,21 @@ public class RTPSounds {
     }
 
     void playSound(Location loc, Player p, String sound) {
-        try {
-            ProtocolManager pm = ProtocolLibrary.getProtocolManager();
-            WrapperPlayServerNamedSoundEffect packet = new WrapperPlayServerNamedSoundEffect(pm.createPacket(PacketType.Play.Server.NAMED_SOUND_EFFECT));
-            packet.setSoundName(sound);
-            packet.setEffectPositionX(loc.getBlockX());
-            packet.setEffectPositionY(loc.getBlockY());
-            packet.setEffectPositionZ(loc.getBlockZ());
-            packet.sendPacket(p);
-        } catch (NoClassDefFoundError | Exception e) {
+        if (BetterRTP.getInstance().getSettings().protocolLibSounds) {
+            try {
+                ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+                WrapperPlayServerNamedSoundEffect packet = new WrapperPlayServerNamedSoundEffect(pm.createPacket(PacketType.Play.Server.NAMED_SOUND_EFFECT));
+                packet.setSoundName(sound);
+                packet.setEffectPositionX(loc.getBlockX());
+                packet.setEffectPositionY(loc.getBlockY());
+                packet.setEffectPositionZ(loc.getBlockZ());
+                packet.sendPacket(p);
+            } catch (NoClassDefFoundError | Exception e) {
+                BetterRTP.getInstance().getLogger().severe("ProtocolLib Sounds is enabled in the effects.yml file, but no ProtocolLib plugin was found!");
+                p.playSound(p.getLocation(), getSound(sound), 1F, 1F);
+            }
+        } else
             p.playSound(p.getLocation(), getSound(sound), 1F, 1F);
-        }
     }
 
     private Sound getSound(String sound) {

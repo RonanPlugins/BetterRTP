@@ -45,7 +45,7 @@
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.hakan</groupId>
                             <artifactId>claimsystem</artifactId>
-                            <version>1.1.1</version>
+                            <version>2.1.8</version>
                             <packaging>jar</packaging>
                             <generatePom>true</generatePom>
                         </configuration>
@@ -260,6 +260,13 @@
             <groupId>com.github.songoda</groupId>
             <artifactId>ultimateclaims</artifactId>
             <version>012e53d</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Peublos (https://www.spigotmc.org/resources/pueblos.91255/) -->
+        <dependency>
+            <groupId>com.github.SuperRonanCraft</groupId>
+            <artifactId>Pueblos</artifactId>
+            <version>master-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- Particles Library -->

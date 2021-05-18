@@ -1,5 +1,6 @@
 Sounds:
   Enabled: true
+  ProtocolLibSound: false
   ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
   Delay: 'entity_tnt_primed'
   Success: 'entity_generic_explode'

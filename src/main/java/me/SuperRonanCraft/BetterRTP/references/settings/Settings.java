@@ -14,9 +14,10 @@ public class Settings {
     public int preloadRadius; //Amount of chunks to load around a safe rtp location (clamped (0 - 16))
     //Dependencies
     private final SoftDepends depends = new SoftDepends();
+    public boolean protocolLibSounds;
 
     public void load() { //Load Settings
-        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         debug = config.getBoolean("Settings.Debugger");
         delayEnabled = config.getBoolean("Settings.Delay.Enabled");
         rtpOnFirstJoin_Enabled = config.getBoolean("Settings.RtpOnFirstJoin.Enabled");
@@ -24,14 +25,11 @@ public class Settings {
         rtpOnFirstJoin_SetAsRespawn = config.getBoolean("Settings.RtpOnFirstJoin.SetAsRespawn");
         preloadRadius = config.getInt("Settings.PreloadRadius");
         statusMessages = config.getBoolean("Settings.StatusMessages");
+        protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
         depends.load();
     }
 
     public SoftDepends getsDepends() {
         return depends;
-    }
-
-    private BetterRTP getPl() {
-        return BetterRTP.getInstance();
     }
 }
