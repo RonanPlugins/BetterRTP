@@ -266,7 +266,7 @@
         <dependency>
             <groupId>com.github.SuperRonanCraft</groupId>
             <artifactId>Pueblos</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>82ba1fb1</version>
             <scope>provided</scope>
         </dependency>
         <!-- Particles Library -->
