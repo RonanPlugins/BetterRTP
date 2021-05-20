@@ -78,6 +78,10 @@ public class SoftDepends {
         return ultimateClaims;
     }
 
+    public boolean isPueblos() {
+        return pueblos;
+    }
+
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";

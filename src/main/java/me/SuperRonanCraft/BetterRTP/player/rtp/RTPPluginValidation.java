@@ -15,7 +15,9 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import com.songoda.ultimateclaims.UltimateClaims;
+import me.RonanCraft.Pueblos.Pueblos;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
@@ -34,6 +36,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean plugin_hClaims = gethClaims(loc);
         boolean plugin_griefDefender = getGriefDefender(loc);
         boolean plugin_ultimateClaims = getUltimateClaims(loc);
+        boolean plugin_pueblos = getPueblos(loc);
         return  plugin_worldguard
                 && plugin_griefPrevention
                 && plugin_towny
@@ -44,7 +47,8 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
                 && plugin_kingdomsx
                 && plugin_hClaims
                 && plugin_griefDefender
-                && plugin_ultimateClaims;
+                && plugin_ultimateClaims
+                && plugin_pueblos;
     }
 
     // TESTED (v2.12.3)
@@ -52,7 +56,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://dev.bukkit.org/projects/worldguard
     private boolean getWorlguard(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isWorldguard())
+        if (getDepends().isWorldguard())
             try {
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionQuery query = container.createQuery();
@@ -72,7 +76,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/griefprevention.1884/
     private boolean getGriefprevention(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isGriefprevention())
+        if (getDepends().isGriefprevention())
             try {
                 result = GriefPrevention.instance.dataStore.getClaimAt(loc, true, null) == null;
             } catch (Exception e) {
@@ -86,7 +90,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/towny.72694/
     private boolean getTowny(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isTowny())
+        if (getDepends().isTowny())
             try {
                 result = TownyAPI.getInstance().isWilderness(loc);
             } catch (Exception e) {
@@ -100,7 +104,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/redprotect.15841/
     private boolean getRedProtect(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isRedProtect())
+        if (getDepends().isRedProtect())
             try {
                 result = RedProtect.get().getAPI().getRegion(loc) == null;
             } catch (Exception e) {
@@ -114,7 +118,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/factionsuuid.1035/
     private boolean getFactionsUUID(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isFactionsUUID())
+        if (getDepends().isFactionsUUID())
             try {
                 Faction faction = Board.getInstance().getFactionAt(new FLocation(loc));
                 result = faction.isWilderness() || faction.isWarZone() || faction.isSafeZone();
@@ -129,7 +133,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/lands.53313/
     private boolean getLands(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isLands())
+        if (getDepends().isLands())
             try {
                 result = !(new LandsIntegration(BetterRTP.getInstance()).isClaimed(loc));
             } catch (Exception e) {
@@ -143,7 +147,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/residence.11480/
     private boolean getResidence(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isResidence())
+        if (getDepends().isResidence())
             try {
                 result = Residence.getInstance().getResidenceManager().getByLoc(loc) == null;
             } catch (Exception e) {
@@ -157,7 +161,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/kingdomsx.77670/
     private boolean getKingdomsx(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isKingdomsX())
+        if (getDepends().isKingdomsX())
             try {
                 org.kingdoms.constants.land.Land land = org.kingdoms.constants.land.Land.getLand(loc);
                 result = land == null || !land.isClaimed();
@@ -172,7 +176,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/hclaims.90540/ (Local Repo)
     private boolean gethClaims(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().ishClaims())
+        if (getDepends().ishClaims())
             try {
                 result = ClaimAPI.isClaimed(loc);
             } catch (Exception e) {
@@ -186,7 +190,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/griefdefender.68900/
     private boolean getGriefDefender(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isGriefDefender())
+        if (getDepends().isGriefDefender())
             try {
                 for (Claim claim : GriefDefender.getCore().getAllClaims())
                     if (claim.contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
@@ -204,7 +208,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65
     private boolean getUltimateClaims(Location loc) {
         boolean result = true;
-        if (getPl().getSettings().getsDepends().isUltimateClaims())
+        if (getDepends().isPueblos())
             try {
                 result = UltimateClaims.getInstance().getClaimManager().getClaim(loc.getChunk()) == null;
             } catch (Exception e) {
@@ -213,7 +217,21 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         return result;
     }
 
-    private BetterRTP getPl() {
-        return BetterRTP.getInstance();
+    // NOT TESTED (3.1.0)
+    // Pueblos (v2.0.1)
+    // https://www.spigotmc.org/resources/pueblos.91255/
+    private boolean getPueblos(Location loc) {
+        boolean result = true;
+        if (getDepends().isUltimateClaims())
+            try {
+                result = Pueblos.getInstance().getClaimHandler().getClaimMain(loc) == null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
+    private SoftDepends getDepends() {
+        return BetterRTP.getInstance().getSettings().getsDepends();
     }
 }
