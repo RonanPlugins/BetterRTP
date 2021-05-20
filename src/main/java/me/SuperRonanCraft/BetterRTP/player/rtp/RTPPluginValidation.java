@@ -208,7 +208,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65
     private boolean getUltimateClaims(Location loc) {
         boolean result = true;
-        if (getDepends().isPueblos())
+        if (getDepends().isUltimateClaims())
             try {
                 result = UltimateClaims.getInstance().getClaimManager().getClaim(loc.getChunk()) == null;
             } catch (Exception e) {
@@ -222,7 +222,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/pueblos.91255/
     private boolean getPueblos(Location loc) {
         boolean result = true;
-        if (getDepends().isUltimateClaims())
+        if (getDepends().isPueblos())
             try {
                 result = Pueblos.getInstance().getClaimHandler().getClaimMain(loc) == null;
             } catch (Exception e) {
