@@ -55,17 +55,20 @@ public class LangFile {
     }
 
     private final String[] defaultLangs = {
+            "chs.yml", //Chinese Simplified (OasisAkari)
+            "cht.yml", //Chinese (OasisAkari & kamiya10)
+            "cs.yml", //Czech (Lewisparkle)
+            "da.yml", //Danish (Janbchr)
+            "du.yml", //Dutch (QuestalNetwork)
             "en.yml",
-            "fr.yml", //French
-            "ja.yml", //Japanese
-            "ru.yml", //Russian
-            "chs.yml", //Chinese Simplified
-            "cht.yml", //Chinese
-            "du.yml", //Dutch
-            "es.yml", //Spanish
-            "cs.yml", //Czech
-            "pl.yml", //Polish
-            "it.yml"  //Italian
+            "es.yml", //Spanish (emgv)
+            "fr.yml", //French (At0micA55 & Mrflo67)
+            "it.yml", //Italian (iVillager)
+            "ja.yml", //Japanese (ViaSnake)
+            "no.yml", //Norwegian (Fraithor & Janbchr)
+            "pl.yml", //Polish (Farum & TeksuSiK)
+            "ro.yml", //Romanian (GamingXBlood)
+            "ru.yml", //Russian (Logan)
     };
 
     private void generateDefaults() {
