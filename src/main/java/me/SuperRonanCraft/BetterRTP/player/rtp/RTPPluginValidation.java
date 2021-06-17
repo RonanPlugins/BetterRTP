@@ -121,7 +121,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         if (getDepends().isFactionsUUID())
             try {
                 Faction faction = Board.getInstance().getFactionAt(new FLocation(loc));
-                result = faction.isWilderness() || faction.isWarZone() || faction.isSafeZone();
+                result = faction.isWilderness() || faction.isSafeZone();
             } catch (Exception e) {
                 e.printStackTrace();
             }
