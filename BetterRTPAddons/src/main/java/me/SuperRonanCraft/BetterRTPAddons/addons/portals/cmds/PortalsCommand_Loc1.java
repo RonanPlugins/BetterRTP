@@ -17,8 +17,8 @@ public class PortalsCommand_Loc1 implements PortalsCommands, LocationFinder {
         Block block = getTargetBlock(p, 10);
         if (block != null) {
             Location loc = block.getLocation();
+            addonPortals.msgs.getLocation_1(sendi, loc);
             addonPortals.getPortals().cachePortal(p, loc, false);
-            addonPortals.msgs.getLocation_1(sendi);
         } else {
             addonPortals.msgs.getLocation_Look(sendi);
         }

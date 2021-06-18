@@ -9,6 +9,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private final AddonsHandler addonsHandler = new AddonsHandler();
     private final Files files = new Files();
+    public final AddonMessages msgs = new AddonMessages();
 
     @Override
     public void onEnable() {

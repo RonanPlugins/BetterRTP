@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.event.Listener;
@@ -32,6 +33,11 @@ public class AddonExtraEffects implements Addon {
         for (Effects effect : this.effects)
             effect.unload();
         this.effects.clear();
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return null;
     }
 
     enum Effects {

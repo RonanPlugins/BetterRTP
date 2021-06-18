@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -32,6 +33,11 @@ public class AddonPortals implements Addon {
     public void unload() {
         portalsCache.unload();
         events.unregiter();
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return cmd;
     }
 
     public PortalsCache getPortals() {

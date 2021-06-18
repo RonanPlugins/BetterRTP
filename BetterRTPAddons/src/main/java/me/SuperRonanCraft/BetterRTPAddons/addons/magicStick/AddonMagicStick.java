@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.magicStick;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds.MagicStickCommand;
@@ -27,5 +28,10 @@ public class AddonMagicStick implements Addon {
     @Override
     public void unload() {
         events.unload();
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return cmd;
     }
 }

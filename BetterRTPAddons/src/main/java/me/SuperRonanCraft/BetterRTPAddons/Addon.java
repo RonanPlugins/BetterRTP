@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 
 public interface Addon {
@@ -12,6 +13,8 @@ public interface Addon {
 
     //Unload the addon if enabled
     void unload();
+
+    RTPCommand getCmd();
 
     //Ability to grab a file
     default Files.FILETYPE getFile(Files.FILETYPE filetype) {

@@ -18,6 +18,11 @@ public class PortalsCommand_Create implements PortalsCommands, PortalsCommandsTa
             sendi.sendMessage("Console cannot perform this command!");
             return;
         }
+        //Valid Name
+        if (args.length < 3 || args[2].length() < 1) {
+            addonPortals.msgs.getCreateName(sendi);
+            return;
+        }
         Player p = (Player) sendi;
         PortalsRegionInfo portal = addonPortals.getPortals().getPortal(p);
         //Valid region
@@ -26,11 +31,6 @@ public class PortalsCommand_Create implements PortalsCommands, PortalsCommandsTa
                 portal.getLoc2() == null ||
                 portal.getLoc1().getWorld() != portal.getLoc2().getWorld()) {
             addonPortals.msgs.getCreateInvalid(sendi);
-            return;
-        }
-        //Valid Name
-        if (args.length < 3 || args[2].length() < 1) {
-            addonPortals.msgs.getCreateName(sendi);
             return;
         }
         String name = args[2];

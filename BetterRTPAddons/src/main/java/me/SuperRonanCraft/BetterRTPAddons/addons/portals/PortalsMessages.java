@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
 import me.SuperRonanCraft.BetterRTPAddons.AddonsMessages;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
 public class PortalsMessages implements AddonsMessages {
@@ -38,16 +39,22 @@ public class PortalsMessages implements AddonsMessages {
 
     //Location
 
-    public void getLocation_1(CommandSender sendi) {
-        sms(sendi, getLang().getString(preM + "Location.1"));
+    public void getLocation_1(CommandSender sendi, Location loc) {
+        sms(sendi, getLang().getString(preM + "Location.1")
+                .replace("%location%", "x:" + loc.getBlockX() + ", y:" + loc.getBlockY() + ", z:" + loc.getBlockZ()));
     }
 
-    public void getLocation_2(CommandSender sendi) {
-        sms(sendi, getLang().getString(preM + "Location.2"));
+    public void getLocation_2(CommandSender sendi, Location loc) {
+        sms(sendi, getLang().getString(preM + "Location.2")
+                .replace("%location%", "x:" + loc.getBlockX() + ", y:" + loc.getBlockY() + ", z:" + loc.getBlockZ()));
     }
 
     public void getLocation_Look(CommandSender sendi) {
         sms(sendi, getLang().getString(preM + "Location.Look"));
+    }
+
+    public void getLocation_Ready(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Location.Ready").replace("%command%", "rtp"));
     }
 
     //Remove

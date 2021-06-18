@@ -1,21 +1,20 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.addons.commands.AddonCommands;
 import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
-import me.SuperRonanCraft.BetterRTPAddons.addons.interfaces.AddonInterface;
 import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class AddonsHandler {
 
-    List<Addons> addons = new ArrayList<>();
+    public List<Addons> addons = new ArrayList<>();
     AddonsCommand cmd = new AddonsCommand();
 
     public void load() {
@@ -37,7 +36,7 @@ public class AddonsHandler {
         addons.clear();
     }
 
-    enum Addons {
+    public enum Addons {
         LOGGER(new AddonLogger()),              //Does this thing work?
         FLASH_BACK(new AddonFlashback()),       //Never get lost adventuring
         PORTALS(new AddonPortals()),            //Fancy walk-in portals
@@ -53,7 +52,7 @@ public class AddonsHandler {
             this.addon = addon;
         }
 
-        boolean isEnabled() {
+        public boolean isEnabled() {
             return addon.isEnabled();
         }
 
@@ -64,6 +63,10 @@ public class AddonsHandler {
 
         void disable() {
             addon.unload();
+        }
+
+        RTPCommand getCmd() {
+            return addon.getCmd();
         }
     }
 

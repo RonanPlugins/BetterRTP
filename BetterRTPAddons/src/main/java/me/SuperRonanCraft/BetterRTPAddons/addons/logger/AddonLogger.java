@@ -1,10 +1,12 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.logger;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdReload;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
+import me.SuperRonanCraft.BetterRTPAddons.AddonsCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import org.bukkit.Bukkit;
@@ -63,6 +65,11 @@ public class AddonLogger implements Addon, Listener {
         handler.close();
         BetterRTP.getInstance().getLogger().removeHandler(consoleHandler_rtp);
         Main.getInstance().getLogger().removeHandler(consoleHandler_main);
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return null;
     }
 
     @EventHandler

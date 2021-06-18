@@ -9,8 +9,9 @@ Portals:
     Name: '&7Please provide a name for this portal!'
     Duplicate: '&7This name is already being used for another portal, please choose another!'
   Location:
-    1: '&7Location &a1 &7has been set'
-    2: '&7Location &a2 &7has been set'
+    1: '&7Location &a1 &7has been set to %location%'
+    2: '&7Location &a2 &7has been set to %location%'
+    Ready: '&7Region has been created, please execute `/%command% portals create <portal_name> [world]` to create a new portal!'
     Look: '&7Please look towards a block and try again!'
   Remove:
     Confirm: '&cPortal &7%name% &chas been removed!'
@@ -19,17 +20,24 @@ Portals:
     Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Portals List &e&m-----'
     Portal: ' &7- &6%name% &8| &7%location%'
     None: '&7There are no portals! &8Create one with `/rtp portals create`'
+  Usage:
+    Base: '&cUsage: &7/%command% portals <remove, create, loc1, loc2, list>'
+    Remove: '&cUsage: &7/%command% portals remove <portal_name>'
 MagicStick:
   Give: '&dMagic Stick&7 has been given to &a%player%'
   Given: '&7A &dMagic Stick&7 has been given to you'
   Player: '&cWhoops! &7Seems like their is no player by the name of &a%player% &7online!'
-
-Usage:
-  Portals:
-    Base: '&cUsage: &7/%command% portals <remove, create, loc1, loc2>'
-    Remove: '&cUsage: &7/%command% portals remove <portal_name>'
+Addons:
+  List:
+    Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Addons Info &e&m-----'
+    Enabled: ' &7- &e%addon% &7- &aEnabled'
+    Disabled: ' &7- &e%addon% &7- &cDisabled'
 
 
 Help:
   Portals: ' &7- &e/%command% portals <loc1, loc2, create> [args...] &7- Setup an rtp portal'
   MagicStick: ' &7- &e/%command% magicstick give [player] &7- Give a magic stick to a player'
+  Addons: ' &7- &e/%command% addons &7- View a list of addons commands'
+  Base:
+    Help: ' &7- &e/%command% addons help &7- View a list of available commands'
+    List: ' &7- &e/%command% addons list &7- View a list of all enabled addons'

@@ -1,5 +1,5 @@
 main: me.SuperRonanCraft.BetterRTP.BetterRTP
-version: '3.1.0-5'
+version: ${project.version}
 name: BetterRTP
 author: SuperRonanCraft
 softdepend:

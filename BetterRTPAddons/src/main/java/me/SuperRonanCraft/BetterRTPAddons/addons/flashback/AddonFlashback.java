@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
@@ -68,6 +69,11 @@ public class AddonFlashback implements Addon, Listener {
             fbp.cancel();
         players.clear();
         HandlerList.unregisterAll(this);
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return null;
     }
 
     @EventHandler

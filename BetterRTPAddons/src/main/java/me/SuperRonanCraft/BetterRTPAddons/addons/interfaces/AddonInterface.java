@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.interfaces;
 
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 
@@ -20,5 +21,10 @@ public class AddonInterface implements Addon {
     @Override
     public void unload() {
 
+    }
+
+    @Override
+    public RTPCommand getCmd() {
+        return null;
     }
 }

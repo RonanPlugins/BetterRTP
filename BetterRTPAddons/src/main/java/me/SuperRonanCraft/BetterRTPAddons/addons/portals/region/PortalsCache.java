@@ -70,11 +70,16 @@ public class PortalsCache {
             portalsBeingCreated.put(p, portal);
         }
         Location old_loc1 = portal.loc_1;
-        Location old_loc2 = portal.loc_1;
+        Location old_loc2 = portal.loc_2;
         if (loc2)
             portal.loc_2 = loc;
         else
             portal.loc_1 = loc;
+
+        if (portal.loc_1 != null && portal.loc_2 != null)
+            if (old_loc1 == null || old_loc2 == null)
+                addonPortals.msgs.getLocation_Ready(p);
+
         if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
             ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 
@@ -104,6 +109,11 @@ public class PortalsCache {
                 packet.setLocation(new BlockPosition(loc.toVector()));
                 packet.sendPacket(p);
             //}
+        } else {
+            if (loc2)
+                p.sendBlockChange(portal.loc_2, Material.GLOWSTONE.createBlockData());
+            else
+                p.sendBlockChange(portal.loc_1, Material.GLOWSTONE.createBlockData());
         }
     }
 
