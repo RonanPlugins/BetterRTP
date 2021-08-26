@@ -19,7 +19,7 @@ Messages:
     Basic: '&7¡No tienes permiso para ejecutar este comando!'
     World: '&7¡No estás autorizado a hacer RTP en %world%!'
   DisabledWorld: '&c¡El mundo %world% está desactivado! &7¡No se pudo hacer RTP!'
-  Cooldown: '&7¡Por favor, espera &c 1 hora &7 antes de volver a usar tu RTP!'
+  Cooldown: '&7¡Por favor, espera &c%time%s &7 antes de volver a usar tu RTP!'
   Locked: '&7¡Ya usaste todos tus RTP!'
   Invalid: '&cSintaxis o argumento invalido. Prueba ''/%command% help'''
   NotOnline: '&c¡El jugador &7%player% &cno está en línea!'
