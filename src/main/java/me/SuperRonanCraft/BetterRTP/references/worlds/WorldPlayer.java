@@ -164,11 +164,17 @@ public class WorldPlayer implements RTPWorld {
     }
 
     private Location generateRound(int maxRad, int min) {
-        //Generate a random X and Z based off the quadrant selected
+        //Generate a random X and Z based off location on a spiral curve
         int max = maxRad - min;
         int x, z;
-        double r = max * Math.sqrt(new Random().nextDouble()) + min;
-        double theta = (new Random().nextDouble()) * 2 * Math.PI;
+
+        double area = Math.PI * (max - min) * (max + min); //of all the area in this donut
+        double subArea = area * new Random().nextDouble(); //pick a random subset of that area
+
+        Double r = Math.sqrt(subArea/Math.PI + min*min); //convert area to radius
+        double theta = (r - r.intValue()) * 2 * Math.PI; //use the remainder as an angle
+
+        // polar to cartesian
         x = (int) (r * Math.cos(theta));
         z = (int) (r * Math.sin(theta));
         x += getCenterX();
