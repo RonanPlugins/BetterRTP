@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
@@ -17,14 +18,14 @@ public class RTP {
     final RTPPluginValidation softDepends = new RTPPluginValidation();
     public final RTPPermissionGroup permConfig = new RTPPermissionGroup();
     //Cache
-    public HashMap<String, RTPWorld> customWorlds = new HashMap<>();
-    public HashMap<String, String> overriden = new HashMap<>();
-    public WorldDefault defaultWorld = new WorldDefault();
-    public List<String> disabledWorlds, blockList;
+    public final HashMap<String, RTPWorld> customWorlds = new HashMap<>();
+    public final HashMap<String, String> overriden = new HashMap<>();
+    public final WorldDefault defaultWorld = new WorldDefault();
+    @Getter List<String> disabledWorlds, blockList;
     int maxAttempts, delayTime;
     boolean cancelOnMove, cancelOnDamage;
-    public HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
-    public HashMap<String, RTPWorld> worldLocations = new HashMap<>();
+    public final HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
+    public final HashMap<String, RTPWorld> worldLocations = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -39,111 +40,19 @@ public class RTP {
         cancelOnDamage = config.getBoolean("Settings.Delay.CancelOnDamage");
         blockList = config.getStringList("BlacklistedBlocks");
         //Overrides
-        loadOverrides();
+        RTPLoader.loadOverrides(overriden);
         //WorldType
-        loadWorldTypes();
+        RTPLoader.loadWorldTypes(world_type);
         //CustomWorlds
         loadCustomWorlds();
         //Locations
-        loadWorldLocations();
+        RTPLoader.loadWorldLocations(worldLocations);
         teleport.load(); //Load teleporting stuff
         permConfig.load(); //Load permission configs
     }
 
-    private void loadOverrides() {
-        overriden.clear();
-        try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
-            List<Map<?, ?>> override_map = config.getMapList("Overrides");
-            for (Map<?, ?> m : override_map)
-                for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    overriden.put(entry.getKey().toString(), entry.getValue().toString());
-                    if (getPl().getSettings().debug)
-                        getPl().getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
-                    if (Bukkit.getWorld(entry.getValue().toString()) == null)
-                        getPl().getLogger().warning("The world `" + entry.getValue() + "` doesn't seem to exist! Please update `" + entry.getKey() + "'s` override! Maybe there are capital letters?");
-                }
-        } catch (Exception e) {
-            //No Overrides
-        }
-    }
-
-    private void loadWorldTypes() {
-        world_type.clear();
-        try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
-            for (World world : Bukkit.getWorlds())
-                world_type.put(world.getName(), WORLD_TYPE.NORMAL);
-            List<Map<?, ?>> world_map = config.getMapList("WorldType");
-            for (Map<?, ?> m : world_map)
-                for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    if (world_type.containsKey(entry.getKey())) {
-                        try {
-                            WORLD_TYPE type = WORLD_TYPE.valueOf(entry.getValue().toString().toUpperCase());
-                            world_type.put(entry.getKey().toString(), type);
-                        } catch(IllegalArgumentException e) {
-                            StringBuilder valids = new StringBuilder();
-                            for (WORLD_TYPE type : WORLD_TYPE.values())
-                                valids.append(type.name()).append(", ");
-                            valids.replace(valids.length() - 2, valids.length(), "");
-                            getPl().getLogger().severe("World Type for '" + entry.getKey() + "' is INVALID '" + entry.getValue() +
-                                    "'. Valid ID's are: " + valids.toString());
-                            //Wrong rtp world type
-                        }
-                    }/* else {
-                        if (getPl().getSettings().debug)
-                            getPl().getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
-                    }*/
-                }
-            if (getPl().getSettings().debug)
-                for (String world : world_type.keySet())
-                    BetterRTP.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
-        } catch (Exception e) {
-            e.printStackTrace();
-            //No World Types
-        }
-    }
-
-    public void loadCustomWorlds() {
-        defaultWorld.setup();
-        customWorlds.clear();
-        try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
-            List<Map<?, ?>> map = config.getMapList("CustomWorlds");
-            for (Map<?, ?> m : map)
-                for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
-                    if (getPl().getSettings().debug)
-                        BetterRTP.debug("- Custom World '" + entry.getKey() + "' registered");
-                }
-        } catch (Exception e) {
-            //No Custom Worlds
-        }
-    }
-
-    public void loadWorldLocations() {
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
-        worldLocations.clear();
-        if (!config.getBoolean("Enabled"))
-            return;
-        List<Map<?, ?>> map = config.getMapList("Locations");
-        for (Map<?, ?> m : map)
-            for (Map.Entry<?, ?> entry : m.entrySet()) {
-                WorldLocations location = new WorldLocations(entry.getKey().toString());
-                if (location.isValid()) {
-                    worldLocations.put(entry.getKey().toString(), location);
-                    if (getPl().getSettings().debug)
-                        BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
-                }
-            }
-    }
-
-    public List<String> disabledWorlds() {
-        return disabledWorlds;
-    }
-
-    public List<String> getDisabledWorlds() {
-        return disabledWorlds;
+    public void loadCustomWorlds() { //Keeping this here because of the edit command
+        RTPLoader.loadCustomWorlds(defaultWorld, customWorlds);
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
@@ -202,10 +111,6 @@ public class RTP {
         return pWorld;
     }
 
-    private BetterRTP getPl() {
-        return BetterRTP.getInstance();
-    }
-
     public void start(RTPSetupInformation setup_info) {
         String world_name = setup_info.world;
         Player p = setup_info.player;
@@ -251,7 +156,6 @@ public class RTP {
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        //BetterRTP.getInstance().getpInfo().setRTPType(p, rtpType);
         rtp(sendi, pWorld, setup_info.delay, setup_info.rtp_type);
     }
 
@@ -269,5 +173,9 @@ public class RTP {
             teleport.beforeTeleportInstant(sendi, p);
             rtpPlayer.randomlyTeleport(sendi);
         }
+    }
+
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

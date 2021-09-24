@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, attempts;
+    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
     private List<String> Biomes;
     private final Player p;
     private final World world;
@@ -133,8 +133,6 @@ public class WorldPlayer implements RTPWorld {
             default:
                 loc = generateSquare(getMaxRad(), getMinRad()); break;
         }
-
-        addAttempt(); //Add an attempt to keep track of the times we've attempted to generate a good location
         return loc;
     }
 
@@ -217,8 +215,6 @@ public class WorldPlayer implements RTPWorld {
         return price;
     }
 
-    public int getAttempts() {return attempts; }
-
     @Override
     public List<String> getBiomes() {
         return Biomes;
@@ -252,10 +248,6 @@ public class WorldPlayer implements RTPWorld {
 
     private void setPrice(int price) {
         this.price = price;
-    }
-
-    public void addAttempt() {
-        this.attempts++;
     }
 
     //

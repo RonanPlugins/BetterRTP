@@ -52,7 +52,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                     list.add(p.getName());
         } else if (args.length == 3) {
             for (World w : Bukkit.getWorlds())
-                if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().disabledWorlds().contains(w.getName()))
+                if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
             if (RTPCommandType.BIOME.getCmd().permission(sendi))

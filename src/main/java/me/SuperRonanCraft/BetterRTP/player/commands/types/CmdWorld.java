@@ -31,7 +31,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
         if (args.length == 2) {
             for (World w : Bukkit.getWorlds()) {
                 String _wName = w.getName().replace(" ", "_");
-                if (w.getName().startsWith(args[1]) && !BetterRTP.getInstance().getRTP().disabledWorlds().contains(_wName)
+                if (w.getName().startsWith(args[1]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(_wName)
                         && BetterRTP.getInstance().getPerms().getAWorld(sendi, _wName))
                     list.add(_wName);
             }

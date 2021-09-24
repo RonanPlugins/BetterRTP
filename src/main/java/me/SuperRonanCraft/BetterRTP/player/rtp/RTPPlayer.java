@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +21,8 @@ public class RTPPlayer {
     private final RTP settings;
     WorldPlayer pWorld;
     RTP_TYPE type;
+    int attempts;
+    List<Location> attemptedLocations = new ArrayList<>();
 
     RTPPlayer(Player p, RTP settings, WorldPlayer pWorld, RTP_TYPE type) {
         this.p = p;
@@ -33,7 +36,7 @@ public class RTPPlayer {
     }
 
     void randomlyTeleport(CommandSender sendi) {
-        if (pWorld.getAttempts() >= settings.maxAttempts) //Cancel out, too many tries
+        if (attempts >= settings.maxAttempts) //Cancel out, too many tries
             metMax(sendi, p);
         else { //Try again to find a safe location
             //Find a queue'd  location
@@ -43,7 +46,8 @@ public class RTPPlayer {
                 loc = event.getLocation();
             else
                 loc = pWorld.generateLocation();
-            //Load chunk and find out if safe location
+            attempts++; //Add an attempt
+            //Load chunk and find out if safe location (asynchronously)
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
             chunk.thenAccept(result -> {
                 //BetterRTP.debug("Checking location for " + p.getName());
@@ -57,11 +61,11 @@ public class RTPPlayer {
                     default:
                         tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
                 }
+                attemptedLocations.add(loc);
                 //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc)) {
-                    if (getPl().getEco().charge(p, pWorld)) {
-                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), pWorld.getAttempts(), type, pWorld.getWorldtype());
-                    }
+                    if (getPl().getEco().charge(p, pWorld))
+                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), attempts, type, pWorld.getWorldtype());
                 } else
                     randomlyTeleport(sendi);
             });
