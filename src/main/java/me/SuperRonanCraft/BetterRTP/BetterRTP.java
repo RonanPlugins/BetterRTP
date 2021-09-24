@@ -12,8 +12,10 @@ import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -95,6 +97,9 @@ public class BetterRTP extends JavaPlugin {
         invs.closeAll();
         loadAll();
         text.getReload(sendi);
+        //Reload all players cooldowns
+        for (Player p : Bukkit.getOnlinePlayers())
+            getCmd().cooldowns.loadPlayer(p.getUniqueId());
     }
 
     public RTPInventories getInvs() {

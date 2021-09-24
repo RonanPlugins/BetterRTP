@@ -1,9 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -13,6 +13,7 @@ public class Join {
     void event(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         updater(p);
+        getPl().getCmd().cooldowns.loadPlayer(p.getUniqueId());
         rtpOnFirstJoin(p);
     }
 

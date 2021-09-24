@@ -126,9 +126,9 @@ public class WorldPlayer implements RTPWorld {
     }
 
     public Location generateLocation() {
-        Location loc = null;
+        Location loc;
         switch (shape) {
-            case CIRCLE: //DISABLED UNTIL NEXT PATCH
+            case CIRCLE:
                 loc = generateRound(getMaxRad(), getMinRad()); break;
             default:
                 loc = generateSquare(getMaxRad(), getMinRad()); break;
@@ -171,8 +171,8 @@ public class WorldPlayer implements RTPWorld {
         double area = Math.PI * (max - min) * (max + min); //of all the area in this donut
         double subArea = area * new Random().nextDouble(); //pick a random subset of that area
 
-        Double r = Math.sqrt(subArea/Math.PI + min*min); //convert area to radius
-        double theta = (r - r.intValue()) * 2 * Math.PI; //use the remainder as an angle
+        double r = Math.sqrt(subArea/Math.PI + min*min); //convert area to radius
+        double theta = (r - (int) r) * 2 * Math.PI; //use the remainder as an angle
 
         // polar to cartesian
         x = (int) (r * Math.cos(theta));

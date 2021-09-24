@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -14,12 +15,13 @@ public class RTPCooldown {
 
     private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
     private HashMap<UUID, Integer> locked = null; //Players locked from rtp'ing ever again
-    public boolean enabled;
+    @Getter boolean enabled;
     private int
             timer, //Cooldown timer
             lockedAfter; //Rtp's before being locked
 
     public void load() {
+        configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
         cooldowns.clear();
         if (locked != null)
             locked.clear();
@@ -30,7 +32,6 @@ public class RTPCooldown {
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             if (lockedAfter > 0)
                 locked = new HashMap<>();
-            loadFile();
         }
     }
 
@@ -62,7 +63,7 @@ public class RTPCooldown {
         return false;
     }
 
-    public void remove(UUID id) {
+    public void removeCooldown(UUID id) {
         if (!enabled) return;
         if (lockedAfter > 0) {
             locked.put(id, locked.getOrDefault(id, 1) - 1);
@@ -80,7 +81,11 @@ public class RTPCooldown {
 
     private void savePlayer(UUID id, boolean adding, long time, int attempts) {
         YamlConfiguration config = getFile();
-        if (config == null) return;
+        if (config == null) {
+            BetterRTP.getInstance().getLogger().severe("Unabled to save cooldown for the players UUID " + id
+                    + ". Cooldown file might have been compromised!");
+            return;
+        }
         if (adding) { //Add player to file
             config.set(id.toString() + ".Time", time);
             if (attempts > 0)
@@ -95,50 +100,49 @@ public class RTPCooldown {
         }
     }
 
-    private YamlConfiguration config;
     private File configfile;
 
     private YamlConfiguration getFile() {
-        if (config != null) {
-            return config;
-        } else {
-            if (!configfile.exists()) {
-                try {
-                    configfile.getParentFile().mkdir();
-                    configfile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (!configfile.exists()) {
             try {
-                config = new YamlConfiguration();
-                config.load(configfile);
-                return config;
-            } catch (IOException | InvalidConfigurationException e) {
+                configfile.getParentFile().mkdir();
+                configfile.createNewFile();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+        }
+        try {
+            YamlConfiguration config = new YamlConfiguration();
+            config.load(configfile);
+            return config;
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void loadPlayer(UUID uuid) {
+        if (isEnabled()) {
+            String id = uuid.toString();
+            YamlConfiguration config = getFile();
+            if (config != null && config.isConfigurationSection(id))
+                try {
+                    Long time = config.getLong(id + ".Time");
+                    cooldowns.put(uuid, time);
+                    if (lockedAfter > 0) {
+                        int attempts = config.getInt(id + ".Attempts");
+                        locked.put(uuid, attempts);
+                    }
+                } catch (IllegalArgumentException e) {
+                    BetterRTP.getInstance().getLogger().info("UUID of `" + id + "` is invalid, please delete this!");
+                    //Bad uuid
+                }
         }
     }
 
-    private void loadFile() {
-        config = null;
-        configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
-        YamlConfiguration config = getFile();
-        if (config != null)
-            for (String id : config.getKeys(false)) {
-            try {
-                UUID uuid = UUID.fromString(id);
-                Long time = config.getLong(id + ".Time");
-                cooldowns.put(uuid, time);
-                if (lockedAfter > 0) {
-                    int attempts = config.getInt(id + ".Attempts");
-                    locked.put(uuid, attempts);
-                }
-            } catch (IllegalArgumentException e) {
-                BetterRTP.getInstance().getLogger().info("UUID of `" + id + "` is invalid, please delete this!");
-                //Bad uuid
-            }
-        }
+    public void unloadPlayer(UUID uuid) {
+        cooldowns.remove(uuid);
+        if (locked != null)
+            locked.remove(uuid);
     }
 }
