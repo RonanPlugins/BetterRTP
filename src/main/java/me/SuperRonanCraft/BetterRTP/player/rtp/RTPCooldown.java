@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -9,29 +10,32 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class RTPCooldown {
 
     private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
-    private HashMap<UUID, Integer> locked = null; //Players locked from rtp'ing ever again
+    private HashMap<UUID, Integer> uses = null; //Players locked from rtp'ing ever again
+    private final DatabaseCooldowns database = new DatabaseCooldowns();
     @Getter boolean enabled;
     private int
             timer, //Cooldown timer
             lockedAfter; //Rtp's before being locked
 
     public void load() {
-        configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
+        database.load();
+        //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
         cooldowns.clear();
-        if (locked != null)
-            locked.clear();
+        if (uses != null)
+            uses.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         enabled = config.getBoolean("Settings.Cooldown.Enabled");
         if (enabled) {
             timer = config.getInt("Settings.Cooldown.Time");
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             if (lockedAfter > 0)
-                locked = new HashMap<>();
+                uses = new HashMap<>();
         }
     }
 
@@ -39,11 +43,11 @@ public class RTPCooldown {
         if (!enabled) return;
         cooldowns.put(id, System.currentTimeMillis());
         if (lockedAfter > 0) {
-            if (locked.containsKey(id))
-                locked.put(id, locked.get(id) + 1);
+            if (uses.containsKey(id))
+                uses.put(id, uses.get(id) + 1);
             else
-                locked.put(id, 1);
-            savePlayer(id, true, cooldowns.get(id), locked.get(id));
+                uses.put(id, 1);
+            savePlayer(id, true, cooldowns.get(id), uses.get(id));
         } else
             savePlayer(id, true, cooldowns.get(id), 0);
     }
@@ -58,19 +62,19 @@ public class RTPCooldown {
     }
 
     public boolean locked(UUID id) {
-        if (locked != null && locked.containsKey(id))
-            return locked.get(id) >= lockedAfter;
+        if (uses != null && uses.containsKey(id))
+            return uses.get(id) >= lockedAfter;
         return false;
     }
 
     public void removeCooldown(UUID id) {
         if (!enabled) return;
         if (lockedAfter > 0) {
-            locked.put(id, locked.getOrDefault(id, 1) - 1);
-            if (locked.get(id) <= 0) { //Remove from file as well
+            uses.put(id, uses.getOrDefault(id, 1) - 1);
+            if (uses.get(id) <= 0) { //Remove from file as well
                 savePlayer(id, false, 0L, 0);
             } else { //Keep the player cached
-                savePlayer(id, false, cooldowns.get(id), locked.get(id));
+                savePlayer(id, false, cooldowns.get(id), uses.get(id));
             }
             cooldowns.remove(id);
         } else { //Remove completely
@@ -79,8 +83,13 @@ public class RTPCooldown {
         }
     }
 
-    private void savePlayer(UUID id, boolean adding, long time, int attempts) {
-        YamlConfiguration config = getFile();
+    private void savePlayer(UUID uuid, boolean adding, long time, int attempts) {
+        if (adding) {
+            database.setCooldown(uuid, time, attempts);
+        } else {
+            database.removePlayer(uuid);
+        }
+        /*YamlConfiguration config = getFile();
         if (config == null) {
             BetterRTP.getInstance().getLogger().severe("Unabled to save cooldown for the players UUID " + id
                     + ". Cooldown file might have been compromised!");
@@ -97,12 +106,12 @@ public class RTPCooldown {
             config.save(configfile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
-    private File configfile;
+    /*private File configfile;
 
-    private YamlConfiguration getFile() {
+    /*private YamlConfiguration getFile() {
         if (!configfile.exists()) {
             try {
                 configfile.getParentFile().mkdir();
@@ -119,11 +128,16 @@ public class RTPCooldown {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     public void loadPlayer(UUID uuid) {
         if (isEnabled()) {
-            String id = uuid.toString();
+            List<Object> data = database.getCooldown(uuid);
+            if (data != null) {
+                cooldowns.put(uuid, (Long) data.get(0));
+                uses.put(uuid, (int) data.get(1));
+            }
+            /*String id = uuid.toString();
             YamlConfiguration config = getFile();
             if (config != null && config.isConfigurationSection(id))
                 try {
@@ -131,18 +145,18 @@ public class RTPCooldown {
                     cooldowns.put(uuid, time);
                     if (lockedAfter > 0) {
                         int attempts = config.getInt(id + ".Attempts");
-                        locked.put(uuid, attempts);
+                        uses.put(uuid, attempts);
                     }
                 } catch (IllegalArgumentException e) {
                     BetterRTP.getInstance().getLogger().info("UUID of `" + id + "` is invalid, please delete this!");
                     //Bad uuid
-                }
+                }*/
         }
     }
 
     public void unloadPlayer(UUID uuid) {
         cooldowns.remove(uuid);
-        if (locked != null)
-            locked.remove(uuid);
+        if (uses != null)
+            uses.remove(uuid);
     }
 }
