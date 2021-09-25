@@ -337,7 +337,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                         list.add(block.name());
                                 }
                             } else if (args[2].equalsIgnoreCase("remove")) {
-                                for (String block : BetterRTP.getInstance().getRTP().blockList) {
+                                for (String block : BetterRTP.getInstance().getRTP().getBlockList()) {
                                     if (block.startsWith(args[3]))
                                         list.add(block);
                                 }

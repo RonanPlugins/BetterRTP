@@ -178,7 +178,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
         boolean result = true;
         if (getDepends().ishClaims())
             try {
-                result = ClaimAPI.isClaimed(loc);
+                result = ClaimAPI.getInstance().isClaimed(loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }

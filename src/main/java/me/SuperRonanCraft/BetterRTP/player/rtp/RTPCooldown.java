@@ -4,11 +4,14 @@ import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -17,14 +20,13 @@ public class RTPCooldown {
 
     private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
     private HashMap<UUID, Integer> uses = null; //Players locked from rtp'ing ever again
-    private final DatabaseCooldowns database = new DatabaseCooldowns();
+    public final DatabaseCooldowns database = new DatabaseCooldowns();
     @Getter boolean enabled;
     private int
             timer, //Cooldown timer
             lockedAfter; //Rtp's before being locked
 
     public void load() {
-        database.load();
         //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
         cooldowns.clear();
         if (uses != null)
@@ -37,6 +39,13 @@ public class RTPCooldown {
             if (lockedAfter > 0)
                 uses = new HashMap<>();
         }
+        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+            database.load();
+            OldCooldownConverter.loadOldCooldowns(database);
+            //Load any online players cooldowns (mostly after a reload)
+            for (Player p : Bukkit.getOnlinePlayers())
+                loadPlayer(p.getUniqueId());
+        });
     }
 
     public void add(UUID id) {
@@ -158,5 +167,69 @@ public class RTPCooldown {
         cooldowns.remove(uuid);
         if (uses != null)
             uses.remove(uuid);
+    }
+
+    static class OldCooldownConverter {
+
+        static void loadOldCooldowns(DatabaseCooldowns database) {
+            File file = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
+            YamlConfiguration config = getFile(file);
+            if (config == null) return;
+            if (config.getBoolean("Converted")) return;
+            List<CooldownData> cooldownData = new ArrayList<>();
+            for (String id : config.getConfigurationSection("").getKeys(false)) {
+                try {
+                    Long time = config.getLong(id + ".Time");
+                    UUID uuid = UUID.fromString(id);
+                    int uses = config.getInt(id + ".Attempts");
+                    cooldownData.add(new CooldownData(uuid, time, uses));
+                } catch (IllegalArgumentException e) {
+                    //Invalid UUID
+                }
+            }
+            config.set("Converted", true);
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BetterRTP.getInstance().getLogger().info("Cooldowns converting to new database...");
+            Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+                database.setCooldown(cooldownData);
+                BetterRTP.getInstance().getLogger().info("Cooldowns have been converted to the new database!");
+            });
+        }
+
+        private static YamlConfiguration getFile(File configfile) {
+            if (!configfile.exists()) {
+                return null;
+                /*try {
+                    configfile.getParentFile().mkdir();
+                    configfile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            }
+            try {
+                YamlConfiguration config = new YamlConfiguration();
+                config.load(configfile);
+                return config;
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public static class CooldownData {
+        public UUID uuid;
+        public Long time;
+        public int uses;
+
+        CooldownData(UUID uuid, Long time, int uses) {
+            this.uuid = uuid;
+            this.time = time;
+            this.uses = uses;
+        }
     }
 }

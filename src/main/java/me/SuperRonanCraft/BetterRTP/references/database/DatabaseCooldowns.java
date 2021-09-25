@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -80,5 +81,23 @@ public class DatabaseCooldowns extends SQLite {
                 add(uses);
         }};
         sqlUpdate(sql, params);
+    }
+
+    //Update multiple players cooldowns
+    public void setCooldown(List<RTPCooldown.CooldownData> cooldownData) {
+        String pre = "INSERT OR REPLACE INTO ";
+        String sql = pre + table + " ("
+                + COLUMNS.UUID.name + ", "
+                + COLUMNS.COOLDOWN_DATE.name + ", "
+                + COLUMNS.USES.name + " "
+                + ") VALUES(?, ?, ?)";
+        for (RTPCooldown.CooldownData data : cooldownData) {
+            List<Object> param = new ArrayList<>() {{
+                add(data.uuid.toString());
+                add(data.time);
+                add(data.uses);
+            }};
+            sqlUpdate(sql, param);
+        }
     }
 }

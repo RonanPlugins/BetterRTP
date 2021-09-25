@@ -174,6 +174,8 @@ public class Commands {
         if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
             return true;
         } else if (cooldowns.isEnabled()) { //Cooling down?
+            if (!cooldowns.database.isLoaded()) //Cooldowns have yet to download
+                return false;
             UUID id = player.getUniqueId();
             if (cooldowns.exists(id)) {
                 if (cooldowns.locked(id)) { //Infinite cooldown (locked)

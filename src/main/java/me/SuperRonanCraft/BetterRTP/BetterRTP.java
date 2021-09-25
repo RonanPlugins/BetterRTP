@@ -97,9 +97,6 @@ public class BetterRTP extends JavaPlugin {
         invs.closeAll();
         loadAll();
         text.getReload(sendi);
-        //Reload all players cooldowns
-        for (Player p : Bukkit.getOnlinePlayers())
-            getCmd().cooldowns.loadPlayer(p.getUniqueId());
     }
 
     public RTPInventories getInvs() {
