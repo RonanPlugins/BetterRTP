@@ -2,8 +2,6 @@ main: me.SuperRonanCraft.BetterRTP.BetterRTP
 version: ${project.version}
 name: BetterRTP
 author: SuperRonanCraft
-loadbefore:
-    - Multiverse-Core #Forcing Multiverse to load AFTER BetterRTP
 softdepend:
     - Vault
     - WorldGuard
@@ -19,6 +17,7 @@ softdepend:
     - GriefDefender
     - UltimateClaims
     - Pueblos
+    - Multiverse-Core #Forcing Multiverse to load BEFORE BetterRTP
 api-version: '1.13'
 
 commands:
