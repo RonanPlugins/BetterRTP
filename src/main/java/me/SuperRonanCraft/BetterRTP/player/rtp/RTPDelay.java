@@ -61,7 +61,7 @@ class RTPDelay implements Listener {
             getPl().getRTP().getTeleport().cancelledTeleport(rtp.getPlayer());
             //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
             getPl().getCooldowns().removeCooldown(rtp.getPlayer());
-            getPl().getCmd().rtping.put(rtp.getPlayer().getUniqueId(), false);
+            getPl().getpInfo().getRtping().put(rtp.getPlayer(), false);
             Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
         }
     }
@@ -69,7 +69,7 @@ class RTPDelay implements Listener {
     private Runnable run(final CommandSender sendi, final RTPDelay cls) {
         return () -> {
                 HandlerList.unregisterAll(cls);
-                if (getPl().getCmd().rtping.containsKey(rtp.getPlayer().getUniqueId()))
+                if (getPl().getpInfo().getRtping().containsKey(rtp.getPlayer()))
                     rtp.randomlyTeleport(sendi);
         };
     }

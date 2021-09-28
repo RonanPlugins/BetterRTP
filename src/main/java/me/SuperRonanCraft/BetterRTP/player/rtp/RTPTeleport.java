@@ -62,7 +62,7 @@ public class RTPTeleport {
                                 afterTeleport(p, loc, price, attempts, oldLoc, type);
                                 if (sendi != p) //Tell player who requested that the player rtp'd
                                     sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
-                                getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing
+                                getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing
                                 //Save respawn location if first join
                                 if (type == RTP_TYPE.JOIN) //RTP Type was Join
                                     if (BetterRTP.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
@@ -70,7 +70,7 @@ public class RTPTeleport {
                             }
                         });
                     } catch (Exception e) {
-                        getPl().getCmd().rtping.remove(p.getUniqueId()); //No longer rtp'ing (errored)
+                        getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing (errored)
                         e.printStackTrace();
                     }
                 }

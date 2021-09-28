@@ -1,10 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
-import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -156,14 +155,16 @@ public class RTP {
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        rtp(sendi, pWorld, setup_info.delay, setup_info.rtp_type);
+        rtp(sendi, pWorld, setup_info.delay, setup_info.rtp_type, setup_info.cooldown);
     }
 
-    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay, RTP_TYPE type) {
+    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay, RTP_TYPE type, boolean cooldown) {
         //Cooldown
         Player p = pWorld.getPlayer();
-        getPl().getCmd().cooldowns.add(p.getUniqueId());
-        getPl().getCmd().rtping.put(p.getUniqueId(), true); //Cache player so they cant run '/rtp' again while rtp'ing
+        //p.sendMessage("Cooling down: " + cooldown);
+        if (cooldown)
+            getPl().getCooldowns().add(p);
+        getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go

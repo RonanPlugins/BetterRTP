@@ -11,7 +11,7 @@ public class RTPSetupInformation {
     public String world;
     public CommandSender sender;
     public Player player;
-    public boolean personalized;
+    public boolean personalized, cooldown;
     public List<String> biomes;
     public WorldLocations location;
     public boolean delay;
@@ -22,7 +22,12 @@ public class RTPSetupInformation {
     }
 
     public RTPSetupInformation(String world, CommandSender sender, Player player, boolean personalized, List<String> biomes,
-                               boolean delay, RTP_TYPE rtp_type, WorldLocations location) {
+                                boolean delay, RTP_TYPE rtp_type, WorldLocations location) {
+        this(world, sender, player, personalized, biomes, delay, rtp_type, location, true);
+    }
+
+    public RTPSetupInformation(String world, CommandSender sender, Player player, boolean personalized, List<String> biomes,
+                               boolean delay, RTP_TYPE rtp_type, WorldLocations location, boolean cooldown) {
         this.world = world;
         this.sender = sender;
         this.player = player;
@@ -37,5 +42,6 @@ public class RTPSetupInformation {
             else if (this.location != null)
                 this.world = this.location.getWorld().getName();
         }
+        this.cooldown = cooldown;
     }
 }

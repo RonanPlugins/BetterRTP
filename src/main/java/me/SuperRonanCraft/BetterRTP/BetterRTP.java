@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.Listener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
+import me.SuperRonanCraft.BetterRTP.references.Updater;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
 import me.SuperRonanCraft.BetterRTP.references.file.Files;
@@ -14,11 +15,8 @@ import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
-import me.SuperRonanCraft.BetterRTP.references.Updater;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public class BetterRTP extends JavaPlugin {
     private final RTPInventories invs = new RTPInventories();
     private final PlayerInfo pInfo = new PlayerInfo();
     private final Settings settings = new Settings();
-    @Getter private final DatabaseCooldowns database = new DatabaseCooldowns();
+    @Getter private final DatabaseCooldowns databaseCooldowns = new DatabaseCooldowns();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
 
     public void onEnable() {
@@ -114,6 +112,7 @@ public class BetterRTP extends JavaPlugin {
 
     //(Re)Load all plugin systems/files/cache
     private void loadAll() {
+        pInfo.unloadAll();
         files.loadAll();
         settings.load();
         invs.load();

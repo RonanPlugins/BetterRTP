@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
-import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +67,7 @@ public class RTPLoader {
                                 valids.append(type.name()).append(", ");
                             valids.replace(valids.length() - 2, valids.length(), "");
                             getPl().getLogger().severe("World Type for '" + entry.getKey() + "' is INVALID '" + entry.getValue() +
-                                    "'. Valid ID's are: " + valids.toString());
+                                    "'. Valid ID's are: " + valids);
                             //Wrong rtp world type
                         }
                     }/* else {

@@ -24,7 +24,7 @@ public class RTPInventories {
         for (Player p : Bukkit.getOnlinePlayers())
             if (main.getpInfo().playerExists(p)) {
                 //main.getText().getReloadMenu(p);
-                main.getpInfo().clear(p);
+                main.getpInfo().clearInvs(p);
                 p.closeInventory();
             }
     }

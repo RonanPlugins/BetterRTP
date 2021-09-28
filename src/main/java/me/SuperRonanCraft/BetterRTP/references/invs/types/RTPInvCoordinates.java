@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class RTPInvCoordinates extends RTPInventory {
 
     public void show(Player p) {
-        if (BetterRTP.getInstance().getpInfo().getInvWorld(p) == null) {
+        if (BetterRTP.getInstance().getpInfo().getInvWorld().get(p) == null) {
             BetterRTP.getInstance().getpInfo().setNextInv(p, this.type);
             BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.WORLDS).show(p);
             return;

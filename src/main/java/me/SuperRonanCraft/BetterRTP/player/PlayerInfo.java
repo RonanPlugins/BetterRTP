@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerInfo {
 
@@ -17,6 +18,7 @@ public class PlayerInfo {
     @Getter private final HashMap<Player, World> invWorld = new HashMap<>();
     @Getter private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
     @Getter private final HashMap<Player, CooldownData> cooldown = new HashMap<>();
+    @Getter private final HashMap<Player, Boolean> rtping = new HashMap<>();
     //private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
 
     public void setInv(Player p, Inventory inv) {
@@ -41,18 +43,25 @@ public class PlayerInfo {
         return invs.containsKey(p);
     }
 
-    public void clear() {
+    public void unloadAll() {
         invs.clear();
         invType.clear();
         invWorld.clear();
         invNextInv.clear();
+        cooldown.clear();
+        rtping.clear();
     }
 
-    public void clear(Player p) {
+    public void unload(Player p) {
+        clearInvs(p);
+        cooldown.remove(p);
+        rtping.remove(p);
+    }
+
+    public void clearInvs(Player p) {
         invs.remove(p);
         invType.remove(p);
         invWorld.remove(p);
         invNextInv.remove(p);
     }
-
 }

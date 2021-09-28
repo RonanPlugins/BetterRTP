@@ -43,7 +43,7 @@ public class DatabaseCooldowns extends SQLite {
         return sqlUpdate(sql, params);
     }
 
-    public List<Object> getCooldown(UUID uuid) {
+    public CooldownData getCooldown(UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -54,10 +54,9 @@ public class DatabaseCooldowns extends SQLite {
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                List<Object> data = new ArrayList<>();
-                data.add(rs.getLong(COLUMNS.COOLDOWN_DATE.name));
-                data.add(rs.getInt(COLUMNS.USES.name));
-                return data;
+                Long time = rs.getLong(COLUMNS.COOLDOWN_DATE.name);
+                int uses = rs.getInt(COLUMNS.USES.name);
+                return new CooldownData(uuid, time, uses);
             }
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
@@ -93,9 +92,9 @@ public class DatabaseCooldowns extends SQLite {
                 + ") VALUES(?, ?, ?)";
         for (CooldownData data : cooldownData) {
             List<Object> param = new ArrayList<>() {{
-                add(data.uuid.toString());
-                add(data.time);
-                add(data.uses);
+                add(data.getUuid().toString());
+                add(data.getTime());
+                add(data.getUses());
             }};
             sqlUpdate(sql, param);
         }

@@ -21,7 +21,7 @@ public class Click {
             PlayerInfo pInfo = BetterRTP.getInstance().getpInfo();
             Player p = (Player) e.getWhoClicked();
             RTPInventories menu = BetterRTP.getInstance().getInvs();
-            menu.getInv(pInfo.getInvType(p)).clickEvent(e);
+            menu.getInv(pInfo.getInvType().get(p)).clickEvent(e);
         } catch (NullPointerException ex) {
             //ex.printStackTrace();
         }
@@ -36,10 +36,10 @@ public class Click {
             return false;
         else if (e.getWhoClicked() instanceof Player) {
             // Clicks the inventory
-            if (!e.getInventory().equals(BetterRTP.getInstance().getpInfo().getInv((Player) e.getWhoClicked())))
+            if (!e.getInventory().equals(BetterRTP.getInstance().getpInfo().getInvs().get((Player) e.getWhoClicked())))
                 return false;
                 // Clicks their own inventory
-            else if (!e.getClickedInventory().equals(BetterRTP.getInstance().getpInfo().getInv((Player) e
+            else if (!e.getClickedInventory().equals(BetterRTP.getInstance().getpInfo().getInvs().get((Player) e
                     .getWhoClicked()))) {
                 e.setCancelled(true);
                 return false;

@@ -13,7 +13,9 @@ public class Join {
     void event(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         updater(p);
-        getPl().getCmd().cooldowns.loadPlayer(p.getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+                getPl().getCooldowns().loadPlayer(p);
+            });
         rtpOnFirstJoin(p);
     }
 

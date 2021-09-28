@@ -79,9 +79,9 @@ public class RTPPlayer {
             getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
         else
             getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());*/
-        getPl().getCmd().cooldowns.removeCooldown(p.getUniqueId());
+        getPl().getCooldowns().removeCooldown(p);
         //getPl().getEco().unCharge(p, pWorld);
-        getPl().getCmd().rtping.put(p.getUniqueId(), false);
+        getPl().getpInfo().getRtping().put(p, false);
     }
 
     private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {

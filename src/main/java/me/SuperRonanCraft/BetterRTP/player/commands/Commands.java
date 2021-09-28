@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
@@ -13,14 +14,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class Commands {
 
     private final BetterRTP pl;
-    public HashMap<UUID, Boolean> rtping = new HashMap<>();
     private int delayTimer;
     public List<RTPCommand> commands = new ArrayList<>();
 
@@ -31,7 +29,6 @@ public class Commands {
     public void load() {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         delayTimer = config.getInt("Settings.Delay.Time");
-        rtping.clear();
         commands.clear();
         for (RTPCommandType cmd : RTPCommandType.values())
            registerCommand(cmd.getCmd(), false);
@@ -154,14 +151,16 @@ public class Commands {
                     if (pl.getSettings().delayEnabled && delayTimer > 0) //Delay enabled?
                         if (!pl.getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
-                RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true, biomes, delay, rtpType, locations);
+                //player.sendMessage("Cooldown applies: " + cooldownApplies(sendi, player));
+                RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
+                        biomes, delay, rtpType, locations, !ignoreCooldown && cooldownApplies(sendi, player)); //ignore cooldown or else
                 pl.getRTP().start(setup_info);
             }
         }
     }
 
     private boolean checkRTPing(Player player, CommandSender sendi) {
-        if (rtping.containsKey(player.getUniqueId()) && rtping.get(player.getUniqueId())) {
+        if (getPl().getpInfo().getRtping().containsKey(player) && getPl().getpInfo().getRtping().get(player)) {
             pl.getText().getAlready(sendi);
             return false;
         }
@@ -169,18 +168,20 @@ public class Commands {
     }
 
     private boolean checkCooldown(CommandSender sendi, Player player) {
-        if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
-            return true;
-        } else if (getPl().getCo.isEnabled()) { //Cooling down?
-            if (!.database.isLoaded()) //Cooldowns have yet to download
+        if (cooldownApplies(sendi, player)) { //Bypassing/Forced?
+            CooldownHandler cooldownHandler = getPl().getCooldowns();
+            if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
+                pl.getText().getCooldown(sendi, String.valueOf(-1L));
                 return false;
-            UUID id = player.getUniqueId();
-            if (cooldowns.exists(id)) {
-                if (cooldowns.locked(id)) { //Infinite cooldown (locked)
+            }
+            //Cooldown Data
+            CooldownData cooldownData = getPl().getCooldowns().getPlayer(player);
+            if (cooldownData != null) {
+                if (cooldownHandler.locked(cooldownData)) { //Infinite cooldown (locked)
                     pl.getText().getNoPermission(sendi);
                     return false;
                 } else { //Normal cooldown
-                    long Left = cooldowns.timeLeft(id);
+                    long Left = cooldownHandler.timeLeft(cooldownData);
                     if (pl.getSettings().delayEnabled && !pl.getPerms().getBypassDelay(sendi))
                         Left = Left + delayTimer;
                     if (Left > 0) {
@@ -197,6 +198,18 @@ public class Commands {
                 //cooldowns.add(id);
         }
         return true;
+    }
+
+    private boolean cooldownOverride(CommandSender sendi, Player player) {
+        return sendi != player || pl.getPerms().getBypassCooldown(player);
+    }
+
+    private boolean cooldownEnabled() {
+        return getPl().getCooldowns().isEnabled();
+    }
+
+    private boolean cooldownApplies(CommandSender sendi, Player player) {
+        return cooldownEnabled() && !cooldownOverride(sendi, player);
     }
 
     private BetterRTP getPl() {
