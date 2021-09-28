@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.worlds.WorldPlayer;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;

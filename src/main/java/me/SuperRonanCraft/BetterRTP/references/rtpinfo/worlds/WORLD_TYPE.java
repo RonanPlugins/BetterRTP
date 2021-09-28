@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.worlds;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 public enum WORLD_TYPE {
     NORMAL, //Normal world type finds the tallest safe block

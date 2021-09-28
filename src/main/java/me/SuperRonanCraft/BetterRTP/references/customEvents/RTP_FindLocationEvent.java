@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
-import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

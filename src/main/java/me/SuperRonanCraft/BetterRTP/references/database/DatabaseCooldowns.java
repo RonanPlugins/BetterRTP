@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -68,7 +68,7 @@ public class DatabaseCooldowns extends SQLite {
     }
 
     //Set a player Cooldown
-    public void setCooldown(UUID uuid, Long time, int uses) {
+    public void setCooldown(CooldownData data) {
         String pre = "INSERT OR REPLACE INTO ";
         String sql = pre + table + " ("
                 + COLUMNS.UUID.name + ", "
@@ -76,22 +76,22 @@ public class DatabaseCooldowns extends SQLite {
                 + COLUMNS.USES.name + " "
                 + ") VALUES(?, ?, ?)";
         List<Object> params = new ArrayList<>() {{
-                add(uuid.toString());
-                add(time);
-                add(uses);
+                add(data.getUuid().toString());
+                add(data.getTime());
+                add(data.getUses());
         }};
         sqlUpdate(sql, params);
     }
 
     //Update multiple players cooldowns
-    public void setCooldown(List<RTPCooldown.CooldownData> cooldownData) {
+    public void setCooldown(List<CooldownData> cooldownData) {
         String pre = "INSERT OR REPLACE INTO ";
         String sql = pre + table + " ("
                 + COLUMNS.UUID.name + ", "
                 + COLUMNS.COOLDOWN_DATE.name + ", "
                 + COLUMNS.USES.name + " "
                 + ") VALUES(?, ?, ?)";
-        for (RTPCooldown.CooldownData data : cooldownData) {
+        for (CooldownData data : cooldownData) {
             List<Object> param = new ArrayList<>() {{
                 add(data.uuid.toString());
                 add(data.time);

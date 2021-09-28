@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
-import org.bukkit.Bukkit;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

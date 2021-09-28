@@ -4,12 +4,10 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
-import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

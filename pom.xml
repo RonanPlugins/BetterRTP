@@ -256,7 +256,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>kingdoms</artifactId>
-            <version>1.10.5.3</version>
+            <version>1.11.4</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

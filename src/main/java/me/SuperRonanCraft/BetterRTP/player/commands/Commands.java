@@ -1,12 +1,12 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPCooldown;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.references.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
@@ -21,7 +21,6 @@ public class Commands {
 
     private final BetterRTP pl;
     public HashMap<UUID, Boolean> rtping = new HashMap<>();
-    public RTPCooldown cooldowns = new RTPCooldown();
     private int delayTimer;
     public List<RTPCommand> commands = new ArrayList<>();
 
@@ -32,7 +31,6 @@ public class Commands {
     public void load() {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         delayTimer = config.getInt("Settings.Delay.Time");
-        cooldowns.load();
         rtping.clear();
         commands.clear();
         for (RTPCommandType cmd : RTPCommandType.values())
@@ -173,8 +171,8 @@ public class Commands {
     private boolean checkCooldown(CommandSender sendi, Player player) {
         if (sendi != player || pl.getPerms().getBypassCooldown(player)) { //Bypassing/Forced?
             return true;
-        } else if (cooldowns.isEnabled()) { //Cooling down?
-            if (!cooldowns.database.isLoaded()) //Cooldowns have yet to download
+        } else if (getPl().getCo.isEnabled()) { //Cooling down?
+            if (!.database.isLoaded()) //Cooldowns have yet to download
                 return false;
             UUID id = player.getUniqueId();
             if (cooldowns.exists(id)) {
@@ -199,5 +197,9 @@ public class Commands {
                 //cooldowns.add(id);
         }
         return true;
+    }
+
+    private BetterRTP getPl() {
+        return BetterRTP.getInstance();
     }
 }

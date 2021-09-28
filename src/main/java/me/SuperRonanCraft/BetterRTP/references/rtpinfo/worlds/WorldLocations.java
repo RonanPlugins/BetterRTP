@@ -1,8 +1,8 @@
-package me.SuperRonanCraft.BetterRTP.references.worlds;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -10,31 +10,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
-    public String world;
+public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxBorderRad, minBorderRad, price;
     private List<String> biomes;
+    private String world;
     private RTP_SHAPE shape;
 
-    public WorldCustom(String world) {
-        //String pre = "CustomWorlds.";
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
-        List<Map<?, ?>> map = config.getMapList("CustomWorlds");
-        this.world = world;
+    public WorldLocations(String location_name) {
+        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);
+        List<Map<?, ?>> map = config.getMapList("Locations");
+        //WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
 
-        //Set Defaults
         setupDefaults();
 
-        //Find Custom World and cache values
+        //Find Location and cache its values
         for (Map<?, ?> m : map) {
             for (Map.Entry<?, ?> entry : m.entrySet()) {
                 String key = entry.getKey().toString();
-                if (!key.equals(world))
+                if (!key.equals(location_name))
                     continue;
                 Map<?, ?> test = ((Map<?, ?>) m.get(key));
                 if (test == null)
                     continue;
+                if (test.get("World") != null) {
+                    if (test.get("World").getClass() == String.class)
+                        world = test.get("World").toString();
+                } else {
+                    BetterRTP.getInstance().getLogger().warning("Location `" + location_name + "` does NOT have a World specified!");
+                    return;
+                }
                 if (test.get("UseWorldBorder") != null) {
                     if (test.get("UseWorldBorder").getClass() == Boolean.class)
                         useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
@@ -53,7 +58,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         maxBorderRad = Integer.parseInt((test.get("MaxRadius")).toString());
                     if (maxBorderRad <= 0) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Custom world '" + world + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
+                                "WARNING! Location '" + location_name + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
                         maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
                     }
                 }
@@ -62,7 +67,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         minBorderRad = Integer.parseInt((test.get("MinRadius")).toString());
                     if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
+                                "WARNING! Location '" + location_name + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
                         minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
                         if (minBorderRad >= maxBorderRad)
                             maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
@@ -77,7 +82,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         if (test.get("Price").getClass() == Integer.class)
                             this.price = Integer.parseInt(test.get("Price").toString());
                         //else
-                            //price = worldDefault.getPrice(world);
+                           // price = worldDefault.getPrice(world);
                     } //else
                         //price = worldDefault.getPrice(world);
                 if (test.get("Shape") != null) {
@@ -89,41 +94,26 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         }
                     }
                 }
+                if (test.get("UseWorldBorder") != null) {
+                    if (test.get("UseWorldBorder").getClass() == Boolean.class) {
+                        try {
+                            this.useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
+                        } catch (Exception e) {
+                            //No UseWorldBorder
+                        }
+                    }
+                }
             }
         }
-        //Booleans
-        /*useWorldborder = config.getBoolean(pre + world + ".UseWorldBorder");
-        //Integers
-        CenterX = config.getInt(pre + world + ".CenterX");
-        CenterZ = config.getInt(pre + world + ".CenterZ");
-        maxBorderRad = config.getInt(pre + world + ".MaxRadius");*/
-        if (maxBorderRad <= 0) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                    "WARNING! Custom world '" + world + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
-            maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
-        }
-        //minBorderRad = config.getInt(pre + world + ".MinRadius");
-        if (minBorderRad <= 0 || minBorderRad >= maxBorderRad) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                    "WARNING! Custom world '" + world + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
-            minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
-        }
-        /*if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("CustomWorlds.Enabled")) {
-                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds.Worlds");
-                for (Map<?, ?> m : world_map)
-                    for (Map.Entry<?, ?> entry : m.entrySet()) {
-                        String _world = entry.getKey().toString();
-                        //System.out.println("Custom World Price " + _world + ":" + entry.getValue().toString());
-                        if (!_world.equals(world))
-                            continue;
-                        if (entry.getValue().getClass() == Integer.class)
-                            price = Integer.parseInt((entry.getValue().toString()));
-                    }
-            } else
-                price = worldDefault.getPrice();*/
-        //Other
-        //this.Biomes = config.getStringList("CustomWorlds." + world + ".Biomes");
+    }
+
+    public boolean isValid() {
+        return world != null;
+    }
+
+    @Override
+    public World getWorld() {
+        return Bukkit.getWorld(world);
     }
 
     @Override
@@ -162,16 +152,12 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public World getWorld() {
-        return Bukkit.getWorld(world);
-    }
-
-    @Override
     public RTP_SHAPE getShape() {
         return shape;
     }
 
     //Setters
+
     @Override
     public void setUseWorldBorder(boolean value) {
         this.useWorldborder = value;

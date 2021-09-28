@@ -1,7 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player;
 
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import lombok.Getter;
+import lombok.Setter;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -10,31 +12,12 @@ import java.util.HashMap;
 
 public class PlayerInfo {
 
-    private final HashMap<Player, Inventory> invs = new HashMap<>();
-    private final HashMap<Player, RTP_INV_SETTINGS> invType = new HashMap<>();
-    private final HashMap<Player, World> invWorld = new HashMap<>();
-    private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
+    @Getter private final HashMap<Player, Inventory> invs = new HashMap<>();
+    @Getter private final HashMap<Player, RTP_INV_SETTINGS> invType = new HashMap<>();
+    @Getter private final HashMap<Player, World> invWorld = new HashMap<>();
+    @Getter private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
+    @Getter private final HashMap<Player, CooldownData> cooldown = new HashMap<>();
     //private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
-
-    public Inventory getInv(Player p) {
-        return invs.get(p);
-    }
-
-    public RTP_INV_SETTINGS getInvType(Player p) {
-        return invType.get(p);
-    }
-
-    public World getInvWorld(Player p) {
-        return invWorld.get(p);
-    }
-
-    public RTP_INV_SETTINGS getNextInv(Player p) {
-        return invNextInv.get(p);
-    }
-
-    //public RTP_TYPE getRTPType(Player p) {
-    //    return rtpType.getOrDefault(p, RTP_TYPE.COMMAND);
-    //}
 
     public void setInv(Player p, Inventory inv) {
         invs.put(p, inv);
@@ -51,10 +34,6 @@ public class PlayerInfo {
     public void setNextInv(Player p, RTP_INV_SETTINGS type) {
         invNextInv.put(p, type);
     }
-
-    //public void setRTPType(Player p, RTP_TYPE rtpType) {
-    //    this.rtpType.put(p, rtpType);
-    //}
 
     //--Logic--
 

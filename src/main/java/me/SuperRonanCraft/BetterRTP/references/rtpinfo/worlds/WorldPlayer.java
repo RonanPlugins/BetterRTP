@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.worlds;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
@@ -7,7 +7,6 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.worlds;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
@@ -6,7 +6,6 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import scala.Int;
 
 import java.util.HashMap;
 import java.util.List;

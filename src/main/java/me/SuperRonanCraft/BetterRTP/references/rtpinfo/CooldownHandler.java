@@ -1,9 +1,11 @@
-package me.SuperRonanCraft.BetterRTP.player.rtp;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.Getter;
+import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,11 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class RTPCooldown {
+public class CooldownHandler {
 
-    private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
-    private HashMap<UUID, Integer> uses = null; //Players locked from rtp'ing ever again
-    public final DatabaseCooldowns database = new DatabaseCooldowns();
+    //private final HashMap<UUID, Long> cooldowns = new HashMap<>(); //Cooldown timer for each player
+    //private HashMap<UUID, Integer> uses = null; //Players locked from rtp'ing ever again
     @Getter boolean enabled;
     private int
             timer, //Cooldown timer
@@ -28,37 +29,31 @@ public class RTPCooldown {
 
     public void load() {
         //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
-        cooldowns.clear();
-        if (uses != null)
-            uses.clear();
+        getPInfo().getCooldown().clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         enabled = config.getBoolean("Settings.Cooldown.Enabled");
         if (enabled) {
             timer = config.getInt("Settings.Cooldown.Time");
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
-            if (lockedAfter > 0)
-                uses = new HashMap<>();
+            //if (lockedAfter > 0)
+            //    uses = new HashMap<>();
         }
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-            database.load();
-            OldCooldownConverter.loadOldCooldowns(database);
+            getDatabase().load();
+            OldCooldownConverter.loadOldCooldowns();
             //Load any online players cooldowns (mostly after a reload)
             for (Player p : Bukkit.getOnlinePlayers())
                 loadPlayer(p.getUniqueId());
         });
     }
 
-    public void add(UUID id) {
+    public void add(Player player) {
         if (!enabled) return;
-        cooldowns.put(id, System.currentTimeMillis());
-        if (lockedAfter > 0) {
-            if (uses.containsKey(id))
-                uses.put(id, uses.get(id) + 1);
-            else
-                uses.put(id, 1);
-            savePlayer(id, true, cooldowns.get(id), uses.get(id));
-        } else
-            savePlayer(id, true, cooldowns.get(id), 0);
+        CooldownData data = getPInfo().getCooldown().getOrDefault(player,
+                new CooldownData(player.getUniqueId(), System.currentTimeMillis(), 0));
+        if (lockedAfter > 0)
+            data.setUses(data.getUses() + 1);
+        savePlayer(data);
     }
 
     public boolean exists(UUID id) {
@@ -76,27 +71,29 @@ public class RTPCooldown {
         return false;
     }
 
-    public void removeCooldown(UUID id) {
+    public void removeCooldown(Player player) {
         if (!enabled) return;
-        if (lockedAfter > 0) {
-            uses.put(id, uses.getOrDefault(id, 1) - 1);
-            if (uses.get(id) <= 0) { //Remove from file as well
-                savePlayer(id, false, 0L, 0);
-            } else { //Keep the player cached
-                savePlayer(id, false, cooldowns.get(id), uses.get(id));
+        CooldownData data = getPInfo().getCooldown().get(player);
+        if (data != null)
+            if (lockedAfter > 0) {
+                //uses.put(id, uses.getOrDefault(id, 1) - 1);
+                if (data.getUses() <= 0) { //Remove from file as well
+                    savePlayer(data, true);
+                    getPInfo().getCooldown().remove(player);
+                } else { //Keep the player cached
+                    savePlayer(data, false);
+                }
+            } else { //Remove completely
+                getPInfo().getCooldown().remove(player);
+                savePlayer(data, true);
             }
-            cooldowns.remove(id);
-        } else { //Remove completely
-            cooldowns.remove(id);
-            savePlayer(id, false, 0L, 0);
-        }
     }
 
-    private void savePlayer(UUID uuid, boolean adding, long time, int attempts) {
-        if (adding) {
-            database.setCooldown(uuid, time, attempts);
+    private void savePlayer(CooldownData data, boolean remove) {
+        if (!remove) {
+            getDatabase().setCooldown(data);
         } else {
-            database.removePlayer(uuid);
+            getDatabase().removePlayer(data.getUuid());
         }
         /*YamlConfiguration config = getFile();
         if (config == null) {
@@ -141,7 +138,7 @@ public class RTPCooldown {
 
     public void loadPlayer(UUID uuid) {
         if (isEnabled()) {
-            List<Object> data = database.getCooldown(uuid);
+            List<Object> data = getDatabase().getCooldown(uuid);
             if (data != null) {
                 cooldowns.put(uuid, (Long) data.get(0));
                 uses.put(uuid, (int) data.get(1));
@@ -171,7 +168,7 @@ public class RTPCooldown {
 
     static class OldCooldownConverter {
 
-        static void loadOldCooldowns(DatabaseCooldowns database) {
+        static void loadOldCooldowns() {
             File file = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
             YamlConfiguration config = getFile(file);
             if (config == null) return;
@@ -195,7 +192,7 @@ public class RTPCooldown {
             }
             BetterRTP.getInstance().getLogger().info("Cooldowns converting to new database...");
             Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-                database.setCooldown(cooldownData);
+                BetterRTP.getInstance().getDatabase().setCooldown(cooldownData);
                 BetterRTP.getInstance().getLogger().info("Cooldowns have been converted to the new database!");
             });
         }
@@ -221,15 +218,11 @@ public class RTPCooldown {
         }
     }
 
-    public static class CooldownData {
-        public UUID uuid;
-        public Long time;
-        public int uses;
+    private DatabaseCooldowns getDatabase() {
+        return BetterRTP.getInstance().getDatabase();
+    }
 
-        CooldownData(UUID uuid, Long time, int uses) {
-            this.uuid = uuid;
-            this.time = time;
-            this.uses = uses;
-        }
+    private PlayerInfo getPInfo() {
+        return BetterRTP.getInstance().getpInfo();
     }
 }

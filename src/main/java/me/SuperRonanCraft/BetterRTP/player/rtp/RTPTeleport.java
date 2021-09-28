@@ -3,7 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.*;
-import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;

@@ -2,10 +2,9 @@ package me.SuperRonanCraft.BetterRTP.player.rtp.queue;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
-import me.SuperRonanCraft.BetterRTP.references.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

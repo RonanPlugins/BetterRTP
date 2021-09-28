@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.worlds;
+package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.World;

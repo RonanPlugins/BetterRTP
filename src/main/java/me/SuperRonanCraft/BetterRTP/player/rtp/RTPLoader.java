@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import me.SuperRonanCraft.BetterRTP.references.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
