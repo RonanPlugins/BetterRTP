@@ -1,8 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import lombok.NonNull;
-import me.RonanCraft.Pueblos.resources.files.FileOther;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -81,22 +81,8 @@ public class SQLite {
 
     public void load() {
         loaded = false;
-        FileOther.FILETYPE sql = FileOther.FILETYPE.MYSQL;
-        String pre = "MySQL.";
-        sqlEnabled = sql.getBoolean(pre + "enabled");
-        host = sql.getString(pre + "host");
-        port = sql.getInt(pre + "port");
-        database = sql.getString(pre + "database");
-        username = sql.getString(pre + "username");
-        password = sql.getString(pre + "password");
-        if (!sqlEnabled) { //Update table names back to default if online database fails
-            switch (type) {
-                case COOLDOWN: table = "BetterRTP_Cooldown"; break;
-            }
-        } else {
-            switch (type) {
-                case COOLDOWN: table = sql.getString(pre + "tablePrefix") + "Cooldown"; break;
-            }
+        switch (type) {
+            case COOLDOWN: table = "BetterRTP_Cooldown"; break;
         }
         if (table == null) {
             BetterRTP.getInstance().getLogger().severe("The table for `" + type.name() + "` is invalid. Disabling the plugin!");
