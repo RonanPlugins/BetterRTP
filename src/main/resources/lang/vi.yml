@@ -16,7 +16,7 @@ Messages:
     Success: '&a%player% đã được dịch chuyển tới&7 x=%x% y=%y% z=%z% trong &f%attempts% &7lần tìm kiếm!'
     NotSafe: '&cKhông thể tìm thấy vị trí an toàn trong %attempts% lần tìm kiếm! &7%player% không được dịch chuyển!'
     Biome: '&cCó vẻ như biome&7 %biome%&c không tồn tại! &7Hãy thử dùng trong tablist!'
-  Reload: '&Tải lại config thành công!'
+  Reload: '&aTải lại config thành công!'
   NoPermission:
     Basic: '&cXin Lỗi! &7Bạn không có quyền!'
     World: '&cXin Lỗi! &7Bạn không có quyền dịch chuyển đến %world% world!'
