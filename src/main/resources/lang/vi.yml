@@ -1,0 +1,64 @@
+# Translated by Vo Chi Danh, Discord is VoChiDanh#0862
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success:
+    Paid: '&aBạn đã được dịch chuyển tới &7 x=%x% y=%y% z=%z% với giá &c$%price%&7 trong &f%attempts%
+      &7lần!'
+    Bypass: '&aBạn đã được dịch chuyển tới&7 x=%x% y=%y% z=%z% trong &f%attempts% &7lần'
+    Loading: '&aVị trí an toàn được định vị! &7Tải địa hình...'
+    Teleport: '&aDịch chuyển... &fVui lòng đợi trong khi chúng tôi tìm thấy một vị trí an toàn!'
+  Failed:
+    Price: '&cKhông thể rtp vì các quỹ không chính thức! &7Bạn phải có ít nhất
+      $%price% &7để dịch chuyển!'
+    NotSafe: '&cKhông thể tìm thấy vị trí an toàn trong %attempts% lần tìm kiếm! &7Bạn không được dịch chuyển'
+    Hunger: '&cKhông thể dịch chuyển vì bạn... &7quá đóii&c, ăn 1 chút gì đi!'
+  Other:
+    Success: '&a%player% đã được dịch chuyển tới&7 x=%x% y=%y% z=%z% trong &f%attempts% &7lần tìm kiếm!'
+    NotSafe: '&cKhông thể tìm thấy vị trí an toàn trong %attempts% lần tìm kiếm! &7%player% không được dịch chuyển!'
+    Biome: '&cCó vẻ như biome&7 %biome%&c không tồn tại! &7Hãy thử dùng trong tablist!'
+  Reload: '&Tải lại config thành công!'
+  NoPermission:
+    Basic: '&cXin Lỗi! &7Bạn không có quyền!'
+    World: '&cXin Lỗi! &7Bạn không có quyền dịch chuyển đến %world% world!'
+  DisabledWorld: '&c%world% đã bị tắt dịch chuyển! &7Không thể dịch chuyển!'
+  Cooldown: '&cXin Lỗi! &7Bạn không thể dịc chuyển trong &c%time% &7giây!'
+  Locked: '&cXin Lỗi! &7Bạn đã sử dụng hết tất cả RTP của mình!'
+  Invalid: '&cĐối số không hợp lệ. Thử ''/%command% help'''
+  NotOnline: '&cNgười chơi &7%player% &ckhông hoạt động!'
+  Delay: '&aDịch chuyển trong f%time% &agiây! Đừng dịch chuyển!'
+  Moved: '&cBạn đã di chuyển! &7Dịch chuyển ngẫu nhiên bị hủy'
+  NotExist: '&cCó vẻ như thế giới &7%world% &ckhông tồn tại!'
+  Already: '&cCó vẻ nhưuu! &7Có vẻ như bạn đã chuẩn bị dịch chuyển, hãy kiên nhẫn một chút!'
+  Sign: '&7Lệnh bảng đã được tạo! &7Lệnh là... ''&f/rtp %command%&7'''
+  Edit:
+    Error: '&cLỗi! &7 Đầu vào không hợp lệ được cung cấp!'
+    Set: '&bThành công! &7%type% đặt thành %value%'
+    Remove: '&cLoại bỏ! &7Bạn đã loại bỏ world %world%'
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| Help &e&m-----'
+  Main: ' &7- &e/%command% &7- Dịch chuyển ngẫu nhiên!'
+  Biome: ' &7- &e/%command% biome <quần xã 1, quần xã 2,......> &7- Dịch chuyển một cách ngẫu nhiên những quần xã sinh vật này'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Chỉnh sửa một số cài đặt plugin'
+  Help: ' &7- &e/%command% help &7- Hiển thị danh sách trợ giúp'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Xem cụ thể thông tin về các thông số plugin'
+  Player: ' &7- &e/%command% player <người chơi> [thế giới] [quần xã 1, quần xã 2,......] &7-Dịch chuyển ngẫu nhiên người chơi khác'
+  Reload: ' &7- &e/%command% reload &7- Tải lại plugins'
+  Settings: ' &7- &e/%command% settings &7- Kéo một gui lên và chỉnh sửa một số cài đặt'
+  Test: ' &7- &e/%command% test &7- Kiểm tra các hiệu ứng plugin sau khi dịch chuyển tức thời mà không có động'
+  Version: ' &7- &e/%command% version &7- Xem phiên bản hiện đang chạy'
+  World: ' &7- &e/%command% world <thế giới> [quần xã 1, quần xã 2,......] &7- Dịch chuyển ngẫu nhiên ở một thế giới khác'
+  Location: ' &7- &e/%command% location <tên địa điểm> &7- Dịch chuyển bằng cách sử dụng một vị trí cụ thể'
+Usage:
+  Player: '&cUsage&7: /%command% player <người chơi> [thế giới] [quần xã 1, quần xã 2]'
+  World: '&cUsage&7: /%command% world <thế giới> [quần xã 1, quần xã 2,......]'
+  Biome: '&cUsage&7: /%command% biome <quần xã 1, quần xã 2,......>'
+  Location: '&cUsage&7: /%command% location <tên địa điểm>'
+  Edit:
+    Base: '&cUsage&7: /%command% edit <default/world> [args...]'
+    Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'
+    World: '&cUsage&7: /%command% edit world <thế giới> <max/min/useworldborder/center>
+      <value>'
+    Worldtype: '&cUsage&7: /%command% edit world_type <thế giới> <NETHER/NORMAL>'
+    Override: '&cUsage&7: /%command% edit override <thế giới> <world_to>'
+    BlacklistedBlocks: '&cUsage&7: /%command% edit blacklistedblocks <add/remove>
+      <block_id>'
