@@ -37,7 +37,7 @@ public class DatabaseCooldowns extends SQLite {
     public boolean removePlayer(UUID uuid) {
         String sql = "DELETE FROM " + table + " WHERE "
                 + COLUMNS.UUID.name + " = ?";
-        List<Object> params = new ArrayList<>() {{
+        List<Object> params = new ArrayList<Object>() {{
             add(uuid.toString());
         }};
         return sqlUpdate(sql, params);
@@ -74,7 +74,7 @@ public class DatabaseCooldowns extends SQLite {
                 + COLUMNS.COOLDOWN_DATE.name + ", "
                 + COLUMNS.USES.name + " "
                 + ") VALUES(?, ?, ?)";
-        List<Object> params = new ArrayList<>() {{
+        List<Object> params = new ArrayList<Object>() {{
                 add(data.getUuid().toString());
                 add(data.getTime());
                 add(data.getUses());
@@ -91,7 +91,7 @@ public class DatabaseCooldowns extends SQLite {
                 + COLUMNS.USES.name + " "
                 + ") VALUES(?, ?, ?)";
         for (CooldownData data : cooldownData) {
-            List<Object> param = new ArrayList<>() {{
+            List<Object> param = new ArrayList<Object>() {{
                 add(data.getUuid().toString());
                 add(data.getTime());
                 add(data.getUses());

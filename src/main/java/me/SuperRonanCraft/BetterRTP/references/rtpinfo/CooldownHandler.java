@@ -39,12 +39,21 @@ public class CooldownHandler {
         }
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             getDatabase().load();
-            OldCooldownConverter.loadOldCooldowns();
-            //Load any online players cooldowns (mostly after a reload)
-            for (Player p : Bukkit.getOnlinePlayers())
-                loadPlayer(p);
-            loaded = true;
+            checkLater();
         });
+    }
+
+    private void checkLater() {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
+            if (getDatabase().isLoaded()) {
+                OldCooldownConverter.loadOldCooldowns();
+                //Load any online players cooldowns (mostly after a reload)
+                for (Player p : Bukkit.getOnlinePlayers())
+                    loadPlayer(p);
+                loaded = true;
+            } else
+                checkLater();
+        }, 10L);
     }
 
     public void add(Player player) {
