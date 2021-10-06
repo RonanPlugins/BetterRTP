@@ -1,10 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds;
 
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

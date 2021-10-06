@@ -9,15 +9,15 @@ import org.bukkit.entity.Player;
 public class PortalsCommand_Loc2 implements PortalsCommands, LocationFinder {
 
     @Override
-    public void execute(CommandSender sendi, String label, String[] args, AddonPortals addonPortals) {
+    public void execute(CommandSender sendi, String label, String[] args, AddonPortals addon) {
         Player p = (Player) sendi;
         Block block = getTargetBlock(p, 10);
         if (block != null) {
             Location loc = block.getLocation();
-            addonPortals.msgs.getLocation_2(sendi, loc);
-            addonPortals.getPortals().cachePortal(p, loc, true);
+            addon.msgs.getLocation_2(sendi, loc);
+            addon.getPortals().cachePortal(p, loc, true);
         } else {
-            addonPortals.msgs.getLocation_Look(sendi);
+            addon.msgs.getLocation_Look(sendi);
         }
     }
 }

@@ -1,24 +1,24 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
+package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
+import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
+public class PartyCommand implements RTPCommand, RTPCommandHelpable {
 
-    AddonPortals pl;
+    AddonParty pl;
 
-    public PortalsCommand(AddonPortals pl) {
+    public PartyCommand(AddonParty pl) {
         this.pl = pl;
     }
 
     public String getName() {
-        return "portals";
+        return "party";
     }
 
     @Override
@@ -45,8 +45,8 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
         } else if (args.length >= 3) {
             for (subCmd cmd : subCmd.values()) {
                 if (cmd.name().toLowerCase().startsWith(args[1].toLowerCase())) {
-                    if (cmd.cmd instanceof PortalsCommandsTabable)
-                        list.addAll(((PortalsCommandsTabable) cmd.cmd).tabComplete(sendi, args, pl));
+                    if (cmd.cmd instanceof PartyCommandsTabable)
+                        list.addAll(((PartyCommandsTabable) cmd.cmd).tabComplete(sendi, args, pl));
                 }
             }
         }
@@ -64,15 +64,13 @@ public class PortalsCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     private enum subCmd {
-        LOC1(new PortalsCommand_Loc1()),
-        LOC2(new PortalsCommand_Loc2()),
-        CREATE(new PortalsCommand_Create()),
-        REMOVE(new PortalsCommand_Remove()),
-        LIST(new PortalsCommand_List());
+        CREATE(new PartyCommand_Invite()),
+        REMOVE(new PartyCommand_Leave()),
+        LIST(new PartyCommand_Accept());
 
-        PortalsCommands cmd;
+        PartyCommands cmd;
 
-        subCmd(PortalsCommands cmd) {
+        subCmd(PartyCommands cmd) {
             this.cmd = cmd;
         }
     }

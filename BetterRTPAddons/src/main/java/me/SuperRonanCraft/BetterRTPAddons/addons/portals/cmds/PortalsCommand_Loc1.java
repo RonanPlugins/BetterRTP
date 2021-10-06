@@ -12,15 +12,15 @@ public class PortalsCommand_Loc1 implements PortalsCommands, LocationFinder {
     private PacketContainer fakeBlock;
 
     @Override
-    public void execute(CommandSender sendi, String label, String[] args, AddonPortals addonPortals) {
+    public void execute(CommandSender sendi, String label, String[] args, AddonPortals addon) {
         Player p = (Player) sendi;
         Block block = getTargetBlock(p, 10);
         if (block != null) {
             Location loc = block.getLocation();
-            addonPortals.msgs.getLocation_1(sendi, loc);
-            addonPortals.getPortals().cachePortal(p, loc, false);
+            addon.msgs.getLocation_1(sendi, loc);
+            addon.getPortals().cachePortal(p, loc, false);
         } else {
-            addonPortals.msgs.getLocation_Look(sendi);
+            addon.msgs.getLocation_Look(sendi);
         }
     }
 }

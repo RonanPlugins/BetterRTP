@@ -55,3 +55,6 @@ Commands:
       Enabled: false
       Commands:
         - 'broadcast &e%player_name% moved while trying to rtp, chump!'
+
+PartyRTP:
+  Enabled: false

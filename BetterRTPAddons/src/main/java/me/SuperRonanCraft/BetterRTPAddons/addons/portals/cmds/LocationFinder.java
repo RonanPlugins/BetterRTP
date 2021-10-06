@@ -1,9 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds;
 
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockIterator;
 

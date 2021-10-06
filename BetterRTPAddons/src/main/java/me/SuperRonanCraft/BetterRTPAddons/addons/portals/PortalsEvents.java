@@ -16,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class PortalsEvents implements Listener {
 

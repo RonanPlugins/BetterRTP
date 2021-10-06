@@ -44,6 +44,7 @@ public class AddonsHandler {
         MAGICSTICK(new AddonMagicStick()),      //Handy teleport want
         EXTRAEFFECTS(new AddonExtraEffects()),  //New cosmetica!
         COMMANDS(new AddonCommands()),          //Commands on rtp events
+        PARTY_RTP(new me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty()),
         ;
 
         Addon addon;
