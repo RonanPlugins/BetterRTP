@@ -27,6 +27,9 @@ MagicStick:
   Give: '&dMagic Stick&7 has been given to &a%player%'
   Given: '&7A &dMagic Stick&7 has been given to you'
   Player: '&cWhoops! &7Seems like their is no player by the name of &a%player% &7online!'
+Party:
+  Invite: '&f%player_name% has been invited to an rtp party!'
+  Invited: '&f%player_name% has invited you to join their rtp party!'
 Addons:
   List:
     Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Addons Info &e&m-----'

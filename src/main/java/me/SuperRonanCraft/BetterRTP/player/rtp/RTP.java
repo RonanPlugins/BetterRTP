@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
@@ -111,6 +112,11 @@ public class RTP {
     }
 
     public void start(RTPSetupInformation setup_info) {
+
+        if (new RTP_SettingUpEvent(setup_info.player).isCancelled()) {
+            return;
+        }
+
         String world_name = setup_info.world;
         Player p = setup_info.player;
         CommandSender sendi = setup_info.sender;

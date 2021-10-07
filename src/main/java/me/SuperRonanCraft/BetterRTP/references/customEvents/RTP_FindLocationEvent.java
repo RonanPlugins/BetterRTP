@@ -6,12 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RTP_FindLocationEvent extends Event implements RTPEvent {
+public class RTP_FindLocationEvent extends RTPEvent {
 
     Player p;
     RTPWorld world;
     Location loc = null;
-    private static final HandlerList handler = new HandlerList();
 
     public RTP_FindLocationEvent(Player p, RTPWorld world) {
         this.p = p;
@@ -32,14 +31,5 @@ public class RTP_FindLocationEvent extends Event implements RTPEvent {
 
     public Player getPlayer() {
         return p;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handler;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handler;
     }
 }

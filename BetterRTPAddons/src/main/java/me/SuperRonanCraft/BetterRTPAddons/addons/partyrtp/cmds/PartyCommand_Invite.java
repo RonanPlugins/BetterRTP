@@ -20,7 +20,8 @@ public class PartyCommand_Invite implements PartyCommands, PartyCommandsTabable 
         if (HelperParty.isInParty(p))
             party = HelperParty.getParty(p);
         else
-            party = new PartyData()
+            party = new PartyData(p);
+
     }
 
     //rtp party invite [args]

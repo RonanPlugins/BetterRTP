@@ -10,7 +10,7 @@ public class PartyData {
     final Player leader;
     List<Player> members = new ArrayList<>();
 
-    PartyData(Player leader) {
+    public PartyData(Player leader) {
         this.leader = leader;
     }
 

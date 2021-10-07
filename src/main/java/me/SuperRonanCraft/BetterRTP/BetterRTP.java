@@ -14,6 +14,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.Messages;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
+import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerDataManager;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,7 @@ public class BetterRTP extends JavaPlugin {
     private final Files files = new Files();
     private final RTPInventories invs = new RTPInventories();
     private final PlayerInfo pInfo = new PlayerInfo();
+    @Getter private final PlayerDataManager playerDataManager = new PlayerDataManager();
     private final Settings settings = new Settings();
     @Getter private final DatabaseCooldowns databaseCooldowns = new DatabaseCooldowns();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
@@ -112,7 +114,7 @@ public class BetterRTP extends JavaPlugin {
 
     //(Re)Load all plugin systems/files/cache
     private void loadAll() {
-        pInfo.unloadAll();
+        playerDataManager.clear();
         files.loadAll();
         settings.load();
         invs.load();

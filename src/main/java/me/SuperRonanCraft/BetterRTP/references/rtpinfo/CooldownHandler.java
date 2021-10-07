@@ -5,6 +5,8 @@ import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.systems.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,7 +30,6 @@ public class CooldownHandler {
 
     public void load() {
         //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
-        getPInfo().getCooldown().clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         enabled = config.getBoolean("Settings.Cooldown.Enabled");
         downloading.clear();
@@ -58,22 +59,23 @@ public class CooldownHandler {
 
     public void add(Player player) {
         if (!enabled) return;
-        CooldownData data = getPInfo().getCooldown().getOrDefault(player,
-                new CooldownData(player.getUniqueId(), 0L, 0));
+        CooldownData data = getData(player).getCooldown();
+        if (data == null)
+            data = new CooldownData(player.getUniqueId(), 0L, 0);
         if (lockedAfter > 0)
             data.setUses(data.getUses() + 1);
         data.setTime(System.currentTimeMillis());
-        getPInfo().getCooldown().put(player, data);
+        getData(player).setCooldown(data);
         savePlayer(data, false);
     }
 
     public boolean exists(Player p) {
-        return getPInfo().getCooldown().containsKey(p);
+        return getData(p).getCooldown() != null;
     }
 
     @Nullable
     public CooldownData getPlayer(Player p) {
-        return getPInfo().getCooldown().getOrDefault(p, null);
+        return getData(p).getCooldown();
     }
 
     public long timeLeft(CooldownData data) {
@@ -87,18 +89,18 @@ public class CooldownHandler {
 
     public void removeCooldown(Player player) {
         if (!enabled) return;
-        CooldownData data = getPInfo().getCooldown().get(player);
+        CooldownData data = getData(player).getCooldown();
         if (data != null)
             if (lockedAfter > 0) {
                 //uses.put(id, uses.getOrDefault(id, 1) - 1);
                 if (data.getUses() <= 0) { //Remove from file as well
                     savePlayer(data, true);
-                    getPInfo().getCooldown().remove(player);
+                    getData(player).setCooldown(null);
                 } else { //Keep the player cached
                     savePlayer(data, false);
                 }
             } else { //Remove completely
-                getPInfo().getCooldown().remove(player);
+                getData(player).setCooldown(null);
                 savePlayer(data, true);
             }
     }
@@ -116,9 +118,9 @@ public class CooldownHandler {
     public void loadPlayer(Player player) {
         downloading.add(player);
         if (isEnabled()) {
-            CooldownData data = getDatabase().getCooldown(player.getUniqueId());
-            if (data != null)
-                getPInfo().getCooldown().put(player, data);
+            CooldownData cooldown = getDatabase().getCooldown(player.getUniqueId());
+            if (cooldown != null)
+                getData(player).setCooldown(cooldown);
         }
         downloading.remove(player);
     }
@@ -184,7 +186,7 @@ public class CooldownHandler {
         return BetterRTP.getInstance().getDatabaseCooldowns();
     }
 
-    private PlayerInfo getPInfo() {
-        return BetterRTP.getInstance().getpInfo();
+    private PlayerData getData(Player p) {
+        return HelperPlayer.getData(p);
     }
 }

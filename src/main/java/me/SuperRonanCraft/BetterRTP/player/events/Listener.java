@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.PluginManager;
 
 public class Listener implements org.bukkit.event.Listener {
@@ -53,6 +54,11 @@ public class Listener implements org.bukkit.event.Listener {
     @SuppressWarnings("unused")
     private void click(InventoryClickEvent e) {
         click.click(e);
+    }
+
+    @EventHandler
+    private void teleport(PlayerTeleportEvent e) {
+        Teleport.tpEvent(e);
     }
 
     /*@EventHandler

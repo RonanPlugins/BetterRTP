@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RTP_CommandEvent extends Event implements RTPEvent {
+public class RTP_CommandEvent extends RTPEvent {
 
     CommandSender sendi;
     RTPCommand cmd;
@@ -23,14 +23,5 @@ public class RTP_CommandEvent extends Event implements RTPEvent {
 
     public RTPCommand getCmd() {
         return cmd;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handler;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handler;
     }
 }

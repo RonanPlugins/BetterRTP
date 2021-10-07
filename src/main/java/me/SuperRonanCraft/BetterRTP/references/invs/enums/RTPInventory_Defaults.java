@@ -3,6 +3,8 @@ package me.SuperRonanCraft.BetterRTP.references.invs.enums;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
+import me.SuperRonanCraft.BetterRTP.references.systems.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,9 +36,9 @@ public interface RTPInventory_Defaults {
     }
 
     default void cacheInv(Player p, Inventory inv, RTP_INV_SETTINGS type) {
-        PlayerInfo info = BetterRTP.getInstance().getpInfo();
-        info.setInv(p, inv);
-        info.setInvType(p, type);
+        PlayerData info = HelperPlayer.getData(p);
+        info.getMenu().setInv(inv);
+        info.getMenu().setInvType(type);
     }
 
     default Inventory createInv(int size, String title) {
