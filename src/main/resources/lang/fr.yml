@@ -1,61 +1,103 @@
 # Translation author: OasisAkari (GitHub)
 # MAJ author : Nogapra (Github) Nogapra#2800 (Discord)
 Messages:
-  Prefix: '&7[&6BetterRTP&7] '
-  Success:
-    Paid: '&aVous avez été téléporté aux coordonnées &7x=%x% y=%y% z=%z% pour un prix de &c$%price%&7 en &f%attempts% &7tentatives !'
-    Bypass: '&aVous avez été téléporté aux cooordonées &7x=%x% y=%y% z=%z% en &f%attempts% &7tentatives !'
-    Loading: '&aUn endroit sûr a été trouvé ! &7Chargement des chunks...'
-    Teleport: '&aTéléportation... &fMerci de patienter pendant la recherche d''un endroit sûr !'
-  Failed:
-    Price: '&cVous n''avez pas pu être téléporté; Manque de fonds ! &7Vous devez avoir au moins $%price% &7pour vous téléporter !'
-    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives ! &7Vous n''avez pas été téléporté !'
-    Hunger: '&cImpossible de vous téléporter car vous avez trop faim, manger pour remplir votre barre de nourriture !'
-  Other:
-    Success: '&a%player% a été téléporté aux coordonées &7x=%x% y=%y% z=%z% em &f%attempts% &7tentatives !'
-    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives ! &7%player% n''a pas été téléporté !'
-    Biome: '&cIl demblerais que le biome &7%biome% &cn''existe pas ! &7Utiliser l''autocomplétion de la Tab list !'
-  Reload: '&eConfiguration rechargée avec succès !'
-  NoPermission:
-    Basic: '&cDésolé ! Vous n''avez pas la permission de faire cela !'
-    World: '&cDésolé ! Vous n''êtes pas autorisé à vous téléporter dans le monde %world% !'
-  DisabledWorld: '&cLe monde %world% est désactivé ! &7Impossible de se téléporter !'
-  Cooldown: '&cDésolé ! Vous ne pouvez pas vous téléporter pendant encore &6%time% &csecondes !'
   Locked: '&cSDésolé ! &7Vous avez utilisé tous vos RTP''s !'
-  Invalid: '&cArgument invalide. Essayer ''/%command% help'''
-  NotOnline: '&cLe joueur &7%player% &cn''est pas en ligne !'
-  Delay: '&aTéléportation dans &f%time% &asecondes ! Ne bougez pas !'
-  Moved: '&cVous avez bougé ! &7Téléportation annulée !'
-  NotExist: '&cLe monde &7%world% &cn''existe pas !'
-  Already: '&cOups! &7Il semblerait que vous essaiyez déjà de vous téléporter... Patientez un peu !'
   Sign: '&7Le panneau de commande a été créé ! &7La commande est... ''&f/rtp %command%&7'''
   Edit:
     Error: '&cErreur ! &cEntrée invalide !'
     Set: '&aSuccès ! %type% définie sur %value%'
     Remove: '&cRetiré ! Vous avez retiré le Monde Custom %world%'
+  Prefix: '&7[&6BetterRTP&7] '
+  Success:
+    Loading: '&aUn endroit sûr a été trouvé ! &7Chargement des chunks...'
+    Teleport: '&aTéléportation... &fMerci de patienter pendant la recherche d''un
+      endroit sûr !'
+    Paid: '&aVous venez d''être téléporté aux coordonnées &7x=%x% y=%y% z=%z% pour
+      un prix de &c$%price%&7 en &f%attempts% &7tentatives !'
+    Bypass: '&aVous venez d''être téléporté aux cooordonées &7x=%x% y=%y% z=%z% en
+      &f%attempts% &7tentatives !'
+  Failed:
+    Hunger: '&cImpossible de vous téléporter car vous avez trop faim, manger pour
+      remplir votre barre de nourriture !'
+    Price: '&cVous n''avez pas été téléporter car vous n''avez pas assez d''argent
+      ! &7 Vous devez avoir au minimum $%price% &7pour vous rtp !'
+    NotSafe: '&cNous n''avons pas trouvé d''emplacement sur dans %attempts% attempts!
+      &7Vous n''êtes pas RTP !'
+  Other:
+    Biome: '&cIl semblerais que le biome &7%biome% &cn''existe pas ! &7Utiliser l''autocomplétion
+      de la Tablist !'
+    Success: '&a%player% a été téléporté aux coordonées &7x=%x% y=%y% z=%z% em &f%attempts%
+      &7tentatives !'
+    NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives ! &7%player%
+      n''a pas été téléporté !'
+  Reload: '&eLes fichiers de configuration rechargée avec succès !'
+  NoPermission:
+    Basic: '&cDésolé ! Vous n''avez pas la permission de faire cela !'
+    World: '&cDésolé ! Vous n''êtes pas autorisé à vous téléporter dans le monde %world%
+      !'
+  DisabledWorld: '&cLe monde %world% est désactivé ! &7Impossible de se téléporter
+    !'
+  Cooldown: '&cDésolé ! Vous ne pouvez pas vous téléporter pendant encore &6%time%
+    &csecondes !'
+  Invalid: '&cArgument invalide. Essayer ''/%command% help'''
+  NotOnline: '&cLe joueur &7%player% &cn''est pas en ligne !'
+  Delay: '&aTéléportation dans &f%time% &asecondes ! Ne bougez pas !'
+  Moved: '&cVous avez bougé ! &7Téléportation annulée !'
+  NotExist: '&cLe monde &7%world% &cn''existe pas !'
+  Already: '&cOups! &7Il semblerait que vous essaiyez déjà de vous téléporter... Patientez
+    un peu !'
+Titles:
+  Enabled: true
+  Delay:
+    SendChatMessage: true
+    Title: '&6RTP'
+    Subtitle: '&fTeleportation dans %time% secondes !'
+  Success:
+    SendChatMessage: true
+    Title: '&6Téléportation terminée &7(%attempts%)'
+    Subtitle: vers x=%x% y=%y% z=%z% Bon jeu !
 Help:
-  Prefix: '&e&m-----&6&l BetterRTP &8| Aide &e&m-----'
+  Location: ' &7- &e/%command% location <location_name> &7- Téléportez vous en utilisant
+    une location spécifique'
+  Prefix: '&e&m-----&6&lJLS &2RTP &8| Aide &e&m-----'
   Main: ' &7- &e/%command% &7- Téléportez vous aléatoirement'
-  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Téléportez vous aléatoirement parmi ces biomes'
-  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Modifiez quelques paramètres du plugin'
-  Help: ' &7- &e/%command% help &7- Affichez l''aide'
-  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Visualisez les infos du plugin sur des paramètres spécifiques'
-  Player: ' &7- &e/%command% player <joueur> [monde] &7- Téléporter aléatoirement un autre joueur'
-  Reload: ' &7- &e/%command% reload &7- Recharger le plugin !'
-  Settings: ' &7- &e/%command% settings &7- Afficher une interface pour modifier des paramètres'
-  Test: ' &7- &e/%command% test &7- Testez les effets du plugin après une téléportation sans bouger'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Téléportez vous aléatoirement
+    parmi ces biomes'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Modifier quelques paramètres
+    du plugin'
+  Help: ' &7- &e/%command% help &7- Afficher l''aide'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Visualiser
+    les infos du plugin sur des paramètres spécifiques'
+  Settings: ' &7- &e/%command% settings &7- Afficher une interface pour modifier des
+    paramètres'
+  Test: ' &7- &e/%command% test &7- Tester les effets du plugin après une téléportation
+    sans bouger'
   Version: ' &7- &e/%command% version &7- Voir la version en cours d''exécution'
-  World: ' &7- &e/%command% world <monde> &7- Téléportez vous aléatoirement dans un autre monde'
-  Location: ' &7- &e/%command% location <location_name> &7- Téléporté vous en utilisant une location spécidfique'
+  List:
+  - '&e&m------&r &6&lJLS &2RTP &8| &7Aide &e&m------'
+  - ' &7- &e/%command% &7- Vous téléporte aléatoirement dans le monde !'
+  - ' &7- &e/%command% help &7- Vue de la liste d''aide'
+  Player: ' &7- &e/%command% player <joueur> [monde] &7- Téléporter aléatoirement
+    un autre joueur'
+  World: ' &7- &e/%command% world <monde> &7- Téléportez vous aléatoirement dans un
+    autre monde'
+  Reload: ' &7- &e/%command% reload &7- Recharger les fichiers du plugin !'
 Usage:
-  Player: '&cUtilisation &7: /%command% player <joueur> [monde]'
-  World: '&cUtilisation &7: /%command% world <monde>'
-  Biome: '&cUtilisation &7: /%command% biome <biome1, biome2...>'
-  Location: '&cUsage&7: /%command% location <location_name>'
+  Location: '&cUtilisation &7: &e/%command% location <location_name>'
+  Biome: '&cUtilisation &7: &e/%command% biome <biome1, biome2...>'
   Edit:
-    Base: '&cUtilisation &7: /%command% edit <default/world> [args...]'
-    Default: '&cUtilisation &7: /%command% edit default <max/min/useworldborder/center> <value>'
-    World: '&cUtilisation &7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
-    Worldtype: '&cUsage &7: /%command% edit world_type <world> <NETHER/NORMAL>'
-    Override: '&cUsage &7: /%command% edit override <world> <world_to>'
-    BlacklistedBlocks: '&cUsage &7: /%command% edit blacklistedblocks <add/remove> <block_id>'
+    Worldtype: '&cUtilisation &7: &e/%command% edit world_type <world> <NETHER/NORMAL>'
+    Override: '&cUtilisation &7: &e/%command% edit override <world> <world_to>'
+    BlacklistedBlocks: '&cUtilisation &7: &e/%command% edit blacklistedblocks <add/remove>
+      <block_id>'
+    Base: '&cUtilisation &7: &e/%command% edit <default/world> [args...]'
+    Default: '&cUtilisation &7: &e/%command% edit default <max/min/useworldborder/center>
+      <value>'
+    World: '&cUtilisation &7: &e/%command% edit world <world> <max/min/useworldborder/center>
+      <value>'
+  Player: '&cUtilisation &7: &e/%command% player <joueur> [monde]'
+  World: '&cUtilisation &7: &e/%command% world <monde>'
+Sounds:
+  Enabled: true
+  Delay: ENTITY_EXPERIENCE_BOTTLE_THROW
+  Success: ENTITY_EXPERIENCE_BOTTLE_THROW
