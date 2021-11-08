@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
-import me.SuperRonanCraft.BetterRTP.references.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.Bukkit;

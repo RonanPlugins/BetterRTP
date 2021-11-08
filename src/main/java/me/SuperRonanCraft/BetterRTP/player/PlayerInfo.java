@@ -17,10 +17,10 @@ public class PlayerInfo {
 
     private final HashMap<Player, Inventory> invs = new HashMap<>();
     private final HashMap<Player, RTP_INV_SETTINGS> invType = new HashMap<>();
-    private final HashMap<Player, World> invWorld = new HashMap<>();
-    private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
+    @Getter private final HashMap<Player, World> invWorld = new HashMap<>();
+    @Getter private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
     private final HashMap<Player, CooldownData> cooldown = new HashMap<>();
-    private final HashMap<Player, Boolean> rtping = new HashMap<>();
+    @Getter private final HashMap<Player, Boolean> rtping = new HashMap<>();
     private final HashMap<Player, List<Location>> previousLocations = new HashMap<>();
     //private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
 
@@ -32,17 +32,17 @@ public class PlayerInfo {
         invType.put(p, type);
     }
 
-    private void setInvWorld(Player p, World type) {
+    public void setInvWorld(Player p, World type) {
         invWorld.put(p, type);
     }
 
-    private void setNextInv(Player p, RTP_INV_SETTINGS type) {
+    public void setNextInv(Player p, RTP_INV_SETTINGS type) {
         invNextInv.put(p, type);
     }
 
     //--Logic--
 
-    private Boolean playerExists(Player p) {
+    public Boolean playerExists(Player p) {
         return invs.containsKey(p);
     }
 
