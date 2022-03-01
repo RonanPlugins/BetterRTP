@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds.PartyCommand;
@@ -14,7 +15,7 @@ public class AddonParty implements Addon {
     private static AddonParty instance;
     private final String name = "PartyRTP";
     private final PartyCommand cmd = new PartyCommand(this);
-    public PortalsMessages msgs = new PortalsMessages();
+    public PartyMessages msgs = new PartyMessages();
     public List<PartyData> parties = new ArrayList<>();
 
     @Override
@@ -25,6 +26,7 @@ public class AddonParty implements Addon {
     @Override
     public void load() {
         instance = this;
+        BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
     }
 
     @Override
@@ -38,6 +40,6 @@ public class AddonParty implements Addon {
 
     @Override
     public RTPCommand getCmd() {
-        return null;
+        return cmd;
     }
 }

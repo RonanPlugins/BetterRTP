@@ -17,6 +17,7 @@ public class PartyCommand implements RTPCommand, RTPCommandHelpable {
         this.pl = pl;
     }
 
+    @Override
     public String getName() {
         return "party";
     }

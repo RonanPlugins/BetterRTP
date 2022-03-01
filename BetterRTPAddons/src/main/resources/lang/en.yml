@@ -30,16 +30,21 @@ MagicStick:
 Party:
   Invite: '&f%player_name% has been invited to an rtp party!'
   Invited: '&f%player_name% has invited you to join their rtp party!'
+  OnlyLeader: '&cOnly the leader &f%name% &ccan make an RTP request!'
+  Teleport: '&fYou''ve been rtp''d because of your party!'
+  Members:
+    Ready: '&eYou have readied up for the next party rtp!'
+    NotReady: '&cNot all members are ready! &7%members%'
 Addons:
   List:
     Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Addons Info &e&m-----'
     Enabled: ' &7- &e%addon% &7- &aEnabled'
     Disabled: ' &7- &e%addon% &7- &cDisabled'
 
-
 Help:
   Portals: ' &7- &e/%command% portals <loc1, loc2, create> [args...] &7- Setup an rtp portal'
   MagicStick: ' &7- &e/%command% magicstick give [player] &7- Give a magic stick to a player'
+  Party: ' &7- &e/%command% party [...] &7- View a list of party commands'
   Addons: ' &7- &e/%command% addons &7- View a list of addons commands'
   Base:
     Help: ' &7- &e/%command% addons help &7- View a list of available commands'

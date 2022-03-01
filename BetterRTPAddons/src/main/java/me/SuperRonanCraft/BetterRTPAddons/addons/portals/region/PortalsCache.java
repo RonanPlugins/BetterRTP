@@ -110,10 +110,14 @@ public class PortalsCache {
                 packet.sendPacket(p);
             //}
         } else {
-            if (loc2)
-                p.sendBlockChange(portal.loc_2, Material.GLOWSTONE.createBlockData());
-            else
-                p.sendBlockChange(portal.loc_1, Material.GLOWSTONE.createBlockData());
+            try {
+                if (loc2)
+                    p.sendBlockChange(portal.loc_2, Material.GLOWSTONE.createBlockData());
+                else
+                    p.sendBlockChange(portal.loc_1, Material.GLOWSTONE.createBlockData());
+            } catch (Exception e) {
+                //Not 1.13+ (dont show block changes)
+            }
         }
     }
 

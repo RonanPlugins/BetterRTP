@@ -7,10 +7,12 @@ import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
 import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
+import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class AddonsHandler {
 
@@ -44,7 +46,7 @@ public class AddonsHandler {
         MAGICSTICK(new AddonMagicStick()),      //Handy teleport want
         EXTRAEFFECTS(new AddonExtraEffects()),  //New cosmetica!
         COMMANDS(new AddonCommands()),          //Commands on rtp events
-        PARTY_RTP(new me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty()),
+        PARTY_RTP(new AddonParty()),            //Adds parties!
         ;
 
         Addon addon;
@@ -59,7 +61,7 @@ public class AddonsHandler {
 
         void load() {
             addon.load();
-            //Main.getInstance().getLogger().log(Level.INFO, "Addon " + this.name() + " has been enabled!");
+            BetterRTP.debug("Addon " + this.name() + " has been enabled!");
         }
 
         void disable() {
