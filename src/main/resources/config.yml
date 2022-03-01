@@ -121,7 +121,7 @@ WorldType: # Available types are NORMAL, NETHER
 PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger these configs
   Enabled: false
   Groups:
-    - vip: # permission: betterrtp.config.vip
+    - vip: # permission: betterrtp.group.vip
         - Build_World: #World named "Build_World"
             MaxRadius: 10000
             MinRadius: 1000
@@ -133,7 +133,7 @@ PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger thes
             CenterX: 10
             CenterZ: 10
             Price: 10
-    - vip2: # permission: betterrtp.config.vip2
+    - vip2: # permission: betterrtp.group.vip2
         - Build_World:
             MaxRadius: 25000
             MinRadius: 10000
