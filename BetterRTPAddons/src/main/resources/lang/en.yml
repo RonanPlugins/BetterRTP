@@ -28,13 +28,25 @@ MagicStick:
   Given: '&7A &dMagic Stick&7 has been given to you'
   Player: '&cWhoops! &7Seems like their is no player by the name of &a%player% &7online!'
 Party:
+  NotInParty: '&cYou can''t do this! You are not in a party...'
   Invite: '&f%player_name% has been invited to an rtp party!'
   Invited: '&f%player_name% has invited you to join their rtp party!'
   OnlyLeader: '&cOnly the leader &f%name% &ccan make an RTP request!'
   Teleport: '&fYou''ve been rtp''d because of your party!'
+  NotExist: '&eThe player &f%name% &eis either offline or doesn''t exist!'
   Members:
     Ready: '&eYou have readied up for the next party rtp!'
     NotReady: '&cNot all members are ready! &7%members%'
+    NotInParty: '&eThe player &f%name% &eis not in the party!'
+  Kick:
+    Kicked: '&fPlayer &e%name% &fhas been kicked!'
+    Notification: '&cYou''ve been kicked from an RTP party!'
+    LeaderQuit: '&cRTP Party leader has quit the game, party destroyed!'
+  Usage:
+    Base: '&cUsage: &7/%command% party <invite, accept, leave, kick>'
+    Accept: '&cUsage: &7/%command% portals accept <player_name>'
+    Invite: '&cUsage: &7/%command% portals invite <player_name>'
+    Kick: '&cUsage: &7/%command% portals kick <player_name>'
 Addons:
   List:
     Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Addons Info &e&m-----'

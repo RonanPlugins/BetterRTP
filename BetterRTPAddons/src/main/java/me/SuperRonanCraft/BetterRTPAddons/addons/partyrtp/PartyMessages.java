@@ -8,14 +8,21 @@ import org.bukkit.entity.Player;
 public class PartyMessages implements AddonsMessages {
     private static final String preM = "Party.";
 
-    public void getOnlyLeader(CommandSender sendi, Player leader) {
-        sms(sendi, getLang().getString(preM + "OnlyLeader").replace("%name%", leader.getName()));
+    public void getOnlyLeader(CommandSender sendi, String leader) {
+        sms(sendi, getLang().getString(preM + "OnlyLeader").replace("%name%", leader));
     }
 
     public String getHelp() {
         return getLang().getString("Help.Party");
     }
 
+    public void getNotInParty(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "NotInParty"));
+    }
+
+    public void getNotExist(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "NotExist").replace("%name%", name));
+    }
     //Invite
 
     public void getInvite(CommandSender sendi, String name) {
@@ -24,12 +31,20 @@ public class PartyMessages implements AddonsMessages {
 
     //Usages
 
-    public void usageRemove(CommandSender sendi, String label) {
-        sms(sendi, getLang().getString(preM + "Usage.Remove").replace("%command%", label));
-    }
-
     public void usageBase(CommandSender sendi, String label) {
         sms(sendi, getLang().getString(preM + "Usage.Base").replace("%command%", label));
+    }
+
+    public void usageKick(CommandSender sendi, String label) {
+        sms(sendi, getLang().getString(preM + "Usage.Kick").replace("%command%", label));
+    }
+
+    public void usageAccept(CommandSender sendi, String label) {
+        sms(sendi, getLang().getString(preM + "Usage.Accept").replace("%command%", label));
+    }
+
+    public void usageInvite(CommandSender sendi, String label) {
+        sms(sendi, getLang().getString(preM + "Usage.Invite").replace("%command%", label));
     }
 
     //Members
@@ -37,9 +52,24 @@ public class PartyMessages implements AddonsMessages {
         sms(sendi, getLang().getString(preM + "Members.NotReady").replace("%members%", members));
     }
 
+    public void getMembers_NotInParty(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "Members.NotInParty").replace("%name%", name));
+    }
+
     public void getMembers_Ready(CommandSender sendi) {
         sms(sendi, getLang().getString(preM + "Members.Ready"));
     }
+
+    //Kick
+
+    public void getKick_Kicked(CommandSender sendi, String kicked) {
+        sms(sendi, getLang().getString(preM + "Kick.Kicked").replace("%name%", kicked));
+    }
+
+    public void getKick_Notification(CommandSender sendi, String leader) {
+        sms(sendi, getLang().getString(preM + "Kick.Notification").replace("%name%", leader));
+    }
+
     //Teleporting
     public void getTeleporting(CommandSender sendi) {
         sms(sendi, getLang().getString(preM + "Teleport"));

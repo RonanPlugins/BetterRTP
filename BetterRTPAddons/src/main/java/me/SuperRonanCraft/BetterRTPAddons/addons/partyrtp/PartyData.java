@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PartyData {
 
     @Getter private final Player leader;
-    private HashMap<Player, Boolean> members = new HashMap<>();
+    private final HashMap<Player, Boolean> members = new HashMap<>();
 
     public PartyData(Player leader) {
         this.leader = leader;
@@ -69,16 +70,26 @@ public class PartyData {
     }
 
     public void tpAll(RTP_TeleportPostEvent e) {
+        CooldownData cooldownData = BetterRTP.getInstance().getPlayerDataManager().getData(getLeader()).getCooldown();
         members.forEach((p, ready) -> {
-            Location loc = e.getLocation();
-            //Async tp players
-            PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenRun(() ->
-                BetterRTP.getInstance().getText().getSuccessBypass(p,
-                    String.valueOf(loc.getBlockX()),
-                    String.valueOf(loc.getBlockY()),
-                    String.valueOf(loc.getBlockZ()),
-                    loc.getWorld().getName(),
-                    1));
+            if (!p.equals(getLeader())) {
+                Location loc = e.getLocation();
+                //Async tp players
+                PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenRun(() ->
+                        BetterRTP.getInstance().getText().getSuccessBypass(p,
+                                String.valueOf(loc.getBlockX()),
+                                String.valueOf(loc.getBlockY()),
+                                String.valueOf(loc.getBlockZ()),
+                                loc.getWorld().getName(),
+                                1));
+                //Set cooldowns
+                if (cooldownData != null)
+                    BetterRTP.getInstance().getPlayerDataManager().getData(p).setCooldown(new CooldownData(p.getUniqueId(), cooldownData.getTime(), cooldownData.getUses()));
+            }
         });
+    }
+
+    public boolean isMember(Player member) {
+        return this.members.containsKey(member);
     }
 }

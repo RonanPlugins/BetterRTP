@@ -19,7 +19,7 @@ public class PartyHandler implements Listener {
                     e.setCancelled(true);
                 } //else rtp!
             } else {
-                AddonParty.getInstance().msgs.getOnlyLeader(e.getPlayer(), party.getLeader());
+                AddonParty.getInstance().msgs.getOnlyLeader(e.getPlayer(), party.getLeader().getName());
                 e.setCancelled(true);
             }
         }
