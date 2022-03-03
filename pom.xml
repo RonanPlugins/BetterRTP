@@ -295,13 +295,14 @@
             <version>97b96c9</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Particles Library -->
+        <!-- Particles Library (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java)-->
         <dependency>
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.6.6</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Lombok Support (@Getter & @Setter)-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
