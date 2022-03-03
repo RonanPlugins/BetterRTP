@@ -2,7 +2,7 @@ Language-File: 'en.yml'
 
 ##Addon Flashback
 Flashback:
-  Enabled: true
+  Enabled: false
   Timer:
     Delay: 600 #In Seconds
     Warnings: #Warning messages to send to a player when X amount of time is left
@@ -56,5 +56,5 @@ Commands:
       Commands:
         - 'broadcast &e%player_name% moved while trying to rtp, chump!'
 
-PartyRTP:
-  Enabled: false
+Parties:
+  Enabled: true

@@ -29,7 +29,7 @@ public class PartyCommand_Invite implements PartyCommands, PartyCommandsTabable 
                         AddonParty.getInstance().msgs.getInvite_Invited(sendi, member.getName());
                         AddonParty.getInstance().msgs.getInvite_Notification(member, p.getName());
                     } else
-                        AddonParty.getInstance().msgs.getInvite_Already(member, p.getName());
+                        AddonParty.getInstance().msgs.getInvite_Already(sendi, member.getName());
                 } else
                     AddonParty.getInstance().msgs.getOnlyLeader(sendi, party.getLeader().getName());
             } else

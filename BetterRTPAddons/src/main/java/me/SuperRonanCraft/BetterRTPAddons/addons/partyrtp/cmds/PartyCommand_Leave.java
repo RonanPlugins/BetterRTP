@@ -13,7 +13,7 @@ public class PartyCommand_Leave implements PartyCommands {
         Player p = (Player) sendi;
         PartyData party = HelperParty.getParty(p);
         if (party != null) {
-            if (party.isLeader(p)) {
+            if (party.isLeader(p)) { //Leader deleted party
                 AddonParty.getInstance().parties.remove(party);
                 for (Player member : party.getMembers().keySet())
                     AddonParty.getInstance().msgs.getMembers_LeaderLeft(member);

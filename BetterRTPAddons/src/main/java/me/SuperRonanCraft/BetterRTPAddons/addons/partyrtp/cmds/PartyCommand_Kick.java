@@ -34,7 +34,7 @@ public class PartyCommand_Kick implements PartyCommands, PartyCommandsTabable {
                 } else
                     msgs.usageKick(sendi, label);
             } else
-                msgs.getOnlyLeader(sendi, party.getLeader().getName());
+                msgs.getKick_OnlyLeader(sendi, party.getLeader().getName());
         } else
             msgs.getNotInParty(sendi);
     }

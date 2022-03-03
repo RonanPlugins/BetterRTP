@@ -55,6 +55,19 @@ public class PartyMessages implements AddonsMessages {
         sms(sendi, getLang().getString(preM + "Usage.Invite").replace("%command%", label));
     }
 
+    //Ready
+    public void getReady_Readied(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Ready.Readied"));
+    }
+
+    public void getReady_Already(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Ready.Already"));
+    }
+
+    public void getReady_Leader(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Ready.Leader"));
+    }
+
     //Members
     public void getMembers_NotReady(CommandSender sendi, String members) {
         sms(sendi, getLang().getString(preM + "Members.NotReady").replace("%members%", members));
@@ -62,10 +75,6 @@ public class PartyMessages implements AddonsMessages {
 
     public void getMembers_NotInParty(CommandSender sendi, String name) {
         sms(sendi, getLang().getString(preM + "Members.NotInParty").replace("%name%", name));
-    }
-
-    public void getMembers_Ready(CommandSender sendi) {
-        sms(sendi, getLang().getString(preM + "Members.Ready"));
     }
 
     public void getMembers_LeaderLeft(CommandSender sendi) {
@@ -83,6 +92,26 @@ public class PartyMessages implements AddonsMessages {
 
     public void getKick_Notification(CommandSender sendi, String leader) {
         sms(sendi, getLang().getString(preM + "Kick.Notification").replace("%name%", leader));
+    }
+
+    public void getKick_OnlyLeader(CommandSender sendi, String leader) {
+        sms(sendi, getLang().getString(preM + "Kick.OnlyLeader").replace("%name%", leader));
+    }
+    //Accept
+    public void getAccept_NoInvites(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Accept.NoInvites"));
+    }
+
+    public void getAccept_Success(CommandSender sendi, String leader) {
+        sms(sendi, getLang().getString(preM + "Accept.Success").replace("%name%", leader));
+    }
+
+    public void getAccept_Notification(CommandSender sendi, String member) {
+        sms(sendi, getLang().getString(preM + "Accept.Notification").replace("%name%", member));
+    }
+
+    public void getAccept_InAParty(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Accept.InAParty"));
     }
 
     //Teleporting

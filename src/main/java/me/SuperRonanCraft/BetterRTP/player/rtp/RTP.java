@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
+import me.RonanCraft.Pueblos.resources.tools.HelperEvent;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
@@ -112,8 +113,9 @@ public class RTP {
     }
 
     public void start(RTPSetupInformation setup_info) {
-
-        if (new RTP_SettingUpEvent(setup_info.player).isCancelled()) {
+        RTP_SettingUpEvent setup = new RTP_SettingUpEvent(setup_info.player);
+        Bukkit.getPluginManager().callEvent(setup);
+        if (setup.isCancelled()) {
             return;
         }
 

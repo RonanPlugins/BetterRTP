@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEven
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -41,6 +42,7 @@ public class RTPPlayer {
         else { //Try again to find a safe location
             //Find a queue'd  location
             RTP_FindLocationEvent event = new RTP_FindLocationEvent(p, pWorld); //Find a queue'd location
+            Bukkit.getServer().getPluginManager().callEvent(event);
             Location loc;
             if (event.getLocation() != null && pWorld.checkIsValid(event.getLocation()))
                 loc = event.getLocation();

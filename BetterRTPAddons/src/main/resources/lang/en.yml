@@ -33,24 +33,33 @@ Party:
   Teleport: '&fYou''ve been rtp''d because of your party!'
   NotExist: '&eThe player &f%name% &eis either offline or doesn''t exist!'
   Members:
-    Ready: '&eYou have readied up for the next party rtp!'
     NotReady: '&cNot all members are ready! &7%members%'
     NotInParty: '&eThe player &f%name% &eis not in the party!'
     LeaderLeft: '&cParty leader quit! &fParty no longer exists'
     Leave: '&7You have left %name%''s rtp party!'
+  Ready:
+    Readied: '&eYou have readied up for the next party rtp!'
+    Already: '&7You are already ready! &8Lmao'
+    Leader: '&cYou are the leader... you are always ready!'
   Kick:
+    OnlyLeader: '&cOnly the leader &f%name% &ccan kick a member!'
     Kicked: '&fPlayer &e%name% &fhas been kicked!'
     Notification: '&cYou''ve been kicked from the RTP party by %name%!'
     LeaderQuit: '&cParty leader has destroyed the party!'
   Invite:
-    Already: '&e%name% is already been invited!'
-    Invited: '&f%name% has been invited to your rtp party!'
-    Notification: '&f%player_name% has invited you to join their rtp party!'
+    Already: '&7%name% &ehas already been invited!'
+    Invited: '&7%name% &fhas been invited to your rtp party!'
+    Notification: '&7%name% &fhas invited you to join their rtp party!'
+  Accept:
+    NoInvites: '&cYou don''t have any pending invites :('
+    Success: '&aSuccessfully joined &7%name%''s &artp party!'
+    Notification: '&7%name% &ahas joined the rtp party!'
+    InAParty: '&cCannot join another rtp party while in one!'
   Usage:
-    Base: '&cUsage: &7/%command% party <invite, accept, leave, kick>'
-    Accept: '&cUsage: &7/%command% portals accept <player_name>'
-    Invite: '&cUsage: &7/%command% portals invite <player_name>'
-    Kick: '&cUsage: &7/%command% portals kick <player_name>'
+    Base: '&cUsage: &7/%command% party <invite, accept, leave, kick, readyup>'
+    Accept: '&cUsage: &7/%command% party accept <player_name>'
+    Invite: '&cUsage: &7/%command% party invite <player_name>'
+    Kick: '&cUsage: &7/%command% party kick <player_name>'
 Addons:
   List:
     Prefix: '&e&m-----&6&l BetterRTP &7&lAddons &8| Addons Info &e&m-----'

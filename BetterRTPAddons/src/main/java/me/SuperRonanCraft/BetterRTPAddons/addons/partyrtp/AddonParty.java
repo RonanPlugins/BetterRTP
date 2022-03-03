@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds.PartyCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
+import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,11 @@ import java.util.List;
 public class AddonParty implements Addon {
 
     private static AddonParty instance;
-    private final String name = "PartyRTP";
+    private final String name = "Parties";
     private final PartyCommand cmd = new PartyCommand(this);
     public PartyMessages msgs = new PartyMessages();
     public List<PartyData> parties = new ArrayList<>();
+    private final PartyHandler handler = new PartyHandler();
 
     @Override
     public boolean isEnabled() {
@@ -26,6 +28,8 @@ public class AddonParty implements Addon {
     public void load() {
         instance = this;
         BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
+        PluginManager pm = BetterRTP.getInstance().getServer().getPluginManager();
+        pm.registerEvents(handler, BetterRTP.getInstance());
     }
 
     @Override

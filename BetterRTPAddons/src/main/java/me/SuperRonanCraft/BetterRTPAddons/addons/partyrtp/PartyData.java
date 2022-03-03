@@ -35,7 +35,7 @@ public class PartyData {
     }
 
     public boolean invite(Player p) {
-        if (!invited.contains(p)) {
+        if (!invited.contains(p) && !members.containsKey(p)) {
             invited.add(p);
             return true;
         }
@@ -87,13 +87,15 @@ public class PartyData {
             if (!p.equals(getLeader())) {
                 Location loc = e.getLocation();
                 //Async tp players
-                PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenRun(() ->
-                        BetterRTP.getInstance().getText().getSuccessBypass(p,
+                PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenRun(() -> {
+                        /*BetterRTP.getInstance().getText().getSuccessBypass(p,
                                 String.valueOf(loc.getBlockX()),
                                 String.valueOf(loc.getBlockY()),
                                 String.valueOf(loc.getBlockZ()),
                                 loc.getWorld().getName(),
-                                1));
+                                1);*/
+                        BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, 0, 0, e.getOldLocation(), e.getType());
+                });
                 //Set cooldowns
                 if (cooldownData != null)
                     BetterRTP.getInstance().getPlayerDataManager().getData(p).setCooldown(new CooldownData(p.getUniqueId(), cooldownData.getTime(), cooldownData.getUses()));
