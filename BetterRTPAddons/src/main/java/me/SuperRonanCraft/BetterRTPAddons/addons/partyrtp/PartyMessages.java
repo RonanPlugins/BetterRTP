@@ -25,8 +25,16 @@ public class PartyMessages implements AddonsMessages {
     }
     //Invite
 
-    public void getInvite(CommandSender sendi, String name) {
-        sms(sendi, getLang().getString(preM + "Invite").replace("%name%", name));
+    public void getInvite_Invited(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "Invite.Invited").replace("%name%", name));
+    }
+
+    public void getInvite_Notification(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "Invite.Notification").replace("%name%", name));
+    }
+
+    public void getInvite_Already(CommandSender sendi, String name) {
+        sms(sendi, getLang().getString(preM + "Invite.Already").replace("%name%", name));
     }
 
     //Usages
@@ -60,6 +68,13 @@ public class PartyMessages implements AddonsMessages {
         sms(sendi, getLang().getString(preM + "Members.Ready"));
     }
 
+    public void getMembers_LeaderLeft(CommandSender sendi) {
+        sms(sendi, getLang().getString(preM + "Members.LeaderLeft"));
+    }
+
+    public void getMembers_Leave(CommandSender sendi, String leader) {
+        sms(sendi, getLang().getString(preM + "Members.Leave").replace("%name%", leader));
+    }
     //Kick
 
     public void getKick_Kicked(CommandSender sendi, String kicked) {

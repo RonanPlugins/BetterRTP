@@ -3,8 +3,11 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
+import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PartyHandler implements Listener {
 
@@ -30,6 +33,18 @@ public class PartyHandler implements Listener {
         PartyData party = HelperParty.getParty(e.getPlayer());
         if (party != null && party.isLeader(e.getPlayer())) {
             party.tpAll(e);
+        }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        PartyData party = HelperParty.getParty(e.getPlayer());
+        if (party != null) {
+            if (party.isLeader(e.getPlayer())) {
+                AddonParty.getInstance().parties.remove(party);
+                for (Player member : party.getMembers().keySet())
+                    AddonParty.getInstance().msgs.getMembers_LeaderLeft(member);
+            }
         }
     }
 

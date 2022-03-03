@@ -69,6 +69,7 @@ public class PartyCommand implements RTPCommand, RTPCommandHelpable {
         INVITE(new PartyCommand_Invite()),
         KICK(new PartyCommand_Kick()),
         LEAVE(new PartyCommand_Leave()),
+        READYUP(new PartyCommand_ReadyUp()),
         ;
 
         PartyCommands cmd;

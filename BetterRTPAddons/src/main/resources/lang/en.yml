@@ -29,8 +29,6 @@ MagicStick:
   Player: '&cWhoops! &7Seems like their is no player by the name of &a%player% &7online!'
 Party:
   NotInParty: '&cYou can''t do this! You are not in a party...'
-  Invite: '&f%player_name% has been invited to an rtp party!'
-  Invited: '&f%player_name% has invited you to join their rtp party!'
   OnlyLeader: '&cOnly the leader &f%name% &ccan make an RTP request!'
   Teleport: '&fYou''ve been rtp''d because of your party!'
   NotExist: '&eThe player &f%name% &eis either offline or doesn''t exist!'
@@ -38,10 +36,16 @@ Party:
     Ready: '&eYou have readied up for the next party rtp!'
     NotReady: '&cNot all members are ready! &7%members%'
     NotInParty: '&eThe player &f%name% &eis not in the party!'
+    LeaderLeft: '&cParty leader quit! &fParty no longer exists'
+    Leave: '&7You have left %name%''s rtp party!'
   Kick:
     Kicked: '&fPlayer &e%name% &fhas been kicked!'
-    Notification: '&cYou''ve been kicked from an RTP party!'
-    LeaderQuit: '&cRTP Party leader has quit the game, party destroyed!'
+    Notification: '&cYou''ve been kicked from the RTP party by %name%!'
+    LeaderQuit: '&cParty leader has destroyed the party!'
+  Invite:
+    Already: '&e%name% is already been invited!'
+    Invited: '&f%name% has been invited to your rtp party!'
+    Notification: '&f%player_name% has invited you to join their rtp party!'
   Usage:
     Base: '&cUsage: &7/%command% party <invite, accept, leave, kick>'
     Accept: '&cUsage: &7/%command% portals accept <player_name>'

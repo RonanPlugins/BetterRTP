@@ -19,7 +19,8 @@ import java.util.List;
 public class PartyData {
 
     @Getter private final Player leader;
-    private final HashMap<Player, Boolean> members = new HashMap<>();
+    @Getter private final HashMap<Player, Boolean> members = new HashMap<>();
+    @Getter private final List<Player> invited = new ArrayList<>();
 
     public PartyData(Player leader) {
         this.leader = leader;
@@ -28,6 +29,14 @@ public class PartyData {
     public boolean add(Player p) {
         if (!members.containsKey(p)) {
             members.put(p, false);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean invite(Player p) {
+        if (!invited.contains(p)) {
+            invited.add(p);
             return true;
         }
         return false;
@@ -49,9 +58,12 @@ public class PartyData {
         return !members.containsValue(false);
     }
 
-    public void readyUp(Player p) {
-        if (members.containsKey(p))
+    public boolean readyUp(Player p) {
+        if (members.containsKey(p) && !members.get(p)) {
             members.put(p, true);
+            return true;
+        }
+        return false;
     }
 
     public void clear() {
