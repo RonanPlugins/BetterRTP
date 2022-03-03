@@ -65,9 +65,11 @@ public class PartyCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     private enum subCmd {
-        CREATE(new PartyCommand_Invite()),
-        REMOVE(new PartyCommand_Leave()),
-        LIST(new PartyCommand_Accept());
+        ACCEPT(new PartyCommand_Accept()),
+        INVITE(new PartyCommand_Invite()),
+        KICK(new PartyCommand_Kick()),
+        LEAVE(new PartyCommand_Leave()),
+        ;
 
         PartyCommands cmd;
 

@@ -4,7 +4,6 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds.PartyCommand;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.PortalsMessages;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 
 import java.util.ArrayList;
