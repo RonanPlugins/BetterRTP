@@ -21,7 +21,7 @@ import java.util.Random;
 public class RTPParticles {
 
     private boolean enabled;
-    private List<ParticleEffect> effects = new ArrayList<>();
+    private final List<ParticleEffect> effects = new ArrayList<>();
     private String shape;
     private final int
             radius = 30,
@@ -58,6 +58,11 @@ public class RTPParticles {
             effects.add(ParticleEffect.ASH);
             getPl().getLogger().severe("The particle '" + typeTrying + "' doesn't exist! Default particle enabled... " +
                     "Try using '/rtp info particles' to get a list of available particles");
+        } catch (ExceptionInInitializerError e2) {
+            effects.clear();
+            effects.add(ParticleEffect.ASH);
+            getPl().getLogger().severe("The particle '" + typeTrying + "' created a fatal error when loading particles!");
+            getPl().getLogger().severe("Please report this Ronan asap!");
         }
         shape = config.getString("Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
