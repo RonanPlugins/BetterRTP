@@ -60,9 +60,8 @@ public class RTPParticles {
                     "Try using '/rtp info particles' to get a list of available particles");
         } catch (ExceptionInInitializerError e2) {
             effects.clear();
-            effects.add(ParticleEffect.ASH);
-            getPl().getLogger().severe("The particle '" + typeTrying + "' created a fatal error when loading particles!");
-            getPl().getLogger().severe("Please report this Ronan asap!");
+            getPl().getLogger().severe("The particle '" + typeTrying + "' created a fatal error when loading particles! Your MC version isn't supported!");
+            enabled = false;
         }
         shape = config.getString("Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
