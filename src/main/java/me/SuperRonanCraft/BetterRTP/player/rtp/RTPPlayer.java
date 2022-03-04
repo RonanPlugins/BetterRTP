@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
 public class RTPPlayer {
 
@@ -97,7 +98,7 @@ public class RTPPlayer {
             }
         }
         //System.out.println(b.getType().name());
-        if (b.getY() > 0 && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
+        if (b.getY() > pWorld.getMinY() && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
             return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
         }
         return null;

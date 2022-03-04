@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ import java.util.Random;
 
 public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
+    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, min_y = 0;
     private List<String> Biomes;
     private final Player p;
     private final World world;
@@ -75,6 +76,8 @@ public class WorldPlayer implements RTPWorld {
             setCenterX(border.getCenter().getBlockX());
             setCenterZ(border.getCenter().getBlockZ());
         }
+        //MinY
+        //min_y = world.getWorld().getBlockAt(0, -1, 0).getType() != Material.AIR ?
         setup = true;
     }
 
@@ -269,5 +272,9 @@ public class WorldPlayer implements RTPWorld {
 
     public WORLD_TYPE getWorldtype() {
         return this.world_type;
+    }
+
+    public int getMinY() {
+        return min_y;
     }
 }
