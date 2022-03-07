@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
-import me.RonanCraft.Pueblos.resources.tools.HelperEvent;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
+import me.SuperRonanCraft.BetterRTP.references.events.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;

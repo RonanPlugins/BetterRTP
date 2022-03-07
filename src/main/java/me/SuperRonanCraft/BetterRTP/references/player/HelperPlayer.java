@@ -1,7 +1,7 @@
-package me.SuperRonanCraft.BetterRTP.references.systems;
+package me.SuperRonanCraft.BetterRTP.references.player;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.entity.Player;
 
 public class HelperPlayer {

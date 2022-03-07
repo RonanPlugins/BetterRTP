@@ -1,12 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.Getter;
-import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.systems.HelperPlayer;
-import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
+import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,7 +15,6 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 

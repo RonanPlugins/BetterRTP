@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
-import me.SuperRonanCraft.BetterRTP.references.systems.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 

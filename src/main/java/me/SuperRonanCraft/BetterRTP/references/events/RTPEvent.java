@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.customEvents;
+package me.SuperRonanCraft.BetterRTP.references.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

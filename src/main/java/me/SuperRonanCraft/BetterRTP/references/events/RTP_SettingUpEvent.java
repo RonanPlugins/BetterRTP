@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.customEvents;
+package me.SuperRonanCraft.BetterRTP.references.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

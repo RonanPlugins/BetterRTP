@@ -48,7 +48,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
                 }
                 usage(sendi, label);
             } else if (p != null)
-                getCmd().playerNotOnline(sendi, args[1]);
+                BetterRTP.getInstance().getText().getNotOnline(sendi, args[1]);
             else
                 usage(sendi, label);
         } else

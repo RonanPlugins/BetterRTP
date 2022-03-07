@@ -1,8 +1,6 @@
-package me.SuperRonanCraft.BetterRTP.references.customEvents;
+package me.SuperRonanCraft.BetterRTP.references.events;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 public class RTP_TeleportPreEvent extends RTPEvent { //Called upon every rtp call, does not mean player will be teleported
 

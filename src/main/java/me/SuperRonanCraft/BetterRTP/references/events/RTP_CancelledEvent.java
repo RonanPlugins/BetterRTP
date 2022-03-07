@@ -1,7 +1,6 @@
-package me.SuperRonanCraft.BetterRTP.references.customEvents;
+package me.SuperRonanCraft.BetterRTP.references.events;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class RTP_CancelledEvent extends RTPEvent { //Called when a delayed rtp is cancelled cause player moved

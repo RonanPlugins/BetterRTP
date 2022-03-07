@@ -1,10 +1,8 @@
-package me.SuperRonanCraft.BetterRTP.references.customEvents;
+package me.SuperRonanCraft.BetterRTP.references.events;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 public class RTP_TeleportPostEvent extends RTPEvent {
 

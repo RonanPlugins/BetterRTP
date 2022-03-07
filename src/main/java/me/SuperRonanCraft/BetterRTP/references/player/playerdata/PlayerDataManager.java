@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.systems.playerdata;
+package me.SuperRonanCraft.BetterRTP.references.player.playerdata;
 
 import lombok.NonNull;
 import org.bukkit.entity.Player;

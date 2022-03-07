@@ -14,7 +14,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.Messages;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
-import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerDataManager;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerDataManager;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

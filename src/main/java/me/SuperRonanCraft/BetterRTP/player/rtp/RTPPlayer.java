@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.events.RTP_FindLocationEvent;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
 
 public class RTPPlayer {
 

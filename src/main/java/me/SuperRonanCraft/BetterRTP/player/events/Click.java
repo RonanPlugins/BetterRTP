@@ -2,9 +2,8 @@ package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
-import me.SuperRonanCraft.BetterRTP.references.systems.HelperPlayer;
-import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
+import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

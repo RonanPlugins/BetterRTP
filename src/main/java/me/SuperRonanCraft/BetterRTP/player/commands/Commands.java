@@ -5,7 +5,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
+import me.SuperRonanCraft.BetterRTP.references.events.RTP_CommandEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
@@ -49,19 +49,15 @@ public class Commands {
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
                         } else
-                            noPerm(sendi);
+                            pl.getText().getNoPermission(sendi);
                         return;
                     }
                 }
-                invalid(sendi, label);
+                pl.getText().getInvalid(sendi, label);
             } else
                 rtp(sendi, label, null, null);
         } else
-            noPerm(sendi);
-    }
-
-    private void invalid(CommandSender sendi, String cmd) {
-        pl.getText().getInvalid(sendi, cmd);
+            pl.getText().getNoPermission(sendi);
     }
 
     public List<String> onTabComplete(CommandSender sendi, String[] args) {
@@ -123,14 +119,6 @@ public class Commands {
                 }
             }
         return biomes;
-    }
-
-    public void playerNotOnline(CommandSender sendi, String player) {
-        pl.getText().getNotOnline(sendi, player);
-    }
-
-    private void noPerm(CommandSender sendi) {
-        pl.getText().getNoPermission(sendi);
     }
 
     public void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType) {
