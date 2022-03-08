@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.events;
+package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.Location;

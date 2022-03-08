@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references.events;
+package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
