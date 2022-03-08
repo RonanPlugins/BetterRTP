@@ -29,8 +29,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
                 for (String location_name : getLocations().keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
                         Player p = (Player) sendi;
-                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND,
-                                false, false, (WorldLocations) getLocations().get(location_name));
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
                         return;
                     }
                 }
@@ -42,8 +41,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
             if (p != null && p.isOnline()) {
                 for (String location_name : getLocations().keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND,
-                                false, false, (WorldLocations) getLocations().get(location_name));
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
                         return;
                     }
                 }
@@ -80,10 +78,6 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
 
     private HashMap<String, RTPWorld> getLocations() {
         return BetterRTP.getInstance().getRTP().worldLocations;
-    }
-
-    private Commands getCmd() {
-        return BetterRTP.getInstance().getCmd();
     }
 
     @Override

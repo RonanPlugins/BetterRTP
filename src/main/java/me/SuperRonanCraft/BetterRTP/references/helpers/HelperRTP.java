@@ -20,10 +20,17 @@ public class HelperRTP {
             BetterRTP.getInstance().getText().getNotPlayer(sendi, cmd);
     }
 
+    //Teleporter and sender are the same
+    public static void tp(Player player, String world, List<String> biomes, RTP_TYPE rtpType) {
+        tp(player, player, world, biomes, rtpType, false, false);
+    }
+
+    //Teleported and Sender MAY be different
     public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType) {
         tp(player, sendi, world, biomes, rtpType, false, false);
     }
 
+    //
     public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
                    boolean ignoreCooldown, boolean ignoreDelay) {
         tp(player, sendi, world, biomes, rtpType, ignoreCooldown, ignoreDelay, null);
