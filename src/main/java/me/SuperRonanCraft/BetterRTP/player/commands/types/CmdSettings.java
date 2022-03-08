@@ -19,7 +19,7 @@ public class CmdSettings implements RTPCommand, RTPCommandHelpable {
         if (sendi instanceof Player)
             BetterRTP.getInstance().getInvs().getInv(RTP_INV_SETTINGS.MAIN).show((Player) sendi);
         else
-            BetterRTP.getInstance().getCmd().msgNotPlayer(sendi, label);
+            BetterRTP.getInstance().getText().getNotPlayer(sendi, label);
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {

@@ -65,7 +65,7 @@ enum Command_types {
     TELEPORT("Teleport"),
     CANCELLED("Cancelled");
 
-    String path;
+    final String path;
 
     Command_types(String path) {
         this.path = path;

@@ -1,11 +1,11 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Command;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand;
-import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsCache;
+import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 
 //Create portals for rtp'ing
 public class AddonPortals implements Addon {
@@ -23,7 +23,7 @@ public class AddonPortals implements Addon {
 
     @Override
     public void load() {
-        BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
+        HelperRTP_Command.registerCommand(cmd, false);
         database.load(PortalsDatabase.Columns.values());
         events.load();
         portalsCache.load();

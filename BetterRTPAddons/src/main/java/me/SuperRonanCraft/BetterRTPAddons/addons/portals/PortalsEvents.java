@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -56,7 +57,7 @@ public class PortalsEvents implements Listener {
                     if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
                             && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
                         playerPortaling.put(e.getPlayer(), portal);
-                        BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(),
+                        HelperRTP.tp(e.getPlayer(), e.getPlayer(),
                                 portal.getWorld(), null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
                         return;
                     }

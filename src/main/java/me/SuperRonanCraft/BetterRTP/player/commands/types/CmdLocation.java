@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
@@ -28,7 +29,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
                 for (String location_name : getLocations().keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
                         Player p = (Player) sendi;
-                        BetterRTP.getInstance().getCmd().tp(p, sendi, null, null, RTP_TYPE.COMMAND,
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND,
                                 false, false, (WorldLocations) getLocations().get(location_name));
                         return;
                     }
@@ -41,7 +42,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
             if (p != null && p.isOnline()) {
                 for (String location_name : getLocations().keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        BetterRTP.getInstance().getCmd().tp(p, sendi, null, null, RTP_TYPE.COMMAND,
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND,
                                 false, false, (WorldLocations) getLocations().get(location_name));
                         return;
                     }

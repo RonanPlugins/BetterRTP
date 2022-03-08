@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTPAddons</artifactId>
     <packaging>jar</packaging>
-    <version>1.7</version>
+    <version>1.8</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>me.SuperRonanCraft</groupId>
             <artifactId>BetterRTP</artifactId>
-            <version>3.2.1-4</version>
+            <version>3.3.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->

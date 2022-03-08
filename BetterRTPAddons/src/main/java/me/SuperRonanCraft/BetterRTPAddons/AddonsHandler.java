@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Command;
 import me.SuperRonanCraft.BetterRTPAddons.addons.commands.AddonCommands;
 import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
@@ -29,7 +30,7 @@ public class AddonsHandler {
                 //addonCount++;
             }
         //Main.getInstance().getLogger().log(Level.INFO, addonCount + "/" + Addons.values().length + " addons were enabled!");
-        BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
+        HelperRTP_Command.registerCommand(cmd, false);
     }
 
     public void unload() {

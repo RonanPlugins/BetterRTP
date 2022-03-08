@@ -7,6 +7,7 @@ public class Settings {
 
     public boolean debug;
     public boolean delayEnabled;
+    public int delayTime;
     public boolean rtpOnFirstJoin_Enabled;
     public String rtpOnFirstJoin_World;
     public boolean rtpOnFirstJoin_SetAsRespawn;
@@ -20,6 +21,7 @@ public class Settings {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         debug = config.getBoolean("Settings.Debugger");
         delayEnabled = config.getBoolean("Settings.Delay.Enabled");
+        delayTime = config.getInt("Settings.Delay.Time");
         rtpOnFirstJoin_Enabled = config.getBoolean("Settings.RtpOnFirstJoin.Enabled");
         rtpOnFirstJoin_World = config.getString("Settings.RtpOnFirstJoin.World");
         rtpOnFirstJoin_SetAsRespawn = config.getBoolean("Settings.RtpOnFirstJoin.SetAsRespawn");

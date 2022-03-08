@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds.MagicStickCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -64,7 +65,7 @@ public class MagicStickEvents implements Listener {
                         if (listener.p == e.getPlayer())
                             return;
                     //Rtp the player
-                    BetterRTP.getInstance().getCmd().tp(e.getPlayer(), e.getPlayer(), e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON_MAGICSTICK);
+                    HelperRTP.tp(e.getPlayer(), e.getPlayer(), e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON_MAGICSTICK);
                     if (this.take)
                         teleportingPlayers.add(new PlayerListener(e.getPlayer()));
                 }

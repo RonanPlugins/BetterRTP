@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+//Called when an rtp has found a valid location
 public class RTP_FindLocationEvent extends RTPEvent {
 
     Player p;

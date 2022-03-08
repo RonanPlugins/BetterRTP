@@ -1,9 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
-import me.SuperRonanCraft.BetterRTP.references.systems.playerdata.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,10 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
     //rtp world <world> <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 2)
-            BetterRTP.getInstance().getCmd().rtp(sendi, label, args[1], BetterRTP.getInstance().getCmd().getBiomes(args, 2, sendi));
+            HelperRTP.rtp(sendi, label, args[1], HelperRTP_Info.getBiomes(args, 2, sendi));
         else
             usage(sendi, label);
     }
@@ -37,7 +38,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
             }
         } else if (args.length >= 3) {
             if (RTPCommandType.BIOME.getCmd().permission(sendi))
-                getCmd().addBiomes(list, args);
+                HelperRTP_Info.addBiomes(list, args);
         }
         return list;
     }
@@ -48,10 +49,6 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
 
     public void usage(CommandSender sendi, String label) {
         BetterRTP.getInstance().getText().getUsageWorld(sendi, label);
-    }
-
-    private Commands getCmd() {
-        return BetterRTP.getInstance().getCmd();
     }
 
     @Override

@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Command;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds.PartyCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -27,7 +28,7 @@ public class AddonParty implements Addon {
     @Override
     public void load() {
         instance = this;
-        BetterRTP.getInstance().getCmd().registerCommand(cmd, false);
+        HelperRTP_Command.registerCommand(cmd, false);
         PluginManager pm = BetterRTP.getInstance().getServer().getPluginManager();
         pm.registerEvents(handler, BetterRTP.getInstance());
     }

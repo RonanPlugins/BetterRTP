@@ -6,6 +6,8 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -24,7 +26,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2)
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
-                getCmd().tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld().getName(), null, RTP_TYPE.FORCED);
+                HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld().getName(), null, RTP_TYPE.FORCED);
             else if (Bukkit.getPlayer(args[1]) != null)
                 BetterRTP.getInstance().getText().getNotOnline(sendi, args[1]);
             else
@@ -33,7 +35,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                 World world = Bukkit.getWorld(args[2]);
                 if (world != null) {
-                    getCmd().tp(Bukkit.getPlayer(args[1]), sendi, world.getName(), getCmd().getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
+                    HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, world.getName(), HelperRTP_Info.getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
                 } else
                     BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
             } else if (Bukkit.getPlayer(args[1]) != null)
@@ -56,7 +58,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                     list.add(w.getName());
         } else if (args.length > 3) {
             if (RTPCommandType.BIOME.getCmd().permission(sendi))
-                getCmd().addBiomes(list, args);
+                HelperRTP_Info.addBiomes(list, args);
         }
         return list;
     }

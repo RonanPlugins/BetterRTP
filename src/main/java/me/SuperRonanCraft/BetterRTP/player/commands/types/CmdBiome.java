@@ -4,6 +4,8 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
     //rtp biome <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 2)
-            BetterRTP.getInstance().getCmd().rtp(sendi, label, null, BetterRTP.getInstance().getCmd().getBiomes(args, 1, sendi));
+            HelperRTP.rtp(sendi, label, null, HelperRTP_Info.getBiomes(args, 1, sendi));
         else
             usage(sendi, label);
     }
@@ -26,7 +28,7 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 2)
-            getCmd().addBiomes(list, args);
+            HelperRTP_Info.addBiomes(list, args);
         return list;
     }
 

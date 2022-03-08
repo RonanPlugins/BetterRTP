@@ -247,4 +247,8 @@ public class Messages {
     public void error(CommandSender sendi) {
         sms(sendi, "&cERROR &7Seems like your Administrator did not update their language file!");
     }
+
+    public void getNotPlayer(CommandSender sendi, String cmd) {
+        sms(sendi, "Must be a player to use this command! Try '/" + cmd + " help'");
+    }
 }
