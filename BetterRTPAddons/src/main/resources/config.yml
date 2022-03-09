@@ -44,6 +44,7 @@ MagicStick:
       - '&7a brand new adventure!'
   Take: true
 
+#Addon Commands
 Commands:
   Enabled: false
   Events:
@@ -56,5 +57,13 @@ Commands:
       Commands:
         - 'broadcast &e%player_name% moved while trying to rtp, chump!'
 
+#Addon Parties
 Parties:
   Enabled: true
+
+#Addon RTPMenu (Enable `/rtp` world select menu)
+RTPMenu:
+  Enabled: false
+  Worlds:
+    - world
+    - world_nether

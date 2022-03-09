@@ -34,6 +34,7 @@ public class MagicStickEvents implements Listener {
     private final List<PlayerListener> teleportingPlayers = new ArrayList<>();
 
     void load() {
+        HandlerList.unregisterAll(this);
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
         Files.FILETYPE file = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG);
         String title = file.getString("MagicStick.Item.Name");

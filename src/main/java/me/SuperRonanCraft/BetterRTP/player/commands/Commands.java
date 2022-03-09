@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
@@ -13,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,6 @@ public class Commands {
     }
 
     public void load() {
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         commands.clear();
         for (RTPCommandType cmd : RTPCommandType.values())
            registerCommand(cmd.getCmd(), false);
@@ -44,17 +45,22 @@ public class Commands {
                 for (RTPCommand cmd : commands) {
                     if (cmd.getName().equalsIgnoreCase(args[0])) {
                         if (cmd.permission(sendi)) {
-                            cmd.execute(sendi, label, args);
+                            RTP_CommandEvent event = new RTP_CommandEvent(sendi, cmd);
                             //Command Event
-                            Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent(sendi, cmd));
+                            Bukkit.getServer().getPluginManager().callEvent(event);
+                            if (!event.isCancelled())
+                                cmd.execute(sendi, label, args);
                         } else
                             pl.getText().getNoPermission(sendi);
                         return;
                     }
                 }
                 pl.getText().getInvalid(sendi, label);
-            } else
-                HelperRTP.rtp(sendi, label, null, null);
+            } else {
+                RTP_CommandEvent event = new RTP_CommandEvent(sendi, new CmdTeleport());
+                Bukkit.getServer().getPluginManager().callEvent(event);
+                event.getCmd().execute(sendi, label, args);
+            }
         } else
             pl.getText().getNoPermission(sendi);
     }

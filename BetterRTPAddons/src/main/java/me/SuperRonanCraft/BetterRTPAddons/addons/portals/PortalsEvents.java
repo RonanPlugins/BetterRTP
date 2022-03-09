@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +30,8 @@ public class PortalsEvents implements Listener {
     }
 
     public void load() {
-        Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
+        HandlerList.unregisterAll(this);
+        Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
         ignoreDelay = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG).getBoolean("Portals.IgnoreDelay");
         ignoreCooldown = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG).getBoolean("Portals.IgnoreCooldown");
     }

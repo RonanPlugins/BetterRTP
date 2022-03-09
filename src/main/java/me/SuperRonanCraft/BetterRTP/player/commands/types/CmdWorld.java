@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.kingdoms.commands.general.misc.CommandTeleport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
     //rtp world <world> <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length >= 2)
-            HelperRTP.rtp(sendi, label, args[1], HelperRTP_Info.getBiomes(args, 2, sendi));
+            CmdTeleport.teleport(sendi, label, args[1], HelperRTP_Info.getBiomes(args, 2, sendi));
         else
             usage(sendi, label);
     }

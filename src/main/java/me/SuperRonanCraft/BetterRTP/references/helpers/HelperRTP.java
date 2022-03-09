@@ -13,13 +13,6 @@ import java.util.List;
 
 public class HelperRTP {
 
-    public static void rtp(CommandSender sendi, String cmd, String world, List<String> biomes) {
-        if (sendi instanceof Player)
-            HelperRTP.tp((Player) sendi, sendi, world, biomes, RTP_TYPE.COMMAND);
-        else
-            BetterRTP.getInstance().getText().getNotPlayer(sendi, cmd);
-    }
-
     //Teleporter and sender are the same
     public static void tp(Player player, String world, List<String> biomes, RTP_TYPE rtpType) {
         tp(player, player, world, biomes, rtpType, false, false);
@@ -38,8 +31,8 @@ public class HelperRTP {
 
     public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
                    boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
-        if (checkRTPing(player, sendi)) { //Is RTP'ing
-            if (ignoreCooldown || checkCooldown(sendi, player)) { //Is Cooling down
+        if (isRTPing(player, sendi)) { //Is RTP'ing
+            if (ignoreCooldown || isCoolingDown(sendi, player)) { //Is Cooling down
                 boolean delay = false;
                 if (!ignoreDelay && sendi == player) //Forced?
                     if (getPl().getSettings().delayEnabled && getPl().getSettings().delayTime > 0) //Delay enabled?
@@ -53,7 +46,7 @@ public class HelperRTP {
         }
     }
 
-    private static boolean checkRTPing(Player player, CommandSender sendi) {
+    private static boolean isRTPing(Player player, CommandSender sendi) {
         if (getPl().getpInfo().getRtping().containsKey(player) && getPl().getpInfo().getRtping().get(player)) {
             getPl().getText().getAlready(sendi);
             return false;
@@ -61,7 +54,7 @@ public class HelperRTP {
         return true;
     }
 
-    private static boolean checkCooldown(CommandSender sendi, Player player) {
+    private static boolean isCoolingDown(CommandSender sendi, Player player) {
         if (cooldownApplies(sendi, player)) { //Bypassing/Forced?
             CooldownHandler cooldownHandler = getPl().getCooldowns();
             if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download

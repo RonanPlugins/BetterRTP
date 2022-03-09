@@ -50,7 +50,7 @@ public class AddonsHandler {
         PARTY_RTP(new AddonParty()),            //Adds parties!
         ;
 
-        Addon addon;
+        final Addon addon;
 
         Addons(Addon addon) {
             this.addon = addon;
