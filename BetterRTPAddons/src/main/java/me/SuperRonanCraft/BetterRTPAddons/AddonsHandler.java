@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
 import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
+import me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu.AddonRTPMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class AddonsHandler {
         EXTRAEFFECTS(new AddonExtraEffects()),  //New cosmetica!
         COMMANDS(new AddonCommands()),          //Commands on rtp events
         PARTY_RTP(new AddonParty()),            //Adds parties!
+        RTP_MENU(new AddonRTPMenu()),           //Adds /rtp menu
         ;
 
         final Addon addon;

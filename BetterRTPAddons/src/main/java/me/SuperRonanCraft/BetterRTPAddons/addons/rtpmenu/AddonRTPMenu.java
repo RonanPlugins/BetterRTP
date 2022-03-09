@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
@@ -15,16 +16,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Objects;
 
 public class AddonRTPMenu implements Addon, Listener {
 
-    private static String name = "RTPMenu";
+    public  static String name = "RTPMenu";
     private final HashMap<Player, MenuData> playerData = new HashMap<>();
 
     public MenuData getData(Player p) {
+        if (!playerData.containsKey(p))
+            playerData.put(p, new MenuData());
         return playerData.getOrDefault(p, null);
     }
 
@@ -55,15 +59,16 @@ public class AddonRTPMenu implements Addon, Listener {
     @EventHandler
     private void onClick(InventoryClickEvent e) {
         if (validClick(e)) {
+            e.setCancelled(true);
             e.getWhoClicked().sendMessage("Menu Inventory!");
         }
     }
 
     @EventHandler
-    private void onClick(RTP_CommandEvent e) {
-        if (e.getCmd() instanceof CmdTeleport && e.getCmd() instanceof Player) {
+    private void onTeleport(RTP_CommandEvent e) {
+        if (e.getCmd() instanceof CmdTeleport && e.getSendi() instanceof Player) {
             e.setCancelled(true);
-            RTPMenu_CreateInventory.createInv((Player) e.getSendi());
+            RTPMenu_CreateInventory.createInv(this, (Player) e.getSendi());
         }
     }
 

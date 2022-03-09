@@ -64,6 +64,10 @@ Parties:
 #Addon RTPMenu (Enable `/rtp` world select menu)
 RTPMenu:
   Enabled: false
+  Menu:
+    Title: "Choose World"
+    Items:
+
   Worlds:
     - world
     - world_nether

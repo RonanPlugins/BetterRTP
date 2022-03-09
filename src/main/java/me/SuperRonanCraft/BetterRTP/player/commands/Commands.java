@@ -59,7 +59,8 @@ public class Commands {
             } else {
                 RTP_CommandEvent event = new RTP_CommandEvent(sendi, new CmdTeleport());
                 Bukkit.getServer().getPluginManager().callEvent(event);
-                event.getCmd().execute(sendi, label, args);
+                if (!event.isCancelled())
+                    event.getCmd().execute(sendi, label, args);
             }
         } else
             pl.getText().getNoPermission(sendi);
