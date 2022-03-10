@@ -28,7 +28,6 @@ public class CommandsLoader implements Listener {
                 commands.put(type, cmds);
             }
         }
-        HandlerList.unregisterAll(this);
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
     }
 

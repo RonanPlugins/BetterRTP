@@ -1,7 +1,9 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -15,46 +17,61 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RTPMenu_CreateInventory {
+public class RTPMenu_SelectWorld {
 
     public static void createInv(AddonRTPMenu pl, Player p) {
         List<World> bukkit_worlds = Bukkit.getWorlds();
         List<String> display_worlds = Files.FILETYPE.CONFIG.getStringList(AddonRTPMenu.name + ".Worlds");
         List<World> actual_worlds = new ArrayList<>();
-        for (int i = 0; i < 10; i++) //add x Junk worlds for testing
-            for (World world : bukkit_worlds) {
-                if (display_worlds.contains(world.getName()))
-                    actual_worlds.add(world);
-            }
-        Inventory inv = createInventory(Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Menu.Title"), Math.floorDiv(actual_worlds.size(), 9) * 9 + 9);
+        for (World world : bukkit_worlds) {
+            if (display_worlds.contains(world.getName()) && BetterRTP.getInstance().getPerms().getAWorld(p, world.getName()))
+                actual_worlds.add(world);
+        }
+        if (actual_worlds.size() <= 1) {
+            CmdTeleport.teleport(p, "rtp", null, null);
+            return;
+        }
+        int size = Math.floorDiv(actual_worlds.size(), 9) * 9;
+        if (size < actual_worlds.size()) size += 9;
+        Inventory inv = createInventory(color(Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Menu.Title")), size);
 
-        HashMap<World, Integer> world_slots = centerWorlds(new ArrayList<>(actual_worlds));
+        HashMap<Integer, World> world_slots = centerWorlds(new ArrayList<>(actual_worlds));
 
-        for (Map.Entry<World, Integer> world : world_slots.entrySet()) {
-            int slot = world.getValue();
+        String item_name = Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Menu.Items.Name");
+        List<String > item_lore = Files.FILETYPE.CONFIG.getStringList(AddonRTPMenu.name + ".Menu.Items.Lore");
+        for (Map.Entry<Integer, World> world : world_slots.entrySet()) {
+            int slot = world.getKey();
             ItemStack item = new ItemStack(Material.MAP, 1);
             ItemMeta meta = item.getItemMeta();
             assert meta != null;
-            meta.setDisplayName(world.getKey().getName() + ": " + actual_worlds.size() + " " + world_slots.size());
+            meta.setDisplayName(color(item_name.replace("%world%", world.getValue().getName())));
+            List<String> lore = new ArrayList<>(item_lore);
+            lore.forEach(s -> lore.set(lore.indexOf(s), color(s).replace("%world%", world.getValue().getName())));
+            meta.setLore(lore);
             item.setItemMeta(meta);
             inv.setItem(slot, item);
         }
 
         pl.getData(p).setMenuInv(inv);
+        pl.getData(p).setWorldSlots(world_slots);
         p.openInventory(inv);
     }
 
-    private static HashMap<World, Integer> centerWorlds(List<World> actual_worlds) {
-        HashMap<World, Integer> map = new HashMap<>();
+    private static HashMap<Integer, World> centerWorlds(List<World> actual_worlds) {
+        HashMap<Integer, World> map = new HashMap<>();
         while(actual_worlds.size() >= 9) {
-            map.put(actual_worlds.get(0), map.size());
-            actual_worlds.remove(0);
+            for (int i = 0; i < 9; i++) {
+                map.put(map.size(), actual_worlds.get(0));
+                actual_worlds.remove(0);
+            }
         }
         int slot = map.size();
+        //BetterRTP.getInstance().getLogger().log(Level.INFO, "- " + actual_worlds.size());
         for (int i = 0; i < actual_worlds.size(); i++) {
-            map.put(actual_worlds.get(i), slot + getSlotOffset(actual_worlds.size(), i) + i);
+            int offset = getSlotOffset(actual_worlds.size(), i);
+            //BetterRTP.getInstance().getLogger().log(Level.INFO, "- " + offset);
+            map.put(slot + offset + i, actual_worlds.get(i));
         }
-
         return map;
     }
 
@@ -86,7 +103,7 @@ public class RTPMenu_CreateInventory {
                     }
                     break;
                 case 8:
-                    if (index > 4) return 1;
+                    if (index >= 4) return 1;
             }
         } else {
             switch (gear_to_show) {
@@ -99,9 +116,13 @@ public class RTPMenu_CreateInventory {
         return 0;
     }
 
+    private static String color(String str) {
+        return ChatColor.translateAlternateColorCodes('&', str);
+    }
+
     private static Inventory createInventory(String title, int size) {
         title = BetterRTP.getInstance().getText().color(title);
-        return Bukkit.createInventory(null, Math.min(size, 54), title);
+        return Bukkit.createInventory(null, Math.max(Math.min(size, 54), 9), title);
     }
 
 }

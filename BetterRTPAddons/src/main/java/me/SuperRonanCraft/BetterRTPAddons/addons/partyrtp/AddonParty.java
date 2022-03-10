@@ -28,14 +28,13 @@ public class AddonParty implements Addon {
     @Override
     public void load() {
         instance = this;
-        HelperRTP_Command.registerCommand(cmd, false);
         PluginManager pm = BetterRTP.getInstance().getServer().getPluginManager();
         pm.registerEvents(handler, BetterRTP.getInstance());
     }
 
     @Override
     public void unload() {
-
+        HelperRTP_Command.registerCommand(cmd, false);
     }
 
     public static AddonParty getInstance() {

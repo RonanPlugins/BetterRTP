@@ -7,7 +7,7 @@ import org.bukkit.World;
 public class LocSerialization {
 
     public static String getStringFromLocation(Location loc) {
-        if (loc == null) {
+        if (loc == null || loc.getWorld() == null) {
             return "";
         }
         return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch() ;

@@ -1,6 +1,5 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
@@ -36,7 +35,7 @@ public class PortalsEvents implements Listener {
         ignoreCooldown = Main.getInstance().getFiles().getType(Files.FILETYPE.CONFIG).getBoolean("Portals.IgnoreCooldown");
     }
 
-    public void unregiter() {
+    public void unregister() {
         HandlerList.unregisterAll(this);
     }
 

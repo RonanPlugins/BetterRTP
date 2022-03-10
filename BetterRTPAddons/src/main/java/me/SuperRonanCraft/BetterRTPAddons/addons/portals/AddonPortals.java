@@ -32,7 +32,7 @@ public class AddonPortals implements Addon {
     @Override
     public void unload() {
         portalsCache.unload();
-        events.unregiter();
+        events.unregister();
     }
 
     @Override

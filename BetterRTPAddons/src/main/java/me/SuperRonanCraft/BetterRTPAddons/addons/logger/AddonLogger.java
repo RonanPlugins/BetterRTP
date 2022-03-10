@@ -37,7 +37,6 @@ public class AddonLogger implements Addon, Listener {
 
     @Override
     public void load() {
-        HandlerList.unregisterAll(this);
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
         this.format = getFile(Files.FILETYPE.CONFIG).getString(name + ".Format");
         this.toConsole = getFile(Files.FILETYPE.CONFIG).getBoolean(name + ".LogToConsole");

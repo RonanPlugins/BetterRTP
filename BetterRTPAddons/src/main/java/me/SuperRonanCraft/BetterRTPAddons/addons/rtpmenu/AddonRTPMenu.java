@@ -1,11 +1,8 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
-import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
-import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
-import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTPAddons.Addon;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -16,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -42,13 +38,12 @@ public class AddonRTPMenu implements Addon, Listener {
         for (Player p : playerData.keySet())
             p.closeInventory();
         playerData.clear();
-        HandlerList.unregisterAll(this);
         Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
     }
 
     @Override
     public void unload() {
-
+        HandlerList.unregisterAll(this);
     }
 
     @Override
@@ -60,7 +55,9 @@ public class AddonRTPMenu implements Addon, Listener {
     private void onClick(InventoryClickEvent e) {
         if (validClick(e)) {
             e.setCancelled(true);
-            e.getWhoClicked().sendMessage("Menu Inventory!");
+            MenuData data = getData((Player) e.getWhoClicked());
+            CmdTeleport.teleport(e.getWhoClicked(), "rtp", data.getWorldSlots().get(e.getSlot()).getName(), null);
+            e.getWhoClicked().closeInventory();
         }
     }
 
@@ -68,7 +65,7 @@ public class AddonRTPMenu implements Addon, Listener {
     private void onTeleport(RTP_CommandEvent e) {
         if (e.getCmd() instanceof CmdTeleport && e.getSendi() instanceof Player) {
             e.setCancelled(true);
-            RTPMenu_CreateInventory.createInv(this, (Player) e.getSendi());
+            RTPMenu_SelectWorld.createInv(this, (Player) e.getSendi());
         }
     }
 
