@@ -1,11 +1,9 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties.cmds;
 
-import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
-import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.HelperParty;
-import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.PartyData;
-import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInfo;
+import me.SuperRonanCraft.BetterRTPAddons.addons.parties.AddonParty;
+import me.SuperRonanCraft.BetterRTPAddons.addons.parties.HelperParty;
+import me.SuperRonanCraft.BetterRTPAddons.addons.parties.PartyData;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

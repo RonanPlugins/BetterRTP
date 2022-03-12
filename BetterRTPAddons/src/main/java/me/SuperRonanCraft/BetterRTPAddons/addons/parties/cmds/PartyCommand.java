@@ -1,9 +1,9 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.cmds;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties.cmds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
+import me.SuperRonanCraft.BetterRTPAddons.addons.parties.AddonParty;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

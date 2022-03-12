@@ -1,16 +1,13 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

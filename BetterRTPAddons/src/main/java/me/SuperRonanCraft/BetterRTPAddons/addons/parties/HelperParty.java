@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 
 import org.bukkit.entity.Player;
 

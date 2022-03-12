@@ -1,9 +1,7 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 
 import me.SuperRonanCraft.BetterRTPAddons.AddonsMessages;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class PartyMessages implements AddonsMessages {
     private static final String preM = "Party.";

@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp;
+package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;

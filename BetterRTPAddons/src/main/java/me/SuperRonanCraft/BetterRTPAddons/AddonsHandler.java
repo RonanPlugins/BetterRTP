@@ -8,13 +8,12 @@ import me.SuperRonanCraft.BetterRTPAddons.addons.extraEffects.AddonExtraEffects;
 import me.SuperRonanCraft.BetterRTPAddons.addons.flashback.AddonFlashback;
 import me.SuperRonanCraft.BetterRTPAddons.addons.logger.AddonLogger;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
-import me.SuperRonanCraft.BetterRTPAddons.addons.partyrtp.AddonParty;
+import me.SuperRonanCraft.BetterRTPAddons.addons.parties.AddonParty;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu.AddonRTPMenu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class AddonsHandler {
 
