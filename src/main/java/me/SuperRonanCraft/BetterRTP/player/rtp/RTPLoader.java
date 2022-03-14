@@ -22,7 +22,7 @@ public class RTPLoader {
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
-                    if (getPl().getSettings().debug)
+                    if (getPl().getSettings().isDebug())
                         BetterRTP.debug("- Custom World '" + entry.getKey() + "' registered");
                 }
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class RTPLoader {
             for (Map<?, ?> m : override_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     overriden.put(entry.getKey().toString(), entry.getValue().toString());
-                    if (getPl().getSettings().debug)
+                    if (getPl().getSettings().isDebug())
                         getPl().getLogger().info("- Override '" + entry.getKey() + "' -> '" + entry.getValue() + "' added");
                     if (Bukkit.getWorld(entry.getValue().toString()) == null)
                         getPl().getLogger().warning("The world `" + entry.getValue() + "` doesn't seem to exist! Please update `" + entry.getKey() + "'s` override! Maybe there are capital letters?");
@@ -75,7 +75,7 @@ public class RTPLoader {
                             getPl().getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
                     }*/
                 }
-            if (getPl().getSettings().debug)
+            if (getPl().getSettings().isDebug())
                 for (String world : world_type.keySet())
                     BetterRTP.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class RTPLoader {
                 WorldLocations location = new WorldLocations(entry.getKey().toString());
                 if (location.isValid()) {
                     worlds.put(entry.getKey().toString(), location);
-                    if (getPl().getSettings().debug)
+                    if (getPl().getSettings().isDebug())
                         BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
                 }
             }

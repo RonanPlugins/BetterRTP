@@ -67,7 +67,7 @@ public class RTPTeleport {
                                 getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing
                                 //Save respawn location if first join
                                 if (type == RTP_TYPE.JOIN) //RTP Type was Join
-                                    if (BetterRTP.getInstance().getSettings().rtpOnFirstJoin_SetAsRespawn) //Save as respawn is enabled
+                                    if (BetterRTP.getInstance().getSettings().isRtpOnFirstJoin_SetAsRespawn()) //Save as respawn is enabled
                                         p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                             }
                         });
@@ -132,7 +132,7 @@ public class RTPTeleport {
 
     private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
-        int range = Math.round(Math.max(0, Math.min(16, getPl().getSettings().preloadRadius)));
+        int range = Math.round(Math.max(0, Math.min(16, getPl().getSettings().getPreloadRadius())));
         for (int x = -range; x <= range; x++)
             for (int z = -range; z <= range; z++) {
                 Location locLoad = new Location(loc.getWorld(), loc.getX() + (x * 16), loc.getY(), loc.getZ() + (z * 16));
@@ -158,7 +158,7 @@ public class RTPTeleport {
     }
 
     private boolean sendStatusMessage() {
-        return getPl().getSettings().statusMessages;
+        return getPl().getSettings().isStatusMessages();
     }
 
     private BetterRTP getPl() {

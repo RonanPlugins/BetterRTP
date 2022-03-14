@@ -56,54 +56,54 @@ public class RTP {
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
-        WorldPlayer pWorld = new WorldPlayer(setup_info.player, Bukkit.getWorld(setup_info.world));
+        WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), Bukkit.getWorld(setup_info.getWorld()));
 
         //Locations
-        if (setup_info.location == null) {
+        if (setup_info.getLocation() == null) {
             List<RTPWorld> locationsList = new ArrayList<>();
             for (Map.Entry<String, RTPWorld> location_set : worldLocations.entrySet()) {
                 RTPWorld location = location_set.getValue();
-                if (location.getWorld().getName().equals(setup_info.world))
+                if (location.getWorld().getName().equals(setup_info.getWorld()))
                     locationsList.add(location_set.getValue());
             }
             if (!locationsList.isEmpty()) {
                 RTPWorld location = locationsList.size() > 1 ? locationsList.get((new Random()).nextInt(locationsList.size() - 1)) : locationsList.get(0);
 
-                setup_info.location = (WorldLocations) location;
+                setup_info.setLocation((WorldLocations) location);
             }
         }
 
-        if (setup_info.location != null) {
+        if (setup_info.getLocation() != null) {
             String setup_name = null;
             for (Map.Entry<String, RTPWorld> location_set : worldLocations.entrySet()) {
                 RTPWorld location = location_set.getValue();
-                if (location == setup_info.location) {
+                if (location == setup_info.getLocation()) {
                     setup_name = location_set.getKey();
                     break;
                 }
             }
-            pWorld.setup(setup_name, setup_info.location, setup_info.location.getBiomes(), setup_info.personalized);
+            pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes(), setup_info.isPersonalized());
         }
 
 
         if (!pWorld.isSetup()) {
             //Custom World
-            if (customWorlds.containsKey(setup_info.world)) {
+            if (customWorlds.containsKey(setup_info.getWorld())) {
                 RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
-                pWorld.setup(null, cWorld, setup_info.biomes, setup_info.personalized);
+                pWorld.setup(null, cWorld, setup_info.getBiomes(), setup_info.isPersonalized());
             }
             //Default World
             else
-                pWorld.setup(null, defaultWorld, setup_info.biomes, setup_info.personalized);
+                pWorld.setup(null, defaultWorld, setup_info.getBiomes(), setup_info.isPersonalized());
         }
         //World type
         WORLD_TYPE world_type; //World rtp type
-        if (this.world_type.containsKey(setup_info.world))
-            world_type = this.world_type.get(setup_info.world);
+        if (this.world_type.containsKey(setup_info.getWorld()))
+            world_type = this.world_type.get(setup_info.getWorld());
         else {
             world_type = WORLD_TYPE.NORMAL;
-            this.world_type.put(setup_info.world, world_type); //Defaults this so the error message isn't spammed
-            getPl().getLogger().warning("Seems like the world `" + setup_info.world + "` does not have a `WorldType` declared. " +
+            this.world_type.put(setup_info.getWorld(), world_type); //Defaults this so the error message isn't spammed
+            getPl().getLogger().warning("Seems like the world `" + setup_info.getWorld() + "` does not have a `WorldType` declared. " +
                     "Please add/fix this in the config.yml file! " +
                     "This world will be treated as an overworld!");
         }
@@ -112,22 +112,22 @@ public class RTP {
     }
 
     public void start(RTPSetupInformation setup_info) {
-        RTP_SettingUpEvent setup = new RTP_SettingUpEvent(setup_info.player);
+        RTP_SettingUpEvent setup = new RTP_SettingUpEvent(setup_info.getPlayer());
         Bukkit.getPluginManager().callEvent(setup);
         if (setup.isCancelled()) {
             return;
         }
 
-        String world_name = setup_info.world;
-        Player p = setup_info.player;
-        CommandSender sendi = setup_info.sender;
+        String world_name = setup_info.getWorld();
+        Player p = setup_info.getPlayer();
+        CommandSender sendi = setup_info.getSender();
 
         // Locations
-        if (setup_info.location != null) {
-            WorldLocations location = setup_info.location;
+        if (setup_info.getLocation() != null) {
+            WorldLocations location = setup_info.getLocation();
             world_name = location.getWorld().getName();
-            setup_info.world = world_name;
-            setup_info.biomes = location.getBiomes();
+            setup_info.setWorld(world_name);
+            setup_info.setBiomes(location.getBiomes());
         }
 
         // Check overrides
@@ -146,7 +146,7 @@ public class RTP {
         }
         if (overriden.containsKey(world_name)) {
             world_name = overriden.get(world_name);
-            setup_info.world = world_name;
+            setup_info.setWorld(world_name);
         }
         // Not forced and has 'betterrtp.world.<world>'
         if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name)) {
@@ -162,7 +162,7 @@ public class RTP {
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
-        rtp(sendi, pWorld, setup_info.delay, setup_info.rtp_type, setup_info.cooldown);
+        rtp(sendi, pWorld, setup_info.isDelay(), setup_info.getRtp_type(), setup_info.isCooldown());
     }
 
     private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay, RTP_TYPE type, boolean cooldown) {
@@ -175,7 +175,7 @@ public class RTP {
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
-        if (getPl().getSettings().delayEnabled && delay) {
+        if (getPl().getSettings().isDelayEnabled() && delay) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             teleport.beforeTeleportInstant(sendi, p);

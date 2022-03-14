@@ -35,7 +35,7 @@ public class HelperRTP {
             if (ignoreCooldown || isCoolingDown(sendi, player)) { //Is Cooling down
                 boolean delay = false;
                 if (!ignoreDelay && sendi == player) //Forced?
-                    if (getPl().getSettings().delayEnabled && getPl().getSettings().delayTime > 0) //Delay enabled?
+                    if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?
                         if (!getPl().getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
                 //player.sendMessage("Cooldown applies: " + cooldownApplies(sendi, player));
@@ -69,8 +69,8 @@ public class HelperRTP {
                     return false;
                 } else { //Normal cooldown
                     long Left = cooldownHandler.timeLeft(cooldownData);
-                    if (getPl().getSettings().delayEnabled && !getPl().getPerms().getBypassDelay(sendi))
-                        Left = Left + getPl().getSettings().delayTime;
+                    if (getPl().getSettings().isDelayEnabled() && !getPl().getPerms().getBypassDelay(sendi))
+                        Left = Left + getPl().getSettings().getDelayTime();
                     if (Left > 0) {
                         //Still cooling down
                         getPl().getText().getCooldown(sendi, String.valueOf(Left));

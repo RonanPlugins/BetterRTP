@@ -127,7 +127,7 @@ public class BetterRTP extends JavaPlugin {
     }
 
     public static void debug(String str) {
-        if (getInstance().getSettings().debug)
+        if (getInstance().getSettings().isDebug())
             getInstance().getLogger().info(str);
     }
 }

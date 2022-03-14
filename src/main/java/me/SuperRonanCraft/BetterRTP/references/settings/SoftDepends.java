@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.settings;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
@@ -21,66 +22,18 @@ public class SoftDepends {
     private boolean respect_ultimateClaims = false;
     private boolean respect_pueblos = false;
     //RETURNABLES
-    private boolean worldguard = false;
-    private boolean griefprevention = false;
-    private boolean towny = false;
-    private boolean redProtect = false;
-    private boolean factionsUUID = false;
-    private boolean lands = false;
-    private boolean residence = false;
-    private boolean kingdomsx = false;
-    private boolean hClaims = false;
-    private boolean griefDefender = false;
-    private boolean ultimateClaims = false;
-    private boolean pueblos = false;
-
-    public boolean isWorldguard() {
-        return worldguard;
-    }
-
-    public boolean isGriefprevention() {
-        return griefprevention;
-    }
-
-    public boolean isTowny() {
-        return towny;
-    }
-
-    public boolean isRedProtect() {
-        return redProtect;
-    }
-
-    public boolean isFactionsUUID() {
-        return factionsUUID;
-    }
-
-    public boolean isLands() {
-        return lands;
-    }
-
-    public boolean isResidence() {
-        return residence;
-    }
-
-    public boolean isKingdomsX() {
-        return kingdomsx;
-    }
-
-    public boolean ishClaims() {
-        return hClaims;
-    }
-
-    public boolean isGriefDefender() {
-        return griefDefender;
-    }
-
-    public boolean isUltimateClaims() {
-        return ultimateClaims;
-    }
-
-    public boolean isPueblos() {
-        return pueblos;
-    }
+    @Getter private boolean worldguard = false;
+    @Getter private boolean griefprevention = false;
+    @Getter private boolean towny = false;
+    @Getter private boolean redProtect = false;
+    @Getter private boolean factionsUUID = false;
+    @Getter private boolean lands = false;
+    @Getter private boolean residence = false;
+    @Getter private boolean kingdomsx = false;
+    @Getter private boolean hClaims = false;
+    @Getter private boolean griefDefender = false;
+    @Getter private boolean ultimateClaims = false;
+    @Getter private boolean pueblos = false;
 
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
@@ -184,7 +137,7 @@ public class SoftDepends {
     }
 
     private void debug(String str) {
-        if (BetterRTP.getInstance().getSettings().debug)
+        if (BetterRTP.getInstance().getSettings().isDebug())
             BetterRTP.getInstance().getLogger().log(Level.INFO, str);
     }
 }

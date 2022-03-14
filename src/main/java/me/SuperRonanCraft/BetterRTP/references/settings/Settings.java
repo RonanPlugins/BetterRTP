@@ -1,18 +1,19 @@
 package me.SuperRonanCraft.BetterRTP.references.settings;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 
 public class Settings {
 
-    public boolean debug;
-    public boolean delayEnabled;
-    public int delayTime;
-    public boolean rtpOnFirstJoin_Enabled;
-    public String rtpOnFirstJoin_World;
-    public boolean rtpOnFirstJoin_SetAsRespawn;
-    public boolean statusMessages; //Send more information about rtp
-    public int preloadRadius; //Amount of chunks to load around a safe rtp location (clamped (0 - 16))
+    @Getter private boolean debug;
+    @Getter private boolean delayEnabled;
+    @Getter private int delayTime;
+    @Getter private boolean rtpOnFirstJoin_Enabled;
+    @Getter private String rtpOnFirstJoin_World;
+    @Getter private boolean rtpOnFirstJoin_SetAsRespawn;
+    @Getter private boolean statusMessages; //Send more information about rtp
+    @Getter private int preloadRadius; //Amount of chunks to load around a safe rtp location (clamped (0 - 16))
     //Dependencies
     private final SoftDepends depends = new SoftDepends();
     public boolean protocolLibSounds;

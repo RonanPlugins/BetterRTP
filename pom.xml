@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.2.3</version>
+    <version>3.2.4</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -258,7 +258,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>kingdoms</artifactId>
-            <version>1.11.15</version>
+            <version>1.12.3</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

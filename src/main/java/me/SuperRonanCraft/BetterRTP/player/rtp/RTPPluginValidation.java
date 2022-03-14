@@ -161,7 +161,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/kingdomsx.77670/
     private boolean getKingdomsx(Location loc) {
         boolean result = true;
-        if (getDepends().isKingdomsX())
+        if (getDepends().isKingdomsx())
             try {
                 org.kingdoms.constants.land.Land land = org.kingdoms.constants.land.Land.getLand(loc);
                 result = land == null || !land.isClaimed();
@@ -176,7 +176,7 @@ public class RTPPluginValidation { //Safe locations depending on enabled depende
     // https://www.spigotmc.org/resources/hclaims.90540/ (Local Repo)
     private boolean gethClaims(Location loc) {
         boolean result = true;
-        if (getDepends().ishClaims())
+        if (getDepends().isHClaims())
             try {
                 result = ClaimAPI.getInstance().isClaimed(loc);
             } catch (Exception e) {
