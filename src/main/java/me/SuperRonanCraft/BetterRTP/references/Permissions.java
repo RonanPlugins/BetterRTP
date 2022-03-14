@@ -95,6 +95,10 @@ public class Permissions {
         return checkPerm(pre + "location", sendi);
     }
 
+    public boolean getLocation(CommandSender sendi, String location) {
+        return checkPerm(pre + "location." + location, sendi);
+    }
+
     public boolean getPermissionGroup(CommandSender sendi, String group) {
         return checkPerm(pre + "group." + group, sendi);
     }

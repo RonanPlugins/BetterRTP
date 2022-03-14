@@ -16,7 +16,9 @@ public class Settings {
     @Getter private int preloadRadius; //Amount of chunks to load around a safe rtp location (clamped (0 - 16))
     //Dependencies
     private final SoftDepends depends = new SoftDepends();
-    public boolean protocolLibSounds;
+    @Getter private boolean protocolLibSounds;
+    @Getter private boolean useLocationIfAvailable;
+    @Getter private boolean locationNeedPermission;
 
     public void load() { //Load Settings
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -29,6 +31,8 @@ public class Settings {
         preloadRadius = config.getInt("Settings.PreloadRadius");
         statusMessages = config.getBoolean("Settings.StatusMessages");
         protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
+        useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
+        locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
         depends.load();
     }
 

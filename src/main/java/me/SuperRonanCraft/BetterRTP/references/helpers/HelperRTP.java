@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
@@ -39,6 +40,10 @@ public class HelperRTP {
                         if (!getPl().getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
                 //player.sendMessage("Cooldown applies: " + cooldownApplies(sendi, player));
+                if (getPl().getSettings().isUseLocationIfAvailable() && !CmdLocation.getLocations().isEmpty()) {
+
+                }
+
                 RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
                         biomes, delay, rtpType, locations, !ignoreCooldown && cooldownApplies(sendi, player)); //ignore cooldown or else
                 getPl().getRTP().start(setup_info);

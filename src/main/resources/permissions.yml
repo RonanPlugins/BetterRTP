@@ -28,12 +28,20 @@ permissions:
         description: RTP to specific biomes
     betterrtp.sign:
         description: Ability to create an RTP sign
+    #Locations
+    betterrtp.location:
+        description: Ability to use the location command
+    betterrtp.location.*:
+        description: Ability to use all locations if permissions are enabled in locations.yml
+        default: op
+    #Bypasses
     betterrtp.bypass.cooldown:
         description: Bypass cooldowns
     betterrtp.bypass.delay:
         description: Bypass delays
     betterrtp.bypass.economy:
         description: Bypass economy
+    #Reload
     betterrtp.reload:
         description: Reload the config
         default: op

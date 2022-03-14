@@ -1,17 +1,19 @@
 #Locations where rtp will center upon
 #Format:
-# LOCATION_NAME:
-#   World: world
-#   CenterX: 100
-#   CenterY: 150
-#   MaxRadius: 100
-#   MinRadius: 5
+# - LOCATION_NAME:
+#     World: world
+#     CenterX: 100
+#     CenterY: 150
+#     MaxRadius: 100
+#     MinRadius: 5
 
-Enabled: false
+Enabled: false #enable the locations feature
+RequirePermission: false #Require players to have `betterrtp.location.<world_name>`
+UseLocationIfAvailable: false #Will choose a location upon `/rtp` if location(s) is available in the world
 
 Locations:
   - main_loc:
-      World: world
+      World: world_name
       CenterX: 100
       CenterZ: 150
       MaxRadius: 100 #optional
