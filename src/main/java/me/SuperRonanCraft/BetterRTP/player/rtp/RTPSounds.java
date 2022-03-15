@@ -42,7 +42,7 @@ public class RTPSounds {
     }
 
     void playSound(Location loc, Player p, String sound) {
-        if (BetterRTP.getInstance().getSettings().protocolLibSounds) {
+        if (BetterRTP.getInstance().getSettings().isProtocolLibSounds()) {
             try {
                 ProtocolManager pm = ProtocolLibrary.getProtocolManager();
                 WrapperPlayServerNamedSoundEffect packet = new WrapperPlayServerNamedSoundEffect(pm.createPacket(PacketType.Play.Server.NAMED_SOUND_EFFECT));

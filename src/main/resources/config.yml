@@ -60,6 +60,8 @@ Default:
   CenterX: 0
   CenterZ: 0
   Shape: 'square'
+  MaxY: 320
+  MinY: 0
 
 ## Blocks BetterRTP will NOT teleport onto. More Blocks at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html #
 BlacklistedBlocks:
@@ -95,6 +97,8 @@ CustomWorlds:
       CenterZ: 0
       Price: 50
       Shape: 'square'
+      MaxY: 320
+      MinY: 0
   - other_custom_world:
       MaxRadius: 10000
       MinRadius: 150
@@ -133,6 +137,8 @@ PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger thes
             CenterX: 10
             CenterZ: 10
             Price: 10
+            MaxY: 320
+            MinY: 0
     - vip2: # permission: betterrtp.group.vip2
         - Build_World:
             MaxRadius: 25000

@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -58,21 +59,14 @@ public class RTP {
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
         WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), Bukkit.getWorld(setup_info.getWorld()));
 
-        //Locations
-        if (setup_info.getLocation() == null) {
-            List<RTPWorld> locationsList = new ArrayList<>();
-            for (Map.Entry<String, RTPWorld> location_set : worldLocations.entrySet()) {
-                RTPWorld location = location_set.getValue();
-                if (location.getWorld().getName().equals(setup_info.getWorld()))
-                    locationsList.add(location_set.getValue());
-            }
-            if (!locationsList.isEmpty()) {
-                RTPWorld location = locationsList.size() > 1 ? locationsList.get((new Random()).nextInt(locationsList.size() - 1)) : locationsList.get(0);
-
-                setup_info.setLocation((WorldLocations) location);
-            }
+        //Random Location
+        if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
+            setup_info.setLocation(HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld()));
+            if (setup_info.getLocation() == null)
+                BetterRTP.getInstance().getLogger().warning("UseLocationIfAvailable is set to `true`, but no location was found for "
+                        + setup_info.getSender().getName() + "! Using world defaults!");
         }
-
+        //Location
         if (setup_info.getLocation() != null) {
             String setup_name = null;
             for (Map.Entry<String, RTPWorld> location_set : worldLocations.entrySet()) {
@@ -85,7 +79,6 @@ public class RTP {
             pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes(), setup_info.isPersonalized());
         }
 
-
         if (!pWorld.isSetup()) {
             //Custom World
             if (customWorlds.containsKey(setup_info.getWorld())) {
@@ -97,7 +90,7 @@ public class RTP {
                 pWorld.setup(null, defaultWorld, setup_info.getBiomes(), setup_info.isPersonalized());
         }
         //World type
-        WORLD_TYPE world_type; //World rtp type
+        WORLD_TYPE world_type;
         if (this.world_type.containsKey(setup_info.getWorld()))
             world_type = this.world_type.get(setup_info.getWorld());
         else {

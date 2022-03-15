@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

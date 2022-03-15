@@ -1,14 +1,15 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.Random;
 
 public class WorldPlayer implements RTPWorld {
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, min_y = 0;
+    private int CenterX, CenterZ, maxRad, minRad, price, min_y, max_y;
     private List<String> Biomes;
-    private final Player p;
+    @Getter private final Player player;
     private final World world;
     private WORLD_TYPE world_type;
     private RTPPermissionGroup.RTPPermConfiguration config = null;
@@ -26,15 +27,12 @@ public class WorldPlayer implements RTPWorld {
     public RTP_SETUP_TYPE setup_type = RTP_SETUP_TYPE.DEFAULT;
     public String setup_name;
     //Economy
-    public boolean eco_money_taken = false, setup = false;
+    public boolean eco_money_taken = false;
+    @Getter private boolean setup = false;
 
     public WorldPlayer(Player p, World world) {
-        this.p = p;
+        this.player = p;
         this.world = world;
-    }
-
-    public boolean isSetup() {
-        return setup;
     }
 
     public void setup(String setup_name, RTPWorld world, List<String> biomes, boolean personal) {
@@ -46,8 +44,8 @@ public class WorldPlayer implements RTPWorld {
         setUseWorldborder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
         setCenterZ(world.getCenterZ());
-        setMaxRad(world.getMaxRad());
-        setMinRad(world.getMinRad());
+        setMaxRad(world.getMaxRadius());
+        setMinRad(world.getMinRadius());
         setShape(world.getShape());
         if (world instanceof WorldDefault)
             setPrice(((WorldDefault) world).getPrice(getWorld().getName()));
@@ -62,27 +60,29 @@ public class WorldPlayer implements RTPWorld {
         if (personal)
             setupGroup(BetterRTP.getInstance().getRTP().permConfig);
         //Make sure our borders will not cause an invalid integer
-        if (getMaxRad() <= getMinRad()) {
-            setMinRad(BetterRTP.getInstance().getRTP().defaultWorld.getMinRad());
-            if (getMaxRad() <= getMinRad())
+        if (getMaxRadius() <= getMinRadius()) {
+            setMinRad(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
+            if (getMaxRadius() <= getMinRadius())
                 setMinRad(0);
         }
         //World border protection
         if (getUseWorldborder()) {
             WorldBorder border = getWorld().getWorldBorder();
             int _borderRad = (int) border.getSize() / 2;
-            if (getMaxRad() > _borderRad)
+            if (getMaxRadius() > _borderRad)
                 setMaxRad(_borderRad);
             setCenterX(border.getCenter().getBlockX());
             setCenterZ(border.getCenter().getBlockZ());
         }
         //MinY
+        setMinY(world.getMinY());
+        setMaxY(world.getMaxY());
         //min_y = world.getWorld().getBlockAt(0, -1, 0).getType() != Material.AIR ?
         setup = true;
     }
 
     private void setupGroup(RTPPermissionGroup permConfig) {
-        RTPPermissionGroup.RTPPermConfiguration config = permConfig.getGroup(p);
+        RTPPermissionGroup.RTPPermConfiguration config = permConfig.getGroup(player);
         if (config != null) {
             for (RTPPermissionGroup.RTPPermConfigurationWorld world : config.worlds) {
                 if (getWorld().getName().equals(world.name)) {
@@ -105,24 +105,20 @@ public class WorldPlayer implements RTPWorld {
         }
     }
 
-    public Player getPlayer() {
-        return p;
-    }
-
     public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid
         if (loc.getWorld() != getWorld())
             return false;
-        int _xLMax = getCenterX() - getMaxRad(); //I|-||
-        int _xLMin = getCenterX() - getMinRad(); //|I-||
-        int _xRMax = getCenterX() + getMaxRad(); //||-|I
-        int _xRMin = getCenterX() + getMinRad(); //||-I|
+        int _xLMax = getCenterX() - getMaxRadius(); //I|-||
+        int _xLMin = getCenterX() - getMinRadius(); //|I-||
+        int _xRMax = getCenterX() + getMaxRadius(); //||-|I
+        int _xRMin = getCenterX() + getMinRadius(); //||-I|
         int _xLoc = loc.getBlockX();
         if (_xLoc < _xLMax || (_xLoc > _xLMin && _xLoc < _xRMin) || _xLoc > _xRMax)
             return false;
-        int _zLMax = getCenterZ() - getMaxRad(); //I|-||
-        int _zLMin = getCenterZ() - getMinRad(); //|I-||
-        int _zRMax = getCenterZ() + getMaxRad(); //||-|I
-        int _zRMin = getCenterZ() + getMinRad(); //||-I|
+        int _zLMax = getCenterZ() - getMaxRadius(); //I|-||
+        int _zLMin = getCenterZ() - getMinRadius(); //|I-||
+        int _zRMax = getCenterZ() + getMaxRadius(); //||-|I
+        int _zRMin = getCenterZ() + getMinRadius(); //||-I|
         int _zLoc = loc.getBlockX();
         return _zLoc >= _zLMax && (_zLoc <= _zLMin || _zLoc >= _zRMin) && _zLoc <= _zRMax;
     }
@@ -131,9 +127,9 @@ public class WorldPlayer implements RTPWorld {
         Location loc;
         switch (shape) {
             case CIRCLE:
-                loc = generateRound(getMaxRad(), getMinRad()); break;
+                loc = generateRound(getMaxRadius(), getMinRadius()); break;
             default:
-                loc = generateSquare(getMaxRad(), getMinRad()); break;
+                loc = generateSquare(getMaxRadius(), getMinRadius()); break;
         }
         return loc;
     }
@@ -182,6 +178,7 @@ public class WorldPlayer implements RTPWorld {
         return new Location(getWorld(), x, 0, z);
     }
 
+    @NotNull
     @Override
     public World getWorld() {
         return world;
@@ -203,13 +200,13 @@ public class WorldPlayer implements RTPWorld {
     }
 
     @Override
-    public int getMaxRad() {
-        return maxBorderRad;
+    public int getMaxRadius() {
+        return maxRad;
     }
 
     @Override
-    public int getMinRad() {
-        return minBorderRad;
+    public int getMinRadius() {
+        return minRad;
     }
 
     @Override
@@ -241,11 +238,11 @@ public class WorldPlayer implements RTPWorld {
 
     //Modifiable
     private void setMaxRad(int max) {
-        maxBorderRad = max;
+        maxRad = max;
     }
 
     private void setMinRad(int min) {
-        minBorderRad = min;
+        minRad = min;
     }
 
     private void setPrice(int price) {
@@ -266,6 +263,14 @@ public class WorldPlayer implements RTPWorld {
         this.shape = shape;
     }
 
+    public void setMinY(int value) {
+        this.min_y = value;
+    }
+
+    public void setMaxY(int value) {
+        this.max_y = value;
+    }
+
     public RTPPermissionGroup.RTPPermConfiguration getConfig() {
         return this.config;
     }
@@ -276,5 +281,10 @@ public class WorldPlayer implements RTPWorld {
 
     public int getMinY() {
         return min_y;
+    }
+
+    @Override
+    public int getMaxY() {
+        return max_y;
     }
 }

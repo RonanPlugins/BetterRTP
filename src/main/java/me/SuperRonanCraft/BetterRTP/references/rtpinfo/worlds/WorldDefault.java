@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class WorldDefault implements RTPWorld {
     private boolean useWorldborder;
-    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price;
+    private int CenterX, CenterZ, maxBorderRad, minBorderRad, price, miny, maxy;
     private List<String> Biomes;
     private final HashMap<String, Integer> prices = new HashMap<>();
     private RTP_SHAPE shape;
@@ -34,14 +35,12 @@ public class WorldDefault implements RTPWorld {
             shape = RTP_SHAPE.SQUARE;
         }
         if (maxBorderRad <= 0) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                    "WARNING! Default Maximum radius of '" + maxBorderRad + "' is not allowed! Set to '1000'");
+            BetterRTP.getInstance().getLogger().warning("WARNING! Default Maximum radius of '" + maxBorderRad + "' is not allowed! Value set to '1000'");
             maxBorderRad = 1000;
         }
         minBorderRad = config.getInt(pre + ".MinRadius");
         if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                    "WARNING! Default Minimum radius of '" + minBorderRad + "' is not allowed! Set to '0'");
+            BetterRTP.getInstance().getLogger().warning("The Default MinRadius of '" + minBorderRad + "' is not allowed! Value set to '0'");
             minBorderRad = 0;
         }
         prices.clear();
@@ -61,6 +60,16 @@ public class WorldDefault implements RTPWorld {
             price = 0;
         //Other
         this.Biomes = config.getStringList(pre + ".Biomes");
+        this.miny = config.getInt(pre + ".MinY");
+        if (miny > 0) {
+            miny = 0;
+            BetterRTP.getInstance().getLogger().warning("Warning! Default MinY value is solely for 1.17+ support, and can only be negative!");
+        }
+        this.maxy = config.getInt(pre + ".MaxY");
+        if (maxy < 64) {
+            maxy = 320;
+            BetterRTP.getInstance().getLogger().warning("Warning! Default MaxY value is below water level (64)! Reset to default 320!");
+        }
     }
 
     @Override
@@ -79,12 +88,12 @@ public class WorldDefault implements RTPWorld {
     }
 
     @Override
-    public int getMaxRad() {
+    public int getMaxRadius() {
         return maxBorderRad;
     }
 
     @Override
-    public int getMinRad() {
+    public int getMinRadius() {
         return minBorderRad;
     }
 
@@ -102,6 +111,7 @@ public class WorldDefault implements RTPWorld {
         return Biomes;
     }
 
+    @NotNull
     @Override
     public World getWorld() {
         return null;
@@ -110,5 +120,15 @@ public class WorldDefault implements RTPWorld {
     @Override
     public RTP_SHAPE getShape() {
         return shape;
+    }
+
+    @Override
+    public int getMinY() {
+        return miny;
+    }
+
+    @Override
+    public int getMaxY() {
+        return maxy;
     }
 }

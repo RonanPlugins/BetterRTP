@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
-    private int centerX, centerZ, maxBorderRad, minBorderRad, price;
+    private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private List<String> biomes;
     private String world;
     private RTP_SHAPE shape;
@@ -55,22 +56,22 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                 }
                 if (test.get("MaxRadius") != null) {
                     if (test.get("MaxRadius").getClass() == Integer.class)
-                        maxBorderRad = Integer.parseInt((test.get("MaxRadius")).toString());
-                    if (maxBorderRad <= 0) {
+                        maxRad = Integer.parseInt((test.get("MaxRadius")).toString());
+                    if (maxRad <= 0) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Location '" + location_name + "' Maximum radius of '" + maxBorderRad + "' is not allowed! Set to default value!");
-                        maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
+                                "WARNING! Location '" + location_name + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
+                        maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
                     }
                 }
                 if (test.get("MinRadius") != null) {
                     if (test.get("MinRadius").getClass() == Integer.class)
-                        minBorderRad = Integer.parseInt((test.get("MinRadius")).toString());
-                    if (minBorderRad < 0 || minBorderRad >= maxBorderRad) {
+                        minRad = Integer.parseInt((test.get("MinRadius")).toString());
+                    if (minRad < 0 || minRad >= maxRad) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Location '" + location_name + "' Minimum radius of '" + minBorderRad + "' is not allowed! Set to default value!");
-                        minBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRad();
-                        if (minBorderRad >= maxBorderRad)
-                            maxBorderRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRad();
+                                "WARNING! Location '" + location_name + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
+                        minRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius();
+                        if (minRad >= maxRad)
+                            maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
                     }
                 }
                 if (test.get("Biomes") != null) {
@@ -103,6 +104,12 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                         }
                     }
                 }
+                if (test.get("MinY") != null)
+                    if (test.get("MinY").getClass() == Integer.class)
+                        this.miny = Integer.parseInt(test.get("MinY").toString());
+                if (test.get("MaxY") != null)
+                    if (test.get("MaxY").getClass() == Integer.class)
+                        this.maxy = Integer.parseInt(test.get("MaxY").toString());
             }
         }
     }
@@ -111,6 +118,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
         return world != null;
     }
 
+    @NotNull
     @Override
     public World getWorld() {
         return Bukkit.getWorld(world);
@@ -132,13 +140,13 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public int getMaxRad() {
-        return maxBorderRad;
+    public int getMaxRadius() {
+        return maxRad;
     }
 
     @Override
-    public int getMinRad() {
-        return minBorderRad;
+    public int getMinRadius() {
+        return minRad;
     }
 
     @Override
@@ -154,6 +162,16 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public RTP_SHAPE getShape() {
         return shape;
+    }
+
+    @Override
+    public int getMinY() {
+        return miny;
+    }
+
+    @Override
+    public int getMaxY() {
+        return maxy;
     }
 
     //Setters
@@ -174,13 +192,13 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public void setMaxRad(int value) {
-        this.maxBorderRad = value;
+    public void setMaxRadius(int value) {
+        this.maxRad = value;
     }
 
     @Override
-    public void setMinRad(int value) {
-        this.minBorderRad = value;
+    public void setMinRadius(int value) {
+        this.minRad = value;
     }
 
     @Override
@@ -201,5 +219,15 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public void setShape(RTP_SHAPE value) {
         this.shape = value;
+    }
+
+    @Override
+    public void setMinY(int value) {
+        this.miny = value;
+    }
+
+    @Override
+    public void setMaxY(int value) {
+        this.maxy = value;
     }
 }

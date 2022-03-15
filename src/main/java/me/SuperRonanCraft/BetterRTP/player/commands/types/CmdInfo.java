@@ -129,17 +129,19 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Overriden&7: " + _false);
                 WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(new RTPSetupInformation(w.getName(), sendi, null, personal));
                 WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
-                info.add("&7- &6Setup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
+                info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
                 info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
-                info.add("&7- &6World Type&7: &f" + _rtpworld.getWorldtype().name());
+                info.add("&7- &eWorld Type&7: &f" + _rtpworld.getWorldtype().name());
                 info.add("&7- &6Center X&7: &f" + _rtpworld.getCenterX() + getInfo(_rtpworld, worldDefault, "centerx"));
-                info.add("&7- &6Center Z&7: &f" + _rtpworld.getCenterZ() + getInfo(_rtpworld, worldDefault, "centerz"));
-                info.add("&7- &6Max Radius&7: &f" + _rtpworld.getMaxRad() + getInfo(_rtpworld, worldDefault, "max"));
-                info.add("&7- &6Min Radius&7: &f" + _rtpworld.getMinRad() + getInfo(_rtpworld, worldDefault, "min"));
+                info.add("&7- &eCenter Z&7: &f" + _rtpworld.getCenterZ() + getInfo(_rtpworld, worldDefault, "centerz"));
+                info.add("&7- &6Max Radius&7: &f" + _rtpworld.getMaxRadius() + getInfo(_rtpworld, worldDefault, "maxrad"));
+                info.add("&7- &eMin Radius&7: &f" + _rtpworld.getMinRadius() + getInfo(_rtpworld, worldDefault, "minrad"));
+                info.add("&7- &6Min Y&7: &f" + _rtpworld.getMinY());
+                info.add("&7- &eMax Y&7: &f" + _rtpworld.getMaxY());
                 info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
-                info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
+                info.add("&7- &eBiomes&7: &f" + _rtpworld.getBiomes().toString());
                 info.add("&7- &6Shape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
-                info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
+                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
             }
         }
         return info;
@@ -152,10 +154,10 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 return worldPlayer.getUseWorldborder() || worldPlayer.getCenterX() == worldDefault.getCenterX() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
             case "centerz":
                 return worldPlayer.getUseWorldborder() || worldPlayer.getCenterZ() == worldDefault.getCenterZ() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
-            case "max":
-                return worldPlayer.getUseWorldborder() || worldPlayer.getMaxRad() == worldDefault.getMaxRad() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
-            case "min":
-                return worldPlayer.getMinRad() == worldDefault.getMinRad() ? " &8(default)" : "";
+            case "maxrad":
+                return worldPlayer.getUseWorldborder() || worldPlayer.getMaxRadius() == worldDefault.getMaxRadius() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
+            case "minrad":
+                return worldPlayer.getMinRadius() == worldDefault.getMinRadius() ? " &8(default)" : "";
             case "price":
                 return worldPlayer.getPrice() == worldDefault.getPrice() ? " &8(default)" : "";
             case "shape":

@@ -19,6 +19,7 @@ public class Settings {
     @Getter private boolean protocolLibSounds;
     @Getter private boolean useLocationIfAvailable;
     @Getter private boolean locationNeedPermission;
+    @Getter private boolean locationOnlyAllowInWorld;
 
     public void load() { //Load Settings
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -33,6 +34,7 @@ public class Settings {
         protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
         useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
+        locationOnlyAllowInWorld = FileBasics.FILETYPE.LOCATIONS.getBoolean("OnlyAllowInWorld");
         depends.load();
     }
 

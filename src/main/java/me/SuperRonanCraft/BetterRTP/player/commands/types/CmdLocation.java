@@ -11,6 +11,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2) {
             if (sendi instanceof  Player) {
-                for (String location_name : getLocations(sendi).keySet()) {
+                for (String location_name : getLocations(sendi, null).keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
                         Player p = (Player) sendi;
                         HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
@@ -40,7 +41,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         } else if (args.length == 3 && BetterRTP.getInstance().getPerms().getRtpOther(sendi)) {
             Player p = Bukkit.getPlayer(args[2]);
             if (p != null && p.isOnline()) {
-                for (String location_name : getLocations(sendi).keySet()) {
+                for (String location_name : getLocations(sendi, null).keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
                         HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
                         return;
@@ -58,7 +59,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 2) {
-            for (String location_name : getLocations(sendi).keySet())
+            for (String location_name : getLocations(sendi, null).keySet())
                 if (location_name.toLowerCase().startsWith(args[1].toLowerCase()))
                     list.add(location_name);
         } else if (args.length == 3 && BetterRTP.getInstance().getPerms().getRtpOther(sendi)) {
@@ -77,17 +78,22 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         BetterRTP.getInstance().getText().getUsageLocation(sendi, label);
     }
 
-    public static HashMap<String, RTPWorld> getLocations() {
+    private static HashMap<String, RTPWorld> getLocations() {
         return BetterRTP.getInstance().getRTP().worldLocations;
     }
 
     //Get locations a player has access to
-    public static HashMap<String, RTPWorld> getLocations(CommandSender sendi) {
-        HashMap<String, RTPWorld> locations = new HashMap<>();
-        for (Map.Entry<String, RTPWorld> location : getLocations().entrySet())
-            if (BetterRTP.getInstance().getPerms().getLocation(sendi, location.getKey()))
-                locations.put(location.getKey(), location.getValue());
-        return locations;
+    public static HashMap<String, RTPWorld> getLocations(CommandSender sendi, @Nullable String world) {
+        if (BetterRTP.getInstance().getSettings().isLocationNeedPermission()) {
+            HashMap<String, RTPWorld> locations = new HashMap<>();
+            for (Map.Entry<String, RTPWorld> location : getLocations().entrySet())
+                if (BetterRTP.getInstance().getPerms().getLocation(sendi, location.getKey())) {
+                    if (world == null || location.getValue().getWorld().getName().equals(world))
+                        locations.put(location.getKey(), location.getValue());
+                }
+            return locations;
+        } else
+            return getLocations();
     }
 
     @Override

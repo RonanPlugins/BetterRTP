@@ -6,11 +6,16 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class HelperRTP {
 
@@ -39,11 +44,6 @@ public class HelperRTP {
                     if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?
                         if (!getPl().getPerms().getBypassDelay(player)) //Can bypass?
                             delay = true;
-                //player.sendMessage("Cooldown applies: " + cooldownApplies(sendi, player));
-                if (getPl().getSettings().isUseLocationIfAvailable() && !CmdLocation.getLocations().isEmpty()) {
-
-                }
-
                 RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
                         biomes, delay, rtpType, locations, !ignoreCooldown && cooldownApplies(sendi, player)); //ignore cooldown or else
                 getPl().getRTP().start(setup_info);
@@ -106,5 +106,16 @@ public class HelperRTP {
 
     private static BetterRTP getPl() {
         return BetterRTP.getInstance();
+    }
+
+    @Nullable
+    public static WorldLocations getRandomLocation(CommandSender sender, String world) {
+        HashMap<String, RTPWorld> locations_permissible = CmdLocation.getLocations(sender, world);
+        if (!locations_permissible.isEmpty()) {
+            List<String> valuesList = new ArrayList<>(locations_permissible.keySet());
+            String randomIndex = valuesList.get(new Random().nextInt(valuesList.size()));
+            return (WorldLocations) locations_permissible.get(randomIndex);
+        }
+        return null;
     }
 }

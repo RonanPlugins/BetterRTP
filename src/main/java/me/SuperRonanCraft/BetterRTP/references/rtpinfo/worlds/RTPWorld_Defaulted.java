@@ -13,9 +13,9 @@ public interface RTPWorld_Defaulted {
 
     void setCenterZ(int value);
 
-    void setMaxRad(int value);
+    void setMaxRadius(int value);
 
-    void setMinRad(int value);
+    void setMinRadius(int value);
 
     void setPrice(int value);
 
@@ -25,15 +25,21 @@ public interface RTPWorld_Defaulted {
 
     void setShape(RTP_SHAPE value);
 
+    void setMinY(int value);
+
+    void setMaxY(int value);
+
     default void setupDefaults() {
         WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
-        setMaxRad(worldDefault.getMaxRad());
-        setMinRad(worldDefault.getMinRad());
+        setMaxRadius(worldDefault.getMaxRadius());
+        setMinRadius(worldDefault.getMinRadius());
         setUseWorldBorder(worldDefault.getUseWorldborder());
         setCenterX(worldDefault.getCenterX());
         setCenterZ(worldDefault.getCenterZ());
         setPrice(worldDefault.getPrice());
         setBiomes(worldDefault.getBiomes());
         setShape(worldDefault.getShape());
+        setMinY(worldDefault.getMinY());
+        setMaxY(worldDefault.getMaxY());
     }
 }

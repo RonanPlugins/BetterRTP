@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
+import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.World;
 
@@ -13,15 +14,19 @@ public interface RTPWorld {
 
     int getCenterZ();
 
-    int getMaxRad();
+    int getMaxRadius();
 
-    int getMinRad();
+    int getMinRadius();
 
     int getPrice();
 
     List<String> getBiomes();
 
-    World getWorld();
+    @NonNull World getWorld();
 
     RTP_SHAPE getShape();
+
+    int getMinY();
+
+    int getMaxY();
 }
