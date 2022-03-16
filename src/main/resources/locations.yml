@@ -11,7 +11,7 @@
 
 Enabled: false #enable the locations feature
 RequirePermission: false #Require players to have `betterrtp.location.<world_name>`
-UseLocationIfAvailable: false #Will choose a location upon `/rtp` if location(s) is available in the world
+UseLocationIfAvailable: true #Will choose a location upon `/rtp` if location(s) is available in the world
 #OnlyAllowInWorld: true #Only allow players to use locations that correspond to the world they are standing in
 
 Locations:

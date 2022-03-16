@@ -12,6 +12,7 @@ public class RTP_CommandEvent extends RTPEvent implements Cancellable {
     RTPCommand cmd;
     private static final HandlerList handler = new HandlerList();
 
+    //Called before a command is executed
     public RTP_CommandEvent(CommandSender sendi, RTPCommand cmd) {
         this.sendi = sendi;
         this.cmd = cmd;

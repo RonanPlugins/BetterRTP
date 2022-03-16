@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
@@ -50,6 +51,7 @@ public class Commands {
                             Bukkit.getServer().getPluginManager().callEvent(event);
                             if (!event.isCancelled())
                                 cmd.execute(sendi, label, args);
+                            Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
                         } else
                             pl.getText().getNoPermission(sendi);
                         return;
