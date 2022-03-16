@@ -49,9 +49,10 @@ public class Commands {
                             RTP_CommandEvent event = new RTP_CommandEvent(sendi, cmd);
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(event);
-                            if (!event.isCancelled())
+                            if (!event.isCancelled()) {
                                 cmd.execute(sendi, label, args);
-                            Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
+                                Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
+                            }
                         } else
                             pl.getText().getNoPermission(sendi);
                         return;
