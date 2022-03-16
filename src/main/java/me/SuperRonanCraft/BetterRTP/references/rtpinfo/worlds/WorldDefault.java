@@ -4,7 +4,6 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,7 @@ public class WorldDefault implements RTPWorld {
     private final HashMap<String, Integer> prices = new HashMap<>();
     private RTP_SHAPE shape;
 
-    public void setup() {
+    public void load() {
         //Setups
         String pre = "Default";
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);

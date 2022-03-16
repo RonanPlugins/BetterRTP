@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class RTPLoader {
 
-    static void loadCustomWorlds(@NotNull WorldDefault defaultWorld, @NotNull HashMap<String, RTPWorld> customWorlds) {
-        defaultWorld.setup();
+    static void loadWorlds(@NotNull WorldDefault defaultWorld, @NotNull HashMap<String, RTPWorld> customWorlds) {
+        defaultWorld.load();
         customWorlds.clear();
         try {
             FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -84,7 +84,7 @@ public class RTPLoader {
         }
     }
 
-    static void loadWorldLocations(@NotNull HashMap<String, RTPWorld> worlds) {
+    static void loadLocations(@NotNull HashMap<String, RTPWorld> worlds) {
         worlds.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
         if (!config.getBoolean("Enabled"))
@@ -95,8 +95,7 @@ public class RTPLoader {
                 WorldLocations location = new WorldLocations(entry.getKey().toString());
                 if (location.isValid()) {
                     worlds.put(entry.getKey().toString(), location);
-                    if (getPl().getSettings().isDebug())
-                        BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
+                    BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
                 }
             }
     }

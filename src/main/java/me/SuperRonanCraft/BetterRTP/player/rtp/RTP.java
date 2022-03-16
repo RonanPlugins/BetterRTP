@@ -44,16 +44,20 @@ public class RTP {
         RTPLoader.loadOverrides(overriden);
         //WorldType
         RTPLoader.loadWorldTypes(world_type);
-        //CustomWorlds
-        loadCustomWorlds();
+        //Worlds & CustomWorlds
+        RTPLoader.loadWorlds(defaultWorld, customWorlds);
         //Locations
-        RTPLoader.loadWorldLocations(worldLocations);
+        RTPLoader.loadLocations(worldLocations);
         teleport.load(); //Load teleporting stuff
         permConfig.load(); //Load permission configs
     }
 
-    public void loadCustomWorlds() { //Keeping this here because of the edit command
-        RTPLoader.loadCustomWorlds(defaultWorld, customWorlds);
+    public void loadWorlds() { //Keeping this here because of the edit command
+        RTPLoader.loadWorlds(defaultWorld, customWorlds);
+    }
+
+    public void loadLocations() { //Keeping this here because of the edit command
+        RTPLoader.loadLocations(worldLocations);
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {

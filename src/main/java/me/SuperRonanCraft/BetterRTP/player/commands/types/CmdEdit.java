@@ -28,7 +28,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().toLowerCase().startsWith(args[1].toLowerCase())) {
                     switch (cmd) {
-                        case WORLD:
+                        case CUSTOMWORLD:
                             if (args.length >= 5) {
                                 for (World world : Bukkit.getWorlds()) {
                                     if (world.getName().startsWith(args[2])) {
@@ -94,6 +94,51 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             usage(sendi, label, null);
     }
 
+    private void editLocation(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String location, String val) {
+        Object value;
+        try {
+            value = cmd.getResult(val);
+        } catch (Exception e) {
+            e.printStackTrace();
+            BetterRTP.getInstance().getText().getEditError(sendi);
+            return;
+        }
+
+        if (value == null) {
+            BetterRTP.getInstance().getText().getEditError(sendi);
+            return;
+        }
+
+        FileBasics.FILETYPE file = FileBasics.FILETYPE.LOCATIONS;
+        YamlConfiguration config = file.getConfig();
+
+        List<Map<?, ?>> map = config.getMapList("Locations");
+        boolean found = false;
+        for (Map<?, ?> m : map) {
+            for (Map.Entry<?, ?> entry : m.entrySet()) {
+                if (entry.getKey().toString().equals(location)) {
+                    found = true;
+                    for (Object map2 : m.values()) {
+                        Map<Object, Object> values = (Map<Object, Object>) map2;
+                        values.put(cmd.get(), value);
+                        BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            config.set("Locations", map);
+            try {
+                config.save(file.getFile());
+                BetterRTP.getInstance().getRTP().loadLocations();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void editWorld(CommandSender sendi, RTP_CMD_EDIT_SUB cmd, String world, String val) {
         Object value;
         try {
@@ -137,7 +182,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
         try {
             config.save(file.getFile());
-            BetterRTP.getInstance().getRTP().loadCustomWorlds();
+            BetterRTP.getInstance().getRTP().loadWorlds();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +210,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
         try {
             config.save(file.getFile());
-            BetterRTP.getInstance().getRTP().loadCustomWorlds();
+            BetterRTP.getInstance().getRTP().loadWorlds();
             BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,7 +334,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                     switch (cmd) {
                         case WORLD_TYPE:
                         case OVERRIDE:
-                        case WORLD: //List all worlds
+                        case CUSTOMWORLD: //List all worlds
                             for (World world : Bukkit.getWorlds())
                                 if (world.getName().toLowerCase().startsWith(args[2].toLowerCase()))
                                     list.add(world.getName());
@@ -307,7 +352,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().equalsIgnoreCase(args[1]))
                     switch (cmd) {
-                        case WORLD:
+                        case CUSTOMWORLD:
                             list.addAll(tabCompleteSub(args, cmd)); break;
                         case DEFAULT:
                             if (args[2].equalsIgnoreCase(RTP_CMD_EDIT_SUB.CENTER_X.name()))
@@ -344,7 +389,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         } else if (args.length == 5) {
             for (RTP_CMD_EDIT cmd : RTP_CMD_EDIT.values())
                 if (cmd.name().equalsIgnoreCase(args[1]))
-                    if (cmd == RTP_CMD_EDIT.WORLD) {
+                    if (cmd == RTP_CMD_EDIT.CUSTOMWORLD) {
                         if (args[3].equalsIgnoreCase(RTP_CMD_EDIT_SUB.CENTER_X.name()))
                             list.add(String.valueOf(((Player) sendi).getLocation().getBlockX()));
                         else if (args[3].equalsIgnoreCase(RTP_CMD_EDIT_SUB.CENTER_Z.name()))
@@ -382,7 +427,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
             switch (type) {
                 case DEFAULT:
                     BetterRTP.getInstance().getText().getUsageEditDefault(sendi, label); break;
-                case WORLD:
+                case CUSTOMWORLD:
                     BetterRTP.getInstance().getText().getUsageEditWorld(sendi, label); break;
                 case WORLD_TYPE:
                     BetterRTP.getInstance().getText().getUsageWorldtype(sendi, label); break;
@@ -401,14 +446,16 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     enum RTP_CMD_EDIT {
-        WORLD, DEFAULT, WORLD_TYPE, OVERRIDE, BLACKLISTEDBLOCKS
+        CUSTOMWORLD, LOCATION, DEFAULT, WORLD_TYPE, OVERRIDE, BLACKLISTEDBLOCKS
     }
 
     enum RTP_CMD_EDIT_SUB { //Only for World and Default
         CENTER_X("CenterX", "INT"),
         CENTER_Z("CenterZ", "INT"),
-        MAX("MaxRadius", "INT"),
-        MIN("MinRadius", "INT"),
+        MAXRAD("MaxRadius", "INT"),
+        MINRAD("MinRadius", "INT"),
+        MAXY("MaxY", "INT"),
+        MINY("MinY", "INT"),
         PRICE("Price", "INT"),
         SHAPE("Shape", "SHAPE"),
         //BIOME_ADD("Biomes", "STR"),
