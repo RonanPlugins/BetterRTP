@@ -96,28 +96,26 @@ public class RTPPlayer {
                 b = world.getBlockAt(x, b.getY() - 1, z);
             }
         }
-        //System.out.println(b.getType().name());
-        if (b.getY() > pWorld.getMinY() && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
+        //Between max and min y
+        if (    b.getY() >= pWorld.getMinY()
+                && b.getY() <= pWorld.getMaxY()
+                && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
             return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
         }
         return null;
     }
 
     private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {
-        //System.out.println("-----------");
-        for (int y = 1; y < world.getMaxHeight(); y++) {
-           // System.out.println("--");
+        //Max and Min Y
+        for (int y = pWorld.getMinY() + 1; y < pWorld.getMaxY()/*world.getMaxHeight()*/; y++) {
             Block block_current = world.getBlockAt(x, y, z);
-            //System.out.println(block_current.getType().name());
             if (block_current.getType().name().endsWith("AIR") || !block_current.getType().isSolid()) {
-                //System.out.println(block_current.getType().name());
                 if (!block_current.getType().name().endsWith("AIR") &&
                         !block_current.getType().isSolid()) { //Block is not a solid (ex: lava, water...)
                     String block_in = block_current.getType().name();
                     if (badBlock(block_in, x, z, pWorld.getWorld(), null))
-                        continue;//return null;
+                        continue;
                 }
-                //System.out.println(block_current.getType().name());
                 String block = world.getBlockAt(x, y - 1, z).getType().name();
                 if (block.endsWith("AIR")) //Block below is air, skip
                     continue;
