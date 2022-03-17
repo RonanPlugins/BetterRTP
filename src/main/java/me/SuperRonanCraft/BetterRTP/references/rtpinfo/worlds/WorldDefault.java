@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class WorldDefault implements RTPWorld {
     private boolean useWorldborder;
@@ -19,6 +20,7 @@ public class WorldDefault implements RTPWorld {
     private RTP_SHAPE shape;
 
     public void load() {
+        BetterRTP.debug("Loading Defaults...");
         //Setups
         String pre = "Default";
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
@@ -68,6 +70,18 @@ public class WorldDefault implements RTPWorld {
         if (maxy < 64) {
             maxy = 320;
             BetterRTP.getInstance().getLogger().warning("Warning! Default MaxY value is below water level (64)! Reset to default 320!");
+        }
+        //Debugger
+        if (BetterRTP.getInstance().getSettings().isDebug()) {
+            Logger log = BetterRTP.getInstance().getLogger();
+            log.info("- UseWorldBorder: " + this.useWorldborder);
+            log.info("- CenterX: " + this.CenterX);
+            log.info("- CenterZ: " + this.CenterZ);
+            log.info("- MaxRadius: " + this.maxBorderRad);
+            log.info("- MinRadius: " + this.minBorderRad);
+            log.info("- Price: " + this.price);
+            log.info("- MinY: " + this.miny);
+            log.info("- MaxY: " + this.maxy);
         }
     }
 

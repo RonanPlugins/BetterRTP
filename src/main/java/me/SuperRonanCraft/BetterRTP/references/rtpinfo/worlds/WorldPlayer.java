@@ -2,27 +2,27 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPermissionGroup;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class WorldPlayer implements RTPWorld {
+public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxRad, minRad, price, min_y, max_y;
     private List<String> Biomes;
     @Getter private final Player player;
     private final World world;
     private WORLD_TYPE world_type;
-    private RTPPermissionGroup.RTPPermConfiguration config = null;
+    private WorldPermissionGroup config = null;
     private RTP_SHAPE shape;
     public RTP_SETUP_TYPE setup_type = RTP_SETUP_TYPE.DEFAULT;
     public String setup_name;
@@ -41,11 +41,11 @@ public class WorldPlayer implements RTPWorld {
         } else if (world instanceof WorldCustom)
             setup_type = RTP_SETUP_TYPE.CUSTOM_WORLD;
         this.setup_name = setup_name;
-        setUseWorldborder(world.getUseWorldborder());
+        setUseWorldBorder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
         setCenterZ(world.getCenterZ());
-        setMaxRad(world.getMaxRadius());
-        setMinRad(world.getMinRadius());
+        setMaxRadius(world.getMaxRadius());
+        setMinRadius(world.getMinRadius());
         setShape(world.getShape());
         if (world instanceof WorldDefault)
             setPrice(((WorldDefault) world).getPrice(getWorld().getName()));
@@ -58,19 +58,19 @@ public class WorldPlayer implements RTPWorld {
         }
         setBiomes(list);
         if (personal)
-            setupGroup(BetterRTP.getInstance().getRTP().permConfig);
+            setupGroup();
         //Make sure our borders will not cause an invalid integer
         if (getMaxRadius() <= getMinRadius()) {
-            setMinRad(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
+            setMinRadius(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
             if (getMaxRadius() <= getMinRadius())
-                setMinRad(0);
+                setMinRadius(0);
         }
         //World border protection
         if (getUseWorldborder()) {
             WorldBorder border = getWorld().getWorldBorder();
             int _borderRad = (int) border.getSize() / 2;
             if (getMaxRadius() > _borderRad)
-                setMaxRad(_borderRad);
+                setMaxRadius(_borderRad);
             setCenterX(border.getCenter().getBlockX());
             setCenterZ(border.getCenter().getBlockZ());
         }
@@ -81,28 +81,16 @@ public class WorldPlayer implements RTPWorld {
         setup = true;
     }
 
-    private void setupGroup(RTPPermissionGroup permConfig) {
-        RTPPermissionGroup.RTPPermConfiguration config = permConfig.getGroup(player);
-        if (config != null) {
-            for (RTPPermissionGroup.RTPPermConfigurationWorld world : config.worlds) {
-                if (getWorld().getName().equals(world.name)) {
-                    if (world.maxRad != -1)
-                        setMaxRad(world.maxRad);
-                    if (world.minRad != -1)
-                        setMinRad(world.minRad);
-                    if (world.price != -1)
-                        setPrice(world.price);
-                    if (world.centerx != -1)
-                        setCenterX(world.centerx);
-                    if (world.centerz != -1)
-                        setCenterZ(world.centerz);
-                    if (world.useworldborder != null)
-                        setUseWorldborder((Boolean) world.useworldborder);
-                    this.config = config;
-                    break;
+    private void setupGroup() {
+        for (Map.Entry<String, PermissionGroup> group : BetterRTP.getInstance().getRTP().worldPermissionGroups.entrySet())
+            if (BetterRTP.getInstance().getPerms().getPermissionGroup(player, group.getKey()))
+                if (getWorld().getName().equals(group.getValue().getWorld().getName())) {
+                    if (this.config != null)
+                        if (this.config.getPriority() < ((WorldPermissionGroup) group).getPriority())
+                            continue;
+                    this.config = (WorldPermissionGroup) group.getValue();
+                    setAllFrom(this.config);
                 }
-            }
-        }
     }
 
     public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid
@@ -224,34 +212,42 @@ public class WorldPlayer implements RTPWorld {
         return shape;
     }
 
-    private void setUseWorldborder(boolean bool) {
+    @Override
+    public void setUseWorldBorder(boolean bool) {
         useWorldborder = bool;
     }
 
-    private void setCenterX(int x) {
+    @Override
+    public void setCenterX(int x) {
         CenterX = x;
     }
 
-    private void setCenterZ(int z) {
+    @Override
+    public void setCenterZ(int z) {
         CenterZ = z;
     }
 
     //Modifiable
-    private void setMaxRad(int max) {
+    public void setMaxRadius(int max) {
         maxRad = max;
     }
 
-    private void setMinRad(int min) {
+    public void setMinRadius(int min) {
         minRad = min;
     }
 
-    private void setPrice(int price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
     //
-    private void setBiomes(List<String> biomes) {
+    public void setBiomes(List<String> biomes) {
         this.Biomes = biomes;
+    }
+
+    @Override
+    public void setWorld(String value) {
+
     }
 
     //Custom World type
@@ -271,7 +267,7 @@ public class WorldPlayer implements RTPWorld {
         this.max_y = value;
     }
 
-    public RTPPermissionGroup.RTPPermConfiguration getConfig() {
+    public WorldPermissionGroup getConfig() {
         return this.config;
     }
 

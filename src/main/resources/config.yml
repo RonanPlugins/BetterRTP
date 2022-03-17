@@ -127,10 +127,12 @@ PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger thes
   Groups:
     - vip: # permission: betterrtp.group.vip
         - Build_World: #World named "Build_World"
+            Priority: 0 #Lower the more prioritized
             MaxRadius: 10000
             MinRadius: 1000
             Price: 100
         - Survival_World:
+            Priority: 10 #Higher the less prioritized
             UseWorldBorder: false
             MaxRadius: 5000
             MinRadius: 1000

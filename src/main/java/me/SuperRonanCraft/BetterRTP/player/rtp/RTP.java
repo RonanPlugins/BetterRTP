@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -17,16 +18,18 @@ public class RTP {
 
     final RTPTeleport teleport = new RTPTeleport();
     final RTPPluginValidation softDepends = new RTPPluginValidation();
-    public final RTPPermissionGroup permConfig = new RTPPermissionGroup();
+    //public final WorldPermissionGroup permConfig = new WorldPermissionGroup();
     //Cache
-    public final HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public final HashMap<String, String> overriden = new HashMap<>();
     public final WorldDefault defaultWorld = new WorldDefault();
     @Getter List<String> disabledWorlds, blockList;
     int maxAttempts, delayTime;
     boolean cancelOnMove, cancelOnDamage;
     public final HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
+    //Worlds
+    public final HashMap<String, RTPWorld> customWorlds = new HashMap<>();
     public final HashMap<String, RTPWorld> worldLocations = new HashMap<>();
+    public final HashMap<String, PermissionGroup> worldPermissionGroups = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -48,8 +51,10 @@ public class RTP {
         RTPLoader.loadWorlds(defaultWorld, customWorlds);
         //Locations
         RTPLoader.loadLocations(worldLocations);
+        //Permissions
+        RTPLoader.loadPermissionGroups(worldPermissionGroups);
         teleport.load(); //Load teleporting stuff
-        permConfig.load(); //Load permission configs
+        //permConfig.load(); //Load permission configs
     }
 
     public void loadWorlds() { //Keeping this here because of the edit command

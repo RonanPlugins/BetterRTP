@@ -10,20 +10,32 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RTPLoader {
 
     static void loadWorlds(@NotNull WorldDefault defaultWorld, @NotNull HashMap<String, RTPWorld> customWorlds) {
         defaultWorld.load();
         customWorlds.clear();
+        BetterRTP.debug("Loading Custom Worlds...");
         try {
             FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
             List<Map<?, ?>> map = config.getMapList("CustomWorlds");
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    customWorlds.put(entry.getKey().toString(), new WorldCustom(entry.getKey().toString()));
-                    if (getPl().getSettings().isDebug())
-                        BetterRTP.debug("- Custom World '" + entry.getKey() + "' registered");
+                    String world = entry.getKey().toString();
+                    customWorlds.put(world, new WorldCustom(world));
+                    AtomicBoolean exists = new AtomicBoolean(false);
+                    Bukkit.getWorlds().forEach(w -> {
+                        if (w.getName().equals(world))
+                            exists.set(true);
+                    });
+                    if (getPl().getSettings().isDebug()) {
+                        if (exists.get())
+                            BetterRTP.debug("- Custom World '" + world + "' successfully registered");
+                        else
+                            BetterRTP.debug("[WARN] - Custom World '" + world + "' registered but world does NOT exist");
+                    }
                 }
         } catch (Exception e) {
             //No Custom Worlds
@@ -31,6 +43,7 @@ public class RTPLoader {
     }
 
     static void loadOverrides(@NotNull HashMap<String, String> overriden) {
+        BetterRTP.debug("Loading Overrides...");
         overriden.clear();
         try {
             FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -49,6 +62,7 @@ public class RTPLoader {
     }
 
     static void loadWorldTypes(@NotNull HashMap<String, WORLD_TYPE> world_type) {
+        BetterRTP.debug("Loading World Types...");
         world_type.clear();
         try {
             FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -89,6 +103,7 @@ public class RTPLoader {
         FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
         if (!config.getBoolean("Enabled"))
             return;
+        BetterRTP.debug("Loading Locations...");
         List<Map<?, ?>> map = config.getMapList("Locations");
         for (Map<?, ?> m : map)
             for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -98,6 +113,24 @@ public class RTPLoader {
                     BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
                 }
             }
+    }
+
+    static void loadPermissionGroups(@NotNull HashMap<String, RTPWorld> permissionGroup) {
+        permissionGroup.clear();
+        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        if (!config.getBoolean("PermissionGroup.Enabled"))
+            return;
+        BetterRTP.debug("Loading Permission Groups...");
+        try {
+            List<Map<?, ?>> map = config.getMapList("PermissionGroup.Groups");
+            for (Map<?, ?> m : map)
+                for (Map.Entry<?, ?> entry : m.entrySet()) {
+                    String group = entry.getKey().toString();
+                    permissionGroup.put(group, new WorldPermissionGroup(group));
+                }
+        } catch (Exception e) {
+            //No Custom Worlds
+        }
     }
 
     private static BetterRTP getPl() {

@@ -141,7 +141,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
                 info.add("&7- &eBiomes&7: &f" + _rtpworld.getBiomes().toString());
                 info.add("&7- &6Shape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
-                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().name : "&cN/A"));
+                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
             }
         }
         return info;

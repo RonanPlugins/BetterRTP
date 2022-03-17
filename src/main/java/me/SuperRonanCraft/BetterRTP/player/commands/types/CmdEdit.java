@@ -446,7 +446,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
     }
 
     enum RTP_CMD_EDIT {
-        CUSTOMWORLD, LOCATION, DEFAULT, WORLD_TYPE, OVERRIDE, BLACKLISTEDBLOCKS
+        CUSTOMWORLD, /*LOCATION,*/ DEFAULT, WORLD_TYPE, OVERRIDE, BLACKLISTEDBLOCKS
     }
 
     enum RTP_CMD_EDIT_SUB { //Only for World and Default
