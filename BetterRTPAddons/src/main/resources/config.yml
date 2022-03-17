@@ -64,13 +64,17 @@ Parties:
 #Addon RTPMenu (Enable `/rtp` world select menu)
 RTPMenu:
   Enabled: false
-  Menu:
-    Title: "Choose World"
-    Items:
-      Name: '&7%world%'
-      Lore:
-        - ''
-        - '&8Click to rtp into this world!'
-  Worlds:
-    - world
-    - world_nether
+  Title: "Choose World"
+  WorldList:
+    - world:
+        Name: '&7World'
+        Item: 'map'
+        Lore:
+          - ''
+          - '&8Click to rtp in world!'
+    - world_nether:
+        Name: '&cNether'
+        Item: 'netherrack'
+        Lore:
+          - ''
+          - '&8Click to rtp in world!'

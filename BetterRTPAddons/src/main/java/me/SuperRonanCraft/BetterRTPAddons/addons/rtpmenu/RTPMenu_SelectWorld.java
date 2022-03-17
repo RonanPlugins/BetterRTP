@@ -21,31 +21,30 @@ public class RTPMenu_SelectWorld {
 
     public static void createInv(AddonRTPMenu pl, Player p) {
         List<World> bukkit_worlds = Bukkit.getWorlds();
-        List<String> display_worlds = Files.FILETYPE.CONFIG.getStringList(AddonRTPMenu.name + ".Worlds");
         List<World> actual_worlds = new ArrayList<>();
         for (World world : bukkit_worlds) {
-            if (display_worlds.contains(world.getName()) && BetterRTP.getInstance().getPerms().getAWorld(p, world.getName()))
+            if (pl.getWorlds().containsKey(world.getName()) && BetterRTP.getInstance().getPerms().getAWorld(p, world.getName()))
                 actual_worlds.add(world);
         }
-        if (actual_worlds.size() <= 1) {
+        if (actual_worlds.isEmpty() || (actual_worlds.size() <= 1 && !BetterRTP.getInstance().getSettings().isDebug())) {
             CmdTeleport.teleport(p, "rtp", null, null);
             return;
         }
         int size = Math.floorDiv(actual_worlds.size(), 9) * 9;
         if (size < actual_worlds.size()) size += 9;
-        Inventory inv = createInventory(color(Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Menu.Title")), size);
+        Inventory inv = createInventory(color(Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Title")), size);
 
         HashMap<Integer, World> world_slots = centerWorlds(new ArrayList<>(actual_worlds));
 
-        String item_name = Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Menu.Items.Name");
-        List<String > item_lore = Files.FILETYPE.CONFIG.getStringList(AddonRTPMenu.name + ".Menu.Items.Lore");
         for (Map.Entry<Integer, World> world : world_slots.entrySet()) {
+            String worldName = world.getValue().getName();
+            RTPMenuWorldInfo worldInfo = pl.getWorlds().getOrDefault(worldName, new RTPMenuWorldInfo(worldName, Material.MAP, null));
             int slot = world.getKey();
-            ItemStack item = new ItemStack(Material.MAP, 1);
+            ItemStack item = new ItemStack(worldInfo.item, 1);
             ItemMeta meta = item.getItemMeta();
             assert meta != null;
-            meta.setDisplayName(color(item_name.replace("%world%", world.getValue().getName())));
-            List<String> lore = new ArrayList<>(item_lore);
+            meta.setDisplayName(color(worldInfo.name));
+            List<String> lore = new ArrayList<>(worldInfo.lore);
             lore.forEach(s -> lore.set(lore.indexOf(s), color(s).replace("%world%", world.getValue().getName())));
             meta.setLore(lore);
             item.setItemMeta(meta);

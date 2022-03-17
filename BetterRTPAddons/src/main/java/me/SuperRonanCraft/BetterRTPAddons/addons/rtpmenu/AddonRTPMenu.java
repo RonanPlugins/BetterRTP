@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
@@ -8,19 +9,21 @@ import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.HashMap;
-import java.util.Objects;
+import javax.security.auth.login.Configuration;
+import java.util.*;
 
 public class AddonRTPMenu implements Addon, Listener {
 
     public  static String name = "RTPMenu";
     private final HashMap<Player, MenuData> playerData = new HashMap<>();
+    @Getter private HashMap<String, RTPMenuWorldInfo> worlds = new HashMap<>();
 
     public MenuData getData(Player p) {
         if (!playerData.containsKey(p))
@@ -38,12 +41,44 @@ public class AddonRTPMenu implements Addon, Listener {
         for (Player p : playerData.keySet())
             p.closeInventory();
         playerData.clear();
+        ConfigurationSection config = getFile(Files.FILETYPE.CONFIG).getConfigurationSection("RTPMenu");
+        List<Map<?, ?>> map = config.getMapList("WorldList");
+        for (Map<?, ?> m : map) {
+            for (Map.Entry<?, ?> entry : m.entrySet()) {
+                String world = entry.getKey().toString();
+                Map<?, ?> test = ((Map<?, ?>) m.get(world));
+                if (test == null)
+                    continue;
+                String item = "MAP";
+                String name = world;
+                List<String> lore = new ArrayList<>();
+                if (test.get("Item") != null) {
+                    if (test.get("Item").getClass() == String.class)
+                        item = String.valueOf(test.get("Item").toString());
+                }
+                if (test.get("Name") != null) {
+                    if (test.get("Name").getClass() == String.class)
+                        name = String.valueOf(test.get("Name").toString());
+                }
+                if (test.get("Lore") != null) {
+                    if (test.get("Lore").getClass() == ArrayList.class)
+                        lore = new ArrayList<String>((ArrayList) test.get("Lore"));
+                }
+                try {
+                    worlds.put(world, new RTPMenuWorldInfo(name, Material.valueOf(item.toUpperCase()), lore));
+                } catch (IllegalArgumentException | NullPointerException e) {
+                    Main.getInstance().getLogger().warning("The item " + item + " is an unknown item id! Set to a map!");
+                }
+            }
+        }
         Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
     }
 
     @Override
     public void unload() {
         HandlerList.unregisterAll(this);
+        for (Player p : playerData.keySet())
+            p.closeInventory();
     }
 
     @Override
