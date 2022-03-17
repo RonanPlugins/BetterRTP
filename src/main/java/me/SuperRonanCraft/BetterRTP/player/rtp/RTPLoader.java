@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -115,7 +116,7 @@ public class RTPLoader {
             }
     }
 
-    static void loadPermissionGroups(@NotNull HashMap<String, RTPWorld> permissionGroup) {
+    static void loadPermissionGroups(@NotNull HashMap<String, PermissionGroup> permissionGroup) {
         permissionGroup.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
         if (!config.getBoolean("PermissionGroup.Enabled"))
@@ -126,10 +127,10 @@ public class RTPLoader {
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     String group = entry.getKey().toString();
-                    permissionGroup.put(group, new WorldPermissionGroup(group));
+                    permissionGroup.put(group, new PermissionGroup(entry));
                 }
         } catch (Exception e) {
-            //No Custom Worlds
+            //No Permission Groups
         }
     }
 

@@ -7,5 +7,6 @@ import java.util.List;
 public enum RTP_SETUP_TYPE {
     DEFAULT,
     CUSTOM_WORLD,
-    LOCATION
+    LOCATION,
+    PERMISSIONGROUP
 }

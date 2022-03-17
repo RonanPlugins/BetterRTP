@@ -17,114 +17,105 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private List<String> biomes;
-    private String world;
+    public String world;
     private RTP_SHAPE shape;
     @Getter private int priority;
+    @Getter private String groupName;
 
-    /*public RTPPermConfiguration getGroup(CommandSender p) {
-        for (RTPPermConfiguration group : groups)
-            if (BetterRTP.getInstance().getPerms().getPermissionGroup(p, group.name))
-                return group;
-        return null;
-    }*/
-
-    public WorldPermissionGroup(String group) {
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);
-        List<Map<?, ?>> map = config.getMapList("PermissionGroup.Groups");
-
+    public WorldPermissionGroup(String group, String world, Map.Entry fields) {
+        this.groupName = group;
+        this.world = world;
         setupDefaults();
 
         this.priority = 0;
         //Find Location and cache its values
-        for (Map<?, ?> m : map) {
-            for (Map.Entry<?, ?> entry : m.entrySet()) {
-                String key = entry.getKey().toString();
-                if (!key.equals(group))
-                    continue;
-                Map<?, ?> test = ((Map<?, ?>) m.get(key));
-                if (test == null)
-                    continue;
-                if (test.get("Priority") != null) {
-                    if (test.get("Priority").getClass() == Integer.class)
-                        priority = Integer.parseInt((test.get("Priority")).toString());
+        for (Object hash2 : ((HashMap) fields.getValue()).entrySet()) {
+            Map.Entry hash3 = (Map.Entry) hash2;
+            String field = hash3.getKey().toString();
+            if (field.equalsIgnoreCase("Priority")) {
+                if (hash3.getValue().getClass() == Integer.class) {
+                    priority = Integer.parseInt((hash3.getValue()).toString());
+                    BetterRTP.debug("- - Priority: " + priority);
                 }
-                if (test.get("World") != null) {
-                    if (test.get("World").getClass() == String.class)
-                        world = test.get("World").toString();
-                } else {
-                    BetterRTP.getInstance().getLogger().warning("Group `" + group + "` does NOT have a World specified!");
-                    return;
-                }
-                if (test.get("UseWorldBorder") != null) {
-                    if (test.get("UseWorldBorder").getClass() == Boolean.class)
-                        useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
-                }
-                if (test.get("CenterX") != null) {
-                    if (test.get("CenterX").getClass() == Integer.class)
-                        centerX = Integer.parseInt((test.get("CenterX")).toString());
-                }
-                if (test.get("CenterZ") != null) {
-                    if (test.get("CenterZ").getClass() == Integer.class) {
-                        centerZ = Integer.parseInt((test.get("CenterZ")).toString());
-                    }
-                }
-                if (test.get("MaxRadius") != null) {
-                    if (test.get("MaxRadius").getClass() == Integer.class)
-                        maxRad = Integer.parseInt((test.get("MaxRadius")).toString());
-                    if (maxRad <= 0) {
-                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Group '" + group + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
-                        maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
-                    }
-                }
-                if (test.get("MinRadius") != null) {
-                    if (test.get("MinRadius").getClass() == Integer.class)
-                        minRad = Integer.parseInt((test.get("MinRadius")).toString());
-                    if (minRad < 0 || minRad >= maxRad) {
-                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
-                                "WARNING! Group '" + group + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
-                        minRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius();
-                        if (minRad >= maxRad)
-                            maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
-                    }
-                }
-                if (test.get("Biomes") != null) {
-                    if (test.get("Biomes").getClass() == ArrayList.class)
-                        this.biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
-                }
-                if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
-                    if (test.get("Price") != null) {
-                        if (test.get("Price").getClass() == Integer.class)
-                            this.price = Integer.parseInt(test.get("Price").toString());
-                        //else
-                        // price = worldDefault.getPrice(world);
-                    } //else
-                //price = worldDefault.getPrice(world);
-                if (test.get("Shape") != null) {
-                    if (test.get("Shape").getClass() == String.class) {
-                        try {
-                            this.shape = RTP_SHAPE.valueOf(test.get("Shape").toString().toUpperCase());
-                        } catch (Exception e) {
-                            //Invalid shape
-                        }
-                    }
-                }
-                if (test.get("UseWorldBorder") != null) {
-                    if (test.get("UseWorldBorder").getClass() == Boolean.class) {
-                        try {
-                            this.useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
-                        } catch (Exception e) {
-                            //No UseWorldBorder
-                        }
-                    }
-                }
-                if (test.get("MinY") != null)
-                    if (test.get("MinY").getClass() == Integer.class)
-                        this.miny = Integer.parseInt(test.get("MinY").toString());
-                if (test.get("MaxY") != null)
-                    if (test.get("MaxY").getClass() == Integer.class)
-                        this.maxy = Integer.parseInt(test.get("MaxY").toString());
             }
+            if (field.equalsIgnoreCase("UseWorldBorder")) {
+                if (hash3.getValue().getClass() == Boolean.class) {
+                    useWorldborder = Boolean.parseBoolean(hash3.getValue().toString());
+                    BetterRTP.debug("- - UseWorldBorder: " + useWorldborder);
+                }
+            }
+            if (field.equalsIgnoreCase("CenterX")) {
+                if (hash3.getValue().getClass() == Integer.class) {
+                    centerX = Integer.parseInt((hash3.getValue()).toString());
+                    BetterRTP.debug("- - CenterX: " + centerX);
+                }
+            }
+            if (field.equalsIgnoreCase("CenterZ")) {
+                if (hash3.getValue().getClass() == Integer.class) {
+                    centerZ = Integer.parseInt((hash3.getValue()).toString());
+                    BetterRTP.debug("- - CenterZ: " + centerZ);
+                }
+            }
+            if (field.equalsIgnoreCase("MaxRadius")) {
+                if (hash3.getValue().getClass() == Integer.class) {
+                    maxRad = Integer.parseInt((hash3.getValue()).toString());
+                    BetterRTP.debug("- - MaxRadius: " + maxRad);
+                }
+                if (maxRad <= 0) {
+                    BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                            "WARNING! Group '" + group + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
+                    maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                }
+            }
+            if (field.equalsIgnoreCase("MinRadius")) {
+                if (hash3.getValue().getClass() == Integer.class) {
+                    minRad = Integer.parseInt((hash3.getValue()).toString());
+                    BetterRTP.debug("- - MinRadius: " + minRad);
+                }
+                if (minRad < 0 || minRad >= maxRad) {
+                    BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                            "WARNING! Group '" + group + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
+                    minRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius();
+                    if (minRad >= maxRad)
+                        maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                }
+            }
+            if (field.equalsIgnoreCase("Biomes")) {
+                if (hash3.getValue().getClass() == ArrayList.class) {
+                    this.biomes = new ArrayList<String>((ArrayList) hash3.getValue());
+                    BetterRTP.debug("- - Biomes: " + biomes);
+                }
+            }
+            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+                if (field.equalsIgnoreCase("Price")) {
+                    if (hash3.getValue().getClass() == Integer.class) {
+                        this.price = Integer.parseInt(hash3.getValue().toString());
+                        BetterRTP.debug("- - Price: " + price);
+                    }
+                    //else
+                    // price = worldDefault.getPrice(world);
+                } //else
+            //price = worldDefault.getPrice(world);
+            if (field.equalsIgnoreCase("Shape")) {
+                if (hash3.getValue().getClass() == String.class) {
+                    try {
+                        this.shape = RTP_SHAPE.valueOf(hash3.getValue().toString().toUpperCase());
+                        BetterRTP.debug("- - Shape: " + shape.name());
+                    } catch (Exception e) {
+                        //Invalid shape
+                    }
+                }
+            }
+            if (field.equalsIgnoreCase("MinY"))
+                if (hash3.getValue().getClass() == Integer.class) {
+                    this.miny = Integer.parseInt(hash3.getValue().toString());
+                    BetterRTP.debug("- - MinY: " + miny);
+                }
+            if (field.equalsIgnoreCase("MaxY"))
+                if (hash3.getValue().getClass() == Integer.class) {
+                    this.maxy = Integer.parseInt(hash3.getValue().toString());
+                    BetterRTP.debug("- - MaxY: " + maxy);
+                }
         }
     }
 

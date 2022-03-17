@@ -22,7 +22,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     @Getter private final Player player;
     private final World world;
     private WORLD_TYPE world_type;
-    private WorldPermissionGroup config = null;
+    public WorldPermissionGroup config = null;
     private RTP_SHAPE shape;
     public RTP_SETUP_TYPE setup_type = RTP_SETUP_TYPE.DEFAULT;
     public String setup_name;
@@ -38,8 +38,10 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     public void setup(String setup_name, RTPWorld world, List<String> biomes, boolean personal) {
         if (world instanceof WorldLocations) {
             setup_type = RTP_SETUP_TYPE.LOCATION;
-        } else if (world instanceof WorldCustom)
+        } else if (world instanceof WorldCustom) {
             setup_type = RTP_SETUP_TYPE.CUSTOM_WORLD;
+        } else if (world instanceof WorldPermissionGroup)
+            setup_type = RTP_SETUP_TYPE.PERMISSIONGROUP;
         this.setup_name = setup_name;
         setUseWorldBorder(world.getUseWorldborder());
         setCenterX(world.getCenterX());
@@ -57,8 +59,8 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
             list.addAll(biomes);
         }
         setBiomes(list);
-        if (personal)
-            setupGroup();
+        //if (personal && player != null)
+        //   setupGroup();
         //Make sure our borders will not cause an invalid integer
         if (getMaxRadius() <= getMinRadius()) {
             setMinRadius(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
@@ -79,18 +81,6 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         setMaxY(world.getMaxY());
         //min_y = world.getWorld().getBlockAt(0, -1, 0).getType() != Material.AIR ?
         setup = true;
-    }
-
-    private void setupGroup() {
-        for (Map.Entry<String, PermissionGroup> group : BetterRTP.getInstance().getRTP().worldPermissionGroups.entrySet())
-            if (BetterRTP.getInstance().getPerms().getPermissionGroup(player, group.getKey()))
-                if (getWorld().getName().equals(group.getValue().getWorld().getName())) {
-                    if (this.config != null)
-                        if (this.config.getPriority() < ((WorldPermissionGroup) group).getPriority())
-                            continue;
-                    this.config = (WorldPermissionGroup) group.getValue();
-                    setAllFrom(this.config);
-                }
     }
 
     public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid

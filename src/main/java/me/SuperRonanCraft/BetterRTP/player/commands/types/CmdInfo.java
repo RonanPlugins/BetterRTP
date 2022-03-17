@@ -34,20 +34,18 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 infoEffects(sendi);
             else if (args[1].equalsIgnoreCase(CmdInfoSub.WORLD.name())) {
                 if (args.length > 2 && Bukkit.getWorld(args[2]) != null) {
-                    sendInfoWorld(sendi, infoGetWorld(sendi, Bukkit.getWorld(args[2]), false));
+                    sendInfoWorld(sendi, infoGetWorld(sendi, Bukkit.getWorld(args[2]), null));
                 } else if (sendi instanceof Player) { //Personalize with permission groups
                     World world = null;
-                    boolean personal = false;
+                    Player player = null;
                     if (args.length > 2) {
-                        Player player = Bukkit.getPlayer(args[2]);
-                        if (player != null) {
+                        player = Bukkit.getPlayer(args[2]);
+                        if (player != null)
                             world = player.getWorld();
-                            personal = true;
-                        }
                     }
                     if (world == null)
                         world = ((Player) sendi).getWorld();
-                    sendInfoWorld(sendi, infoGetWorld(sendi, world, personal));
+                    sendInfoWorld(sendi, infoGetWorld(sendi, world, player));
                 } else
                     infoWorld(sendi);
             }
@@ -108,26 +106,26 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     private void infoWorld(CommandSender sendi) { //All worlds
         List<String> info = new ArrayList<>();
         for (World w : Bukkit.getWorlds())
-            info.addAll(infoGetWorld(sendi, w, false));
+            info.addAll(infoGetWorld(sendi, w, null));
         sendInfoWorld(sendi, info);
     }
 
-    private List<String> infoGetWorld(CommandSender sendi, World w, boolean personal) { //Specific world
+    private List<String> infoGetWorld(CommandSender sendi, World w, Player player) { //Specific world
         List<String> info = new ArrayList<>();
         BetterRTP pl = BetterRTP.getInstance();
         String _true = "&aTrue", _false = "&bFalse";
-        info.add("&eWorld Name: &7" + w.getName() + (personal ? " &7(personalized)" : ""));
-        if (personal)
-            info.add("&7- &6Allowed: " + (pl.getPerms().getAWorld(sendi, w.getName()) ? _true : _false));
+        info.add("&bRTP info for &7" + w.getName() + (player != null ? " &d(personalized)" : ""));
+        info.add("&7- &eViewing as: &b" + (player != null ? player.getName() : "ADMIN"));
+        info.add("&7- &6Allowed: " + (player != null ? pl.getPerms().getAWorld(player, w.getName()) ? _true : _false : "&cN/A"));
         if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //World disabled
-            info.add("&7- &6Disabled: " + _true);
+            info.add("&7- &eDisabled: " + _true);
         else {
-            info.add("&7- &6Disabled: " + _false);
+            info.add("&7- &eDisabled: " + _false);
             if (pl.getRTP().overriden.containsKey(w.getName())) //World Overriden
                 info.add("&7- &6Overriden: " + _true + " &7- target `" + pl.getRTP().overriden.get(w.getName()) + "`");
             else {
                 info.add("&7- &6Overriden&7: " + _false);
-                WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(new RTPSetupInformation(w.getName(), sendi, null, personal));
+                WorldPlayer _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(new RTPSetupInformation(w.getName(), player != null ? player : sendi, player, player != null));
                 WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
                 info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
                 info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
@@ -141,7 +139,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
                 info.add("&7- &eBiomes&7: &f" + _rtpworld.getBiomes().toString());
                 info.add("&7- &6Shape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
-                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&e" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
+                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
             }
         }
         return info;

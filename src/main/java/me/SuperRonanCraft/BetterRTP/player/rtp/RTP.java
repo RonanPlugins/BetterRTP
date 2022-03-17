@@ -89,8 +89,29 @@ public class RTP {
         }
 
         if (!pWorld.isSetup()) {
+            WorldPermissionGroup group = null;
+            if (pWorld.getPlayer() != null)
+                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().worldPermissionGroups.entrySet()) {
+                    for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
+                        if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
+                            if (BetterRTP.getInstance().getPerms().getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
+                                if (group != null) {
+                                    if (group.getPriority() < worldPermission.getValue().getPriority())
+                                        continue;
+                                }
+                                group = worldPermission.getValue();
+                            }
+                        }
+                    }
+                }
+
+            //Permission Group
+            if (group != null) {
+                pWorld.setup(null, group, setup_info.getBiomes(), setup_info.isPersonalized());
+                pWorld.config = group;
+            }
             //Custom World
-            if (customWorlds.containsKey(setup_info.getWorld())) {
+            else if (customWorlds.containsKey(setup_info.getWorld())) {
                 RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
                 pWorld.setup(null, cWorld, setup_info.getBiomes(), setup_info.isPersonalized());
             }
