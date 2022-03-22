@@ -16,6 +16,8 @@ public class RTP_FindLocationEvent extends RTPEvent {
         this.world = world;
     }
 
+    //A location can be pushed in if a developer wants to inject a custom location
+    //Safe location code will still be run!
     public void setLocation(Location loc) {
         this.loc = loc;
     }
