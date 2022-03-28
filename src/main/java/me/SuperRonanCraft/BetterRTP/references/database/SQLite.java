@@ -2,7 +2,6 @@ package me.SuperRonanCraft.BetterRTP.references.database;
 
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -12,15 +11,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-public class SQLite {
+public abstract class SQLite {
 
     private static final String db_file_name = "database";
-    //private final boolean sqlEnabled;
-    String table;
-    private String host, database, username, password;
-    private int port;
-    boolean sqlEnabled;
-    //Connection connection;
+    List<String> tables;
+    //private String host, database, username, password;
+    //private int port;
+    //boolean sqlEnabled;
     private boolean loaded;
 
     public String addMissingColumns = "ALTER TABLE %table% ADD COLUMN %column% %type%";
@@ -31,9 +28,11 @@ public class SQLite {
         this.type = type;
     }
 
+    public abstract List<String> getTables();
+
     // SQL creation stuff
     public Connection getSQLConnection() {
-        if (sqlEnabled) {
+        /*if (sqlEnabled) {
             try {
                 return getOnline();
             } catch (SQLException | ClassNotFoundException e) {
@@ -41,17 +40,17 @@ public class SQLite {
                 BetterRTP.getInstance().getLogger().info("MySQL setup is incorrect! Grabbing data from local database!");
                 sqlEnabled = false;
             }
-        }
+        }*/
         return getLocal();
     }
 
-    private Connection getOnline() throws SQLException, ClassNotFoundException {
+    /*private Connection getOnline() throws SQLException, ClassNotFoundException {
         synchronized (this) {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database +
                     "?autoReconnect=true&useSSL=false", this.username, this.password);
         }
-    }
+    }*/
 
     private Connection getLocal() {
         File dataFolder = new File(BetterRTP.getInstance().getDataFolder().getPath() + File.separator + "data", db_file_name + ".db");
@@ -65,55 +64,53 @@ public class SQLite {
             }
         }
         try {
-            //if (connection != null && !connection.isClosed()) {
-            //    return connection;
-            //}
             Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
-            //return connection;
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, "SQLite exception on initialize", ex);
         } catch (ClassNotFoundException ex) {
-            BetterRTP.getInstance().getLogger().log(Level.SEVERE, "You need the SQLite JBDC library. Google it. Put it in /lib folder.");
+            BetterRTP.getInstance().getLogger().log(Level.SEVERE, "You need the SQLite JBDC library. Google it Ronan...");
         }
         return null;
     }
 
     public void load() {
         loaded = false;
-        switch (type) {
+        /*switch (type) {
             case COOLDOWN: table = "BetterRTP_Cooldown"; break;
         }
         if (table == null) {
             BetterRTP.getInstance().getLogger().severe("The table for `" + type.name() + "` is invalid. Disabling the plugin!");
             Bukkit.getPluginManager().disablePlugin(BetterRTP.getInstance());
             return;
-        }
+        }*/
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             Connection connection = getSQLConnection();
-            try {
-                Statement s = connection.createStatement();
-                s.executeUpdate(getCreateTable());
-                //s.executeUpdate(createTable_bank);
-                for (Enum<?> c : getColumns(type)) { //Add missing columns dynamically
-                    try {
-                        String _name = getColumnName(type, c);
-                        String _type = getColumnType(type, c);
-                        //System.out.println("Adding " + _name);
-                        s.executeUpdate(addMissingColumns.replace("%table%", table).replace("%column%", _name).replace("%type%", _type));
-                    } catch (SQLException e) {
-                        //e.printStackTrace();
+            for (String table : tables) {
+                try {
+                    Statement s = connection.createStatement();
+                    s.executeUpdate(getCreateTable(table));
+                    //s.executeUpdate(createTable_bank);
+                    for (Enum<?> c : getColumns(type)) { //Add missing columns dynamically
+                        try {
+                            String _name = getColumnName(type, c);
+                            String _type = getColumnType(type, c);
+                            //System.out.println("Adding " + _name);
+                            s.executeUpdate(addMissingColumns.replace("%table%", table).replace("%column%", _name).replace("%type%", _type));
+                        } catch (SQLException e) {
+                            //e.printStackTrace();
+                        }
                     }
-                }
-                s.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    s.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (connection != null) {
+                        try {
+                            connection.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -123,7 +120,7 @@ public class SQLite {
         });
     }
 
-    private String getCreateTable() {
+    private String getCreateTable(String table) {
         String str = "CREATE TABLE IF NOT EXISTS " + table + " (";
         Enum<?>[] columns = getColumns(type);
         for (Enum<?> c : columns) {
@@ -141,19 +138,19 @@ public class SQLite {
 
     private Enum<?>[] getColumns(DATABASE_TYPE type) {
         switch (type) {
-            default: return DatabaseCooldowns.COLUMNS.values();
+            default: return DatabaseCooldownsWorlds.COLUMNS.values();
         }
     }
 
     private String getColumnName(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
-            default: return ((DatabaseCooldowns.COLUMNS) column).name;
+            default: return ((DatabaseCooldownsWorlds.COLUMNS) column).name;
         }
     }
 
     private String getColumnType(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
-            default: return ((DatabaseCooldowns.COLUMNS) column).type;
+            default: return ((DatabaseCooldownsWorlds.COLUMNS) column).type;
         }
     }
 
@@ -222,7 +219,7 @@ public class SQLite {
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE " + getColumnName(type, getColumns(type)[0]) + " = 0");
+            ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE " + getColumnName(type, getColumns(type)[0]) + " = 0");
 
             rs = ps.executeQuery();
         } catch (SQLException ex) {
@@ -247,6 +244,7 @@ public class SQLite {
     }
 
     public enum DATABASE_TYPE {
-        COOLDOWN
+        COOLDOWN,
+        COOLDOWN_GLOBAL, //Table to know last time in general player has a cooldown for
     }
 }

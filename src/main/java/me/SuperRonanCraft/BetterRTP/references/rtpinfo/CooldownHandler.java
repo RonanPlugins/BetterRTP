@@ -1,22 +1,20 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.Getter;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsWorlds;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsGlobal;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CooldownHandler {
 
@@ -25,6 +23,8 @@ public class CooldownHandler {
             timer, //Cooldown timer
             lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new ArrayList<>();
+    private final DatabaseCooldownsWorlds cooldowns = new DatabaseCooldownsWorlds();
+    private final DatabaseCooldownsGlobal globalCooldown = new DatabaseCooldownsGlobal();
 
     public void load() {
         //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
@@ -37,29 +37,34 @@ public class CooldownHandler {
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
         }
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-            getDatabase().load();
+            globalCooldown.load();
+            cooldowns.load();
             checkLater();
         });
     }
 
     private void checkLater() {
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
-            if (getDatabase().isLoaded()) {
-                OldCooldownConverter.loadOldCooldowns();
-                //Load any online players cooldowns (mostly after a reload)
-                for (Player p : Bukkit.getOnlinePlayers())
-                    loadPlayer(p);
-                loaded = true;
-            } else
+            AtomicBoolean loaded = new AtomicBoolean(true);
+            if (!globalCooldown.isLoaded()) {
                 checkLater();
+                return;
+            } else if (!cooldowns.isLoaded()) {
+               checkLater();
+               return;
+            }
+            //OldCooldownConverter.loadOldCooldowns();
+            //Load any online players cooldowns (mostly after a reload)
+            for (Player p : Bukkit.getOnlinePlayers())
+                loadPlayer(p);
         }, 10L);
     }
 
-    public void add(Player player) {
+    public void add(Player player, World world) {
         if (!enabled) return;
         CooldownData data = getData(player).getCooldown();
         if (data == null)
-            data = new CooldownData(player.getUniqueId(), 0L, 0);
+            data = new CooldownData(player.getUniqueId(), 0L, 0, world);
         if (lockedAfter > 0)
             data.setUses(data.getUses() + 1);
         data.setTime(System.currentTimeMillis());
@@ -68,12 +73,22 @@ public class CooldownHandler {
     }
 
     public boolean exists(Player p) {
-        return getData(p).getCooldown() != null;
+        return getData(p).getCooldowns() != null;
     }
 
     @Nullable
-    public CooldownData getPlayer(Player p) {
-        return getData(p).getCooldown();
+    public CooldownData get(Player p, World world) {
+        List<CooldownData> data = getData(p).getCooldowns();
+        if (data != null)
+            for (CooldownData cd : data)
+                if (cd.getWorld() == world)
+                    return cd;
+        return null;
+    }
+
+    @Nullable
+    public CooldownData getGlobal(Player p) {
+        return globalCooldown.getCooldown(p.getUniqueId());
     }
 
     public long timeLeft(CooldownData data) {
@@ -106,19 +121,21 @@ public class CooldownHandler {
     private void savePlayer(CooldownData data, boolean remove) {
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
                 if (!remove) {
-                    getDatabase().setCooldown(data);
+                    getDatabase(data.getWorld()).setCooldown(data);
                 } else {
-                    getDatabase().removePlayer(data.getUuid());
+                    getDatabase(data.getWorld()).removePlayer(data.getUuid(), data.getWorld());
                 }
             });
     }
 
     public void loadPlayer(Player player) {
+        if (!isEnabled()) return;
         downloading.add(player);
-        if (isEnabled()) {
-            CooldownData cooldown = getDatabase().getCooldown(player.getUniqueId());
+        List<CooldownData> cooldowns = new ArrayList<>();
+        for (World world : Bukkit.getWorlds()) {
+            CooldownData cooldown = getDatabaseWorlds().getCooldown(player.getUniqueId(), world);
             if (cooldown != null)
-                getData(player).setCooldown(cooldown);
+                getData(player).getCooldowns().add(cooldown);
         }
         downloading.remove(player);
     }
@@ -127,7 +144,17 @@ public class CooldownHandler {
         return !downloading.contains(player);
     }
 
-    @Deprecated
+    private DatabaseCooldownsWorlds getDatabaseWorlds() {
+        return cooldowns;
+    }
+
+    private PlayerData getData(Player p) {
+        return HelperPlayer.getData(p);
+    }
+}
+
+//Old yaml file based system, no longer useful as of 3.3.1
+/*@Deprecated
     static class OldCooldownConverter {
 
         static void loadOldCooldowns() {
@@ -162,12 +189,6 @@ public class CooldownHandler {
         private static YamlConfiguration getFile(File configfile) {
             if (!configfile.exists()) {
                 return null;
-                /*try {
-                    configfile.getParentFile().mkdir();
-                    configfile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
             }
             try {
                 YamlConfiguration config = new YamlConfiguration();
@@ -178,13 +199,4 @@ public class CooldownHandler {
             }
             return null;
         }
-    }
-
-    private DatabaseCooldowns getDatabase() {
-        return BetterRTP.getInstance().getDatabaseCooldowns();
-    }
-
-    private PlayerData getData(Player p) {
-        return HelperPlayer.getData(p);
-    }
-}
+    }*/

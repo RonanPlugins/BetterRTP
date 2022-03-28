@@ -3,7 +3,12 @@ package me.SuperRonanCraft.BetterRTP.references.player.playerdata;
 import lombok.Getter;
 import lombok.Setter;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class PlayerData {
 
@@ -12,7 +17,8 @@ public class PlayerData {
     //Menus
     @Getter final PlayerData_Menus menu = new PlayerData_Menus();
     //Player Data
-    @Getter @Setter CooldownData cooldown;
+    @Getter final HashMap<World, CooldownData> cooldowns = new HashMap<>();
+    @Getter @Setter CooldownData globalCooldown;
     @Getter @Setter boolean rtping;
 
     PlayerData(Player player) {

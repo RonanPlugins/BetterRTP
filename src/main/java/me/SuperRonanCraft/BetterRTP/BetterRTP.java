@@ -7,7 +7,6 @@ import me.SuperRonanCraft.BetterRTP.player.events.Listener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.Updater;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
 import me.SuperRonanCraft.BetterRTP.references.file.Files;
 import me.SuperRonanCraft.BetterRTP.references.file.Messages;
@@ -35,7 +34,6 @@ public class BetterRTP extends JavaPlugin {
     private final PlayerInfo pInfo = new PlayerInfo();
     @Getter private final PlayerDataManager playerDataManager = new PlayerDataManager();
     private final Settings settings = new Settings();
-    @Getter private final DatabaseCooldowns databaseCooldowns = new DatabaseCooldowns();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
 
     public void onEnable() {

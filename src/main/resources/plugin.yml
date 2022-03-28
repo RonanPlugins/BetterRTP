@@ -25,11 +25,6 @@ commands:
         aliases: [brtp, rtp, randomtp]
         description: Randomly teleport to a location
 
-commands:
-    betterrtp:
-        aliases: [brtp, rtp, randomtp]
-        description: Randomly teleport to a location
-
 permissions:
     betterrtp.*:
         children:
