@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
@@ -41,7 +42,7 @@ public class Commands {
     }
 
     public void commandExecuted(CommandSender sendi, String label, String[] args) {
-        if (pl.getPerms().getUse(sendi)) {
+        if (PermissionNode.USE.check(sendi)) {
             if (args != null && args.length > 0) {
                 for (RTPCommand cmd : commands) {
                     if (cmd.getName().equalsIgnoreCase(args[0])) {

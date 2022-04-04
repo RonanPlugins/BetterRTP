@@ -76,6 +76,7 @@ public abstract class SQLite {
 
     public void load() {
         loaded = false;
+        tables = getTables();
         /*switch (type) {
             case COOLDOWN: table = "BetterRTP_Cooldown"; break;
         }
@@ -244,6 +245,7 @@ public abstract class SQLite {
     }
 
     public enum DATABASE_TYPE {
+        PLAYERS,
         COOLDOWN,
         COOLDOWN_GLOBAL, //Table to know last time in general player has a cooldown for
     }

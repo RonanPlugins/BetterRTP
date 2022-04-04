@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -83,12 +84,12 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     //Get locations a player has access to
-    public static HashMap<String, RTPWorld> getLocations(CommandSender sendi, @Nullable String world) {
+    public static HashMap<String, RTPWorld> getLocations(CommandSender sendi, @Nullable World world) {
         if (BetterRTP.getInstance().getSettings().isLocationNeedPermission()) {
             HashMap<String, RTPWorld> locations = new HashMap<>();
             for (Map.Entry<String, RTPWorld> location : getLocations().entrySet())
                 if (BetterRTP.getInstance().getPerms().getLocation(sendi, location.getKey())) {
-                    if (world == null || location.getValue().getWorld().getName().equals(world))
+                    if (world == null || location.getValue().getWorld().equals(world))
                         locations.put(location.getKey(), location.getValue());
                 }
             return locations;

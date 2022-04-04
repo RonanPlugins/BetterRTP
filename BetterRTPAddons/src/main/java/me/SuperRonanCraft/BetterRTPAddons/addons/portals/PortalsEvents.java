@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTPAddons.addons.portals.region.PortalsRegionInf
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -58,8 +59,8 @@ public class PortalsEvents implements Listener {
                     if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
                             && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
                         playerPortaling.put(e.getPlayer(), portal);
-                        HelperRTP.tp(e.getPlayer(), e.getPlayer(),
-                                portal.getWorld(), null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
+                        World world = portal.getWorld() != null ? Bukkit.getWorld(portal.getWorld()) : null;
+                        HelperRTP.tp(e.getPlayer(), e.getPlayer(), world, null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);
                         return;
                     }
                 }

@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -14,24 +15,23 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class DatabaseCooldownsWorlds extends SQLite {
+public class DatabasePlayers extends SQLite {
 
-    public DatabaseCooldownsWorlds() {
-        super(DATABASE_TYPE.COOLDOWN);
+    public DatabasePlayers() {
+        super(DATABASE_TYPE.PLAYERS);
     }
 
     @Override
     public List<String> getTables() {
         List<String> list = new ArrayList<>();
-        for (World world : Bukkit.getWorlds())
-            list.add(world.getName());
+        list.add("Players");
         return list;
     }
 
     public enum COLUMNS {
         UUID("uuid", "varchar(32) PRIMARY KEY"),
         //COOLDOWN DATA
-        COOLDOWN_DATE("date", "long"),
+        COUNT("count", "long"),
         //USES("uses", "integer"),
         ;
 
@@ -53,40 +53,40 @@ public class DatabaseCooldownsWorlds extends SQLite {
         return sqlUpdate(sql, params);
     }
 
-    public CooldownData getCooldown(UUID uuid, World world) {
+    public int getCount(UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + world.getName() + " WHERE " + COLUMNS.UUID.name + " = ?");
+            ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE " + COLUMNS.UUID.name + " = ?");
             ps.setString(1, uuid.toString());
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                Long time = rs.getLong(COLUMNS.COOLDOWN_DATE.name);
+                long time = rs.getLong(COLUMNS.COUNT.name);
                 //int uses = rs.getInt(COLUMNS.USES.name);
-                return new CooldownData(uuid, time, world);
+                return Math.toIntExact(time);
             }
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
         } finally {
             close(ps, rs, conn);
         }
-        return null;
+        return 0;
     }
 
     //Set a player Cooldown
-    public void setCooldown(CooldownData data) {
+    public void setCount(PlayerData data) {
         String pre = "INSERT OR REPLACE INTO ";
-        String sql = pre + data.getWorld().getName() + " ("
+        String sql = pre + tables.get(0) + " ("
                 + COLUMNS.UUID.name + ", "
-                + COLUMNS.COOLDOWN_DATE.name + " "
+                + COLUMNS.COUNT.name + " "
                 //+ COLUMNS.USES.name + " "
                 + ") VALUES(?, ?)";
         List<Object> params = new ArrayList<Object>() {{
-                add(data.getUuid().toString());
-                add(data.getTime());
+                add(data.player.getUniqueId().toString());
+                add(data.getRtpCount());
                 //add(data.getUses());
         }};
         sqlUpdate(sql, params);

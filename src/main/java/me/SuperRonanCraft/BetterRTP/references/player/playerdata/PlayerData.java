@@ -18,8 +18,9 @@ public class PlayerData {
     @Getter final PlayerData_Menus menu = new PlayerData_Menus();
     //Player Data
     @Getter final HashMap<World, CooldownData> cooldowns = new HashMap<>();
-    @Getter @Setter CooldownData globalCooldown;
+    //@Getter @Setter CooldownData globalCooldown;
     @Getter @Setter boolean rtping;
+    @Getter @Setter int rtpCount;
 
     PlayerData(Player player) {
         this.player = player;

@@ -14,7 +14,7 @@ import java.util.List;
 public class CmdTeleport implements RTPCommand {
 
     //Label is the %command% placeholder in messages
-    public static void teleport(CommandSender sendi, String label, String world, List<String> biomes) {
+    public static void teleport(CommandSender sendi, String label, World world, List<String> biomes) {
         if (sendi instanceof Player)
             HelperRTP.tp((Player) sendi, sendi, world, biomes, RTP_TYPE.COMMAND);
         else

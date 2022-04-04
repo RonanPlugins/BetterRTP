@@ -66,7 +66,7 @@ public class RTP {
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
-        WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), Bukkit.getWorld(setup_info.getWorld()));
+        WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), setup_info.getWorld());
 
         //Random Location
         if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
@@ -111,7 +111,7 @@ public class RTP {
                 pWorld.config = group;
             }
             //Custom World
-            else if (customWorlds.containsKey(setup_info.getWorld())) {
+            else if (customWorlds.containsKey(setup_info.getWorld().getName())) {
                 RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
                 pWorld.setup(null, cWorld, setup_info.getBiomes(), setup_info.isPersonalized());
             }
@@ -121,11 +121,11 @@ public class RTP {
         }
         //World type
         WORLD_TYPE world_type;
-        if (this.world_type.containsKey(setup_info.getWorld()))
-            world_type = this.world_type.get(setup_info.getWorld());
+        if (this.world_type.containsKey(setup_info.getWorld().getName()))
+            world_type = this.world_type.get(setup_info.getWorld().getName());
         else {
             world_type = WORLD_TYPE.NORMAL;
-            this.world_type.put(setup_info.getWorld(), world_type); //Defaults this so the error message isn't spammed
+            this.world_type.put(setup_info.getWorld().getName(), world_type); //Defaults this so the error message isn't spammed
             getPl().getLogger().warning("Seems like the world `" + setup_info.getWorld() + "` does not have a `WorldType` declared. " +
                     "Please add/fix this in the config.yml file! " +
                     "This world will be treated as an overworld!");
@@ -141,44 +141,49 @@ public class RTP {
             return;
         }
 
-        String world_name = setup_info.getWorld();
+        World world_name = setup_info.getWorld();
         Player p = setup_info.getPlayer();
         CommandSender sendi = setup_info.getSender();
 
         // Locations
         if (setup_info.getLocation() != null) {
             WorldLocations location = setup_info.getLocation();
-            world_name = location.getWorld().getName();
+            world_name = location.getWorld();
             setup_info.setWorld(world_name);
             setup_info.setBiomes(location.getBiomes());
         }
 
         // Check overrides
-        if (world_name == null) {
-            world_name = p.getWorld().getName();
-        } else { // Check if nulled or world doesnt exist
-            World _world = Bukkit.getWorld(world_name);
-            if (_world == null) { //Check if world has spaces instead of underscores
+        if (world_name == null && p != null) {
+            world_name = p.getWorld();
+        }// else { // Check if nulled or world doesnt exist
+            //World _world = world_name;//Bukkit.getWorld(world_name);
+            /*if (_world == null) { //Check if world has spaces instead of underscores
                 _world = Bukkit.getWorld(world_name.replace("_", " "));
                 world_name = world_name.replace("_", "");
             }
             if (_world == null) {
                 getPl().getText().getNotExist(sendi, world_name);
                 return;
-            }
+            }*/
+        //}
+        //No World was sent???
+        if (world_name == null) {
+            BetterRTP.getInstance().getText().error(sendi);
+            return;
         }
-        if (overriden.containsKey(world_name)) {
-            world_name = overriden.get(world_name);
+        if (overriden.containsKey(world_name.getName())) {
+            world_name = Bukkit.getWorld(overriden.get(world_name.getName()));
             setup_info.setWorld(world_name);
         }
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name)) {
-            getPl().getText().getNoPermissionWorld(p, world_name);
+        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name.getName())) {
+            getPl().getText().getNoPermissionWorld(p, world_name.getName());
             return;
         }
         // Check disabled worlds
-        if (disabledWorlds.contains(world_name)) {
-            getPl().getText().getDisabledWorld(sendi, world_name);
+        if (disabledWorlds.contains(world_name.getName())) {
+            getPl().getText().getDisabledWorld(sendi, world_name.getName());
             return;
         }
         WorldPlayer pWorld = getPlayerWorld(setup_info);
@@ -193,7 +198,7 @@ public class RTP {
         Player p = pWorld.getPlayer();
         //p.sendMessage("Cooling down: " + cooldown);
         if (cooldown)
-            getPl().getCooldowns().add(p);
+            getPl().getCooldowns().add(p, pWorld.getWorld());
         getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);

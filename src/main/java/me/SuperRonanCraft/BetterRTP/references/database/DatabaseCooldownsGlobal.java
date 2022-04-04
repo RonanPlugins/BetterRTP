@@ -27,7 +27,7 @@ public class DatabaseCooldownsGlobal extends SQLite {
         UUID("uuid", "varchar(32) PRIMARY KEY"),
         //COOLDOWN DATA
         COOLDOWN_DATE("date", "long"),
-        USES("uses", "integer"),
+        //USES("uses", "integer"),
         ;
 
         public final String name;
@@ -60,8 +60,8 @@ public class DatabaseCooldownsGlobal extends SQLite {
             rs = ps.executeQuery();
             if (rs.next()) {
                 Long time = rs.getLong(COLUMNS.COOLDOWN_DATE.name);
-                int uses = rs.getInt(COLUMNS.USES.name);
-                return new CooldownData(uuid, time, uses, null);
+                //int uses = rs.getInt(COLUMNS.USES.name);
+                return new CooldownData(uuid, time, null);
             }
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
@@ -76,13 +76,13 @@ public class DatabaseCooldownsGlobal extends SQLite {
         String pre = "INSERT OR REPLACE INTO ";
         String sql = pre + tables.get(0) + " ("
                 + COLUMNS.UUID.name + ", "
-                + COLUMNS.COOLDOWN_DATE.name + ", "
-                + COLUMNS.USES.name + " "
-                + ") VALUES(?, ?, ?)";
+                + COLUMNS.COOLDOWN_DATE.name + " "
+                //+ COLUMNS.USES.name + " "
+                + ") VALUES(?, ?)";
         List<Object> params = new ArrayList<Object>() {{
                 add(data.getUuid().toString());
                 add(data.getTime());
-                add(data.getUses());
+                //add(data.getUses());
         }};
         sqlUpdate(sql, params);
     }
@@ -92,14 +92,14 @@ public class DatabaseCooldownsGlobal extends SQLite {
         String pre = "INSERT OR REPLACE INTO ";
         String sql = pre + tables.get(0) + " ("
                 + COLUMNS.UUID.name + ", "
-                + COLUMNS.COOLDOWN_DATE.name + ", "
-                + COLUMNS.USES.name + " "
-                + ") VALUES(?, ?, ?)";
+                + COLUMNS.COOLDOWN_DATE.name + " "
+                //+ COLUMNS.USES.name + " "
+                + ") VALUES(?, ?)";
         for (CooldownData data : cooldownData) {
             List<Object> param = new ArrayList<Object>() {{
                 add(data.getUuid().toString());
                 add(data.getTime());
-                add(data.getUses());
+                //add(data.getUses());
             }};
             sqlUpdate(sql, param);
         }

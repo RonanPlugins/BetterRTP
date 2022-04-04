@@ -22,9 +22,13 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
 
     //rtp world <world> <biome1, biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
-        if (args.length >= 2)
-            CmdTeleport.teleport(sendi, label, args[1], HelperRTP_Info.getBiomes(args, 2, sendi));
-        else
+        if (args.length >= 2) {
+            World world = Bukkit.getWorld(args[1]);
+            if (world != null)
+                CmdTeleport.teleport(sendi, label, world, HelperRTP_Info.getBiomes(args, 2, sendi));
+            else
+                BetterRTP.getInstance().getText().getNotExist(sendi, args[1]);
+        } else
             usage(sendi, label);
     }
 

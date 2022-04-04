@@ -81,7 +81,7 @@ public class RTPPlayer {
             getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
         else
             getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());*/
-        getPl().getCooldowns().removeCooldown(p);
+        getPl().getCooldowns().removeCooldown(p, pWorld.getWorld());
         //getPl().getEco().unCharge(p, pWorld);
         getPl().getpInfo().getRtping().put(p, false);
     }

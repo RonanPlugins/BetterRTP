@@ -8,8 +8,11 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -20,25 +23,29 @@ import java.util.Random;
 public class HelperRTP {
 
     //Teleporter and sender are the same
-    public static void tp(Player player, String world, List<String> biomes, RTP_TYPE rtpType) {
+    public static void tp(Player player, World world, List<String> biomes, RTP_TYPE rtpType) {
         tp(player, player, world, biomes, rtpType, false, false);
     }
 
     //Teleported and Sender MAY be different
-    public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType) {
+    public static void tp(Player player, CommandSender sendi, World world, List<String> biomes, RTP_TYPE rtpType) {
         tp(player, sendi, world, biomes, rtpType, false, false);
     }
 
     //
-    public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
+    public static void tp(Player player, CommandSender sendi, World world, List<String> biomes, RTP_TYPE rtpType,
                    boolean ignoreCooldown, boolean ignoreDelay) {
         tp(player, sendi, world, biomes, rtpType, ignoreCooldown, ignoreDelay, null);
     }
 
-    public static void tp(Player player, CommandSender sendi, String world, List<String> biomes, RTP_TYPE rtpType,
-                   boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
+    public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
+                          boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
         if (isRTPing(player, sendi)) { //Is RTP'ing
-            if (ignoreCooldown || isCoolingDown(sendi, player)) { //Is Cooling down
+            if (world == null)
+                world = player.getWorld();
+            if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
+                world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
+            if (ignoreCooldown || isCoolingDown(sendi, player, world)) { //Is Cooling down
                 boolean delay = false;
                 if (!ignoreDelay && sendi == player) //Forced?
                     if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?
@@ -59,7 +66,7 @@ public class HelperRTP {
         return true;
     }
 
-    private static boolean isCoolingDown(CommandSender sendi, Player player) {
+    private static boolean isCoolingDown(CommandSender sendi, Player player, World world) {
         if (cooldownApplies(sendi, player)) { //Bypassing/Forced?
             CooldownHandler cooldownHandler = getPl().getCooldowns();
             if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
@@ -67,9 +74,9 @@ public class HelperRTP {
                 return false;
             }
             //Cooldown Data
-            CooldownData cooldownData = getPl().getCooldowns().get(player);
+            CooldownData cooldownData = getPl().getCooldowns().get(player, world);
             if (cooldownData != null) {
-                if (cooldownHandler.locked(cooldownData)) { //Infinite cooldown (locked)
+                if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
                     getPl().getText().getNoPermission(sendi);
                     return false;
                 } else { //Normal cooldown
@@ -109,7 +116,7 @@ public class HelperRTP {
     }
 
     @Nullable
-    public static WorldLocations getRandomLocation(CommandSender sender, String world) {
+    public static WorldLocations getRandomLocation(CommandSender sender, World world) {
         HashMap<String, RTPWorld> locations_permissible = CmdLocation.getLocations(sender, world);
         if (!locations_permissible.isEmpty()) {
             List<String> valuesList = new ArrayList<>(locations_permissible.keySet());

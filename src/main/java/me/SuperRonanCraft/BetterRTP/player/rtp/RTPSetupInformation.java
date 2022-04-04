@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +20,7 @@ import java.util.Random;
 
 public class RTPSetupInformation {
     //Will provide information to setup an RTP attempt
-    @Getter @Setter private String world;
+    @Getter @Setter private World world;
     @Getter @NonNull private final CommandSender sender;
     @Getter @Nullable private final Player player;
     @Getter private final boolean personalized;
@@ -29,14 +30,14 @@ public class RTPSetupInformation {
     @Getter private final boolean delay;
     @Getter @Nullable private final RTP_TYPE rtp_type;
 
-    public RTPSetupInformation(@Nullable String world,
+    public RTPSetupInformation(@Nullable World world,
                                @NonNull CommandSender sender,
                                @Nullable Player player,
                                boolean personalized) {
         this(world, sender, player, personalized, null, false, null, null);
     }
 
-    public RTPSetupInformation(@Nullable String world,
+    public RTPSetupInformation(@Nullable World world,
                                @NonNull CommandSender sender,
                                @Nullable Player player,
                                boolean personalized,
@@ -47,7 +48,7 @@ public class RTPSetupInformation {
         this(world, sender, player, personalized, biomes, delay, rtp_type, location, true);
     }
 
-    public RTPSetupInformation(@Nullable String world,
+    public RTPSetupInformation(@Nullable World world,
                                @NonNull CommandSender sender,
                                @Nullable Player player,
                                boolean personalized,
@@ -66,9 +67,9 @@ public class RTPSetupInformation {
         this.location = location;
         if (this.world == null) {
             if (player != null)
-                this.world = player.getWorld().getName();
+                this.world = player.getWorld();
             else if (this.location != null)
-                this.world = this.location.getWorld().getName();
+                this.world = this.location.getWorld();
         }
         this.cooldown = cooldown;
     }

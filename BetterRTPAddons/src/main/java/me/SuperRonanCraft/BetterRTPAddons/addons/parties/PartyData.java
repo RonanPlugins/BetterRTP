@@ -3,9 +3,12 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -79,7 +82,7 @@ public class PartyData {
     }
 
     public void tpAll(RTP_TeleportPostEvent e) {
-        CooldownData cooldownData = BetterRTP.getInstance().getPlayerDataManager().getData(getLeader()).getCooldown();
+        //HashMap<World, CooldownData> cooldownData = BetterRTP.getInstance().getPlayerDataManager().getData(getLeader()).getCooldowns();
         members.forEach((p, ready) -> {
             if (!p.equals(getLeader())) {
                 Location loc = e.getLocation();
@@ -94,8 +97,9 @@ public class PartyData {
                         BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, 0, 0, e.getOldLocation(), e.getType());
                 });
                 //Set cooldowns
-                if (cooldownData != null)
-                    BetterRTP.getInstance().getPlayerDataManager().getData(p).setCooldown(new CooldownData(p.getUniqueId(), cooldownData.getTime(), cooldownData.getUses()));
+                if (!PermissionNode.BYPASS_COOLDOWN.check(p))
+                    BetterRTP.getInstance().getPlayerDataManager().getData(p).getCooldowns().put(loc.getWorld(),
+                            new CooldownData(p.getUniqueId(), System.currentTimeMillis(), loc.getWorld()));
             }
         });
     }

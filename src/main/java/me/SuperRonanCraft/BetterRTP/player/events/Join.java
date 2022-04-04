@@ -31,7 +31,7 @@ public class Join {
     //RTP on first join
     private void rtpOnFirstJoin(Player p) {
         if (getPl().getSettings().isRtpOnFirstJoin_Enabled() && !p.hasPlayedBefore())
-            HelperRTP.tp(p, Bukkit.getConsoleSender(), getPl().getSettings().getRtpOnFirstJoin_World(), null, RTP_TYPE.JOIN); //Console is sender to override delays
+            HelperRTP.tp(p, Bukkit.getConsoleSender(), Bukkit.getWorld(getPl().getSettings().getRtpOnFirstJoin_World()), null, RTP_TYPE.JOIN); //Console is sender to override delays
     }
 
     private BetterRTP getPl() {

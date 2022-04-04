@@ -65,7 +65,7 @@ public class MagicStickEvents implements Listener {
                         if (listener.p == e.getPlayer())
                             return;
                     //Rtp the player
-                    HelperRTP.tp(e.getPlayer(), e.getPlayer().getWorld().getName(), null, RTP_TYPE.ADDON_MAGICSTICK);
+                    HelperRTP.tp(e.getPlayer(), e.getPlayer().getWorld(), null, RTP_TYPE.ADDON_MAGICSTICK);
                     if (this.take)
                         teleportingPlayers.add(new PlayerListener(e.getPlayer()));
                 }
