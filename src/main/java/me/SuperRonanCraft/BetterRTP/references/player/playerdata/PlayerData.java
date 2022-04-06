@@ -21,6 +21,7 @@ public class PlayerData {
     //@Getter @Setter CooldownData globalCooldown;
     @Getter @Setter boolean rtping;
     @Getter @Setter int rtpCount;
+    @Getter @Setter long globalCooldown;
 
     PlayerData(Player player) {
         this.player = player;

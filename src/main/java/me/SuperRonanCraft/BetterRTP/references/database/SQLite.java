@@ -87,9 +87,9 @@ public abstract class SQLite {
         }*/
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             Connection connection = getSQLConnection();
-            for (String table : tables) {
-                try {
-                    Statement s = connection.createStatement();
+            try {
+                Statement s = connection.createStatement();
+                for (String table : tables) {
                     s.executeUpdate(getCreateTable(table));
                     //s.executeUpdate(createTable_bank);
                     for (Enum<?> c : getColumns(type)) { //Add missing columns dynamically
@@ -102,22 +102,22 @@ public abstract class SQLite {
                             //e.printStackTrace();
                         }
                     }
-                    s.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (connection != null) {
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                    BetterRTP.debug("Database " + type.name() + ":" + table + " configured and loaded!");
+                }
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
             }
             initialize();
             loaded = true;
-            //BetterRTP.getInstance().debug("Database " + type.name() + ":" + table + " configured and loaded!");
         });
     }
 
@@ -139,18 +139,21 @@ public abstract class SQLite {
 
     private Enum<?>[] getColumns(DATABASE_TYPE type) {
         switch (type) {
+            case PLAYERS: return DatabasePlayers.COLUMNS.values();
             default: return DatabaseCooldownsWorlds.COLUMNS.values();
         }
     }
 
     private String getColumnName(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
+            case PLAYERS: return ((DatabasePlayers.COLUMNS) column).name;
             default: return ((DatabaseCooldownsWorlds.COLUMNS) column).name;
         }
     }
 
     private String getColumnType(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
+            case PLAYERS: return ((DatabasePlayers.COLUMNS) column).type;
             default: return ((DatabaseCooldownsWorlds.COLUMNS) column).type;
         }
     }

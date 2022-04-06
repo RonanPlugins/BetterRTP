@@ -1,11 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.Getter;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsWorlds;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsGlobal;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabasePlayers;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.Bukkit;
@@ -16,13 +15,12 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CooldownHandler {
 
     @Getter boolean enabled, loaded;
     private int
-            timer, //Cooldown timer
+            timer, //Global Cooldown timer
             lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new ArrayList<>();
     private final DatabaseCooldownsWorlds cooldowns = new DatabaseCooldownsWorlds();
@@ -65,6 +63,7 @@ public class CooldownHandler {
             //Load any online players cooldowns (mostly after a reload)
             for (Player p : Bukkit.getOnlinePlayers())
                 loadPlayer(p);
+            loaded = true;
         }, 10L);
     }
 
@@ -133,7 +132,7 @@ public class CooldownHandler {
                 } else {
                     getDatabaseWorlds().removePlayer(data.getUuid(), data.getWorld());
                 }
-                players.setCount(getData(player));
+                players.setData(getData(player));
             });
     }
 
@@ -142,10 +141,12 @@ public class CooldownHandler {
         downloading.add(player);
         for (World world : Bukkit.getWorlds()) {
             PlayerData playerData = getData(player);
+            //Cooldowns
             CooldownData cooldown = getDatabaseWorlds().getCooldown(player.getUniqueId(), world);
             if (cooldown != null)
                 playerData.getCooldowns().put(world, cooldown);
-            playerData.setRtpCount(players.getCount(player.getUniqueId()));
+            //Player Data
+            players.setupData(playerData);
         }
         downloading.remove(player);
     }
