@@ -97,9 +97,10 @@ public class PartyData {
                         BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, 0, 0, e.getOldLocation(), e.getType());
                 });
                 //Set cooldowns
-                if (!PermissionNode.BYPASS_COOLDOWN.check(p))
-                    BetterRTP.getInstance().getPlayerDataManager().getData(p).getCooldowns().put(loc.getWorld(),
-                            new CooldownData(p.getUniqueId(), System.currentTimeMillis(), loc.getWorld()));
+                if (!PermissionNode.BYPASS_COOLDOWN.check(p)) {
+                    BetterRTP.getInstance().getCooldowns().add(p, loc.getWorld());
+                    //BetterRTP.getInstance().getPlayerDataManager().getData(p).getCooldowns().put(loc.getWorld(), new CooldownData(p.getUniqueId(), System.currentTimeMillis(), loc.getWorld()));
+                }
             }
         });
     }
