@@ -132,6 +132,7 @@ PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger thes
             MaxRadius: 10000
             MinRadius: 1000
             Price: 100
+            Cooldown: 500 #optional
         - Survival_World:
             Priority: 10 #Higher the less prioritized
             UseWorldBorder: false
@@ -147,3 +148,4 @@ PermissionGroup: #Player requires "betterrtp.group.<world_name>" to trigger thes
             MaxRadius: 25000
             MinRadius: 10000
             Price: 15
+            Cooldown: 1500
