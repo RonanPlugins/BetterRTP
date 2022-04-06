@@ -20,6 +20,7 @@ public class Settings {
     @Getter private boolean useLocationIfAvailable;
     @Getter private boolean locationNeedPermission;
     @Getter private boolean locationOnlyAllowInWorld;
+    @Getter private boolean permissionGroupEnabled;
 
     public void load() { //Load Settings
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -31,6 +32,7 @@ public class Settings {
         rtpOnFirstJoin_SetAsRespawn = config.getBoolean("Settings.RtpOnFirstJoin.SetAsRespawn");
         preloadRadius = config.getInt("Settings.PreloadRadius");
         statusMessages = config.getBoolean("Settings.StatusMessages");
+        permissionGroupEnabled = config.getBoolean("PermissionGroup.Enabled");
         protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
         useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");

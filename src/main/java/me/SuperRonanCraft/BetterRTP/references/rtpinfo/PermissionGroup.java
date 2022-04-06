@@ -24,20 +24,14 @@ public class PermissionGroup {
         Object value = fields.getValue();
         for (Object worldList : ((ArrayList) value)) {
             for (Object hash : ((HashMap) worldList).entrySet()) {
-                Map.Entry world = (Map.Entry) hash;
-                BetterRTP.debug("- -- World: " + world.getKey());
-                WorldPermissionGroup permissionGroup = new WorldPermissionGroup(groupName, world.getKey().toString(), world);
-                boolean loaded = false;
-                for (World realWorld : Bukkit.getWorlds()) {
-                    if (realWorld.getName().equals(permissionGroup.world)) {
-                        this.worlds.put(world.getKey().toString(), permissionGroup);
-                        loaded = true;
-                        break;
-                    }
-                }
-                if (!loaded) {
-                    BetterRTP.debug("- - The Permission groups '" + groupName + "'s world '" + world.getKey() + "' does not exist! World info not loaded...");
-                }
+                Map.Entry worldFields = (Map.Entry) hash;
+                BetterRTP.debug("- -- World: " + worldFields.getKey());
+                World world = Bukkit.getWorld(worldFields.getKey().toString());
+                if (world != null) {
+                    WorldPermissionGroup permissionGroup = new WorldPermissionGroup(groupName, world, worldFields);
+                    this.worlds.put(worldFields.getKey().toString(), permissionGroup);
+                } else
+                    BetterRTP.debug("- - The Permission Group '" + groupName + "'s world '" + worldFields.getKey() + "' does not exist! Permission Group not loaded...");
             }
         }
     }

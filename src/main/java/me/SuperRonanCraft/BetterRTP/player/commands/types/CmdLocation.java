@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
@@ -39,7 +40,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
                 usage(sendi, label);
             } else
                 sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
-        } else if (args.length == 3 && BetterRTP.getInstance().getPerms().getRtpOther(sendi)) {
+        } else if (args.length == 3 && PermissionNode.RTP_OTHER.check(sendi)) {
             Player p = Bukkit.getPlayer(args[2]);
             if (p != null && p.isOnline()) {
                 for (String location_name : getLocations(sendi, null).keySet()) {
@@ -63,7 +64,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
             for (String location_name : getLocations(sendi, null).keySet())
                 if (location_name.toLowerCase().startsWith(args[1].toLowerCase()))
                     list.add(location_name);
-        } else if (args.length == 3 && BetterRTP.getInstance().getPerms().getRtpOther(sendi)) {
+        } else if (args.length == 3 && PermissionNode.RTP_OTHER.check(sendi)) {
             for (Player p : Bukkit.getOnlinePlayers())
                 if (p.getName().toLowerCase().startsWith(args[2].toLowerCase()))
                     list.add(p.getName());
@@ -72,7 +73,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().getLocation(sendi);
+        return PermissionNode.LOCATION.check(sendi);
     }
 
     public void usage(CommandSender sendi, String label) {
@@ -88,7 +89,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         if (BetterRTP.getInstance().getSettings().isLocationNeedPermission()) {
             HashMap<String, RTPWorld> locations = new HashMap<>();
             for (Map.Entry<String, RTPWorld> location : getLocations().entrySet())
-                if (BetterRTP.getInstance().getPerms().getLocation(sendi, location.getKey())) {
+                if (PermissionNode.getLocation(sendi, location.getKey())) {
                     if (world == null || location.getValue().getWorld().equals(world))
                         locations.put(location.getKey(), location.getValue());
                 }

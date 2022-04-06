@@ -242,6 +242,10 @@ public class Messages {
         sms(sendi, getLang().getString(preU + "Location").replaceAll("%command%", cmd));
     }
 
+    public void getUsageEditLocation(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.Location").replaceAll("%command%", cmd));
+    }
+
     public void getUsageEdit(CommandSender sendi, String cmd) {
         sms(sendi, getLang().getString(preU + "Edit.Base").replaceAll("%command%", cmd));
     }
@@ -264,6 +268,10 @@ public class Messages {
 
     public void getUsageBlacklistedBlocks(CommandSender sendi, String cmd) {
         sms(sendi, getLang().getString(preU + "Edit.BlacklistedBlocks").replaceAll("%command%", cmd));
+    }
+
+    public void getUsagePermissionGroup(CommandSender sendi, String cmd) {
+        sms(sendi, getLang().getString(preU + "Edit.PermissionGroup").replaceAll("%command%", cmd));
     }
 
     // Not Found

@@ -17,12 +17,13 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private List<String> biomes;
-    public String world;
+    public World world;
     private RTP_SHAPE shape;
     @Getter private int priority;
-    @Getter private String groupName;
+    @Getter private final String groupName;
+    private long cooldown;
 
-    public WorldPermissionGroup(String group, String world, Map.Entry fields) {
+    public WorldPermissionGroup(String group, World world, Map.Entry fields) {
         this.groupName = group;
         this.world = world;
         setupDefaults();
@@ -102,6 +103,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                         this.shape = RTP_SHAPE.valueOf(hash3.getValue().toString().toUpperCase());
                         BetterRTP.debug("- - Shape: " + shape.name());
                     } catch (Exception e) {
+                        BetterRTP.debug("- - Shape: (INVALID) " + hash3.getValue().toString());
                         //Invalid shape
                     }
                 }
@@ -115,6 +117,11 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                 if (hash3.getValue().getClass() == Integer.class) {
                     this.maxy = Integer.parseInt(hash3.getValue().toString());
                     BetterRTP.debug("- - MaxY: " + maxy);
+                }
+            if (field.equalsIgnoreCase("Cooldown"))
+                if (hash3.getValue().getClass() == Long.class) {
+                    this.cooldown = Long.parseLong(hash3.getValue().toString());
+                    BetterRTP.debug("- - Custom Cooldown: " + cooldown);
                 }
         }
     }
@@ -156,7 +163,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
 
     @Override
     public @NonNull World getWorld() {
-        return Bukkit.getWorld(world);
+        return world;
     }
 
     @Override
@@ -172,6 +179,11 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public int getMaxY() {
         return maxy;
+    }
+
+    @Override
+    public long getCooldown() {
+        return cooldown;
     }
 
     @Override
@@ -210,7 +222,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public void setWorld(String value) {
+    public void setWorld(World value) {
         this.world = value;
     }
 

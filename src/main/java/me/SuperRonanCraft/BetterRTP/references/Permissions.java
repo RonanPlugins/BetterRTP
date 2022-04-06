@@ -13,7 +13,13 @@ public class Permissions {
         depPerms.register();
     }
 
-    private final String pre = "betterrtp.";
+    public boolean checkPerm(String str, CommandSender sendi) {
+        return depPerms.hasPerm(str, sendi);
+    }
+
+}
+    //Moved to PermissionNode.NODE
+    /*private final String pre = "betterrtp.";
 
     public boolean getUse(CommandSender sendi) {
         return checkPerm(pre + "use", sendi);
@@ -101,9 +107,4 @@ public class Permissions {
 
     public boolean getPermissionGroup(CommandSender sendi, String group) {
         return checkPerm(pre + "group." + group, sendi);
-    }
-
-    public boolean checkPerm(String str, CommandSender sendi) {
-        return depPerms.hasPerm(str, sendi);
-    }
-}
+    }*/

@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 
@@ -13,7 +14,7 @@ public class HelperRTP_Info {
     public static List<String> getBiomes(String[] args, int start, CommandSender sendi) {
         List<String> biomes = new ArrayList<>();
         boolean error_sent = false;
-        if (BetterRTP.getInstance().getPerms().getBiome(sendi))
+        if (PermissionNode.BIOME.check(sendi))
             for (int i = start; i < args.length; i++) {
                 String str = args[i];
                 try {

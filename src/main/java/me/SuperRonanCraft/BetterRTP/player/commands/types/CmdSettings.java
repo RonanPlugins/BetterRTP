@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,7 @@ public class CmdSettings implements RTPCommand, RTPCommandHelpable {
     }
 
     public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().getSettings(sendi);
+        return PermissionNode.SETTINGS.check(sendi);
     }
 
     @Override

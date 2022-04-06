@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
+import org.bukkit.World;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface RTPWorld_Defaulted {
 
     void setBiomes(List<String> value);
 
-    void setWorld(String value);
+    void setWorld(World value);
 
     void setShape(RTP_SHAPE value);
 

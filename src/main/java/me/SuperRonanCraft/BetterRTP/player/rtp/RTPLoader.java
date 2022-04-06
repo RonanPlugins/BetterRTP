@@ -25,18 +25,16 @@ public class RTPLoader {
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
                     String world = entry.getKey().toString();
-                    customWorlds.put(world, new WorldCustom(world));
                     AtomicBoolean exists = new AtomicBoolean(false);
                     Bukkit.getWorlds().forEach(w -> {
                         if (w.getName().equals(world))
                             exists.set(true);
                     });
-                    if (getPl().getSettings().isDebug()) {
-                        if (exists.get())
-                            BetterRTP.debug("- Custom World '" + world + "' successfully registered");
-                        else
-                            BetterRTP.debug("[WARN] - Custom World '" + world + "' registered but world does NOT exist");
-                    }
+                    if (exists.get()) {
+                        customWorlds.put(world, new WorldCustom(Bukkit.getWorld(world)));
+                        BetterRTP.debug("- Custom World '" + world + "' successfully registered");
+                    } else
+                        BetterRTP.debug("[WARN] - Custom World '" + world + "' was not registered because world does NOT exist");
                 }
         } catch (Exception e) {
             //No Custom Worlds
@@ -119,7 +117,7 @@ public class RTPLoader {
     static void loadPermissionGroups(@NotNull HashMap<String, PermissionGroup> permissionGroup) {
         permissionGroup.clear();
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
-        if (!config.getBoolean("PermissionGroup.Enabled"))
+        if (!getPl().getSettings().isPermissionGroupEnabled())
             return;
         BetterRTP.debug("Loading Permission Groups...");
         try {

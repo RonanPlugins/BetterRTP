@@ -59,14 +59,6 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
             list.addAll(biomes);
         }
         setBiomes(list);
-        //if (personal && player != null)
-        //   setupGroup();
-        //Make sure our borders will not cause an invalid integer
-        if (getMaxRadius() <= getMinRadius()) {
-            setMinRadius(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
-            if (getMaxRadius() <= getMinRadius())
-                setMinRadius(0);
-        }
         //World border protection
         if (getUseWorldborder()) {
             WorldBorder border = getWorld().getWorldBorder();
@@ -75,6 +67,12 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
                 setMaxRadius(_borderRad);
             setCenterX(border.getCenter().getBlockX());
             setCenterZ(border.getCenter().getBlockZ());
+        }
+        //Make sure our borders will not cause an invalid integer
+        if (getMaxRadius() <= getMinRadius()) {
+            setMinRadius(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
+            if (getMaxRadius() <= getMinRadius())
+                setMinRadius(0);
         }
         //MinY
         setMinY(world.getMinY());
@@ -236,8 +234,8 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public void setWorld(String value) {
-
+    public void setWorld(World value) {
+        //Can't override this one buddy
     }
 
     //Custom World type

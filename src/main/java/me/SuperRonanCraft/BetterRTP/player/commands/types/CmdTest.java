@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -32,7 +33,7 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().getTest(sendi);
+        return PermissionNode.TEST.check(sendi);
     }
 
     @Override

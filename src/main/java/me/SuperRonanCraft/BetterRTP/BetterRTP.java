@@ -6,7 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.Listener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
-import me.SuperRonanCraft.BetterRTP.references.Updater;
+import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
 import me.SuperRonanCraft.BetterRTP.references.file.Files;
 import me.SuperRonanCraft.BetterRTP.references.file.Messages;

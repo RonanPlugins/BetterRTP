@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.block.Block;
@@ -46,7 +47,7 @@ class Interact {
     }
 
     void createSign(SignChangeEvent e) {
-        if (enabled && BetterRTP.getInstance().getPerms().getSignCreate(e.getPlayer())) {
+        if (enabled && PermissionNode.SIGN_CREATE.check(e.getPlayer())) {
             String line = e.getLine(0);
             if (line != null && (line.equalsIgnoreCase(title) ||
                     line.equalsIgnoreCase("[RTP]"))) {

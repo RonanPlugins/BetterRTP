@@ -57,6 +57,7 @@ Usage:
     Base: '&cUżycie&7: /%command% edit <default/world> [args...]'
     Default: '&cUżycie&7: /%command% edit default <max/min/useworldborder/center> <value>'
     World: '&cUżycie&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
+#    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'
     Worldtype: '&cUżycie&7: /%command% edit world_type <world> <NETHER/NORMAL>'
     Override: '&cUżycie&7: /%command% edit override <world> <world_to>'
     BlacklistedBlocks: '&cUżycie&7: /%command% edit blacklistedblocks <add/remove> <block_id>'

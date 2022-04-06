@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
-    public String world;
+    public World world;
     private boolean useWorldborder;
     private int centerX, centerZ, maxBorderRad, minBorderRad, price, miny, maxy;
     private List<String> biomes;
     private RTP_SHAPE shape;
 
-    public WorldCustom(String world) {
+    public WorldCustom(World world) {
         //String pre = "CustomWorlds.";
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
@@ -31,7 +31,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
         for (Map<?, ?> m : map) {
             for (Map.Entry<?, ?> entry : m.entrySet()) {
                 String key = entry.getKey().toString();
-                if (!key.equals(world))
+                if (!key.equals(world.getName()))
                     continue;
                 Map<?, ?> test = ((Map<?, ?>) m.get(key));
                 if (test == null)
@@ -45,9 +45,8 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         centerX = Integer.parseInt((test.get("CenterX")).toString());
                 }
                 if (test.get("CenterZ") != null) {
-                    if (test.get("CenterZ").getClass() == Integer.class) {
+                    if (test.get("CenterZ").getClass() == Integer.class)
                         centerZ = Integer.parseInt((test.get("CenterZ")).toString());
-                    }
                 }
                 if (test.get("MaxRadius") != null) {
                     if (test.get("MaxRadius").getClass() == Integer.class)
@@ -173,7 +172,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     @NotNull
     @Override
     public World getWorld() {
-        return Bukkit.getWorld(world);
+        return world;
     }
 
     @Override
@@ -228,7 +227,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public void setWorld(String value) {
+    public void setWorld(World value) {
         this.world = value;
     }
 

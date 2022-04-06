@@ -15,7 +15,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private List<String> biomes;
-    private String world;
+    private World world;
     private RTP_SHAPE shape;
 
     public WorldLocations(String location_name) {
@@ -36,9 +36,10 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     continue;
                 if (test.get("World") != null) {
                     if (test.get("World").getClass() == String.class)
-                        world = test.get("World").toString();
-                } else {
-                    BetterRTP.getInstance().getLogger().warning("Location `" + location_name + "` does NOT have a World specified!");
+                        world = Bukkit.getWorld(test.get("World").toString());
+                }
+                if (world == null) {
+                    BetterRTP.getInstance().getLogger().warning("Location `" + location_name + "` does NOT have a `World` or world doesnt exist!");
                     return;
                 }
                 if (test.get("UseWorldBorder") != null) {
@@ -121,7 +122,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     @NotNull
     @Override
     public World getWorld() {
-        return Bukkit.getWorld(world);
+        return world;
     }
 
     @Override
@@ -212,7 +213,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     }
 
     @Override
-    public void setWorld(String value) {
+    public void setWorld(World value) {
         this.world = value;
     }
 

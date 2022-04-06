@@ -2,13 +2,16 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsWorlds;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabasePlayers;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
@@ -19,9 +22,8 @@ import java.util.List;
 public class CooldownHandler {
 
     @Getter boolean enabled, loaded, cooldownByWorld;
-    private int
-            timer, //Global Cooldown timer
-            lockedAfter; //Rtp's before being locked
+    @Getter private int cooldownTime; //Global Cooldown timer
+    private int lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new ArrayList<>();
     private final DatabaseCooldownsWorlds cooldowns = new DatabaseCooldownsWorlds();
     private final DatabasePlayers players = new DatabasePlayers();
@@ -34,7 +36,7 @@ public class CooldownHandler {
         downloading.clear();
         loaded = false;
         if (enabled) {
-            timer = config.getInt("Settings.Cooldown.Time");
+            cooldownTime = config.getInt("Settings.Cooldown.Time");
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             cooldownByWorld = config.getBoolean("Settings.Cooldown.PerWorld");
         }
@@ -100,9 +102,12 @@ public class CooldownHandler {
         return null;
     }
 
-    public long timeLeft(CooldownData data) {
+    public long timeLeft(CommandSender sendi, CooldownData data, RTPWorld rtpWorld) {
         long cooldown = data.getTime();
-        return ((cooldown / 1000) + timer) - (System.currentTimeMillis() / 1000);
+        long timeLeft = ((cooldown / 1000) + rtpWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
+        if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))
+            timeLeft = timeLeft + BetterRTP.getInstance().getSettings().getDelayTime();
+        return timeLeft;
     }
 
     public boolean locked(Player player) {

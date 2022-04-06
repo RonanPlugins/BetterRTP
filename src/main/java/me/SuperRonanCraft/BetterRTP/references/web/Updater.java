@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.references;
+package me.SuperRonanCraft.BetterRTP.references.web;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;

@@ -2,6 +2,9 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdInfo;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdWorld;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
@@ -65,6 +68,10 @@ public class RTP {
         RTPLoader.loadLocations(worldLocations);
     }
 
+    public void loadPermissionGroups() { //Keeping this here because of the edit command
+        RTPLoader.loadPermissionGroups(worldPermissionGroups);
+    }
+
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
         WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), setup_info.getWorld());
 
@@ -94,7 +101,7 @@ public class RTP {
                 for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().worldPermissionGroups.entrySet()) {
                     for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
                         if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
-                            if (BetterRTP.getInstance().getPerms().getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
+                            if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
                                 if (group != null) {
                                     if (group.getPriority() < worldPermission.getValue().getPriority())
                                         continue;
@@ -137,56 +144,14 @@ public class RTP {
     public void start(RTPSetupInformation setup_info) {
         RTP_SettingUpEvent setup = new RTP_SettingUpEvent(setup_info.getPlayer());
         Bukkit.getPluginManager().callEvent(setup);
-        if (setup.isCancelled()) {
+        if (setup.isCancelled())
             return;
-        }
 
-        World world_name = setup_info.getWorld();
-        Player p = setup_info.getPlayer();
         CommandSender sendi = setup_info.getSender();
 
-        // Locations
-        if (setup_info.getLocation() != null) {
-            WorldLocations location = setup_info.getLocation();
-            world_name = location.getWorld();
-            setup_info.setWorld(world_name);
-            setup_info.setBiomes(location.getBiomes());
-        }
-
-        // Check overrides
-        if (world_name == null && p != null) {
-            world_name = p.getWorld();
-        }// else { // Check if nulled or world doesnt exist
-            //World _world = world_name;//Bukkit.getWorld(world_name);
-            /*if (_world == null) { //Check if world has spaces instead of underscores
-                _world = Bukkit.getWorld(world_name.replace("_", " "));
-                world_name = world_name.replace("_", "");
-            }
-            if (_world == null) {
-                getPl().getText().getNotExist(sendi, world_name);
-                return;
-            }*/
-        //}
-        //No World was sent???
-        if (world_name == null) {
-            BetterRTP.getInstance().getText().error(sendi);
-            return;
-        }
-        if (overriden.containsKey(world_name.getName())) {
-            world_name = Bukkit.getWorld(overriden.get(world_name.getName()));
-            setup_info.setWorld(world_name);
-        }
-        // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == p && !getPl().getPerms().getAWorld(sendi, world_name.getName())) {
-            getPl().getText().getNoPermissionWorld(p, world_name.getName());
-            return;
-        }
-        // Check disabled worlds
-        if (disabledWorlds.contains(world_name.getName())) {
-            getPl().getText().getDisabledWorld(sendi, world_name.getName());
-            return;
-        }
         WorldPlayer pWorld = getPlayerWorld(setup_info);
+        //Debugging!
+        //CmdInfo.sendInfoWorld(sendi, CmdInfo.infoGetWorld(sendi, setup_info.getWorld(), setup_info.getPlayer(), pWorld));
         // Economy
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;

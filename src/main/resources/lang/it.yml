@@ -53,3 +53,4 @@ Usage:
     Base: '&cUsa&7: /%command% edit <default/mondo> [argomenti...]'
     Default: '&cUsa&7: /%command% edit default <max/min/useworldborder/center> <value>'
     World: '&cUsa&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
+#    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'

@@ -57,6 +57,7 @@ Usage:
     Base: '&c用法&7: /%command% edit <default/world> [參數...]'
     Default: '&c用法&7: /%command% edit default <max/min/useworldborder/center> <數值>'
     World: '&c用法&7: /%command% edit world <world> <max/min/useworldborder/center> <數值>'
+#    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'
     Worldtype: '&c用法&7: /%command% edit world_type <世界> <NETHER/NORMAL>'
     Override: '&c用法&7: /%command% edit override <世界> <要傳送到的世界>'
     BlacklistedBlocks: '&c用法&7: /%command% edit blacklistedblocks <add/remove> <方塊ID>'

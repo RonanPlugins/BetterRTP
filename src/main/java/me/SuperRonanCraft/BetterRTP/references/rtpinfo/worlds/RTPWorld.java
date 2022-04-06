@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import lombok.NonNull;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.World;
 
@@ -29,4 +30,8 @@ public interface RTPWorld {
     int getMinY();
 
     int getMaxY();
+
+    default long getCooldown() {
+        return BetterRTP.getInstance().getCooldowns().getCooldownTime();
+    }
 }

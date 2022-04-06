@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.depends;
 
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
@@ -33,7 +34,7 @@ public class DepEconomy {
             }
         }
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !BetterRTP.getInstance().getPerms().getBypassEconomy(sendi)) {
+        if (e != null && pWorld.getPrice() != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
             try {
                 EconomyResponse r = e.withdrawPlayer(player, pWorld.getPrice());
                 boolean passed_economy = r.transactionSuccess();
@@ -57,7 +58,7 @@ public class DepEconomy {
         Player player = pWorld.getPlayer();
         //Hunger Stuff
         if (hunger != 0
-                && !BetterRTP.getInstance().getPerms().getBypassHunger(sendi)
+                && !PermissionNode.BYPASS_HUNGER.check(sendi)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
@@ -66,7 +67,7 @@ public class DepEconomy {
             }
         }
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !BetterRTP.getInstance().getPerms().getBypassEconomy(sendi)) {
+        if (e != null && pWorld.getPrice() != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
             try {
                 boolean passed_economy = e.getBalance(player) >= pWorld.getPrice();
                 if (!passed_economy) {

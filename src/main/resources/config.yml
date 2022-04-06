@@ -79,6 +79,7 @@ BlacklistedBlocks:
   - bedrock
   - oak_leaves
   - jungle_leaves
+  - kelp
 
 ## Worlds to NOT allow /rtp in, unless there is an override to another enabled world #
 DisabledWorlds:
