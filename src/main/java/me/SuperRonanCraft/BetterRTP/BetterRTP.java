@@ -3,8 +3,10 @@ package me.SuperRonanCraft.BetterRTP;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
-import me.SuperRonanCraft.BetterRTP.player.events.Listener;
+import me.SuperRonanCraft.BetterRTP.player.events.EventListener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
@@ -27,7 +29,7 @@ public class BetterRTP extends JavaPlugin {
     private final DepEconomy eco = new DepEconomy();
     private final Commands cmd = new Commands(this);
     private final RTP rtp = new RTP();
-    private final Listener listener = new Listener();
+    private final EventListener listener = new EventListener();
     private static BetterRTP instance;
     private final Files files = new Files();
     private final RTPInventories invs = new RTPInventories();
@@ -35,6 +37,8 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final PlayerDataManager playerDataManager = new PlayerDataManager();
     private final Settings settings = new Settings();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
+    private final QueueHandler queue = new QueueHandler();
+    @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
 
     public void onEnable() {
         instance = this;
@@ -42,6 +46,7 @@ public class BetterRTP extends JavaPlugin {
         new Metrics(this);
         loadAll();
         listener.registerEvents(this);
+        queue.registerEvents(this);
     }
 
     public void onDisable() {
@@ -113,6 +118,7 @@ public class BetterRTP extends JavaPlugin {
     //(Re)Load all plugin systems/files/cache
     private void loadAll() {
         playerDataManager.clear();
+        databaseHandler.load();
         files.loadAll();
         settings.load();
         invs.load();

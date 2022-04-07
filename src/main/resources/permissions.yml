@@ -8,17 +8,19 @@ permissions:
             betterrtp.player: true
             betterrtp.reload: true
             betterrtp.updater: true
+            betterrtp.group.*: true
     betterrtp.world:
-        description: RTP into other worlds
+        description: Ability to use the world command
     betterrtp.world.*:
         description: RTP in all enabled worlds
     betterrtp.world.<world>:
-            description: RTP in <world>
+        description: RTP in world named world
     betterrtp.bypass.*:
-            children:
-                betterrtp.bypass.cooldown: true
-                betterrtp.bypass.delay: true
-                betterrtp.bypass.economy: true
+        children:
+            betterrtp.bypass.cooldown: true
+            betterrtp.bypass.delay: true
+            betterrtp.bypass.economy: true
+            betterrtp.bypass.hunger: true
     betterrtp.use:
         description: Use RTP command
         default: true
@@ -41,6 +43,8 @@ permissions:
         description: Bypass delays
     betterrtp.bypass.economy:
         description: Bypass economy
+    betterrtp.bypass.hunger:
+        description: Bypass hunger
     #Reload
     betterrtp.reload:
         description: Reload the config
@@ -50,4 +54,8 @@ permissions:
         default: op
     betterrtp.test:
         description: While debugger enabled, be able to test particles, potion effects and sounds
+        default: op
+    #Permission Groups
+    betterrtp.group.*:
+        description: Allow access to all permission groups
         default: op

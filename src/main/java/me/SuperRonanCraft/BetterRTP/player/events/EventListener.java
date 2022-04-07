@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -10,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.PluginManager;
 
-public class Listener implements org.bukkit.event.Listener {
+public class EventListener implements Listener {
     private final Join join = new Join();
     private final Leave leave = new Leave();
     private final Interact interact = new Interact();

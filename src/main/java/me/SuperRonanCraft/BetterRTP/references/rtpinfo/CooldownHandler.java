@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsWorlds;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabasePlayers;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
@@ -25,8 +25,6 @@ public class CooldownHandler {
     @Getter private int cooldownTime; //Global Cooldown timer
     private int lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new ArrayList<>();
-    private final DatabaseCooldownsWorlds cooldowns = new DatabaseCooldownsWorlds();
-    private final DatabasePlayers players = new DatabasePlayers();
     //private final DatabaseCooldownsGlobal globalCooldown = new DatabaseCooldownsGlobal();
 
     public void load() {
@@ -40,22 +38,17 @@ public class CooldownHandler {
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             cooldownByWorld = config.getBoolean("Settings.Cooldown.PerWorld");
         }
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-            //globalCooldown.load();
-            players.load();
-            cooldowns.load();
-            checkLater();
-        });
+        queueDownload();
     }
 
-    private void checkLater() {
+    private void queueDownload() {
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
-            if (cooldownByWorld && !cooldowns.isLoaded()) {
-               checkLater();
+            if (cooldownByWorld && !DatabaseHandler.getWorldCooldowns().isLoaded()) {
+               queueDownload();
                return;
             }
-            if (!players.isLoaded()) {
-               checkLater();
+            if (!DatabaseHandler.getPlayers().isLoaded()) {
+               queueDownload();
                return;
             }
             //OldCooldownConverter.loadOldCooldowns();
@@ -141,7 +134,7 @@ public class CooldownHandler {
                     else
                         getDatabaseWorlds().removePlayer(data.getUuid(), data.getWorld());
                 }
-                players.setData(getData(player));
+                DatabaseHandler.getPlayers().setData(getData(player));
             });
     }
 
@@ -157,7 +150,7 @@ public class CooldownHandler {
                     playerData.getCooldowns().put(world, cooldown);
             }
         //Player Data
-        players.setupData(playerData);
+        DatabaseHandler.getPlayers().setupData(playerData);
         downloading.remove(player);
     }
 
@@ -168,7 +161,7 @@ public class CooldownHandler {
     @Nullable
     private DatabaseCooldownsWorlds getDatabaseWorlds() {
         if (cooldownByWorld)
-            return cooldowns;
+            return DatabaseHandler.getWorldCooldowns();
         return null;
     }
 
