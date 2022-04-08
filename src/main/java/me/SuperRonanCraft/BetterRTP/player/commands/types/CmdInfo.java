@@ -128,7 +128,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Overriden&7: " + _false);
                 if (_rtpworld == null)
                     _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(new RTPSetupInformation(w, player != null ? player : sendi, player, player != null));
-                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
+                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().RTPdefaultWorld;
                 info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
                 info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
                 info.add("&7- &eWorld Type&7: &f" + _rtpworld.getWorldtype().name());

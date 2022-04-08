@@ -2,8 +2,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdInfo;
-import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdWorld;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
@@ -12,7 +10,6 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,15 +22,15 @@ public class RTP {
     //public final WorldPermissionGroup permConfig = new WorldPermissionGroup();
     //Cache
     public final HashMap<String, String> overriden = new HashMap<>();
-    public final WorldDefault defaultWorld = new WorldDefault();
     @Getter List<String> disabledWorlds, blockList;
     int maxAttempts, delayTime;
     boolean cancelOnMove, cancelOnDamage;
     public final HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
     //Worlds
-    public final HashMap<String, RTPWorld> customWorlds = new HashMap<>();
-    public final HashMap<String, RTPWorld> worldLocations = new HashMap<>();
-    public final HashMap<String, PermissionGroup> worldPermissionGroups = new HashMap<>();
+    public final WorldDefault RTPdefaultWorld = new WorldDefault();
+    public final HashMap<String, RTPWorld> RTPcustomWorld = new HashMap<>();
+    public final HashMap<String, RTPWorld> RTPworldLocations = new HashMap<>();
+    public final HashMap<String, PermissionGroup> permissionGroups = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -52,25 +49,25 @@ public class RTP {
         //WorldType
         RTPLoader.loadWorldTypes(world_type);
         //Worlds & CustomWorlds
-        RTPLoader.loadWorlds(defaultWorld, customWorlds);
+        RTPLoader.loadWorlds(RTPdefaultWorld, RTPcustomWorld);
         //Locations
-        RTPLoader.loadLocations(worldLocations);
+        RTPLoader.loadLocations(RTPworldLocations);
         //Permissions
-        RTPLoader.loadPermissionGroups(worldPermissionGroups);
+        RTPLoader.loadPermissionGroups(permissionGroups);
         teleport.load(); //Load teleporting stuff
         //permConfig.load(); //Load permission configs
     }
 
     public void loadWorlds() { //Keeping this here because of the edit command
-        RTPLoader.loadWorlds(defaultWorld, customWorlds);
+        RTPLoader.loadWorlds(RTPdefaultWorld, RTPcustomWorld);
     }
 
     public void loadLocations() { //Keeping this here because of the edit command
-        RTPLoader.loadLocations(worldLocations);
+        RTPLoader.loadLocations(RTPworldLocations);
     }
 
     public void loadPermissionGroups() { //Keeping this here because of the edit command
-        RTPLoader.loadPermissionGroups(worldPermissionGroups);
+        RTPLoader.loadPermissionGroups(permissionGroups);
     }
 
     public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
@@ -87,7 +84,7 @@ public class RTP {
         //Location
         if (setup_info.getLocation() != null) {
             String setup_name = null;
-            for (Map.Entry<String, RTPWorld> location_set : worldLocations.entrySet()) {
+            for (Map.Entry<String, RTPWorld> location_set : RTPworldLocations.entrySet()) {
                 RTPWorld location = location_set.getValue();
                 if (location == setup_info.getLocation()) {
                     setup_name = location_set.getKey();
@@ -100,7 +97,7 @@ public class RTP {
         if (!pWorld.isSetup()) {
             WorldPermissionGroup group = null;
             if (pWorld.getPlayer() != null)
-                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().worldPermissionGroups.entrySet()) {
+                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().permissionGroups.entrySet()) {
                     for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
                         if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
                             if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
@@ -120,27 +117,31 @@ public class RTP {
                 pWorld.config = group;
             }
             //Custom World
-            else if (customWorlds.containsKey(setup_info.getWorld().getName())) {
-                RTPWorld cWorld = customWorlds.get(pWorld.getWorld().getName());
+            else if (RTPcustomWorld.containsKey(setup_info.getWorld().getName())) {
+                RTPWorld cWorld = RTPcustomWorld.get(pWorld.getWorld().getName());
                 pWorld.setup(null, cWorld, setup_info.getBiomes(), setup_info.isPersonalized());
             }
             //Default World
             else
-                pWorld.setup(null, defaultWorld, setup_info.getBiomes(), setup_info.isPersonalized());
+                pWorld.setup(null, RTPdefaultWorld, setup_info.getBiomes(), setup_info.isPersonalized());
         }
         //World type
+        pWorld.setWorldtype(getWorldType(pWorld));
+        return pWorld;
+    }
+
+    public static WORLD_TYPE getWorldType(RTPWorld pWorld) {
         WORLD_TYPE world_type;
-        if (this.world_type.containsKey(setup_info.getWorld().getName()))
-            world_type = this.world_type.get(setup_info.getWorld().getName());
+        RTP rtp = BetterRTP.getInstance().getRTP();
+        if (rtp.world_type.containsKey(pWorld.getWorld().getName()))
+            world_type = rtp.world_type.get(pWorld.getWorld().getName());
         else {
             world_type = WORLD_TYPE.NORMAL;
-            this.world_type.put(setup_info.getWorld().getName(), world_type); //Defaults this so the error message isn't spammed
-            getPl().getLogger().warning("Seems like the world `" + setup_info.getWorld() + "` does not have a `WorldType` declared. " +
-                    "Please add/fix this in the config.yml file! " +
-                    "This world will be treated as an overworld!");
+            rtp.world_type.put(pWorld.getWorld().getName(), world_type); //Defaults this so the error message isn't spammed
+            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + pWorld.getWorld() + "` does not have a `WorldType` declared. " +
+                    "Please add/fix this in the config.yml file! This world will be treated as an overworld!");
         }
-        pWorld.setWorldtype(world_type);
-        return pWorld;
+        return world_type;
     }
 
     public void start(RTPSetupInformation setup_info) {

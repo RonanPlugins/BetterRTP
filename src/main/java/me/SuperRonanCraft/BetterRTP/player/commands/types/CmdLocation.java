@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
@@ -81,7 +80,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     private static HashMap<String, RTPWorld> getLocations() {
-        return BetterRTP.getInstance().getRTP().worldLocations;
+        return BetterRTP.getInstance().getRTP().RTPworldLocations;
     }
 
     //Get locations a player has access to

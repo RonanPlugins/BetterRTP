@@ -1,13 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -44,33 +42,36 @@ public class RTPPlayer {
             RTP_FindLocationEvent event = new RTP_FindLocationEvent(p, pWorld); //Find a queue'd location
             Bukkit.getServer().getPluginManager().callEvent(event);
             Location loc;
-            if (event.getLocation() != null && pWorld.checkIsValid(event.getLocation()))
+            if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
                 loc = event.getLocation();
             else
-                loc = pWorld.generateLocation();
+                loc = WorldPlayer.generateLocation(pWorld);
             attempts++; //Add an attempt
             //Load chunk and find out if safe location (asynchronously)
             CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
             chunk.thenAccept(result -> {
                 //BetterRTP.debug("Checking location for " + p.getName());
                 Location tpLoc;
-                float yaw = p.getLocation().getYaw();
-                float pitch = p.getLocation().getPitch();
-                switch (pWorld.getWorldtype()) { //Get a Y position and check for bad blocks
-                    case NETHER:
-                        tpLoc = getLocAtNether(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld); break;
-                    case NORMAL:
-                    default:
-                        tpLoc = getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), pWorld.getWorld(), yaw, pitch, pWorld);
-                }
+                tpLoc = getSafeLocation(pWorld.getWorldtype(), pWorld.getWorld(), loc, pWorld.getMinY(), pWorld.getMaxY(), pWorld.getBiomes());
                 attemptedLocations.add(loc);
                 //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc)) {
-                    if (getPl().getEco().charge(p, pWorld))
+                    if (getPl().getEco().charge(p, pWorld)) {
+                        tpLoc.setYaw(p.getLocation().getYaw());
+                        tpLoc.setPitch(p.getLocation().getPitch());
                         settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), attempts, type, pWorld.getWorldtype());
+                    }
                 } else
                     randomlyTeleport(sendi);
             });
+        }
+    }
+
+    public static Location getSafeLocation(WORLD_TYPE type, World world, Location loc, int minY, int maxY, List<String> biomes) {
+        switch (type) { //Get a Y position and check for bad blocks
+            case NETHER: return getLocAtNether(loc.getBlockX(), loc.getBlockZ(), minY, maxY, world, biomes);
+            case NORMAL:
+            default: return getLocAtNormal(loc.getBlockX(), loc.getBlockZ(), minY, maxY, world, biomes);
         }
     }
 
@@ -86,54 +87,54 @@ public class RTPPlayer {
         getPl().getpInfo().getRtping().put(p, false);
     }
 
-    private Location getLocAtNormal(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {
+    private static Location getLocAtNormal(int x, int z, int minY, int maxY, World world, List<String> biomes) {
         Block b = world.getHighestBlockAt(x, z);
         if (b.getType().toString().endsWith("AIR")) //1.15.1 or less
             b = world.getBlockAt(x, b.getY() - 1, z);
         else if (!b.getType().isSolid()) { //Water, lava, shrubs...
-            if (!badBlock(b.getType().name(), x, z, pWorld.getWorld(), null)) { //Make sure it's not an invalid block (ex: water, lava...)
+            if (!badBlock(b.getType().name(), x, z, world, null)) { //Make sure it's not an invalid block (ex: water, lava...)
                 //int y = world.getHighestBlockYAt(x, z);
                 b = world.getBlockAt(x, b.getY() - 1, z);
             }
         }
         //Between max and min y
-        if (    b.getY() >= pWorld.getMinY()
-                && b.getY() <= pWorld.getMaxY()
-                && !badBlock(b.getType().name(), x, z, pWorld.getWorld(), pWorld.getBiomes())) {
-            return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5), yaw, pitch);
+        if (    b.getY() >= minY
+                && b.getY() <= maxY
+                && !badBlock(b.getType().name(), x, z, world, biomes)) {
+            return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5));
         }
         return null;
     }
 
-    private Location getLocAtNether(int x, int z, World world, Float yaw, Float pitch, WorldPlayer pWorld) {
+    private static Location getLocAtNether(int x, int z, int minY, int maxY, World world, List<String> biomes) {
         //Max and Min Y
-        for (int y = pWorld.getMinY() + 1; y < pWorld.getMaxY()/*world.getMaxHeight()*/; y++) {
+        for (int y = minY + 1; y < maxY/*world.getMaxHeight()*/; y++) {
             Block block_current = world.getBlockAt(x, y, z);
             if (block_current.getType().name().endsWith("AIR") || !block_current.getType().isSolid()) {
                 if (!block_current.getType().name().endsWith("AIR") &&
                         !block_current.getType().isSolid()) { //Block is not a solid (ex: lava, water...)
                     String block_in = block_current.getType().name();
-                    if (badBlock(block_in, x, z, pWorld.getWorld(), null))
+                    if (badBlock(block_in, x, z, world, null))
                         continue;
                 }
                 String block = world.getBlockAt(x, y - 1, z).getType().name();
                 if (block.endsWith("AIR")) //Block below is air, skip
                     continue;
                 if (world.getBlockAt(x, y + 1, z).getType().name().endsWith("AIR") //Head space
-                        && !badBlock(block, x, z, pWorld.getWorld(), pWorld.getBiomes())) //Valid block
-                    return new Location(world, (x + 0.5), y, (z + 0.5), yaw, pitch);
+                        && !badBlock(block, x, z, world, biomes)) //Valid block
+                    return new Location(world, (x + 0.5), y, (z + 0.5));
             }
         }
         return null;
     }
 
-    private boolean checkDepends(Location loc) {
-        return settings.softDepends.checkLocation(loc);
+    public static boolean checkDepends(Location loc) {
+        return BetterRTP.getInstance().getRTP().softDepends.checkLocation(loc);
     }
 
     // Bad blocks, or bad biome
-    private boolean badBlock(String block, int x, int z, World world, List<String> biomes) {
-        for (String currentBlock : settings.blockList) //Check Block
+    public static boolean badBlock(String block, int x, int z, World world, List<String> biomes) {
+        for (String currentBlock : BetterRTP.getInstance().getRTP().blockList) //Check Block
             if (currentBlock.toUpperCase().equals(block))
                 return true;
         //Check Biomes

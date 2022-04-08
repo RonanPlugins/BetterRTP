@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,6 +35,7 @@ public class DatabaseQueue extends SQLite {
         Z("z", "long"),
         WORLD("world", "varchar(32)"),
         GENERATED("generated", "long"),
+        //IDENTIFIER("identifier", "varchar(32)"),
         //USES("uses", "integer"),
         ;
 
@@ -63,6 +63,7 @@ public class DatabaseQueue extends SQLite {
                 long y = rs.getLong(COLUMNS.Y.name);
                 long z = rs.getLong(COLUMNS.Z.name);
                 String worldName = rs.getString(COLUMNS.WORLD.name);
+                //String id = rs.getString(COLUMNS.IDENTIFIER.name);
                 long generated = rs.getLong(COLUMNS.GENERATED.name);
                 World world = Bukkit.getWorld(worldName);
                 if (world != null) {

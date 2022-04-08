@@ -7,8 +7,6 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
 
@@ -65,7 +63,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                 if (maxRad <= 0) {
                     BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
-                    maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                    maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                 }
             }
             if (field.equalsIgnoreCase("MinRadius")) {
@@ -76,9 +74,9 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                 if (minRad < 0 || minRad >= maxRad) {
                     BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
-                    minRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius();
+                    minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
                     if (minRad >= maxRad)
-                        maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                        maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                 }
             }
             if (field.equalsIgnoreCase("Biomes")) {

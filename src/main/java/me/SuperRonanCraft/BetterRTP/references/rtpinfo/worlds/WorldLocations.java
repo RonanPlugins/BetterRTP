@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private List<String> biomes;
     private World world;
     private RTP_SHAPE shape;
+    private String name;
 
     public WorldLocations(String location_name) {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);
@@ -24,6 +26,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
         //WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
 
         setupDefaults();
+        this.name = location_name;
 
         //Find Location and cache its values
         for (Map<?, ?> m : map) {
@@ -61,7 +64,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (maxRad <= 0) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
-                        maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                        maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                     }
                 }
                 if (test.get("MinRadius") != null) {
@@ -70,9 +73,9 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (minRad < 0 || minRad >= maxRad) {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
-                        minRad = BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius();
+                        minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
                         if (minRad >= maxRad)
-                            maxRad = BetterRTP.getInstance().getRTP().defaultWorld.getMaxRadius();
+                            maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                     }
                 }
                 if (test.get("Biomes") != null) {
@@ -173,6 +176,12 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public int getMaxY() {
         return maxy;
+    }
+
+    @Nullable
+    @Override
+    public String getID() {
+        return name;
     }
 
     //Setters

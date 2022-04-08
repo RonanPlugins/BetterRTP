@@ -31,7 +31,7 @@ public interface RTPWorld_Defaulted {
     void setMaxY(int value);
 
     default void setupDefaults() {
-        setAllFrom(BetterRTP.getInstance().getRTP().defaultWorld);
+        setAllFrom(BetterRTP.getInstance().getRTP().RTPdefaultWorld);
     }
 
     default void setAllFrom(RTPWorld rtpWorld) {

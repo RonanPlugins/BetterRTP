@@ -48,7 +48,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                         return;
                     case LOCATION:
                         if (args.length >= 5) {
-                            for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().worldLocations.entrySet()) {
+                            for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().RTPworldLocations.entrySet()) {
                                 if (location.getKey().equals(args[2])) {
                                     for (RTP_CMD_EDIT_SUB sub_cmd : RTP_CMD_EDIT_SUB.values())
                                         if (sub_cmd.name().equalsIgnoreCase(args[3])) {
@@ -66,7 +66,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                         return;
                     case PERMISSION_GROUP:
                         if (BetterRTP.getInstance().getSettings().isPermissionGroupEnabled() && args.length >= 6) {
-                            for (String group : BetterRTP.getInstance().getRTP().worldPermissionGroups.keySet()) {
+                            for (String group : BetterRTP.getInstance().getRTP().permissionGroups.keySet()) {
                                 if (group.equals(args[2])) {
                                     for (World world : Bukkit.getWorlds()) {
                                         if (world.getName().equals(args[3])) {
@@ -156,12 +156,12 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
                                     list.add(world.getName());
                             break;
                         case PERMISSION_GROUP:
-                            for (String group : BetterRTP.getInstance().getRTP().worldPermissionGroups.keySet())
+                            for (String group : BetterRTP.getInstance().getRTP().permissionGroups.keySet())
                                 if (group.toLowerCase().startsWith(args[2].toLowerCase()))
                                     list.add(group);
                             break;
                         case LOCATION:
-                            for (String location : BetterRTP.getInstance().getRTP().worldLocations.keySet())
+                            for (String location : BetterRTP.getInstance().getRTP().RTPworldLocations.keySet())
                                 if (location.toLowerCase().startsWith(args[2].toLowerCase()))
                                     list.add(location);
                             break;

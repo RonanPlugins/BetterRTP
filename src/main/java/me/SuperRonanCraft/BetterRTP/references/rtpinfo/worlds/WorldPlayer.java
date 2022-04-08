@@ -3,10 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -70,7 +67,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         }
         //Make sure our borders will not cause an invalid integer
         if (getMaxRadius() <= getMinRadius()) {
-            setMinRadius(BetterRTP.getInstance().getRTP().defaultWorld.getMinRadius());
+            setMinRadius(BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius());
             if (getMaxRadius() <= getMinRadius())
                 setMinRadius(0);
         }
@@ -81,38 +78,39 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         setup = true;
     }
 
-    public boolean checkIsValid(Location loc) { //Will check if a previously given location is valid
-        if (loc.getWorld() != getWorld())
+    public static boolean checkIsValid(Location loc, RTPWorld rtpWorld) { //Will check if a previously given location is valid
+        if (loc.getWorld() != rtpWorld.getWorld())
             return false;
-        int _xLMax = getCenterX() - getMaxRadius(); //I|-||
-        int _xLMin = getCenterX() - getMinRadius(); //|I-||
-        int _xRMax = getCenterX() + getMaxRadius(); //||-|I
-        int _xRMin = getCenterX() + getMinRadius(); //||-I|
+        int _xLMax = rtpWorld.getCenterX() - rtpWorld.getMaxRadius(); //I|-||
+        int _xLMin = rtpWorld.getCenterX() - rtpWorld.getMinRadius(); //|I-||
+        int _xRMax = rtpWorld.getCenterX() + rtpWorld.getMaxRadius(); //||-|I
+        int _xRMin = rtpWorld.getCenterX() + rtpWorld.getMinRadius(); //||-I|
         int _xLoc = loc.getBlockX();
         if (_xLoc < _xLMax || (_xLoc > _xLMin && _xLoc < _xRMin) || _xLoc > _xRMax)
             return false;
-        int _zLMax = getCenterZ() - getMaxRadius(); //I|-||
-        int _zLMin = getCenterZ() - getMinRadius(); //|I-||
-        int _zRMax = getCenterZ() + getMaxRadius(); //||-|I
-        int _zRMin = getCenterZ() + getMinRadius(); //||-I|
+        int _zLMax = rtpWorld.getCenterZ() - rtpWorld.getMaxRadius(); //I|-||
+        int _zLMin = rtpWorld.getCenterZ() - rtpWorld.getMinRadius(); //|I-||
+        int _zRMax = rtpWorld.getCenterZ() + rtpWorld.getMaxRadius(); //||-|I
+        int _zRMin = rtpWorld.getCenterZ() + rtpWorld.getMinRadius(); //||-I|
         int _zLoc = loc.getBlockX();
         return _zLoc >= _zLMax && (_zLoc <= _zLMin || _zLoc >= _zRMin) && _zLoc <= _zRMax;
     }
 
-    public Location generateLocation() {
+    public static Location generateLocation(RTPWorld rtpWorld) {
         Location loc;
-        switch (shape) {
+        switch (rtpWorld.getShape()) {
             case CIRCLE:
-                loc = generateRound(getMaxRadius(), getMinRadius()); break;
+                loc = generateRound(rtpWorld); break;
             default:
-                loc = generateSquare(getMaxRadius(), getMinRadius()); break;
+                loc = generateSquare(rtpWorld); break;
         }
         return loc;
     }
 
-    private Location generateSquare(int maxRad, int min) {
+    private static Location generateSquare(RTPWorld rtpWorld) {
         //Generate a random X and Z based off the quadrant selected
-        int max = maxRad - min;
+        int min = rtpWorld.getMinRadius();
+        int max = rtpWorld.getMaxRadius() - min;
         int x, z;
         int quadrant = new Random().nextInt(4);
         switch (quadrant) {
@@ -129,29 +127,30 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
                 x = new Random().nextInt(max) + min;
                 z = -(new Random().nextInt(max) + min); break;
         }
-        x += getCenterX();
-        z += getCenterZ();
+        x += rtpWorld.getCenterX();
+        z += rtpWorld.getCenterZ();
         //System.out.println(quadrant);
-        return new Location(getWorld(), x, 0, z);
+        return new Location(rtpWorld.getWorld(), x, 0, z);
     }
 
-    private Location generateRound(int maxRad, int min) {
+    private static Location generateRound(RTPWorld rtpWorld) {
         //Generate a random X and Z based off location on a spiral curve
-        int max = maxRad - min;
+        int min = rtpWorld.getMinRadius();
+        int max = rtpWorld.getMaxRadius() - min;
         int x, z;
 
         double area = Math.PI * (max - min) * (max + min); //of all the area in this donut
         double subArea = area * new Random().nextDouble(); //pick a random subset of that area
 
-        double r = Math.sqrt(subArea/Math.PI + min*min); //convert area to radius
+        double r = Math.sqrt(subArea/Math.PI + min * min); //convert area to radius
         double theta = (r - (int) r) * 2 * Math.PI; //use the remainder as an angle
 
         // polar to cartesian
         x = (int) (r * Math.cos(theta));
         z = (int) (r * Math.sin(theta));
-        x += getCenterX();
-        z += getCenterZ();
-        return new Location(getWorld(), x, 0, z);
+        x += rtpWorld.getCenterX();
+        z += rtpWorld.getCenterZ();
+        return new Location(rtpWorld.getWorld(), x, 0, z);
     }
 
     @NotNull

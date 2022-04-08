@@ -19,6 +19,7 @@ public class WarningHandler {
     }
 
     public enum WARNING {
-        USELOCATION_ENABLED_NO_LOCATION_AVAILABLE
+        USELOCATION_ENABLED_NO_LOCATION_AVAILABLE,
+        NO_WORLD_TYPE_DECLARED
     }
 }

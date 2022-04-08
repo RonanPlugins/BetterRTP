@@ -38,7 +38,7 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final PlayerDataManager playerDataManager = new PlayerDataManager();
     private final Settings settings = new Settings();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
-    private final QueueHandler queue = new QueueHandler();
+    @Getter private final QueueHandler queue = new QueueHandler();
     @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
     @Getter private final WarningHandler warningHandler = new WarningHandler();
 
