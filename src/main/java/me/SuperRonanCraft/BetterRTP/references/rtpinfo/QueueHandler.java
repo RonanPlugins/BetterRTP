@@ -21,11 +21,17 @@ public class QueueHandler implements Listener { //Randomly queues up some random
     private final int queueSize = 32;
 
     public void registerEvents(BetterRTP pl) {
+        //DEBUG ONLY FOR THE TIME BEING
+        if (!BetterRTP.getInstance().getSettings().isDebug())
+            return;
         PluginManager pm = pl.getServer().getPluginManager();
         pm.registerEvents(this, pl);
     }
 
     public void load() {
+        //DEBUG ONLY FOR THE TIME BEING
+        if (!BetterRTP.getInstance().getSettings().isDebug())
+            return;
         loaded = false;
         queueDownload();
     }

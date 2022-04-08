@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.EventListener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
+import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
@@ -39,6 +40,7 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
     private final QueueHandler queue = new QueueHandler();
     @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
+    @Getter private final WarningHandler warningHandler = new WarningHandler();
 
     public void onEnable() {
         instance = this;
