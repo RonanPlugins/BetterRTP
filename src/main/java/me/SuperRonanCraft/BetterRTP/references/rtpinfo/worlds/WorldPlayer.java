@@ -99,10 +99,9 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     public static Location generateLocation(RTPWorld rtpWorld) {
         Location loc;
         switch (rtpWorld.getShape()) {
-            case CIRCLE:
-                loc = generateRound(rtpWorld); break;
-            default:
-                loc = generateSquare(rtpWorld); break;
+            case CIRCLE: loc = generateRound(rtpWorld); break;
+            case SQUARE:
+            default: loc = generateSquare(rtpWorld); break;
         }
         return loc;
     }
@@ -130,7 +129,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         x += rtpWorld.getCenterX();
         z += rtpWorld.getCenterZ();
         //System.out.println(quadrant);
-        return new Location(rtpWorld.getWorld(), x, 0, z);
+        return new Location(rtpWorld.getWorld(), x, 69, z);
     }
 
     private static Location generateRound(RTPWorld rtpWorld) {
@@ -150,7 +149,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         z = (int) (r * Math.sin(theta));
         x += rtpWorld.getCenterX();
         z += rtpWorld.getCenterZ();
-        return new Location(rtpWorld.getWorld(), x, 0, z);
+        return new Location(rtpWorld.getWorld(), x, 69, z);
     }
 
     @NotNull

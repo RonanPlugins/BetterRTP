@@ -124,8 +124,7 @@ public class WorldDefault implements RTPWorld {
         return Biomes;
     }
 
-    @NotNull
-    @Override
+    @NotNull @Override
     public World getWorld() {
         return null;
     }

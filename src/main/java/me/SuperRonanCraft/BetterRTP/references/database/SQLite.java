@@ -140,6 +140,8 @@ public abstract class SQLite {
     private Enum<?>[] getColumns(DATABASE_TYPE type) {
         switch (type) {
             case PLAYERS: return DatabasePlayers.COLUMNS.values();
+            case QUEUE: return DatabaseQueue.COLUMNS.values();
+            case COOLDOWN:
             default: return DatabaseCooldownsWorlds.COLUMNS.values();
         }
     }
@@ -147,6 +149,8 @@ public abstract class SQLite {
     private String getColumnName(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).name;
+            case QUEUE: return ((DatabaseQueue.COLUMNS) column).name;
+            case COOLDOWN:
             default: return ((DatabaseCooldownsWorlds.COLUMNS) column).name;
         }
     }
@@ -154,6 +158,8 @@ public abstract class SQLite {
     private String getColumnType(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).type;
+            case QUEUE: return ((DatabaseQueue.COLUMNS) column).type;
+            case COOLDOWN:
             default: return ((DatabaseCooldownsWorlds.COLUMNS) column).type;
         }
     }
@@ -250,6 +256,6 @@ public abstract class SQLite {
     public enum DATABASE_TYPE {
         PLAYERS,
         COOLDOWN,
-        COOLDOWN_GLOBAL, //Table to know last time in general player has a cooldown for
+        QUEUE,
     }
 }

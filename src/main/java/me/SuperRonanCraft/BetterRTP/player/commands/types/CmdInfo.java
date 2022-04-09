@@ -155,7 +155,10 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
             case "centerz":
                 return worldPlayer.getUseWorldborder() || worldPlayer.getCenterZ() == worldDefault.getCenterZ() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
             case "maxrad":
-                return worldPlayer.getUseWorldborder() || worldPlayer.getMaxRadius() == worldDefault.getMaxRadius() ? worldPlayer.getUseWorldborder() ? " &8(worldborder)" : " &8(default)" : "";
+                return worldPlayer.getUseWorldborder() || worldPlayer.getMaxRadius() == worldDefault.getMaxRadius() ?
+                        worldPlayer.getUseWorldborder() ?
+                        worldPlayer.getMaxRadius() >= worldPlayer.getWorld().getWorldBorder().getSize() ?
+                                " &8(worldborder)" : " &8(custom)" : " &8(default)" : "";
             case "minrad":
                 return worldPlayer.getMinRadius() == worldDefault.getMinRadius() ? " &8(default)" : "";
             case "price":

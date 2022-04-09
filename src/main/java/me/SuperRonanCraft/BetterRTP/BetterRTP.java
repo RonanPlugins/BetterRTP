@@ -130,6 +130,7 @@ public class BetterRTP extends JavaPlugin {
         listener.load();
         eco.load();
         perms.register();
+        queue.load();
     }
 
     public static void debug(String str) {

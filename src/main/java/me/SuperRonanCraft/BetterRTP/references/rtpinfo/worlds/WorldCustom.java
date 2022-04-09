@@ -134,6 +134,11 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
         //this.Biomes = config.getStringList("CustomWorlds." + world + ".Biomes");
     }
 
+    public WorldCustom(World world, RTPWorld rtpWorld) {
+        setAllFrom(rtpWorld);
+        this.world = world;
+    }
+
     @Override
     public boolean getUseWorldborder() {
         return useWorldborder;

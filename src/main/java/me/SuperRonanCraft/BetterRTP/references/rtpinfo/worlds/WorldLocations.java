@@ -18,7 +18,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private List<String> biomes;
     private World world;
     private RTP_SHAPE shape;
-    private String name;
+    private final String name;
 
     public WorldLocations(String location_name) {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);

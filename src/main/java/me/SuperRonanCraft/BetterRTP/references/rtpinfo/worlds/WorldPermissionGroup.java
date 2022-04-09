@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -159,7 +160,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
         return biomes;
     }
 
-    @Override
+    @NotNull @Override
     public @NonNull World getWorld() {
         return world;
     }
