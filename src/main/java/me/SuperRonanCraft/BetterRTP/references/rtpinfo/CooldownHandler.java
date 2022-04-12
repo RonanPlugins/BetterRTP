@@ -64,12 +64,12 @@ public class CooldownHandler {
         PlayerData playerData = getData(player);
         if (cooldownByWorld) {
             HashMap<World, CooldownData> cooldowns = playerData.getCooldowns();
-            CooldownData data = cooldowns.getOrDefault(world, new CooldownData(player.getUniqueId(), 0L, world));
+            CooldownData data = cooldowns.getOrDefault(world, new CooldownData(player.getUniqueId(), 0L));
             playerData.setRtpCount(playerData.getRtpCount() + 1);
             data.setTime(System.currentTimeMillis());
             playerData.setGlobalCooldown(data.getTime());
             cooldowns.put(world, data);
-            savePlayer(player, data, false);
+            savePlayer(player, world, data, false);
         } else
             add(player);
     }
@@ -79,7 +79,7 @@ public class CooldownHandler {
         PlayerData playerData = getData(player);
         playerData.setRtpCount(playerData.getRtpCount() + 1);
         playerData.setGlobalCooldown(System.currentTimeMillis());
-        savePlayer(player, null, false);
+        savePlayer(player, null, null, false);
     }
 
     @Nullable
@@ -90,7 +90,7 @@ public class CooldownHandler {
             if (data != null)
                 return cooldownData.getOrDefault(world, null);
         } else if (data.getGlobalCooldown() > 0) {
-            return new CooldownData(p.getUniqueId(), data.getGlobalCooldown(), null);
+            return new CooldownData(p.getUniqueId(), data.getGlobalCooldown());
         }
         return null;
     }
@@ -115,24 +115,24 @@ public class CooldownHandler {
             if (lockedAfter > 0) {
                 //uses.put(id, uses.getOrDefault(id, 1) - 1);
                 if (playerData.getRtpCount() <= 0) { //Remove from file as well
-                    savePlayer(player, cooldownData, true);
+                    savePlayer(player, world, cooldownData, true);
                     getData(player).getCooldowns().put(world, null);
                 } else { //Keep the player cached
-                    savePlayer(player, cooldownData, false);
+                    savePlayer(player, world, cooldownData, false);
                 }
             } else { //Remove completely
                 getData(player).getCooldowns().remove(world);
-                savePlayer(player, cooldownData, true);
+                savePlayer(player, world, cooldownData, true);
             }
     }
 
-    private void savePlayer(Player player, @Nullable CooldownData data, boolean remove) {
+    private void savePlayer(Player player, @Nullable World world, @Nullable CooldownData data, boolean remove) {
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-                if (data != null && getDatabaseWorlds() != null) { //Per World enabled?
+                if (world != null && data != null && getDatabaseWorlds() != null) { //Per World enabled?
                     if (!remove)
-                        getDatabaseWorlds().setCooldown(data);
+                        getDatabaseWorlds().setCooldown(world, data);
                     else
-                        getDatabaseWorlds().removePlayer(data.getUuid(), data.getWorld());
+                        getDatabaseWorlds().removePlayer(data.getUuid(), world);
                 }
                 DatabaseHandler.getPlayers().setData(getData(player));
             });

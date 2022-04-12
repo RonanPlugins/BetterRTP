@@ -138,8 +138,9 @@ public class RTP {
         else {
             world_type = WORLD_TYPE.NORMAL;
             rtp.world_type.put(pWorld.getWorld().getName(), world_type); //Defaults this so the error message isn't spammed
-            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + pWorld.getWorld() + "` does not have a `WorldType` declared. " +
-                    "Please add/fix this in the config.yml file! This world will be treated as an overworld!");
+            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + pWorld.getWorld().getName() + "` does not have a `WorldType` declared. " +
+                    "Please add/fix this in the config.yml file! This world will be treated as an overworld! " +
+                    "If this world is a nether world, configure it to NETHER (example: `- " + pWorld.getWorld().getName() + ": NETHER`", false);
         }
         return world_type;
     }

@@ -44,13 +44,13 @@ public class DatabaseCooldownsWorlds extends SQLite {
         }
     }
 
-    public boolean removePlayer(UUID uuid, World world) {
+    public void removePlayer(UUID uuid, World world) {
         String sql = "DELETE FROM " + world.getName() + " WHERE "
                 + COLUMNS.UUID.name + " = ?";
         List<Object> params = new ArrayList<Object>() {{
             add(uuid.toString());
         }};
-        return sqlUpdate(sql, params);
+        sqlUpdate(sql, params);
     }
 
     public CooldownData getCooldown(UUID uuid, World world) {
@@ -66,7 +66,7 @@ public class DatabaseCooldownsWorlds extends SQLite {
             if (rs.next()) {
                 Long time = rs.getLong(COLUMNS.COOLDOWN_DATE.name);
                 //int uses = rs.getInt(COLUMNS.USES.name);
-                return new CooldownData(uuid, time, world);
+                return new CooldownData(uuid, time);
             }
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
@@ -77,9 +77,9 @@ public class DatabaseCooldownsWorlds extends SQLite {
     }
 
     //Set a player Cooldown
-    public void setCooldown(CooldownData data) {
+    public void setCooldown(World world, CooldownData data) {
         String pre = "INSERT OR REPLACE INTO ";
-        String sql = pre + data.getWorld().getName() + " ("
+        String sql = pre + world.getName() + " ("
                 + COLUMNS.UUID.name + ", "
                 + COLUMNS.COOLDOWN_DATE.name + " "
                 //+ COLUMNS.USES.name + " "

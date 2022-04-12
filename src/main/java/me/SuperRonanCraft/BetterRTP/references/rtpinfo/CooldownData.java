@@ -11,11 +11,9 @@ public class CooldownData {
 
     @Getter private final UUID uuid;
     @Getter @Setter private Long time;
-    @Getter private final @Nullable World world;
 
-    public CooldownData(UUID uuid, Long time, @Nullable World world) {
+    public CooldownData(UUID uuid, Long time) {
         this.uuid = uuid;
         this.time = time;
-        this.world = world;
     }
 }

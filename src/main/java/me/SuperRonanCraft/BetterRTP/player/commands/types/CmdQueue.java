@@ -23,7 +23,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CmdQueue implements RTPCommand, RTPCommandHelpable {
+public class CmdQueue implements RTPCommand {
 
     public String getName() {
         return "queue";
@@ -34,11 +34,6 @@ public class CmdQueue implements RTPCommand, RTPCommandHelpable {
             sendInfo(sendi, queueGetWorld(Bukkit.getWorld(args[1])));
         } else
             queueWorlds(sendi);
-    }
-
-    @Override
-    public String getHelp() {
-        return null;
     }
 
     //World
@@ -53,7 +48,7 @@ public class CmdQueue implements RTPCommand, RTPCommandHelpable {
         List<String> info = new ArrayList<>();
         for (World w : Bukkit.getWorlds())
             info.addAll(queueGetWorld(w));
-        info.add("&eTotal of &a%amount% generated locations".replace("%amount%", String.valueOf(QueueHandler.getCount())));
+        info.add("&eTotal of &a%amount% &egenerated locations".replace("%amount%", String.valueOf(QueueHandler.getCount())));
         sendInfo(sendi, info);
     }
 
@@ -61,7 +56,7 @@ public class CmdQueue implements RTPCommand, RTPCommandHelpable {
         List<String> info = new ArrayList<>();
         info.add("&eWorld: &6" + world.getName());
         for (QueueData queue : QueueHandler.getApplicable(world)) {
-            String str = "&7x= &b%x, &7z= &b%z";
+            String str = "&8- &7x= &b%x, &7z= &b%z";
             Location loc = queue.getLocation();
             str = str.replace("%x", String.valueOf(loc.getBlockX())).replace("%z", String.valueOf(loc.getBlockZ()));
             info.add(str);

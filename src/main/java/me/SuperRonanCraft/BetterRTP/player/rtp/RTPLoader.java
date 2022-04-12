@@ -31,8 +31,8 @@ public class RTPLoader {
                             exists.set(true);
                     });
                     if (exists.get()) {
+                        BetterRTP.debug("- Custom World '" + world + "' registered:");
                         customWorlds.put(world, new WorldCustom(Bukkit.getWorld(world)));
-                        BetterRTP.debug("- Custom World '" + world + "' successfully registered");
                     } else
                         BetterRTP.debug("[WARN] - Custom World '" + world + "' was not registered because world does NOT exist");
                 }
