@@ -15,6 +15,7 @@ import java.util.*;
 public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int CenterX, CenterZ, maxRad, minRad, price, min_y, max_y;
+    private long cooldown;
     private List<String> Biomes;
     @Getter private final Player player;
     private final World world;
@@ -32,7 +33,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         this.world = world;
     }
 
-    public void setup(String setup_name, RTPWorld world, List<String> biomes, boolean personal) {
+    public void setup(String setup_name, RTPWorld world, List<String> biomes) {
         if (world instanceof WorldLocations) {
             setup_type = RTP_SETUP_TYPE.LOCATION;
         } else if (world instanceof WorldCustom) {
@@ -74,7 +75,8 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         //MinY
         setMinY(world.getMinY());
         setMaxY(world.getMaxY());
-        //min_y = world.getWorld().getBlockAt(0, -1, 0).getType() != Material.AIR ?
+        //Cooldown
+        setCooldown(world.getCooldown());
         setup = true;
     }
 
@@ -264,6 +266,11 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         this.max_y = value;
     }
 
+    @Override
+    public void setCooldown(long value) {
+        this.cooldown = value;
+    }
+
     public WorldPermissionGroup getConfig() {
         return this.config;
     }
@@ -279,5 +286,10 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public int getMaxY() {
         return max_y;
+    }
+
+    @Override
+    public long getCooldown() {
+        return cooldown;
     }
 }

@@ -143,4 +143,9 @@ public class WorldDefault implements RTPWorld {
     public int getMaxY() {
         return maxy;
     }
+
+    @Override
+    public long getCooldown() {
+        return BetterRTP.getInstance().getCooldowns().getDefaultCooldownTime();
+    }
 }

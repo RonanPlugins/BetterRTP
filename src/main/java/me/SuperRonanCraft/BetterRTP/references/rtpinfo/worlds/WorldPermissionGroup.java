@@ -240,6 +240,11 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
         this.maxy = value;
     }
 
+    @Override
+    public void setCooldown(long value) {
+        this.cooldown = value;
+    }
+
     /*public static class RTPPermConfiguration {
 
         boolean valid;

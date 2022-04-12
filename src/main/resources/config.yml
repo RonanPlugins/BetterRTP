@@ -102,6 +102,7 @@ CustomWorlds:
       Shape: 'square'
       MaxY: 320
       MinY: 0
+      Cooldown: 60
   - other_custom_world:
       MaxRadius: 10000
       MinRadius: 150

@@ -140,10 +140,11 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 info.add("&7- &6Min Y&7: &f" + _rtpworld.getMinY());
                 info.add("&7- &eMax Y&7: &f" + _rtpworld.getMaxY());
                 info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
-                info.add("&7- &eBiomes&7: &f" + _rtpworld.getBiomes().toString());
-                info.add("&7- &6Shape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
-                info.add("&7- &ePermission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
-                info.add("&7- &6Queue Available&7: " + QueueHandler.getApplicable(_rtpworld).size());
+                info.add("&7- &eCooldown&7: &f" + _rtpworld.getCooldown() + getInfo(_rtpworld, worldDefault, "cooldown"));
+                info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
+                info.add("&7- &eShape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
+                info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
+                info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicable(_rtpworld).size());
             }
         }
         return info;
@@ -169,6 +170,8 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 return worldPlayer.getShape() == worldDefault.getShape() ? " &8(default)" : "";
             case "setup":
                 return worldPlayer.setup_type == RTP_SETUP_TYPE.LOCATION ? " &7(" + worldPlayer.setup_name + ")" : "";
+            case "cooldown":
+                return worldPlayer.getPlayer() != null ? PermissionNode.BYPASS_COOLDOWN.check(worldPlayer.getPlayer()) ? " &8(bypassing)" : "" : "&cN/A";
         }
         return "";
     }

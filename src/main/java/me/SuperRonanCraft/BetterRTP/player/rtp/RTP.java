@@ -91,7 +91,7 @@ public class RTP {
                     break;
                 }
             }
-            pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes(), setup_info.isPersonalized());
+            pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes());
         }
 
         if (!pWorld.isSetup()) {
@@ -113,17 +113,17 @@ public class RTP {
 
             //Permission Group
             if (group != null) {
-                pWorld.setup(null, group, setup_info.getBiomes(), setup_info.isPersonalized());
+                pWorld.setup(null, group, setup_info.getBiomes());
                 pWorld.config = group;
             }
             //Custom World
             else if (RTPcustomWorld.containsKey(setup_info.getWorld().getName())) {
                 RTPWorld cWorld = RTPcustomWorld.get(pWorld.getWorld().getName());
-                pWorld.setup(null, cWorld, setup_info.getBiomes(), setup_info.isPersonalized());
+                pWorld.setup(null, cWorld, setup_info.getBiomes());
             }
             //Default World
             else
-                pWorld.setup(null, RTPdefaultWorld, setup_info.getBiomes(), setup_info.isPersonalized());
+                pWorld.setup(null, RTPdefaultWorld, setup_info.getBiomes());
         }
         //World type
         pWorld.setWorldtype(getWorldType(pWorld));

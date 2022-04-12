@@ -22,7 +22,7 @@ import java.util.List;
 public class CooldownHandler {
 
     @Getter boolean enabled, loaded, cooldownByWorld;
-    @Getter private int cooldownTime; //Global Cooldown timer
+    @Getter private int defaultCooldownTime; //Global Cooldown timer
     private int lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new ArrayList<>();
     //private final DatabaseCooldownsGlobal globalCooldown = new DatabaseCooldownsGlobal();
@@ -34,7 +34,7 @@ public class CooldownHandler {
         downloading.clear();
         loaded = false;
         if (enabled) {
-            cooldownTime = config.getInt("Settings.Cooldown.Time");
+            defaultCooldownTime = config.getInt("Settings.Cooldown.Time");
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             cooldownByWorld = config.getBoolean("Settings.Cooldown.PerWorld");
         }

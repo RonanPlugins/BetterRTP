@@ -91,7 +91,7 @@ public class AddonRTPMenu implements Addon, Listener {
         if (validClick(e)) {
             e.setCancelled(true);
             MenuData data = getData((Player) e.getWhoClicked());
-            CmdTeleport.teleport(e.getWhoClicked(), "rtp", data.getWorldSlots().get(e.getSlot()).getName(), null);
+            CmdTeleport.teleport(e.getWhoClicked(), "rtp", data.getWorldSlots().get(e.getSlot()), null);
             e.getWhoClicked().closeInventory();
         }
     }

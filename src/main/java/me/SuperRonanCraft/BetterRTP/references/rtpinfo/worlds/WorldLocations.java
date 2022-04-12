@@ -15,6 +15,7 @@ import java.util.Map;
 public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
+    private long cooldown;
     private List<String> biomes;
     private World world;
     private RTP_SHAPE shape;
@@ -114,6 +115,9 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                 if (test.get("MaxY") != null)
                     if (test.get("MaxY").getClass() == Integer.class)
                         this.maxy = Integer.parseInt(test.get("MaxY").toString());
+                if (test.get("Cooldown") != null)
+                    if (test.get("Cooldown").getClass() == Long.class)
+                        this.cooldown = Long.parseLong(test.get("Cooldown").toString());
             }
         }
     }
@@ -184,6 +188,10 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
         return name;
     }
 
+    @Override
+    public long getCooldown() {
+        return cooldown;
+    }
     //Setters
 
     @Override
@@ -239,5 +247,10 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public void setMaxY(int value) {
         this.maxy = value;
+    }
+
+    @Override
+    public void setCooldown(long value) {
+        this.cooldown = value;
     }
 }

@@ -38,7 +38,5 @@ public interface RTPWorld {
         return null;
     }
 
-    default long getCooldown() {
-        return BetterRTP.getInstance().getCooldowns().getCooldownTime();
-    }
+    long getCooldown();
 }

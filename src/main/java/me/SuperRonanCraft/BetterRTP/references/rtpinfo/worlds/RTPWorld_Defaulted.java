@@ -30,6 +30,8 @@ public interface RTPWorld_Defaulted {
 
     void setMaxY(int value);
 
+    void setCooldown(long value);
+
     default void setupDefaults() {
         setAllFrom(BetterRTP.getInstance().getRTP().RTPdefaultWorld);
     }
@@ -45,5 +47,6 @@ public interface RTPWorld_Defaulted {
         setShape(rtpWorld.getShape());
         setMinY(rtpWorld.getMinY());
         setMaxY(rtpWorld.getMaxY());
+        setCooldown(rtpWorld.getCooldown());
     }
 }
