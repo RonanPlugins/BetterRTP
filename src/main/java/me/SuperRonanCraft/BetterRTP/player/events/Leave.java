@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 class Leave {
 
-    void event(PlayerQuitEvent e) {
+    static void event(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         HelperPlayer.unload(p);
     }

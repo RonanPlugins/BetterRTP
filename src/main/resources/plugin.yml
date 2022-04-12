@@ -18,6 +18,7 @@ softdepend:
     - UltimateClaims
     - Pueblos
     - Multiverse-Core #Forcing Multiverse to load BEFORE BetterRTP
+    - Essentials #adds `/back` support
 api-version: '1.13'
 
 commands:

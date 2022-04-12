@@ -61,7 +61,7 @@ class Interact {
         BetterRTP.getInstance().getCmd().commandExecuted(p, "rtp", line);
     }
 
-    private String cmd(String[] signArray) {
+    private static String cmd(String[] signArray) {
         String actions = "";
         for (int i = 1; i < signArray.length; i++) {
             String line = signArray[i];
@@ -74,7 +74,7 @@ class Interact {
         return actions;
     }
 
-    private boolean isSign(Block block) {
+    private static boolean isSign(Block block) {
         return block.getState() instanceof Sign;
     }
 }

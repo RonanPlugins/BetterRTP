@@ -112,19 +112,30 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         int max = rtpWorld.getMaxRadius() - min;
         int x, z;
         int quadrant = new Random().nextInt(4);
-        switch (quadrant) {
-            case 0: // Positive X and Z
-                x = new Random().nextInt(max) + min;
-                z = new Random().nextInt(max) + min; break;
-            case 1: // Negative X and Z
-                x = -new Random().nextInt(max) - min;
-                z = -(new Random().nextInt(max) + min); break;
-            case 2: // Negative X and Positive Z
-                x = -new Random().nextInt(max) - min;
-                z = new Random().nextInt(max) + min;  break;
-            default: // Positive X and Negative Z
-                x = new Random().nextInt(max) + min;
-                z = -(new Random().nextInt(max) + min); break;
+        try {
+            switch (quadrant) {
+                case 0: // Positive X and Z
+                    x = new Random().nextInt(max) + min;
+                    z = new Random().nextInt(max) + min;
+                    break;
+                case 1: // Negative X and Z
+                    x = -new Random().nextInt(max) - min;
+                    z = -(new Random().nextInt(max) + min);
+                    break;
+                case 2: // Negative X and Positive Z
+                    x = -new Random().nextInt(max) - min;
+                    z = new Random().nextInt(max) + min;
+                    break;
+                default: // Positive X and Negative Z
+                    x = new Random().nextInt(max) + min;
+                    z = -(new Random().nextInt(max) + min);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            BetterRTP.getInstance().getLogger().warning("A bounding location was negative! Please check your config only has positive x/z for max/min radius!");
+            BetterRTP.getInstance().getLogger().warning("Max: " + rtpWorld.getMaxRadius() + " Min: " + rtpWorld.getMinRadius());
+            return null;
         }
         x += rtpWorld.getCenterX();
         z += rtpWorld.getCenterZ();

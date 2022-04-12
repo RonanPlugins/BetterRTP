@@ -10,14 +10,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class Click {
 
-    public void click(InventoryClickEvent e) {
+    static void click(InventoryClickEvent e) {
         if (!validClick(e))
             return;
         e.setCancelled(true);
         handler(e);
     }
 
-    private void handler(InventoryClickEvent e) {
+    static private void handler(InventoryClickEvent e) {
         try {
             Player p = (Player) e.getWhoClicked();
             PlayerData data = HelperPlayer.getData(p);
@@ -28,7 +28,7 @@ public class Click {
         }
     }
 
-    private boolean validClick(InventoryClickEvent e) {
+    static private boolean validClick(InventoryClickEvent e) {
         //Not a player, or Not our inventory
         if (!(e.getWhoClicked() instanceof Player) || e.isCancelled())
             return false;

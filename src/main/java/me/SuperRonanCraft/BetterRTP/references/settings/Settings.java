@@ -21,6 +21,7 @@ public class Settings {
     @Getter private boolean locationNeedPermission;
     @Getter private boolean locationOnlyAllowInWorld;
     @Getter private boolean permissionGroupEnabled;
+    @Getter private boolean queueEnabled;
 
     public void load() { //Load Settings
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -33,6 +34,7 @@ public class Settings {
         preloadRadius = config.getInt("Settings.PreloadRadius");
         statusMessages = config.getBoolean("Settings.StatusMessages");
         permissionGroupEnabled = config.getBoolean("PermissionGroup.Enabled");
+        queueEnabled = config.getBoolean("Settings.Queue.Enabled");
         protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
         useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");

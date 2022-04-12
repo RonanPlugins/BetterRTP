@@ -12,6 +12,7 @@ public enum RTPCommandType {
     LOCATION(new CmdLocation()),
     //SETTINGS(new CmdSettings(), true),
     TEST(new CmdTest(), true),
+    Queue(new CmdQueue(), true),
     VERSION(new CmdVersion()),
     WORLD(new CmdWorld());
 

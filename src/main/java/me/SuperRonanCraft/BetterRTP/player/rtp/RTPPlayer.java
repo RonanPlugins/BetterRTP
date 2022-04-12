@@ -56,6 +56,7 @@ public class RTPPlayer {
                 attemptedLocations.add(loc);
                 //Valid location?
                 if (tpLoc != null && checkDepends(tpLoc)) {
+                    tpLoc.add(0.5, 0, 0.5); //Center location
                     if (getPl().getEco().charge(p, pWorld)) {
                         tpLoc.setYaw(p.getLocation().getYaw());
                         tpLoc.setPitch(p.getLocation().getPitch());
@@ -101,7 +102,7 @@ public class RTPPlayer {
         if (    b.getY() >= minY
                 && b.getY() <= maxY
                 && !badBlock(b.getType().name(), x, z, world, biomes)) {
-            return new Location(world, (x + 0.5), b.getY() + 1, (z + 0.5));
+            return new Location(world, x, b.getY() + 1, z);
         }
         return null;
     }
@@ -122,7 +123,7 @@ public class RTPPlayer {
                     continue;
                 if (world.getBlockAt(x, y + 1, z).getType().name().endsWith("AIR") //Head space
                         && !badBlock(block, x, z, world, biomes)) //Valid block
-                    return new Location(world, (x + 0.5), y, (z + 0.5));
+                    return new Location(world, x, y, 0.5);
             }
         }
         return null;

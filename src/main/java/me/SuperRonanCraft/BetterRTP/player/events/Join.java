@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class Join {
 
-    void event(PlayerJoinEvent e) {
+    static void event(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         updater(p);
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
@@ -22,7 +22,7 @@ public class Join {
     }
 
     //Updater
-    private void updater(Player p) {
+    private static void updater(Player p) {
         if (!getPl().getFiles().getType(FileBasics.FILETYPE.CONFIG).getBoolean("Settings.DisableUpdater") && PermissionNode.UPDATER.check(p))
             if (!getPl().getDescription().getVersion().equals(Updater.updatedVersion))
                 getPl().getText().sms(p, "&7There is currently an update for &6BetterRTP &7version &e#" +
@@ -30,12 +30,12 @@ public class Join {
     }
 
     //RTP on first join
-    private void rtpOnFirstJoin(Player p) {
+    private static void rtpOnFirstJoin(Player p) {
         if (getPl().getSettings().isRtpOnFirstJoin_Enabled() && !p.hasPlayedBefore())
             HelperRTP.tp(p, Bukkit.getConsoleSender(), Bukkit.getWorld(getPl().getSettings().getRtpOnFirstJoin_World()), null, RTP_TYPE.JOIN); //Console is sender to override delays
     }
 
-    private BetterRTP getPl() {
+    private static BetterRTP getPl() {
         return BetterRTP.getInstance();
     }
 }

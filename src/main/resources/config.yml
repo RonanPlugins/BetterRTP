@@ -47,6 +47,8 @@ Settings:
     Enabled: true
     Time: 5
     CancelOnMove: true
+  Queue:
+    Enabled: true #Allows betterrtp to automatically queue up safe rtp locations prior to players executing `/rtp`
   DisableUpdater: false
 
 Default:

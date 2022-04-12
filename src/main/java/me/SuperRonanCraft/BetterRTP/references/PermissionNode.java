@@ -1,13 +1,13 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.depends.DepPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public enum PermissionNode {
 
+    ADMIN("admin"),
     USE("use"),
     BYPASS_ECONOMY("bypass.economy"),
     BYPASS_HUNGER("bypass.hunger"),
@@ -21,7 +21,6 @@ public enum PermissionNode {
     BIOME("biome"),
     WORLD("world"),
     SIGN_CREATE("sign"),
-    TEST("test"),
     VERSION("version"),
     EDIT("edit"),
     LOCATION("location"),

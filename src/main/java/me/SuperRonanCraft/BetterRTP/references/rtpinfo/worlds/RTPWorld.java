@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import org.bukkit.World;
 import org.jetbrains.annotations.Nullable;

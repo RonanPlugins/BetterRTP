@@ -33,7 +33,7 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public boolean permission(CommandSender sendi) {
-        return PermissionNode.TEST.check(sendi);
+        return PermissionNode.ADMIN.check(sendi);
     }
 
     @Override
