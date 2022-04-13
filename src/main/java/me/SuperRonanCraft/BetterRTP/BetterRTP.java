@@ -53,6 +53,7 @@ public class BetterRTP extends JavaPlugin {
 
     public void onDisable() {
         invs.closeAll();
+        queue.unload();
     }
 
     public Files getFiles() {

@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPlayer;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
@@ -35,10 +36,15 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
         pm.registerEvents(this, pl);
     }
 
+    public void unload() {
+        if (task != null)
+            Bukkit.getScheduler().cancelTask(task.getTaskId());
+    }
+
     public void load() {
         loaded = false;
-        if (task != null && Bukkit.getScheduler().isCurrentlyRunning(task.getTaskId()))
-            task.cancel();
+        if (task != null)
+            Bukkit.getScheduler().cancelTask(task.getTaskId());
 
         if (!BetterRTP.getInstance().getSettings().isQueueEnabled())
             return;
@@ -116,13 +122,14 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 List<QueueData> applicable = getApplicable(rtpWorld);
                 String type = "superCustom_" + (rtpWorld.getID() != null ? rtpWorld.getID() : rtpWorld.getWorld().getName());
                 int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
-                int attempt = lastType.equalsIgnoreCase(type) ? attempts + 1 : 0;
+                int attempt = lastType.equalsIgnoreCase(type) ? attempts : 0;
                 if (newCount < queueMin && applicable.size() < queueMax) {
                     if (attempt > queueMaxAttempts) {
                         BetterRTP.debug("Max attempts to create a Queue reached for " + type + " (amount: " + applicable.size() + ")");
                         return;
                     }
-                    generateFromWorld(rtpWorld);
+                    if (!generateFromWorld(rtpWorld, type)) //If fails to generate position, add an attempt (max amount of times to generate are: queueMaxAttempts + queueMax)
+                        attempt ++;
                     queueGenerator(rtpWorld, queueMax, queueMin, newCount, type, attempt); //Generate another later
                     return;
                 }
@@ -130,8 +137,31 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                     BetterRTP.debug("Queue max reached for " + type + " (amount: " + applicable.size() + ") lastCount: " + lastCount);
             }
 
+            for (RTP_SETUP_TYPE setup : RTP_SETUP_TYPE.values()) {
+                HashMap<String, RTPWorld> map = getFromSetup(setup);
+                if (map == null) continue;
+                for (Map.Entry<String, RTPWorld> rtpWorldEntry : map.entrySet()) {
+                    RTPWorld world = rtpWorldEntry.getValue();
+                    String type = getId(setup, rtpWorldEntry.getKey());
+                    List<QueueData> applicable = getApplicable(world);
+                    int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
+                    int attempt = lastType.equalsIgnoreCase(type) ? attempts + 1 : 0;
+                    if (newCount < queueMin && applicable.size() < queueMax) {
+                        if (attempt > queueMaxAttempts) {
+                            BetterRTP.debug("Max attempts to create a Queue reached for " + type + " (amount: " + applicable.size() + ")");
+                            continue;
+                        }
+                        generateFromWorld(world, type);
+                        queueGenerator(null, queueMax, queueMin, newCount, type, attempt); //Generate another later
+                        return;
+                    }
+                    if (lastType.equalsIgnoreCase(type))
+                        BetterRTP.debug("Max queue reached for " + type + " (amount: " + applicable.size() + ") lastCount: " + lastCount);
+                }
+            }
+
             //Generate Defaults
-            WorldDefault worldDefault = BetterRTP.getInstance().getRTP().RTPdefaultWorld;
+            /*WorldDefault worldDefault = BetterRTP.getInstance().getRTP().RTPdefaultWorld;
             for (World world : Bukkit.getWorlds()) {
                 if (!BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(world.getName())
                         && !BetterRTP.getInstance().getRTP().RTPcustomWorld.containsKey(world.getName())) {
@@ -192,22 +222,43 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 }
                 if (lastType.equalsIgnoreCase(type))
                     BetterRTP.debug("Queue max reached for " + type + " " + applicable.size() + " " + location.getValue().getID() + " lastCount: " + lastCount);
-            }
+            }*/
             generating = false;
             BetterRTP.debug("Queueing paused, max queue limit reached!");
         }, 20L * 5 /*delay before starting queue generator*/);
     }
 
-    //Generate a location on another thread
-    private void generateFromWorld(RTPWorld world) {
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-            //BetterRTP.debug("Queue attempt started...");
-            QueueData data = new QueueData(world);
-            addQueue(world, data);
-        });
+    private static HashMap<String, RTPWorld> getFromSetup(RTP_SETUP_TYPE type) {
+        switch (type) {
+            case LOCATION: return BetterRTP.getInstance().getRTP().RTPworldLocations;
+            case CUSTOM_WORLD: return BetterRTP.getInstance().getRTP().RTPcustomWorld;
+            case DEFAULT:
+                HashMap<String, RTPWorld> list = new HashMap<>();
+                RTP rtp = BetterRTP.getInstance().getRTP();
+                for (World world : Bukkit.getWorlds())
+                    if (!rtp.getDisabledWorlds().contains(world.getName()) && !rtp.RTPcustomWorld.containsKey(world.getName()))
+                        list.put(world.getName(), new WorldCustom(world, rtp.RTPdefaultWorld));
+                return list;
+        }
+        return null;
     }
 
-    private void addQueue(RTPWorld rtpWorld, QueueData data) {
+    private static String getId(RTP_SETUP_TYPE type, String id) {
+        switch (type) {
+            case CUSTOM_WORLD: return "custom_" + id;
+            case LOCATION: return "location_" + id;
+            case DEFAULT: return "default_" + id;
+        }
+        return "unknown_" + id;
+    }
+
+    //Generate a safe location
+    private boolean generateFromWorld(RTPWorld world, String id) {
+        QueueData data = new QueueData(world);
+        return addQueue(world, data, id);
+    }
+
+    private boolean addQueue(RTPWorld rtpWorld, QueueData data, String id) {
         Location loc = null;
         if (data.getLocation() != null)
             loc = RTPPlayer.getSafeLocation(
@@ -221,7 +272,11 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
             data.setLocation(loc);
             if (DatabaseHandler.getQueue().addQueue(data)) {
                 queueList.add(data);
-                BetterRTP.debug("Queue position added " + data.getLocation().toString());
+                String _x = String.valueOf(data.getLocation().getBlockX());
+                String _z = String.valueOf(data.getLocation().getBlockZ());
+                String _world = data.getLocation().getWorld().getName();
+                BetterRTP.debug("Queue position generated id= " + id +", location= x:" + _x + ", z:" + _z + ", world:" + _world);
+                return true;
             } else
                 BetterRTP.debug("Database error occured for a queue! " + data.getLocation().toString());
         } else if (data.getLocation() != null) {
@@ -237,14 +292,17 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
             }*/
         } else
             BetterRTP.debug("Queue position wasn't able to generate a location!");
+        return false;
     }
 
     public static List<QueueData> getApplicable(RTPWorld rtpWorld) {
         List<QueueData> queueData = BetterRTP.getInstance().getQueue().queueList;
         List<QueueData> available = new ArrayList<>();
         for (QueueData data : queueData) {
-            if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName()))
+            if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName())) {
+                //BetterRTP.getInstance().getLogger().info(data.getLocation().getWorld().getName() + " != " + rtpWorld.getWorld().getName());
                 continue;
+            }
             switch (rtpWorld.getShape()) {
                 case CIRCLE:
                     if (isInCircle(data.location, rtpWorld))
@@ -295,7 +353,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
         if (!(xleft || xright))
             return false;
         boolean zbottom = z <= center_z + radius && z >= center_z + radius_min;
-        boolean ztop = z >= center_z - radius && z <=center_z - radius_min;
+        boolean ztop = z >= center_z - radius && z <= center_z - radius_min;
         return ztop || zbottom;
     }
 }

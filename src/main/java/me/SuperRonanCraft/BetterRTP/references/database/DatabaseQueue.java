@@ -88,7 +88,7 @@ public class DatabaseQueue extends SQLite {
                 + ") VALUES(?, ?, ?, ?)";
         List<Object> params = new ArrayList<Object>() {{
                 add(data.getLocation().getBlockX());
-                add(data.getLocation().getBlockX());
+                add(data.getLocation().getBlockZ());
                 add(data.getLocation().getWorld().getName());
                 add(data.getGenerated());
                 //add(data.getUses());
