@@ -1,0 +1,62 @@
+# Help translate this file into more languages!
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success: # # Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+    Paid: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z% voor &c$%price%&7 in &f%attempts% &7pogingen!'
+    Bypass: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z% in &f%attempts% &7pogingen'
+    Loading: '&aVeilige plek gevonden! &7Laden van chunks...'
+    Teleport: '&aTeleporteren... &7Wacht even terwijl we een veilige plek zoeken!'
+  Failed:
+    Price: '&cKon niet teleporteren wegens onvoldoende fondsen! &7Je moet minstens $%price% &7hebben om random te teleporteren!'
+    NotSafe: '&cKon geen veilige plek vinden binnen %attempts% pogingen! &7Je werd niet random geteleporteerd!'
+    Hunger: '&cKon niet random teleporteren omdat je... &7te hongerig&c bent, eet iets!'
+  Other:
+    Success: '&a%player% is geteleporteerd naar&7 x=%x% y=%y% z=%z% in &f%attempts% &7pogingen!'
+    NotSafe: '&cKon geen veilige plek vinden binnen %attempts% pogingen! &7%player% is niet random geteleporteerd!'
+    Biome: '&cHet lijkt erop dat de biome&7 %biome%&c niet bestaat! &7Probeer de tabbladenlijst te gebruiken!'
+  Reload: '&eConfig herlaadde met succes!'
+  NoPermission:
+    Basic: '&cSorry! &7Je hebt geen toestemming om dit commando te gebruiken!'
+    World: '&cSorry! &7Je mag geen rtp in de %world% wereld!'
+  DisabledWorld: '&cUitgeschakelde wereld %world%! &7Kon geen rtp!'
+  Cooldown: '&cSorry! &7Je kunt niet rtp gebruiken voor nog eens &c%time% &7seconden!'
+  Locked: '&cSorry! &7Je hebt al je rtp''s opgebruikt!'
+  Invalid: '&cOngeldig argument. Probeer ''/%command% help'''
+  NotOnline: '&cDe speler &7%player% &cis niet online!'
+  Delay: '&aTeleporteren in &f%time% &aseconden! Beweeg je niet!'
+  Moved: '&cJe bewoog! &7rtp werd geannuleerd!'
+  NotExist: '&cHet lijkt wel of de wereld &7%world% &cniet bestaat!'
+  Already: '&cWhoops! &7Het lijkt erop dat je al aan het rtp''en bent, heb nog wat geduld!'
+  Sign: '&7Command sign is gemaakt! &7Command is... ''&f/rtp %command%&7'''
+  Edit:
+    Error: '&cFout! &7Ongeldige invoer gegeven!'
+    Set: '&bSucces! &7%type% ingesteld op %value%'
+    Remove: '&cVerwijderd! &7Je verwijderde de aangepaste wereld %world%'
+
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| Help &e&m-----'
+  Main: ' &7- &e/%command% &7- Randomly teleports you!'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Edit some plugin settings'
+  Help: ' &7- &e/%command% help &7- Shows help list'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- View specific information about plugin parameters'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Randomly teleport another player'
+  Reload: ' &7- &e/%command% reload &7- Reloads the plugin'
+  Settings: ' &7- &e/%command% settings &7- Pull up a gui and edit some settings'
+  Test: ' &7- &e/%command% test &7- Test out plugin effects after a teleport without moving'
+  Version: ' &7- &e/%command% version &7- View currently running version'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Randomly teleport in another world'
+  Location: ' &7- &e/%command% location <location_name> &7- Rtp using a specific location'
+
+Usage:
+  Player: '&cGebruik&7: /%command% player <player> [world] [biome1, biome2]'
+  World: '&cGebruik&7: /%command% world <world> [biome1, biome2...]'
+  Biome: '&cGebruik&7: /%command% biome <biome1, biome2...>'
+  Location: '&cGebruik&7: /%command% location <location_name>'
+  Edit:
+    Base: '&cGebruik&7: /%command% edit <default/world> [args...]'
+    Default: '&cGebruik&7: /%command% edit default <max/min/useworldborder/center> <value>'
+    World: '&cGebruik&7: /%command% edit world <world> <max/min/useworldborder/center> <value>'
+    Worldtype: '&cGebruik&7: /%command% edit world_type <world> <NETHER/NORMAL>'
+    Override: '&cGebruik&7: /%command% edit override <world> <world_to>'
+    BlacklistedBlocks: '&cGebruik&7: /%command% edit blacklistedblocks <add/remove> <block_id>'
