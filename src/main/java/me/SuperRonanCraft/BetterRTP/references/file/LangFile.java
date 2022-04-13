@@ -59,7 +59,7 @@ public class LangFile {
             "cht.yml", //Chinese (OasisAkari & kamiya10)
             "cs.yml", //Czech (Lewisparkle)
             "da.yml", //Danish (Janbchr)
-            "du.yml", //Dutch (QuestalNetwork)
+            "nu.yml", //Dutch (QuestalNetwork) (GeleVla)
             "en.yml",
             "es.yml", //Spanish (emgv)
             "fr.yml", //French (At0micA55 & Mrflo67)
