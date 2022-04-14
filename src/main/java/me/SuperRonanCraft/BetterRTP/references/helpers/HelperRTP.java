@@ -88,7 +88,9 @@ public class HelperRTP {
         //Cooldown Data
         CooldownData cooldownData = getPl().getCooldowns().get(player, setupInfo.getWorld());
         if (cooldownData != null) {
-            if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
+            if (cooldownData.getTime() == 0) //Global cooldown with nothing
+                return true;
+            else if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
                 getPl().getText().getNoPermission(sendi);
                 return false;
             } else { //Normal cooldown

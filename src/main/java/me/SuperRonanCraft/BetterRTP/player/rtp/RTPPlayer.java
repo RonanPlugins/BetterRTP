@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
@@ -62,8 +63,10 @@ public class RTPPlayer {
                         tpLoc.setPitch(p.getLocation().getPitch());
                         settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), attempts, type, pWorld.getWorldtype());
                     }
-                } else
+                } else {
                     randomlyTeleport(sendi);
+                    QueueHandler.remove(loc);
+                }
             });
         }
     }

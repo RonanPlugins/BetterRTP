@@ -30,7 +30,6 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     private boolean generating;
     private BukkitTask task;
 
-
     public void registerEvents(BetterRTP pl) {
         PluginManager pm = pl.getServer().getPluginManager();
         pm.registerEvents(this, pl);
@@ -55,7 +54,6 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
         queueList.clear();
         //LOAD FROM DATABASE
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
-
             if (!DatabaseHandler.getQueue().isLoaded()) {
                 queueDownload();
                 return;
@@ -87,33 +85,11 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
         //Delete previously used location
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             Location location = e.getLocation();
-            List<QueueData> deleteList = new ArrayList<>();
-            for (QueueData data : queueList) {
-                Location dataLoc = data.getLocation();
-                //BetterRTP.debug("--");
-                //BetterRTP.debug(location.getBlockX() + " -> " + dataLoc.getBlockX());
-                //BetterRTP.debug(location.getBlockZ() + " -> " + dataLoc.getBlockZ());
-                if (location.getBlockX() == dataLoc.getBlockX()
-                        && location.getBlockZ() == dataLoc.getBlockZ()
-                        && location.getWorld().getName().equals(dataLoc.getWorld().getName())) {
-                    deleteList.add(data);
-                }
-            }
-            deleteList.forEach(data -> {
-                if (DatabaseHandler.getQueue().removeQueue(data)) {
-                    queueList.remove(data);
-                    BetterRTP.debug("-Removed a queue " + data.getLocation().toString());
-                }
-            });
+            QueueHandler.remove(location);
         });
     }
 
-
     private void queueGenerator(RTPWorld rtpWorld, int queueMax, int queueMin, int lastCount, @NonNull String lastType, int attempts) {
-        /*if (queueList.size() >= queueSize) {
-            //Plenty of locations, cancel out
-            return;
-        }*/
         generating = true;
         task = Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
             //Generate more locations
@@ -137,6 +113,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                     BetterRTP.debug("Queue max reached for " + type + " (amount: " + applicable.size() + ") lastCount: " + lastCount);
             }
 
+            //Queue up all setup types
             for (RTP_SETUP_TYPE setup : RTP_SETUP_TYPE.values()) {
                 HashMap<String, RTPWorld> map = getFromSetup(setup);
                 if (map == null) continue;
@@ -159,70 +136,6 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                         BetterRTP.debug("Max queue reached for " + type + " (amount: " + applicable.size() + ") lastCount: " + lastCount);
                 }
             }
-
-            //Generate Defaults
-            /*WorldDefault worldDefault = BetterRTP.getInstance().getRTP().RTPdefaultWorld;
-            for (World world : Bukkit.getWorlds()) {
-                if (!BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(world.getName())
-                        && !BetterRTP.getInstance().getRTP().RTPcustomWorld.containsKey(world.getName())) {
-                    RTPWorld newWorld = new WorldCustom(world, worldDefault);
-                    List<QueueData> applicable = getApplicable(newWorld);
-                    String type = "default_" + world.getName();
-                    int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
-                    int attempt = lastType.equalsIgnoreCase(type) ? attempts + 1 : 0;
-                    if (newCount < queueMin && applicable.size() < queueMax) {
-                        if (attempt > queueMaxAttempts) {
-                            BetterRTP.debug("Max attempts to create a Queue reached for " + type + " (amount: " + applicable.size() + ") world: " + world.getName());
-                            continue;
-                        }
-                        generateFromWorld(newWorld);
-                        queueGenerator(null, queueMax, queueMin, newCount, type, attempt); //Generate another later
-                        return;
-                    }
-                    if (lastType.equalsIgnoreCase(type))
-                        BetterRTP.debug("Queue max reached for " + type + " (amount: " + applicable.size() + ") world: " + world.getName() + " lastCount: " + lastCount);
-                }
-            }
-
-            //Generate Custom Worlds
-            for (Map.Entry<String, RTPWorld> customWorld : BetterRTP.getInstance().getRTP().RTPcustomWorld.entrySet()) {
-                RTPWorld world = customWorld.getValue();
-                List<QueueData> applicable = getApplicable(world);
-                String type = "custom_" + customWorld.getKey();
-                int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
-                int attempt = lastType.equalsIgnoreCase(type) ? attempts + 1 : 0;
-                if (newCount < queueMin && applicable.size() < queueMax) {
-                    if (attempt > queueMaxAttempts) {
-                        BetterRTP.debug("Max attempts to create a Queue reached for " + type + " (amount:" + applicable.size() + ") " + customWorld.getValue().getWorld().getName());
-                        continue;
-                    }
-                    generateFromWorld(world);
-                    queueGenerator(null, queueMax, queueMin, newCount, type, attempt); //Generate another later
-                    return;
-                }
-                if (lastType.equalsIgnoreCase(type))
-                    BetterRTP.debug("Queue max reached for " + type + " (amount: " + applicable.size() + ") " + customWorld.getValue().getWorld().getName() + " lastCount: " + lastCount);
-            }
-
-            //Generate Locations
-            for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().RTPworldLocations.entrySet()) {
-                RTPWorld world = location.getValue();
-                List<QueueData> applicable = getApplicable(world);
-                String type = "location_" + location.getValue().getID();
-                int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
-                int attempt = lastType.equalsIgnoreCase(type) ? attempts + 1 : 0;
-                if (newCount < queueMin && applicable.size() < queueMax) {
-                    if (attempt > queueMaxAttempts) {
-                        BetterRTP.debug("Max attempts to create a Queue reached for " + type + " " + applicable.size() + " " + location.getValue().getID());
-                        continue;
-                    }
-                    generateFromWorld(world);
-                    queueGenerator(null, queueMax, queueMin, newCount, type, attempt); //Generate another later
-                    return;
-                }
-                if (lastType.equalsIgnoreCase(type))
-                    BetterRTP.debug("Queue max reached for " + type + " " + applicable.size() + " " + location.getValue().getID() + " lastCount: " + lastCount);
-            }*/
             generating = false;
             BetterRTP.debug("Queueing paused, max queue limit reached!");
         }, 20L * 5 /*delay before starting queue generator*/);
@@ -279,18 +192,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 return true;
             } else
                 BetterRTP.debug("Database error occured for a queue! " + data.getLocation().toString());
-        } else if (data.getLocation() != null) {
-            /*BetterRTP.debug("Queue position wasn't safe " + data.getLocation().toString());
-            if (BetterRTP.getInstance().getSettings().isDebug()) {
-                Logger log = BetterRTP.getInstance().getLogger();
-                log.info("- CenterX: " + rtpWorld.getCenterX());
-                log.info("- CenterZ: " + rtpWorld.getCenterZ());
-                log.info("- MaxRadius: " + rtpWorld.getMaxRadius());
-                log.info("- MinRadius: " + rtpWorld.getMinRadius());
-                log.info("- MinY: " + rtpWorld.getMinY());
-                log.info("- MaxY: " + rtpWorld.getMaxY());
-            }*/
-        } else
+        } else if (data.getLocation() == null)
             BetterRTP.debug("Queue position wasn't able to generate a location!");
         return false;
     }
@@ -299,10 +201,8 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
         List<QueueData> queueData = BetterRTP.getInstance().getQueue().queueList;
         List<QueueData> available = new ArrayList<>();
         for (QueueData data : queueData) {
-            if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName())) {
-                //BetterRTP.getInstance().getLogger().info(data.getLocation().getWorld().getName() + " != " + rtpWorld.getWorld().getName());
+            if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName()))
                 continue;
-            }
             switch (rtpWorld.getShape()) {
                 case CIRCLE:
                     if (isInCircle(data.location, rtpWorld))
@@ -328,6 +228,28 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
 
     public static int getCount() {
         return BetterRTP.getInstance().getQueue().queueList.size();
+    }
+
+    public static void remove(Location loc) {
+        List<QueueData> deleteList = new ArrayList<>();
+        for (QueueData data : BetterRTP.getInstance().getQueue().queueList) {
+            Location dataLoc = data.getLocation();
+            if (loc.getBlockX() == dataLoc.getBlockX()
+                    && loc.getBlockZ() == dataLoc.getBlockZ()
+                    && loc.getWorld().getName().equals(dataLoc.getWorld().getName())) {
+                deleteList.add(data);
+            }
+        }
+
+        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+            deleteList.forEach(data -> {
+                //Delete all queue data async
+                if (DatabaseHandler.getQueue().removeQueue(data)) {
+                    BetterRTP.getInstance().getQueue().queueList.remove(data);
+                    BetterRTP.debug("-Removed a queue " + data.getLocation().toString());
+                }
+            });
+        });
     }
 
     private static boolean isInCircle(Location loc, RTPWorld rtpWorld) {

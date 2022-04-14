@@ -111,7 +111,7 @@ public class CooldownHandler {
         if (!enabled) return;
         PlayerData playerData = getData(player);
         CooldownData cooldownData = playerData.getCooldowns().getOrDefault(world, null);
-        if (cooldownData != null)
+        if (cooldownData != null) {
             if (lockedAfter > 0) {
                 //uses.put(id, uses.getOrDefault(id, 1) - 1);
                 if (playerData.getRtpCount() <= 0) { //Remove from file as well
@@ -124,6 +124,10 @@ public class CooldownHandler {
                 getData(player).getCooldowns().remove(world);
                 savePlayer(player, world, cooldownData, true);
             }
+        } else if (!cooldownByWorld) {
+            getData(player).setGlobalCooldown(0);
+            savePlayer(player, null, null, true);
+        }
     }
 
     private void savePlayer(Player player, @Nullable World world, @Nullable CooldownData data, boolean remove) {
