@@ -126,7 +126,7 @@ public class RTPPlayer {
                     continue;
                 if (world.getBlockAt(x, y + 1, z).getType().name().endsWith("AIR") //Head space
                         && !badBlock(block, x, z, world, biomes)) //Valid block
-                    return new Location(world, x, y, 0.5);
+                    return new Location(world, x, y, z);
             }
         }
         return null;
