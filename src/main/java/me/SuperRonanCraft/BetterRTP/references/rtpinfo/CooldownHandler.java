@@ -3,7 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldownsWorlds;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
@@ -43,7 +43,7 @@ public class CooldownHandler {
 
     private void queueDownload() {
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
-            if (cooldownByWorld && !DatabaseHandler.getWorldCooldowns().isLoaded()) {
+            if (cooldownByWorld && !DatabaseHandler.getCooldowns().isLoaded()) {
                queueDownload();
                return;
             }
@@ -163,9 +163,9 @@ public class CooldownHandler {
     }
 
     @Nullable
-    private DatabaseCooldownsWorlds getDatabaseWorlds() {
+    private DatabaseCooldowns getDatabaseWorlds() {
         if (cooldownByWorld)
-            return DatabaseHandler.getWorldCooldowns();
+            return DatabaseHandler.getCooldowns();
         return null;
     }
 

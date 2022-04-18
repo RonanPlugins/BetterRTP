@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
+import lombok.Getter;
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 public abstract class SQLite {
 
     private static final String db_file_name = "database";
-    List<String> tables;
+    @Getter List<String> tables;
     //private String host, database, username, password;
     //private int port;
     //boolean sqlEnabled;
@@ -142,7 +143,7 @@ public abstract class SQLite {
             case PLAYERS: return DatabasePlayers.COLUMNS.values();
             case QUEUE: return DatabaseQueue.COLUMNS.values();
             case COOLDOWN:
-            default: return DatabaseCooldownsWorlds.COLUMNS.values();
+            default: return DatabaseCooldowns.COLUMNS.values();
         }
     }
 
@@ -151,7 +152,7 @@ public abstract class SQLite {
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).name;
             case QUEUE: return ((DatabaseQueue.COLUMNS) column).name;
             case COOLDOWN:
-            default: return ((DatabaseCooldownsWorlds.COLUMNS) column).name;
+            default: return ((DatabaseCooldowns.COLUMNS) column).name;
         }
     }
 
@@ -160,12 +161,12 @@ public abstract class SQLite {
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).type;
             case QUEUE: return ((DatabaseQueue.COLUMNS) column).type;
             case COOLDOWN:
-            default: return ((DatabaseCooldownsWorlds.COLUMNS) column).type;
+            default: return ((DatabaseCooldowns.COLUMNS) column).type;
         }
     }
 
     //Processing
-    boolean sqlUpdate(String statement, @NonNull List<Object> params) {
+    protected boolean sqlUpdate(String statement, @NonNull List<Object> params) {
         Connection conn = null;
         PreparedStatement ps = null;
         boolean success = true;
@@ -239,7 +240,7 @@ public abstract class SQLite {
         }
     }
 
-    void close(PreparedStatement ps, ResultSet rs, Connection conn) {
+    protected void close(PreparedStatement ps, ResultSet rs, Connection conn) {
         try {
             if (ps != null) ps.close();
             if (conn != null) conn.close();

@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class DatabaseCooldownsWorlds extends SQLite {
+public class DatabaseCooldowns extends SQLite {
 
-    public DatabaseCooldownsWorlds() {
+    public DatabaseCooldowns() {
         super(DATABASE_TYPE.COOLDOWN);
     }
 
