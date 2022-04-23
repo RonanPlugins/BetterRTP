@@ -125,8 +125,8 @@ public class BetterRTP extends JavaPlugin {
         files.loadAll();
         settings.load();
         invs.load();
-        rtp.load();
         cooldowns.load();
+        rtp.load();
         cmd.load();
         listener.load();
         eco.load();

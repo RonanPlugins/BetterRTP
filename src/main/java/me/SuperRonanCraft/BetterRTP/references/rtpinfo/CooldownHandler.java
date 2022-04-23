@@ -35,6 +35,7 @@ public class CooldownHandler {
         loaded = false;
         if (enabled) {
             defaultCooldownTime = config.getInt("Settings.Cooldown.Time");
+            BetterRTP.debug("Cooldown = " + defaultCooldownTime);
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             cooldownByWorld = config.getBoolean("Settings.Cooldown.PerWorld");
         }
