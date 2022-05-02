@@ -2,17 +2,17 @@
 Messages:
   Prefix: '&7 [&6BetterRTP &7]'
   Success: ## Plassholdere! %x% %y%og %z% er koordinatene x, y og z som spilleren blir teleportert til! #
-    Paid: '&aDu har blitt teleportert til &7 x=%x%, y=%y%, z=%z%, for &c $%price%&7 i &f%forsøk%&7 forsøk!'
-    Bypass: '&aYou have been teleportert to &7 x=%x% y=%y% z=%z% etter &f%forsøk%&7 forsøk'
+    Paid: '&aDu har blitt teleportert til &7 x=%x%, y=%y%, z=%z%, for &c $%price%&7 i &f%attempts%&7 forsøk!'
+    Bypass: '&Du har been teleportert to &7 x=%x% y=%y% z=%z% etter &f%attempts%&7 forsøk'
     Loading: 'Trygt sted funnet! &7Laster biter ... '
-    Teleport: '&a Teleportering ... &7vent, mens vi finner et trygt sted!'
+    Teleport: '&a Teleporter ... &7vent, mens vi finner et trygt sted!'
   Failed:
-    Price: '&cKan ikke teleportere på grunn av manglende penger! &7Du må ha minst $%price% &7til rtp! '
+    Price: '&cKan ikke teleportere på grunn av manglende penger! &7Du må ha minst $%price% &7for rtp! '
     NotSafe: '&cKan ikke finne et trygt sted innen%forsøk%forsøk! &7Du ble ikke teleportert! '
     Hunger: '&cKan ikke rtp fordi du er ... &7for sulten &c, spis noe!'
   Other:
-    Success: '&en%spiller% er blitt teleportert til &7 x=%x% y=%y% z =%z% i &f%forsøk%&7 forsøk!'
-    NotSafe: '&cKan ikke finne et trygt sted innen %forsøk% forsøk! &7%spiller% ble ikke teleportert! '
+    Success: '&en%player% er blitt teleportert til &7 x=%x% y=%y% z =%z% i &f%forsøk%&7 forsøk!'
+    NotSafe: '&cKan ikke finne et trygt sted innen %attempts% forsøk! &7%player% ble ikke teleportert! '
     Biome: '&cSer ut som at %biome%&c ikke eksisterer! &7Prøv å bruke fanelisten! '
     Reload: '&eKonfigurasjonsfil lastet inn på nytt!'
   NoPermission:
@@ -23,14 +23,14 @@ Messages:
   Locked: '&cBeklager! &7Du har brukt opp alle RTP-ene dine! '
   Invalid: '&cUgyldig argument. Prøv '' /%command% help '' '
   NotOnline: '&cSpilleren &7%player% &cer ikke online!'
-  Delay: '&aTeleporterer om &f%tid% &asekunder! Ikke flytt deg! '
+  Delay: '&aTeleporterer om &f%time% &asekunder! Ikke flytt deg! '
   Moved: '&cDu har flyttet deg! &7RTP ble kansellert! '
   NotExist: '&cSer ut som &7%world% &cIkke eksisterer!'
   Already: '&cWhoops! &7 Ser ut som om du allerede rtp''er, ha litt tålmodighet! '
   Sign: '&7Kommandoskilt er opprettet! &7Kommandoen er ... '' &f/rtp %command%&7 '' '
   Edit: 
     Error: '&cError! &7Ugyldig verdi er gitt! '
-    Set: '&bSuksess! &7%type% satt til %verdi%'
+    Set: '&bSuksess! &7%type% satt til %value%'
     Remove: '&cFjernet! &7Du fjernet egendefinert verden %world%'
 
 Help:
