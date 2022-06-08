@@ -51,6 +51,7 @@ public class BetterRTP extends JavaPlugin {
         queue.registerEvents(this);
     }
 
+    @Override
     public void onDisable() {
         invs.closeAll();
         queue.unload();
