@@ -123,7 +123,7 @@ public abstract class SQLite {
     }
 
     private String getCreateTable(String table) {
-        String str = "CREATE TABLE IF NOT EXISTS " + table + " (";
+        String str = "CREATE TABLE IF NOT EXISTS `" + table + "` (";
         Enum<?>[] columns = getColumns(type);
         for (Enum<?> c : columns) {
             String _name = getColumnName(type, c);
