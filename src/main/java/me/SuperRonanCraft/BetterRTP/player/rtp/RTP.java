@@ -49,11 +49,11 @@ public class RTP {
         //WorldType
         RTPLoader.loadWorldTypes(world_type);
         //Worlds & CustomWorlds
-        RTPLoader.loadWorlds(RTPdefaultWorld, RTPcustomWorld);
+        loadWorlds();
         //Locations
-        RTPLoader.loadLocations(RTPworldLocations);
+        loadLocations();
         //Permissions
-        RTPLoader.loadPermissionGroups(permissionGroups);
+        loadPermissionGroups();
         teleport.load(); //Load teleporting stuff
         //permConfig.load(); //Load permission configs
     }

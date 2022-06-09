@@ -116,7 +116,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (test.get("MaxY").getClass() == Integer.class)
                         this.maxy = Integer.parseInt(test.get("MaxY").toString());
                 if (test.get("Cooldown") != null)
-                    if (test.get("Cooldown").getClass() == Long.class)
+                    if (test.get("Cooldown").getClass() == Integer.class || test.get("Cooldown").getClass() == Long.class)
                         this.cooldown = Long.parseLong(test.get("Cooldown").toString());
             }
         }

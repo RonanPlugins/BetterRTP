@@ -42,6 +42,7 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
     @Getter private final WarningHandler warningHandler = new WarningHandler();
 
+    @Override
     public void onEnable() {
         instance = this;
         new Updater(this);

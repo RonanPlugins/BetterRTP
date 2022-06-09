@@ -118,9 +118,9 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                     BetterRTP.debug("- - MaxY: " + maxy);
                 }
             if (field.equalsIgnoreCase("Cooldown"))
-                if (hash3.getValue().getClass() == Long.class) {
+                if (hash3.getValue().getClass() == Integer.class || hash3.getValue().getClass() == Long.class) {
                     this.cooldown = Long.parseLong(hash3.getValue().toString());
-                    BetterRTP.debug("- - Custom Cooldown: " + cooldown);
+                    BetterRTP.debug("- - Cooldown: " + cooldown);
                 }
         }
     }

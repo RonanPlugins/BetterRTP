@@ -82,6 +82,7 @@ public class WorldDefault implements RTPWorld {
             log.info("- Price: " + this.price);
             log.info("- MinY: " + this.miny);
             log.info("- MaxY: " + this.maxy);
+            log.info("- Cooldown (default): " + getCooldown());
         }
     }
 

@@ -48,36 +48,36 @@ public class RTPTeleport {
                     final int attempts, RTP_TYPE type, WORLD_TYPE worldType) throws NullPointerException {
         Location oldLoc = p.getLocation();
         loadingTeleport(p, sendi); //Send loading message to player who requested
-        List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
+        //List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
         //playerLoads.put(p, asyncChunks);
-        CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
+        /*CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
             new BukkitRunnable() { //Run synchronously
                 @Override
+                public void run() {*/
+        try {
+            RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, worldType);
+            getPl().getServer().getPluginManager().callEvent(event);
+            Location loc = event.getLocation();
+            PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
+                @Override
                 public void run() {
-                    try {
-                        RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, worldType);
-                        getPl().getServer().getPluginManager().callEvent(event);
-                        Location loc = event.getLocation();
-                        PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
-                            @Override
-                            public void run() {
-                                afterTeleport(p, loc, price, attempts, oldLoc, type);
-                                if (sendi != p) //Tell player who requested that the player rtp'd
-                                    sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
-                                getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing
-                                //Save respawn location if first join
-                                if (type == RTP_TYPE.JOIN) //RTP Type was Join
-                                    if (BetterRTP.getInstance().getSettings().isRtpOnFirstJoin_SetAsRespawn()) //Save as respawn is enabled
-                                        p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
-                            }
-                        });
-                    } catch (Exception e) {
-                        getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing (errored)
-                        e.printStackTrace();
-                    }
+                    afterTeleport(p, loc, price, attempts, oldLoc, type);
+                    if (sendi != p) //Tell player who requested that the player rtp'd
+                        sendSuccessMsg(sendi, p.getName(), loc, price, false, attempts);
+                    getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing
+                    //Save respawn location if first join
+                    if (type == RTP_TYPE.JOIN) //RTP Type was Join
+                        if (BetterRTP.getInstance().getSettings().isRtpOnFirstJoin_SetAsRespawn()) //Save as respawn is enabled
+                            p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                 }
-            }.runTask(getPl());
-        });
+            });
+        } catch (Exception e) {
+            getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing (errored)
+            e.printStackTrace();
+        }
+        //        }
+        //    }.runTask(getPl());
+        //});
     }
 
     //Effects
@@ -130,7 +130,7 @@ public class RTPTeleport {
 
     //Processing
 
-    private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
+    /*private List<CompletableFuture<Chunk>> getChunks(Location loc) { //List all chunks in range to load
         List<CompletableFuture<Chunk>> asyncChunks = new ArrayList<>();
         int range = Math.round(Math.max(0, Math.min(16, getPl().getSettings().getPreloadRadius())));
         for (int x = -range; x <= range; x++)
@@ -140,7 +140,7 @@ public class RTPTeleport {
                 asyncChunks.add(chunk);
             }
         return asyncChunks;
-    }
+    }*/
 
     private void sendSuccessMsg(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
                                 int attempts) {

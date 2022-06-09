@@ -96,7 +96,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
             //Rare cases where a rtp world didnt have a location generated (Permission Groups?)
             if (rtpWorld != null) {
                 List<QueueData> applicable = getApplicable(rtpWorld);
-                String type = "superCustom_" + (rtpWorld.getID() != null ? rtpWorld.getID() : rtpWorld.getWorld().getName());
+                String type = "rtp_" + (rtpWorld.getID() != null ? rtpWorld.getID() : rtpWorld.getWorld().getName());
                 int newCount = lastType.equalsIgnoreCase(type) ? lastCount : applicable.size();
                 int attempt = lastType.equalsIgnoreCase(type) ? attempts : 0;
                 if (newCount < queueMin && applicable.size() < queueMax) {
