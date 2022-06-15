@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class RTPInventories {
 
-    private HashMap<RTP_INV_SETTINGS, RTPInventory_Defaults> invs = new HashMap<>();
+    private final HashMap<RTP_INV_SETTINGS, RTPInventory_Defaults> invs = new HashMap<>();
 
     public void load() {
         invs.clear();
