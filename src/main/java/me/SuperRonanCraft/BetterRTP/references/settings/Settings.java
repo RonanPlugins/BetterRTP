@@ -19,7 +19,7 @@ public class Settings {
     @Getter private boolean protocolLibSounds;
     @Getter private boolean useLocationIfAvailable;
     @Getter private boolean locationNeedPermission;
-    @Getter private boolean locationOnlyAllowInWorld;
+    @Getter private boolean useLocationsInSameWorld;
     @Getter private boolean permissionGroupEnabled;
     @Getter private boolean queueEnabled;
 
@@ -38,7 +38,7 @@ public class Settings {
         protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
         useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
-        locationOnlyAllowInWorld = FileBasics.FILETYPE.LOCATIONS.getBoolean("OnlyAllowInWorld");
+        useLocationsInSameWorld = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationsInSameWorld");
         depends.load();
     }
 

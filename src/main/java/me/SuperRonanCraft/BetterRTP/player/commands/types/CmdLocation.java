@@ -28,14 +28,13 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     //rtp location <location name> [player]
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2) {
-            if (sendi instanceof  Player) {
-                for (String location_name : getLocations(sendi, null).keySet()) {
+            if (sendi instanceof Player) {
+                Player p = (Player) sendi;
+                for (String location_name : getLocations(sendi, p.getWorld()).keySet())
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        Player p = (Player) sendi;
                         HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
                         return;
                     }
-                }
                 usage(sendi, label);
             } else
                 sendi.sendMessage("Console is not able to execute this command! Try '/rtp help'");
@@ -60,7 +59,8 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 2) {
-            for (String location_name : getLocations(sendi, null).keySet())
+            Player p = (Player) sendi;
+            for (String location_name : getLocations(sendi, p.getWorld()).keySet())
                 if (location_name.toLowerCase().startsWith(args[1].toLowerCase()))
                     list.add(location_name);
         } else if (args.length == 3 && PermissionNode.RTP_OTHER.check(sendi)) {
@@ -85,16 +85,17 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
 
     //Get locations a player has access to
     public static HashMap<String, RTPWorld> getLocations(CommandSender sendi, @Nullable World world) {
-        if (BetterRTP.getInstance().getSettings().isLocationNeedPermission()) {
-            HashMap<String, RTPWorld> locations = new HashMap<>();
-            for (Map.Entry<String, RTPWorld> location : getLocations().entrySet())
-                if (PermissionNode.getLocation(sendi, location.getKey())) {
-                    if (world == null || location.getValue().getWorld().equals(world))
-                        locations.put(location.getKey(), location.getValue());
-                }
-            return locations;
-        } else
-            return getLocations();
+        HashMap<String, RTPWorld> locations = new HashMap<>();
+        for (Map.Entry<String, RTPWorld> location : getLocations().entrySet()) {
+            boolean add = false;
+            if (BetterRTP.getInstance().getSettings().isLocationNeedPermission())
+                add = PermissionNode.getLocation(sendi, location.getKey());
+            if (BetterRTP.getInstance().getSettings().isUseLocationsInSameWorld())
+                add = world == null || location.getValue().getWorld().equals(world);
+            if (add)
+                locations.put(location.getKey(), location.getValue());
+        }
+        return locations;
     }
 
     @Override

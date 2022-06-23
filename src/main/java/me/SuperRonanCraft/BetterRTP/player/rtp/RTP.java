@@ -75,7 +75,11 @@ public class RTP {
 
         //Random Location
         if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
-            setup_info.setLocation(HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld()));
+            WorldLocations worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
+            if (worldLocation != null) {
+                setup_info.setLocation(worldLocation);
+                setup_info.setWorld(worldLocation.getWorld());
+            }
             if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isDebug())
                 WarningHandler.warn(WarningHandler.WARNING.USELOCATION_ENABLED_NO_LOCATION_AVAILABLE,
                     "This is not an error! UseLocationIfAvailable is set to `true`, but no location was found for "

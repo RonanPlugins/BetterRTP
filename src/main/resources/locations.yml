@@ -6,12 +6,14 @@
 #     CenterY: 150
 #     MaxRadius: 100
 #     MinRadius: 5
+#     Shape: square
 #     MinY: 0
 #     MaxY: 320
 
 Enabled: false #enable the locations feature
 RequirePermission: false #Require players to have `betterrtp.location.<world_name>`
 UseLocationIfAvailable: true #Will choose a location upon `/rtp` if location(s) is available in the world
+UseLocationsInSameWorld: true #Will only choose locations in same world rtp'ing in
 
 Locations:
   - main_loc:
