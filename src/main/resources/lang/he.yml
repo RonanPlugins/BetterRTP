@@ -1,6 +1,6 @@
 # Help translate this file into more languages!
 Messages:
-  Prefix: '&7[&6המשגר&7] '
+  Prefix: '&7[&6BetterRTP&7] '
   Success:
     Paid: '&aשוגרתם ל&f x=%x% y=%y% z=%z% במחיר &c$%price%&7 המערכת עשתה זאת ב &f%attempts%
       &7נסיונות!'
