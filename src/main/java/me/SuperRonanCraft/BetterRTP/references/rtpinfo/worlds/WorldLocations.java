@@ -29,6 +29,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
         setupDefaults();
         this.name = location_name;
 
+        BetterRTP.debug("- Loading Location " + location_name + ":");
         //Find Location and cache its values
         for (Map<?, ?> m : map) {
             for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -39,24 +40,31 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                 if (test == null)
                     continue;
                 if (test.get("World") != null) {
-                    if (test.get("World").getClass() == String.class)
+                    if (test.get("World").getClass() == String.class) {
                         world = Bukkit.getWorld(test.get("World").toString());
+                        BetterRTP.debug("- - World: " + world.getName());
+                    }
                 }
                 if (world == null) {
                     BetterRTP.getInstance().getLogger().warning("Location `" + location_name + "` does NOT have a `World` or world doesnt exist!");
                     return;
                 }
                 if (test.get("UseWorldBorder") != null) {
-                    if (test.get("UseWorldBorder").getClass() == Boolean.class)
+                    if (test.get("UseWorldBorder").getClass() == Boolean.class) {
                         useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
+                        BetterRTP.debug("- - UseWorldBorder: " + useWorldborder);
+                    }
                 }
                 if (test.get("CenterX") != null) {
-                    if (test.get("CenterX").getClass() == Integer.class)
+                    if (test.get("CenterX").getClass() == Integer.class) {
                         centerX = Integer.parseInt((test.get("CenterX")).toString());
+                        BetterRTP.debug("- - World: " + centerX);
+                    }
                 }
                 if (test.get("CenterZ") != null) {
                     if (test.get("CenterZ").getClass() == Integer.class) {
                         centerZ = Integer.parseInt((test.get("CenterZ")).toString());
+                        BetterRTP.debug("- - CenterZ: " + centerZ);
                     }
                 }
                 if (test.get("MaxRadius") != null) {
@@ -67,6 +75,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                                 "WARNING! Location '" + location_name + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
                         maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                     }
+                    BetterRTP.debug("- - MaxRadius: " + maxRad);
                 }
                 if (test.get("MinRadius") != null) {
                     if (test.get("MinRadius").getClass() == Integer.class)
@@ -75,18 +84,25 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                         BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
                         minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
-                        if (minRad >= maxRad)
+                        if (minRad >= maxRad) {
                             maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
+                            BetterRTP.debug("- ! MaxRadius: " + maxRad);
+                        }
                     }
+                    BetterRTP.debug("- - MinRad: " + minRad);
                 }
                 if (test.get("Biomes") != null) {
-                    if (test.get("Biomes").getClass() == ArrayList.class)
+                    if (test.get("Biomes").getClass() == ArrayList.class) {
                         this.biomes = new ArrayList<String>((ArrayList) test.get("Biomes"));
+                        BetterRTP.debug("- - Biomes: " + this.biomes);
+                    }
                 }
                 if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                     if (test.get("Price") != null) {
-                        if (test.get("Price").getClass() == Integer.class)
+                        if (test.get("Price").getClass() == Integer.class) {
                             this.price = Integer.parseInt(test.get("Price").toString());
+                            BetterRTP.debug("- - Price: " + price);
+                        }
                         //else
                            // price = worldDefault.getPrice(world);
                     } //else
@@ -95,6 +111,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (test.get("Shape").getClass() == String.class) {
                         try {
                             this.shape = RTP_SHAPE.valueOf(test.get("Shape").toString().toUpperCase());
+                            BetterRTP.debug("- - Shape: " + shape.name());
                         } catch (Exception e) {
                             //Invalid shape
                         }
@@ -104,20 +121,27 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (test.get("UseWorldBorder").getClass() == Boolean.class) {
                         try {
                             this.useWorldborder = Boolean.parseBoolean(test.get("UseWorldBorder").toString());
+                            BetterRTP.debug("- - UseWorldBorder: " + useWorldborder);
                         } catch (Exception e) {
                             //No UseWorldBorder
                         }
                     }
                 }
                 if (test.get("MinY") != null)
-                    if (test.get("MinY").getClass() == Integer.class)
+                    if (test.get("MinY").getClass() == Integer.class) {
                         this.miny = Integer.parseInt(test.get("MinY").toString());
+                        BetterRTP.debug("- - MinY: " + miny);
+                    }
                 if (test.get("MaxY") != null)
-                    if (test.get("MaxY").getClass() == Integer.class)
+                    if (test.get("MaxY").getClass() == Integer.class) {
                         this.maxy = Integer.parseInt(test.get("MaxY").toString());
+                        BetterRTP.debug("- - MaxY: " + maxy);
+                    }
                 if (test.get("Cooldown") != null)
-                    if (test.get("Cooldown").getClass() == Integer.class || test.get("Cooldown").getClass() == Long.class)
+                    if (test.get("Cooldown").getClass() == Integer.class || test.get("Cooldown").getClass() == Long.class) {
                         this.cooldown = Long.parseLong(test.get("Cooldown").toString());
+                        BetterRTP.debug("- - Cooldown: " + cooldown);
+                    }
             }
         }
     }

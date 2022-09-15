@@ -23,7 +23,7 @@ api-version: '1.13'
 
 commands:
     betterrtp:
-        aliases: [brtp, rtp, randomtp]
+        aliases: [brtp, rtp, randomtp, wild, wildtp]
         description: Randomly teleport to a location
 
 permissions:
