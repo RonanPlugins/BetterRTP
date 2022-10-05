@@ -118,7 +118,7 @@
     </build>
 
     <repositories>
-        <!-- Github based Repos -->
+        <!-- GitHub based Repos -->
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -264,7 +264,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>kingdoms</artifactId>
-            <version>1.12.6.1</version>
+            <version>1.13.9</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -312,7 +312,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
         <!-- EssentialsX -->

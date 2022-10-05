@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEven
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldCustom;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -58,7 +59,11 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 return;
             }
             //Download all queue cached from last session
+            //long usedmemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+            //BetterRTP.debug("Memory used " + usedmemory);
             queueList = DatabaseHandler.getQueue().getQueues();
+            //usedmemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) - usedmemory;
+            //BetterRTP.debug("Memory used after load " + usedmemory);
             loaded = true;
             BetterRTP.debug("Loaded " + queueList.size() + " previously generated safe locations!");
             //Queue after everything was loaded
@@ -183,34 +188,38 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
 
     //Generate a safe location
     private void generateFromWorld(RTPWorld world, String id, ReQueueData reQueueData) {
-        addQueue(world, new QueueData(world), id, reQueueData);
+        addQueue(world, id, reQueueData);
     }
 
-    private void addQueue(RTPWorld rtpWorld, QueueData data, String id, ReQueueData reQueueData) {
-        if (data.getLocation() != null) {
+    private void addQueue(RTPWorld rtpWorld, String id, ReQueueData reQueueData) {
+        Location loc = WorldPlayer.generateLocation(rtpWorld);
+        if (loc != null) {
             Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () -> {
                 //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
-                PaperLib.getChunkAtAsync(data.getLocation())
+                PaperLib.getChunkAtAsync(loc)
                         .thenAccept(v -> {
-                            Location loc = RTPPlayer.getSafeLocation(
+                            Location safeLoc = RTPPlayer.getSafeLocation(
                                     RTP.getWorldType(rtpWorld),
-                                    data.getLocation().getWorld(),
-                                    data.getLocation(),
+                                    loc.getWorld(),
+                                    loc,
                                     rtpWorld.getMinY(),
                                     rtpWorld.getMaxY(),
                                     rtpWorld.getBiomes());
-                            data.setLocation(loc);
-                            if (loc != null) {
+                            //data.setLocation(safeLoc);
+                            if (safeLoc != null) {
                                 Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
-                                    if (DatabaseHandler.getQueue().addQueue(data)) {
+                                    QueueData data = DatabaseHandler.getQueue().addQueue(safeLoc);
+                                    if (data != null) {
                                         queueList.add(data);
                                         String _x = String.valueOf(data.getLocation().getBlockX());
                                         String _y = String.valueOf(data.getLocation().getBlockY());
                                         String _z = String.valueOf(data.getLocation().getBlockZ());
                                         String _world = data.getLocation().getWorld().getName();
-                                        BetterRTP.debug("Queue position generated #" + queueList.size() + ": id= " + id + ", location= x:" + _x + ", y:" + _y + ", z:" + _z + ", world:" + _world);
+                                        BetterRTP.debug("Queue position generated #" + queueList.size()
+                                                + ": id= " + id + ", database_ID" + data.database_id
+                                                + ", location= x:" + _x + ", y:" + _y + ", z:" + _z + ", world:" + _world);
                                     } else
-                                        BetterRTP.debug("Database error occurred for a queue! " + data.getLocation().toString());
+                                        BetterRTP.debug("Database error occurred for a queue when trying to save: " + safeLoc);
                                     queueGenerator(reQueueData);
                                 });
                             } else

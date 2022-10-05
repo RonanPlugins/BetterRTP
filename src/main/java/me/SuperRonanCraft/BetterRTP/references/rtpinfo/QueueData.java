@@ -8,20 +8,14 @@ import org.bukkit.Location;
 
 public class QueueData {
 
-    //@Getter final String identifier;
+    @Getter final int database_id;
     @Getter @Setter Location location;
     @Getter final long generated;
 
-    public QueueData(Location location, long generated/*, String identifier*/) {
+    public QueueData(Location location, long generated, int database_id) {
         this.location = location;
         this.generated = generated;
-        //this.identifier = identifier;
-    }
-
-    public QueueData(RTPWorld rtpWorld) {
-        this.location = WorldPlayer.generateLocation(rtpWorld);
-        this.generated = System.currentTimeMillis();
-        //this.identifier = rtpWorld.getID();
+        this.database_id = database_id;
     }
 
 }
