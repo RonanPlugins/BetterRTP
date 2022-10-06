@@ -27,6 +27,10 @@ Settings:
     GriefDefender: false
     ## Respect UltimateClaims areas (https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65)
     UltimateClaims: false
+    ## Respect Pueblos regions (https://www.spigotmc.org/resources/pueblos.91255/) (My Favorite :D)
+    Pueblos: false
+    ## Respect SaberFactions areas (https://www.spigotmc.org/resources/saberfactions.69771/)
+    SaberFactions: false
 
   ## Output to console some debugging info
   Debugger: false

@@ -9,31 +9,35 @@ import java.util.logging.Level;
 
 public class SoftDepends {
 
-    private boolean respect_worldguard = false;
-    private boolean respect_griefprevention = false;
-    private boolean respect_towny = false;
-    private boolean respect_redProtect = false;
-    private boolean respect_factionsUUID = false;
-    private boolean respect_lands = false;
-    private boolean respect_residence = false;
-    private boolean respect_kingdomsx = false;
-    private boolean respect_hClaims = false;
-    private boolean respect_griefDefender = false;
-    private boolean respect_ultimateClaims = false;
-    private boolean respect_pueblos = false;
+    private boolean
+            respect_worldguard = false,
+            respect_griefprevention = false,
+            respect_towny = false,
+            respect_redProtect = false,
+            respect_factionsUUID = false,
+            respect_lands = false,
+            respect_residence = false,
+            respect_kingdomsx = false,
+            respect_hClaims = false,
+            respect_griefDefender = false,
+            respect_ultimateClaims = false,
+            respect_pueblos = false,
+            respect_saberFactions = false;
     //RETURNABLES
-    @Getter private boolean worldguard = false;
-    @Getter private boolean griefprevention = false;
-    @Getter private boolean towny = false;
-    @Getter private boolean redProtect = false;
-    @Getter private boolean factionsUUID = false;
-    @Getter private boolean lands = false;
-    @Getter private boolean residence = false;
-    @Getter private boolean kingdomsx = false;
-    @Getter private boolean hClaims = false;
-    @Getter private boolean griefDefender = false;
-    @Getter private boolean ultimateClaims = false;
-    @Getter private boolean pueblos = false;
+    @Getter private boolean
+            worldguard = false,
+            griefprevention = false,
+            towny = false,
+            redProtect = false,
+            factionsUUID = false,
+            lands = false,
+            residence = false,
+            kingdomsx = false,
+            hClaims = false,
+            griefDefender = false,
+            ultimateClaims = false,
+            pueblos = false,
+            saberFactions = false;
 
     void load() {
         FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
@@ -50,6 +54,7 @@ public class SoftDepends {
         respect_griefDefender = config.getBoolean(      pre + "GriefDefender");
         respect_ultimateClaims = config.getBoolean(     pre + "UltimateClaims");
         respect_pueblos = config.getBoolean(            pre + "Pueblos");
+        respect_saberFactions = config.getBoolean(      pre + "SaberFactions");
         registerWorldguard();
         registerGriefPrevention();
         registerTowny();
@@ -62,6 +67,7 @@ public class SoftDepends {
         registerGriefDefender();
         registerUltimateClaims();
         registerPueblos();
+        registerSaberFactions();
     }
 
     public void registerWorldguard() {
@@ -134,6 +140,12 @@ public class SoftDepends {
         pueblos = respect_pueblos && Bukkit.getPluginManager().isPluginEnabled("Pueblos");
         if (respect_pueblos)
             debug("Respecting `Pueblos` was " + (pueblos ? "SUCCESSFULLY" : "NOT") + " registered");
+    }
+
+    public void registerSaberFactions() {
+        saberFactions = respect_saberFactions && Bukkit.getPluginManager().isPluginEnabled("Factions");
+        if (respect_saberFactions)
+            debug("Respecting `SaberFactions` was " + (saberFactions ? "SUCCESSFULLY" : "NOT") + " registered");
     }
 
     private void debug(String str) {
