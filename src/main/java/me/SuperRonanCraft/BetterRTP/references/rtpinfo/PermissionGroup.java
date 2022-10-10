@@ -13,7 +13,7 @@ import java.util.Map;
 public class PermissionGroup {
 
     String groupName;
-    @Getter private HashMap<String, WorldPermissionGroup> worlds = new HashMap<>();
+    @Getter private final HashMap<String, WorldPermissionGroup> worlds = new HashMap<>();
 
     @SuppressWarnings("rawtypes")
     public PermissionGroup(Map.Entry<?, ?> fields) {
