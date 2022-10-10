@@ -1,7 +1,7 @@
 # Help translate this file into more languages!
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
-  Success: # # Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
+  Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
     Paid: '&aYou have been tp''d to&7 x=%x% y=%y% z=%z% for &c$%price%&7 in &f%attempts% &7attempts!'
     Bypass: '&aYou have been tp''d to&7 x=%x% y=%y% z=%z% in &f%attempts% &7attempts'
     Loading: '&aSafe spot located! &7Loading chunks...'

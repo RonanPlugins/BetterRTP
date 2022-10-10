@@ -9,14 +9,14 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
 
-public class RTP_WorldGuard {
+public class RTP_WorldGuard implements RegionPluginCheck {
 
     // TESTED (v2.12.3)
     // Worldguard (v7.0.4 B1), WorldEdit (v7.2.0 B5)
     // https://dev.bukkit.org/projects/worldguard
-    public static boolean check(Location loc) {
+    public boolean check(Location loc) {
         boolean result = true;
-        if (getDepends().isWorldguard())
+        if (REGIONPLUGINS.WORLDGUARD.isEnabled())
             try {
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionQuery query = container.createQuery();
@@ -29,9 +29,5 @@ public class RTP_WorldGuard {
                e.printStackTrace();
             }
         return result;
-    }
-
-    private static SoftDepends getDepends() {
-        return BetterRTP.getInstance().getSettings().getsDepends();
     }
 }

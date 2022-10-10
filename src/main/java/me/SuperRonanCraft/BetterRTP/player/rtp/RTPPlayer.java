@@ -133,7 +133,7 @@ public class RTPPlayer {
     }
 
     public static boolean checkDepends(Location loc) {
-        return BetterRTP.getInstance().getRTP().softDepends.checkLocation(loc);
+        return RTPPluginValidation.checkLocation(loc);
     }
 
     // Bad blocks, or bad biome

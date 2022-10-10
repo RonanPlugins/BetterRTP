@@ -1,15 +1,13 @@
-# Translated by Vo Chi Danh, Discord is VoChiDanh#0862
+# Vietnamese, Translated by Vo Chi Danh, Discord is VoChiDanh#0862
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success:
-    Paid: '&aBạn đã được dịch chuyển tới &7 x=%x% y=%y% z=%z% với giá &c$%price%&7 trong &f%attempts%
-      &7lần!'
+    Paid: '&aBạn đã được dịch chuyển tới &7 x=%x% y=%y% z=%z% với giá &c$%price%&7 trong &f%attempts% &7lần!'
     Bypass: '&aBạn đã được dịch chuyển tới&7 x=%x% y=%y% z=%z% trong &f%attempts% &7lần'
     Loading: '&aVị trí an toàn được định vị! &7Tải địa hình...'
     Teleport: '&aDịch chuyển... &fVui lòng đợi trong khi chúng tôi tìm thấy một vị trí an toàn!'
   Failed:
-    Price: '&cKhông thể rtp vì các quỹ không chính thức! &7Bạn phải có ít nhất
-      $%price% &7để dịch chuyển!'
+    Price: '&cKhông thể rtp vì các quỹ không chính thức! &7Bạn phải có ít nhất $%price% &7để dịch chuyển!'
     NotSafe: '&cKhông thể tìm thấy vị trí an toàn trong %attempts% lần tìm kiếm! &7Bạn không được dịch chuyển'
     Hunger: '&cKhông thể dịch chuyển vì bạn... &7quá đóii&c, ăn 1 chút gì đi!'
   Other:

@@ -1,22 +1,18 @@
-# Help translate this file into more languages!
+# Hebrew, Translated by thefourcraft on GitHub (https://github.com/SuperRonanCraft/BetterRTP/pull/108)
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success:
-    Paid: '&aשוגרתם ל&f x=%x% y=%y% z=%z% במחיר &c$%price%&7 המערכת עשתה זאת ב &f%attempts%
-      &7נסיונות!'
+    Paid: '&aשוגרתם ל&f x=%x% y=%y% z=%z% במחיר &c$%price%&7 המערכת עשתה זאת ב &f%attempts% &7נסיונות!'
     Bypass: '&aשוגרתם ל&f x=%x% y=%y% z=%z% המערכת עשתה זאת ב &f%attempts% &7נסיונות'
     Loading: '&aמקום בטוח נמצא! &fטוען צ''אנקים...'
     Teleport: '&aמשגר... &fבבקשה להמתין מחפש מקום בטוח לשיגור!'
   Failed:
-    Price: '&cלא היה לכם מספיק כסף בשביל להשתגר! &fצריך שיהיה לכם לפחות $%price% &7בשביל
-      להשתגר!'
+    Price: '&cלא היה לכם מספיק כסף בשביל להשתגר! &fצריך שיהיה לכם לפחות $%price% &7בשביללהשתגר!'
     NotSafe: '&cמערכת לא הצליחה, לקח למערכת %attempts% נסיונות! &fלא שוגרתם לשום מקום!'
     Hunger: '&cלא שוגרתם בגלל. &fשאתם רעבים מידי&c, בבקשה לאכול משהו ואז נשגר אתכם!'
   Other:
-    Success: '&a%player% שוגר ל &f x=%x% y=%y% z=%z% המערכת עשתה זאת ב &f%attempts%
-      &7נסיונות!'
-    NotSafe: '&cמערכת לא הצליחה למצוא מקום בטוח ב %attempts% נסיונות! &f%player% לא
-      שוגר לשום מקום!'
+    Success: '&a%player% שוגר ל &f x=%x% y=%y% z=%z% המערכת עשתה זאת ב &f%attempts% &7נסיונות!'
+    NotSafe: '&cמערכת לא הצליחה למצוא מקום בטוח ב %attempts% נסיונות! &f%player% לאשוגר לשום מקום!'
     Biome: '&cהסביבה שהוגדרה לשיגור &f %biome%&c לא קיימת! &fנסו להשתמש ב TAB!'
   Reload: '&eהמערכת עשתה הפעלה מחדש בהצלחה!'
   NoPermission:
@@ -36,40 +32,33 @@ Messages:
     Error: '&c&lהיי! &cנתונים שגויים הוקלדו!'
     Set: '&bהצלחה! &c%type% שונה ל %value%'
     Remove: '&cנמחק! &fמחקתם את העולם %world%'
+
 Help:
   Prefix: '&e&m-----&6&l המשגר &f| עזרה &e&m-----'
   Main: ' &7- &e/%command% &7- משגר אתכם רנדומלי!'
-  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- משגר אתכם רנדומלית לסביבות
-    שבחרתם'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- משגר אתכם רנדומלית לסביבותשבחרתם'
   Edit: ' &7- &e/%command% edit <default/world> [args...] &7- לערוך הגדרות פלאגין'
   Help: ' &7- &e/%command% help &7- מראה את הדף הזה(עזרה)'
-  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- מציג מידע
-    ופרמטרים ספציפיים על הפלגאין'
-  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- משגר
-    שחקן אחר רנדומלית'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- מציג מידעופרמטרים ספציפיים על הפלגאין'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- משגרשחקן אחר רנדומלית'
   Reload: ' &7- &e/%command% reload &7- מפעיל את המערכת מחדש'
   Settings: ' &7- &e/%command% settings &7- פותח תפריט בשביל לערוך הגדרות'
   Test: ' &7- &e/%command% test &7- בודק את המערכת ללא שיגור של אף אחד'
   Version: ' &7- &e/%command% version &7- מראה את גרסאת המערכת'
-  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- שיגור לעולם\שרת
-    אחר רנדולמלית'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- שיגור לעולם\שרתאחר רנדולמלית'
   Location: ' &7- &e/%command% location <location_name> &7- שיגור לתווח\איזור מסויים'
+
 Usage:
   Player: '&cשימושים&f: /%command% player <player> [world] [biome1, biome2]'
   World: '&cשימושים&f: /%command% world <world> [biome1, biome2...]'
   Biome: '&cשימושים&f: /%command% biome <biome1, biome2...>'
   Location: '&cשימושים&f: /%command% location <location_name>'
   Edit:
-    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world>
-      <max/min/useworldborder/center> <value>'
-    Location: '&cUsage&7: /%command% edit location <location_name> <max/min/useworldborder/center>
-      <value>'
+    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'
+    Location: '&cUsage&7: /%command% edit location <location_name> <max/min/useworldborder/center> <value>'
     Base: '&cשימושים&f: /%command% edit <default/world> [args...]'
-    Default: '&cשימושים&f: /%command% edit default <max/min/useworldborder/center>
-      <value>'
-    World: '&cשימושים&f: /%command% edit world <world> <max/min/useworldborder/center>
-      <value>'
+    Default: '&cשימושים&f: /%command% edit default <max/min/useworldborder/center> <value>'
+    World: '&cשימושים&f: /%command% edit world <world> <max/min/useworldborder/center> <value>'
     Worldtype: '&cשימושים&f: /%command% edit world_type <world> <NETHER/NORMAL>'
     Override: '&cשימושים&f: /%command% edit override <world> <world_to>'
-    BlacklistedBlocks: '&cשימושים&f: /%command% edit blacklistedblocks <add/remove>
-      <block_id>'
+    BlacklistedBlocks: '&cשימושים&f: /%command% edit blacklistedblocks <add/remove> <block_id>'

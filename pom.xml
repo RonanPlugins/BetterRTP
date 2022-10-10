@@ -168,6 +168,11 @@
             <id>essentials-releases</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
+        <!-- PlaceholderAPI Repo -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -301,7 +306,7 @@
             <version>97b96c9</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Particles Library (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java)-->
+        <!-- Particles Library (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java) -->
         <dependency>
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
@@ -328,11 +333,25 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- Saber Factions (https://www.spigotmc.org/resources/saberfactions.69771/) -->
+        <!-- Saber Factions (https://www.spigotmc.org/resources/saberfactions.69771/) (Added in 3.4.5)-->
         <dependency>
             <groupId>com.github.SaberLLC</groupId>
             <artifactId>Saber-Factions</artifactId>
             <version>2.4.0-RC</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- PlaceholderAPI Support (Added in 3.4.5)-->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Husktown (https://www.spigotmc.org/resources/husktowns.92672/) (Added in 3.4.5)-->
+        <dependency>
+            <groupId>net.william278</groupId>
+            <artifactId>HuskTowns</artifactId>
+            <version>1.8.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

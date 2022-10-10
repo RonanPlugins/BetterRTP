@@ -1,20 +1,20 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import me.RonanCraft.Pueblos.Pueblos;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
+import net.william278.husktowns.HuskTownsAPI;
 import org.bukkit.Location;
 
-public class RTP_Pueblos implements RegionPluginCheck {
+public class RTP_HuskTowns implements RegionPluginCheck {
 
-    // NOT TESTED (3.1.0)
-    // Pueblos (v2.0.1)
-    // https://www.spigotmc.org/resources/pueblos.91255/
+    // NOT TESTED (3.4.5)
+    // HuskTowns (v1.8.1)
+    // https://www.spigotmc.org/resources/husktowns.92672/
     public boolean check(Location loc) {
         boolean result = true;
-        if (REGIONPLUGINS.PUEBLOS.isEnabled())
+        if (REGIONPLUGINS.HUSKTOWNS.isEnabled())
             try {
-                result = Pueblos.getInstance().getClaimHandler().getClaimMain(loc) == null;
+                result = !HuskTownsAPI.getInstance().isClaimed(loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }

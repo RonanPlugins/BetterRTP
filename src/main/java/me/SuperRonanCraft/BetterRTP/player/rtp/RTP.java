@@ -18,8 +18,6 @@ import java.util.*;
 public class RTP {
 
     final RTPTeleport teleport = new RTPTeleport();
-    final RTPPluginValidation softDepends = new RTPPluginValidation();
-    //public final WorldPermissionGroup permConfig = new WorldPermissionGroup();
     //Cache
     public final HashMap<String, String> overriden = new HashMap<>();
     @Getter List<String> disabledWorlds, blockList;

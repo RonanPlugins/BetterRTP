@@ -8,14 +8,14 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
 
-public class RTP_GriefDefender {
+public class RTP_GriefDefender implements RegionPluginCheck {
 
     // NOT TESTED (3.1.0)
     // GriefDefender (v1.5.10)
     // https://www.spigotmc.org/resources/griefdefender.68900/
-    public static boolean check(Location loc) {
+    public boolean check(Location loc) {
         boolean result = true;
-        if (getDepends().isGriefDefender())
+        if (REGIONPLUGINS.GRIEFDEFENDER.isEnabled())
             try {
                 for (Claim claim : GriefDefender.getCore().getAllClaims())
                     if (claim.contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
@@ -26,9 +26,5 @@ public class RTP_GriefDefender {
                 e.printStackTrace();
             }
         return result;
-    }
-
-    private static SoftDepends getDepends() {
-        return BetterRTP.getInstance().getSettings().getsDepends();
     }
 }

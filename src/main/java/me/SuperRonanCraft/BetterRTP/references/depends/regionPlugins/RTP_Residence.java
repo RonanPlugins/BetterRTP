@@ -10,23 +10,19 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
 
-public class RTP_Residence {
+public class RTP_Residence implements RegionPluginCheck {
 
     // NOT TESTED (2.14.3)
     // Residence (v4.9.1.9)
     // https://www.spigotmc.org/resources/residence.11480/
-    public static boolean check(Location loc) {
+    public boolean check(Location loc) {
         boolean result = true;
-        if (getDepends().isResidence())
+        if (REGIONPLUGINS.RESIDENCE.isEnabled())
             try {
                 result = Residence.getInstance().getResidenceManager().getByLoc(loc) == null;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         return result;
-    }
-
-    private static SoftDepends getDepends() {
-        return BetterRTP.getInstance().getSettings().getsDepends();
     }
 }

@@ -29,8 +29,10 @@ Settings:
     UltimateClaims: false
     ## Respect Pueblos regions (https://www.spigotmc.org/resources/pueblos.91255/) (My Favorite :D)
     Pueblos: false
-    ## Respect SaberFactions areas (https://www.spigotmc.org/resources/saberfactions.69771/)
+    ## Respect SaberFactions areas (https://www.spigotmc.org/resources/saberfactions.69771/) (Added in 3.4.5)
     SaberFactions: false
+    ## Respect HuskTowns areas (https://www.spigotmc.org/resources/husktowns.92672/) (Added in 3.4.5)
+    HuskTowns: false
 
   ## Output to console some debugging info
   Debugger: false

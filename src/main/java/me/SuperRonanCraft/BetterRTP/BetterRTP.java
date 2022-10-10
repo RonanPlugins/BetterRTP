@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.player.events.EventListener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
+import me.SuperRonanCraft.BetterRTP.references.depends.DepPlaceholderAPI;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
@@ -50,6 +51,11 @@ public class BetterRTP extends JavaPlugin {
         loadAll();
         listener.registerEvents(this);
         queue.registerEvents(this);
+        try {
+            new DepPlaceholderAPI().register();
+        } catch (NoClassDefFoundError e) {
+            //No placeholder api :(
+        }
     }
 
     @Override
