@@ -7,10 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -127,7 +124,7 @@ public class DatabaseQueue extends SQLite {
         int id = -1;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement(statement);
+            ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             Iterator<Object> it = params.iterator();
             int paramIndex = 1;
             while (it.hasNext()) {
@@ -137,7 +134,7 @@ public class DatabaseQueue extends SQLite {
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                id = rs.getInt(COLUMNS.ID.name);
+                id = rs.getInt(1);
             }
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
