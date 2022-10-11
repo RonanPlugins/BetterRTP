@@ -2,47 +2,49 @@ package me.SuperRonanCraft.BetterRTP.references.file;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
 
-public class LangFile {
-    private YamlConfiguration config = new YamlConfiguration();
+public class FileLanguage implements FileData {
+    private final YamlConfiguration config = new YamlConfiguration();
 
-    String getString(String path) {
-        if (config.isString(path))
-            return config.getString(path);
-        return "SOMETHING WENT WRONG";
+    @Override
+    public YamlConfiguration getConfig() {
+        return config;
     }
 
-    @SuppressWarnings("all")
-    public List<String> getStringList(String path) {
-        if (config.isList(path))
-            return config.getStringList(path);
-        return Arrays.asList("SOMETHING WENT WRONG!");
+    @Override
+    public File getFile() {
+        return null;
     }
 
-    public boolean getBoolean(String path) {
-        return config.getBoolean(path);
+    @Override
+    public String fileName() {
+        return null;
     }
 
-    @SuppressWarnings("all")
+    @Override
+    public Plugin plugin() {
+        return BetterRTP.getInstance();
+    }
+
+    @Override
     public void load() {
         generateDefaults();
-        String fileName = "lang" + File.separator + getPl().getFiles().getType(FileOther.FILETYPE.CONFIG).getString("Language-File");
-        File file = new File(getPl().getDataFolder(), fileName);
+        String fileName = "lang" + File.separator + FileOther.FILETYPE.CONFIG.getString("Language-File");
+        File file = new File(plugin().getDataFolder(), fileName);
         if (!file.exists()) {
             fileName = "lang" + File.separator + defaultLangs[0]; //Default to english
-            file = new File(getPl().getDataFolder(), fileName);
+            file = new File(plugin().getDataFolder(), fileName);
         }
         try {
             config.load(file);
-            InputStream in = BetterRTP.getInstance().getResource(fileName);
+            InputStream in = plugin().getResource(fileName);
             if (in == null)
-                in = getPl().getResource(fileName.replace(File.separator, "/"));
+                in = plugin().getResource(fileName.replace(File.separator, "/"));
             if (in != null) {
                 config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
                 config.options().copyDefaults(true);
@@ -85,16 +87,16 @@ public class LangFile {
 
     private void generateDefaultConfig(String fName, String fNameDef /*Name of file to generate defaults*/) {
         String fileName = "lang" + File.separator + fName;
-        File file = new File(getPl().getDataFolder(), fileName);
+        File file = new File(plugin().getDataFolder(), fileName);
         if (!file.exists())
-            getPl().saveResource(fileName, false);
+            plugin().saveResource(fileName, false);
         try {
             YamlConfiguration config = new YamlConfiguration();
             config.load(file);
             String fileNameDef = "lang" + File.separator + fNameDef;
-            InputStream in = BetterRTP.getInstance().getResource(fileNameDef);
+            InputStream in = plugin().getResource(fileNameDef);
             if (in == null)
-                in = getPl().getResource(fileNameDef.replace(File.separator, "/"));
+                in = plugin().getResource(fileNameDef.replace(File.separator, "/"));
             if (in != null) {
                 config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(in)));
                 config.options().copyDefaults(true);
@@ -105,9 +107,5 @@ public class LangFile {
             e.printStackTrace();
         }
 
-    }
-
-    private BetterRTP getPl() {
-        return BetterRTP.getInstance();
     }
 }

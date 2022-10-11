@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
@@ -29,7 +30,7 @@ public class CooldownHandler {
 
     public void load() {
         //configfile = new File(BetterRTP.getInstance().getDataFolder(), "data/cooldowns.yml");
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
         enabled = config.getBoolean("Settings.Cooldown.Enabled");
         downloading.clear();
         loaded = false;
@@ -96,7 +97,7 @@ public class CooldownHandler {
         return null;
     }
 
-    public long timeLeft(CommandSender sendi, CooldownData data, RTPWorld rtpWorld) {
+    public long timeLeft(CommandSender sendi, CooldownData data, World world) {
         long cooldown = data.getTime();
         long timeLeft = ((cooldown / 1000) + rtpWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
         if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))

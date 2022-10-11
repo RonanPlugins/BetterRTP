@@ -16,7 +16,7 @@ public class RTPSounds {
     private String soundTeleport, soundDelay;
 
     void load() {
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+        FileOther.FILETYPE config = FileOther.FILETYPE.EFFECTS;
         enabled = config.getBoolean("Sounds.Enabled");
         if (enabled) {
             soundTeleport = config.getString("Sounds.Success");

@@ -3,10 +3,12 @@ package me.SuperRonanCraft.BetterRTP.references.depends;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -56,16 +58,6 @@ public class DepEconomy {
     public boolean hasBalance(CommandSender sendi, WorldPlayer pWorld) {
         check(false);
         Player player = pWorld.getPlayer();
-        //Hunger Stuff
-        if (hunger != 0
-                && !PermissionNode.BYPASS_HUNGER.check(sendi)
-                && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
-            boolean has_hunger = player.getFoodLevel() > hunger;
-            if (!has_hunger) {
-                BetterRTP.getInstance().getText().getFailedHunger(sendi);
-                return false;
-            }
-        }
         //Economy Stuff
         if (e != null && pWorld.getPrice() != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
             try {
@@ -76,6 +68,23 @@ public class DepEconomy {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+        //Default value
+        return true;
+    }
+
+    public boolean hasHunger(CommandSender sendi, WorldPlayer pWorld) {
+        check(false);
+        Player player = pWorld.getPlayer();
+        //Hunger Stuff
+        if (hunger != 0
+                && !PermissionNode.BYPASS_HUNGER.check(sendi)
+                && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
+            boolean has_hunger = player.getFoodLevel() > hunger;
+            if (!has_hunger) {
+                BetterRTP.getInstance().getText().getFailedHunger(sendi);
+                return false;
             }
         }
         //Default value
@@ -94,15 +103,15 @@ public class DepEconomy {
     private void check(boolean force) {
         if (!checked || force)
             registerEconomy();
-        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Hunger.Enabled"))
-            hunger = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Hunger.Honches");
+        if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Hunger.Enabled"))
+            hunger = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getInt("Hunger.Honches");
         else
             hunger = 0;
     }
 
     private void registerEconomy() {
         try {
-            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                 if (BetterRTP.getInstance().getServer().getPluginManager().isPluginEnabled("Vault")) {
                     RegisteredServiceProvider<Economy> rsp = BetterRTP.getInstance().getServer().getServicesManager().getRegistration(Economy.class);
                     e = rsp.getProvider();

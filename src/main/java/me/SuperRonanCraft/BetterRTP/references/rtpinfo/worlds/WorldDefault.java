@@ -23,7 +23,7 @@ public class WorldDefault implements RTPWorld {
         BetterRTP.debug("Loading Defaults...");
         //Setups
         String pre = "Default";
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.CONFIG);
         //Booleans
         useWorldborder = config.getBoolean(pre + ".UseWorldBorder");
         //Integers
@@ -45,10 +45,10 @@ public class WorldDefault implements RTPWorld {
             minRad = 0;
         }
         prices.clear();
-        if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled")) {
-            price = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getInt("Economy.Price");
-            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("CustomWorlds.Enabled")) {
-                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getMapList("CustomWorlds.Prices");
+        if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled")) {
+            price = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getInt("Economy.Price");
+            if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("CustomWorlds.Enabled")) {
+                List<Map<?, ?>> world_map = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getMapList("CustomWorlds.Prices");
                 for (Map<?, ?> m : world_map)
                     for (Map.Entry<?, ?> entry : m.entrySet()) {
                         String _world = entry.getKey().toString();

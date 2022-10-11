@@ -19,7 +19,7 @@ public class RTPPotions { //Potions AND Invincibility
 
     void load() {
         potionEffects.clear();
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+        FileOther.FILETYPE config = FileOther.FILETYPE.EFFECTS;
         //Invincible
         invincibleEnabled = config.getBoolean("Invincible.Enabled");
         if (invincibleEnabled)

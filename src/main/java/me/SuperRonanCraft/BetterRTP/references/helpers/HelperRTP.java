@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
@@ -41,21 +42,14 @@ public class HelperRTP {
 
     public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
                           boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
-        if (isRTPing(player, sendi)) //Is RTP'ing
-            return;
         if (world == null)
             world = player.getWorld();
         if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
             world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
+        RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, world, ignoreCooldown);
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == player && !PermissionNode.getAWorld(sendi, world.getName())) {
-            getPl().getText().getNoPermissionWorld(player, world.getName());
-            return;
-        }
-        // Check disabled worlds
-        if (getPl().getRTP().getDisabledWorlds().contains(world.getName())) {
-            getPl().getText().getDisabledWorld(sendi, world.getName());
-            return;
+        if (cantReason != null) {
+
         }
         boolean delay = false;
         if (!ignoreDelay && sendi == player) //Forced?
@@ -63,65 +57,8 @@ public class HelperRTP {
                 if (!PermissionNode.BYPASS_DELAY.check(player)) //Can bypass?
                     delay = true;
         RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
-                biomes, delay, rtpType, locations, !ignoreCooldown && cooldownApplies(sendi, player)); //ignore cooldown or else
-        if (ignoreCooldown || isCoolingDown(sendi, player, setup_info, true)) { //Is Cooling down
-            getPl().getRTP().start(setup_info);
-        }
-    }
-
-    private static boolean isRTPing(Player player, CommandSender sendi) {
-        if (getPl().getpInfo().getRtping().getOrDefault(player, false)) {
-            getPl().getText().getAlready(sendi);
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isCoolingDown(CommandSender sendi, Player player, RTPSetupInformation setupInfo, boolean sendText) {
-        if (!cooldownApplies(sendi, player))  //Bypassing/Forced?
-            return true;
-        CooldownHandler cooldownHandler = getPl().getCooldowns();
-        if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
-            if (sendText)
-                getPl().getText().getCooldown(sendi, String.valueOf(-1L));
-            return false;
-        }
-        //Cooldown Data
-        CooldownData cooldownData = getPl().getCooldowns().get(player, setupInfo.getWorld());
-        if (cooldownData != null) {
-            if (cooldownData.getTime() == 0) //Global cooldown with nothing
-                return true;
-            else if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
-                if (sendText)
-                    getPl().getText().getNoPermission(sendi);
-                return false;
-            } else { //Normal cooldown
-                long timeLeft = cooldownHandler.timeLeft(player, cooldownData, BetterRTP.getInstance().getRTP().getPlayerWorld(setupInfo));
-                if (timeLeft > 0) {
-                    //Still cooling down
-                    if (sendText)
-                        getPl().getText().getCooldown(sendi, String.valueOf(timeLeft));
-                    return false;
-                } else {
-                    //Reset timer, but allow them to tp
-                    //cooldowns.add(id);
-                    return true;
-                }
-            }
-        }
-        return true;
-    }
-
-    private static boolean cooldownOverride(CommandSender sendi, Player player) {
-        return sendi != player || PermissionNode.BYPASS_COOLDOWN.check(player);
-    }
-
-    private static boolean cooldownEnabled() {
-        return getPl().getCooldowns().isEnabled();
-    }
-
-    private static boolean cooldownApplies(CommandSender sendi, Player player) {
-        return cooldownEnabled() && !cooldownOverride(sendi, player);
+                biomes, delay, rtpType, locations, !ignoreCooldown && HelperRTP_Check.checkCooldown(sendi, player)); //ignore cooldown or else
+        getPl().getRTP().start(setup_info);
     }
 
     private static BetterRTP getPl() {
@@ -138,4 +75,6 @@ public class HelperRTP {
         }
         return null;
     }
+
+
 }

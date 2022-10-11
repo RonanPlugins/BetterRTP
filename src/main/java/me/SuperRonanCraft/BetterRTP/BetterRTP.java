@@ -13,7 +13,7 @@ import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
 import me.SuperRonanCraft.BetterRTP.references.file.Files;
-import me.SuperRonanCraft.BetterRTP.references.file.Messages;
+import me.SuperRonanCraft.BetterRTP.references.file.MessagesOLD;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTPInventories;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class BetterRTP extends JavaPlugin {
     private final Permissions perms = new Permissions();
-    private final Messages text = new Messages();
+    private final MessagesOLD text = new MessagesOLD();
     private final DepEconomy eco = new DepEconomy();
     private final Commands cmd = new Commands(this);
     private final RTP rtp = new RTP();
@@ -92,7 +92,7 @@ public class BetterRTP extends JavaPlugin {
         return perms;
     }
 
-    public Messages getText() {
+    public MessagesOLD getText() {
         return text;
     }
 

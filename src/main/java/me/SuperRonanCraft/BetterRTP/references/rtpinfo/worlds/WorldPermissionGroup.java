@@ -86,7 +86,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                     BetterRTP.debug("- - Biomes: " + biomes);
                 }
             }
-            if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                 if (field.equalsIgnoreCase("Price")) {
                     if (hash3.getValue().getClass() == Integer.class) {
                         this.price = Integer.parseInt(hash3.getValue().toString());

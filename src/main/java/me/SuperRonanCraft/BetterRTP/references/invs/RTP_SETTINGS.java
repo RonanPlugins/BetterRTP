@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.invs;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics.FILETYPE;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther.FILETYPE;
 
 public enum RTP_SETTINGS {
     BLACKLIST(   SETTINGS_TYPE.BOOLEAN, FILETYPE.CONFIG, "Template.Enabled",

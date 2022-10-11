@@ -21,7 +21,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
 
     public WorldCustom(World world) {
         //String pre = "CustomWorlds.";
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.CONFIG);
         List<Map<?, ?>> map = config.getMapList("CustomWorlds");
         this.world = world;
 
@@ -85,7 +85,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         BetterRTP.debug("- Biomes: " + this.biomes);
                     }
                 }
-                if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+                if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                     if (test.get("Price") != null) {
                         if (test.get("Price").getClass() == Integer.class)
                             this.price = Integer.parseInt(test.get("Price").toString());

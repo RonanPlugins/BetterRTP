@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdEdit;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,17 +18,17 @@ public class HelperRTP_EditWorlds {
 
     public static void editCustomWorld(CommandSender sendi, CmdEdit.RTP_CMD_EDIT_SUB cmd, String world, String val) {
         String path = "CustomWorlds";
-        if (editSingleMap(sendi, cmd, world, val, path, FileBasics.FILETYPE.CONFIG))
+        if (editSingleMap(sendi, cmd, world, val, path, FileOther.FILETYPE.CONFIG))
             BetterRTP.getInstance().getRTP().loadWorlds();
     }
 
     public static void editLocation(CommandSender sendi, CmdEdit.RTP_CMD_EDIT_SUB cmd, String location, String val) {
         String path = "Locations";
-        if (editSingleMap(sendi, cmd, location, val, path, FileBasics.FILETYPE.LOCATIONS))
+        if (editSingleMap(sendi, cmd, location, val, path, FileOther.FILETYPE.LOCATIONS))
             BetterRTP.getInstance().getRTP().loadLocations();
     }
 
-    private static boolean editSingleMap(CommandSender sendi, CmdEdit.RTP_CMD_EDIT_SUB cmd, String field, String val, String path, FileBasics.FILETYPE file) {
+    private static boolean editSingleMap(CommandSender sendi, CmdEdit.RTP_CMD_EDIT_SUB cmd, String field, String val, String path, FileOther.FILETYPE file) {
         Object value;
         try {
             value = cmd.getResult(val);
@@ -91,7 +92,7 @@ public class HelperRTP_EditWorlds {
         }
 
         String path = "PermissionGroup.Groups";
-        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE file = FileOther.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
         List<Map<?, ?>> map = config.getMapList(path);
@@ -150,7 +151,7 @@ public class HelperRTP_EditWorlds {
             return;
         }
 
-        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE file = FileOther.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
         config.set("Default." + cmd.get(), value);
@@ -175,7 +176,7 @@ public class HelperRTP_EditWorlds {
             return;
         }
 
-        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE file = FileOther.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
         List<Map<?, ?>> world_map = config.getMapList("WorldType");
@@ -204,7 +205,7 @@ public class HelperRTP_EditWorlds {
 
     public static void editOverride(CommandSender sendi, String world, String val) {
 
-        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE file = FileOther.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
         List<Map<?, ?>> world_map = config.getMapList("Overrides");
@@ -237,7 +238,7 @@ public class HelperRTP_EditWorlds {
 
     public static void editBlacklisted(CommandSender sendi, String block, boolean add) {
 
-        FileBasics.FILETYPE file = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE file = FileOther.FILETYPE.CONFIG;
         YamlConfiguration config = file.getConfig();
 
         List<String> world_map = config.getStringList("BlacklistedBlocks");

@@ -1,8 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.references.file.Messages;
+import me.SuperRonanCraft.BetterRTP.references.file.MessagesOLD;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
@@ -17,7 +16,7 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
     }
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        Messages txt = BetterRTP.getInstance().getText();
+        MessagesOLD txt = BetterRTP.getInstance().getText();
         List<String> list = new ArrayList<>();
         list.add(txt.getHelpPrefix());
         list.add(txt.getHelpMain());

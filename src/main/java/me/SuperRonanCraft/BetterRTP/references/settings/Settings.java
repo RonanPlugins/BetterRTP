@@ -35,7 +35,7 @@ public class Settings {
 
 
     public void load() { //Load Settings
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
         debug = config.getBoolean("Settings.Debugger");
         delayEnabled = config.getBoolean("Settings.Delay.Enabled");
         delayTime = config.getInt("Settings.Delay.Time");
@@ -46,20 +46,20 @@ public class Settings {
         statusMessages = config.getBoolean("Settings.StatusMessages");
         permissionGroupEnabled = config.getBoolean("PermissionGroup.Enabled");
         queueEnabled = config.getBoolean("Settings.Queue.Enabled");
-        protocolLibSounds = FileBasics.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
-        useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
-        locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
-        useLocationsInSameWorld = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationsInSameWorld");
+        protocolLibSounds = FileOther.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
+        useLocationIfAvailable = FileOther.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
+        locationNeedPermission = FileOther.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
+        useLocationsInSameWorld = FileOther.FILETYPE.LOCATIONS.getBoolean("UseLocationsInSameWorld");
         //Placeholders
-        placeholder_true = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Success");
-        placeholder_nopermission = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.NoPermission");
-        placeholder_cooldown = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Cooldown");
-        placeholder_balance = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Price");
-        placeholder_timeFormat = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Format");
-        placeholder_timeDays = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Days");
-        placeholder_timeHours = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Hours");
-        placeholder_timeMinutes = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Minutes");
-        placeholder_timeSeconds = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
+        placeholder_true = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Success");
+        placeholder_nopermission = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.NoPermission");
+        placeholder_cooldown = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Cooldown");
+        placeholder_balance = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Price");
+        placeholder_timeFormat = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Format");
+        placeholder_timeDays = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Days");
+        placeholder_timeHours = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Hours");
+        placeholder_timeMinutes = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Minutes");
+        placeholder_timeSeconds = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
         depends.load();
     }
 

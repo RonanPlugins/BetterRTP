@@ -17,7 +17,7 @@ public class SoftDepends {
     }
 
     public void registerPlugin(REGIONPLUGINS pl) {
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.CONFIG);
+        FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.CONFIG);
         String pre = "Settings.Respect.";
         pl.getPlugin().setRespecting(config.getBoolean(pre + pl.getSetting_name()));
         if (pl.getPlugin().isRespecting())

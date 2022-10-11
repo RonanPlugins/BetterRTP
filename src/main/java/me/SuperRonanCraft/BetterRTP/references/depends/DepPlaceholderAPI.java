@@ -3,10 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.depends;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperDate;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Command;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
+import me.SuperRonanCraft.BetterRTP.references.helpers.*;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
@@ -99,11 +96,14 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
             return BetterRTP.getInstance().getSettings().getPlaceholder_nopermission();
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         //Cooldown
-        if (!HelperRTP.isCoolingDown(player, player, setupInformation, false))
+        if (!HelperRTP_Check.isCoolingDown(player, player, world))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
         WorldPlayer worldPlayer = BetterRTP.getInstance().getRTP().getPlayerWorld(setupInformation);
         //Price
         if (!BetterRTP.getInstance().getEco().hasBalance(player, worldPlayer))
+            return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
+        //Hunger
+        if (!BetterRTP.getInstance().getEco().hasHunger(player, worldPlayer))
             return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();

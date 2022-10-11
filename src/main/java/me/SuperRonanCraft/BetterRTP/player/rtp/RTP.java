@@ -5,15 +5,18 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RTP {
 
@@ -35,7 +38,7 @@ public class RTP {
     }
 
     public void load() {
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
         disabledWorlds = config.getStringList("DisabledWorlds");
         maxAttempts = config.getInt("Settings.MaxAttempts");
         delayTime = config.getInt("Settings.Delay.Time");
@@ -128,21 +131,21 @@ public class RTP {
                 pWorld.setup(null, RTPdefaultWorld, setup_info.getBiomes());
         }
         //World type
-        pWorld.setWorldtype(getWorldType(pWorld));
+        pWorld.setWorldtype(getWorldType(pWorld.getWorld()));
         return pWorld;
     }
 
-    public static WORLD_TYPE getWorldType(RTPWorld pWorld) {
+    public static WORLD_TYPE getWorldType(World world) {
         WORLD_TYPE world_type;
         RTP rtp = BetterRTP.getInstance().getRTP();
-        if (rtp.world_type.containsKey(pWorld.getWorld().getName()))
-            world_type = rtp.world_type.get(pWorld.getWorld().getName());
+        if (rtp.world_type.containsKey(world.getName()))
+            world_type = rtp.world_type.get(world.getName());
         else {
             world_type = WORLD_TYPE.NORMAL;
-            rtp.world_type.put(pWorld.getWorld().getName(), world_type); //Defaults this so the error message isn't spammed
-            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + pWorld.getWorld().getName() + "` does not have a `WorldType` declared. " +
+            rtp.world_type.put(world.getName(), world_type); //Defaults this so the error message isn't spammed
+            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + world.getName() + "` does not have a `WorldType` declared. " +
                     "Please add/fix this in the config.yml file! This world will be treated as an overworld! " +
-                    "If this world is a nether world, configure it to NETHER (example: `- " + pWorld.getWorld().getName() + ": NETHER`", false);
+                    "If this world is a nether world, configure it to NETHER (example: `- " + world.getName() + ": NETHER`", false);
         }
         return world_type;
     }

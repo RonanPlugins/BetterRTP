@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Messages {
+public class MessagesOLD {
     private final String preM = "Messages.", preH = "Help.", preU = "Usage.";
 
-    private LangFile getLang() {
+    private FileLanguage getLang() {
         return BetterRTP.getInstance().getFiles().getLang();
     }
 

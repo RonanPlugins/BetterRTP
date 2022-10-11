@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ public class RTPLoader {
         customWorlds.clear();
         BetterRTP.debug("Loading Custom Worlds...");
         try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+            FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
             List<Map<?, ?>> map = config.getMapList("CustomWorlds");
             for (Map<?, ?> m : map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -45,7 +46,7 @@ public class RTPLoader {
         BetterRTP.debug("Loading Overrides...");
         overriden.clear();
         try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+            FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
             List<Map<?, ?>> override_map = config.getMapList("Overrides");
             for (Map<?, ?> m : override_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
@@ -64,7 +65,7 @@ public class RTPLoader {
         BetterRTP.debug("Loading World Types...");
         world_type.clear();
         try {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+            FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
             for (World world : Bukkit.getWorlds())
                 world_type.put(world.getName(), WORLD_TYPE.NORMAL);
             List<Map<?, ?>> world_map = config.getMapList("WorldType");
@@ -99,7 +100,7 @@ public class RTPLoader {
 
     static void loadLocations(@NotNull HashMap<String, RTPWorld> worlds) {
         worlds.clear();
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.LOCATIONS;
+        FileOther.FILETYPE config = FileOther.FILETYPE.LOCATIONS;
         if (!config.getBoolean("Enabled"))
             return;
         BetterRTP.debug("Loading Locations...");
@@ -116,7 +117,7 @@ public class RTPLoader {
 
     static void loadPermissionGroups(@NotNull HashMap<String, PermissionGroup> permissionGroup) {
         permissionGroup.clear();
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
+        FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
         if (!getPl().getSettings().isPermissionGroupEnabled())
             return;
         BetterRTP.debug("Loading Permission Groups...");

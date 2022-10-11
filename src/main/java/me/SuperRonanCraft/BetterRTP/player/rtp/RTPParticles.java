@@ -36,7 +36,7 @@ public class RTPParticles {
             };
 
     void load() {
-        FileBasics.FILETYPE config = getPl().getFiles().getType(FileBasics.FILETYPE.EFFECTS);
+        FileOther.FILETYPE config = getPl().getFiles().getType(FileOther.FILETYPE.EFFECTS);
         enabled = config.getBoolean("Particles.Enabled");
         if (!enabled) return;
         //Enabled? Load all this junk

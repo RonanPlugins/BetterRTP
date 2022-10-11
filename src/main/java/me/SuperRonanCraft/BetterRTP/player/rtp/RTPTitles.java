@@ -14,7 +14,7 @@ public class RTPTitles {
 
     void load() {
         titles.clear();
-        FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+        FileOther.FILETYPE config = FileOther.FILETYPE.EFFECTS;
         enabled = config.getBoolean("Titles.Enabled");
         if (enabled)
             for (RTP_TITLE_TYPE type : RTP_TITLE_TYPE.values())
@@ -65,7 +65,7 @@ public class RTPTitles {
         boolean send_message;
 
         RTP_TITLE(String path) {
-            FileBasics.FILETYPE config = FileBasics.FILETYPE.EFFECTS;
+            FileOther.FILETYPE config = FileOther.FILETYPE.EFFECTS;
             title = config.getString("Titles." + path + ".Title");
             subTitle = config.getString("Titles." + path + ".Subtitle");
             send_message = config.getBoolean("Titles." + path + ".SendMessage");

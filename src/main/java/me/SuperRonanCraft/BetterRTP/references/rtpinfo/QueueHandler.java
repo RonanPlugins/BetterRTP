@@ -199,7 +199,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 PaperLib.getChunkAtAsync(loc)
                         .thenAccept(v -> {
                             Location safeLoc = RTPPlayer.getSafeLocation(
-                                    RTP.getWorldType(rtpWorld),
+                                    RTP.getWorldType(rtpWorld.getWorld()),
                                     loc.getWorld(),
                                     loc,
                                     rtpWorld.getMinY(),

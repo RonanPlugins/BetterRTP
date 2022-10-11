@@ -19,3 +19,4 @@ Config:
     NoPermission: '&cNo Permission'
     Cooldown: '&fCooling Down'
     Price: '&cNo. &7Reason: &eBankrupt'
+    Hunger: '&cNo. &7Reason: &3Starvation'

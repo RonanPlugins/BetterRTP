@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private final String name;
 
     public WorldLocations(String location_name) {
-        FileBasics.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.LOCATIONS);
+        FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.LOCATIONS);
         List<Map<?, ?>> map = config.getMapList("Locations");
         //WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;
 
@@ -97,7 +97,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                         BetterRTP.debug("- - Biomes: " + this.biomes);
                     }
                 }
-                if (BetterRTP.getInstance().getFiles().getType(FileBasics.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+                if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled"))
                     if (test.get("Price") != null) {
                         if (test.get("Price").getClass() == Integer.class) {
                             this.price = Integer.parseInt(test.get("Price").toString());
