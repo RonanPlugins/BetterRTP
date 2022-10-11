@@ -22,6 +22,17 @@ public class Settings {
     @Getter private boolean useLocationsInSameWorld;
     @Getter private boolean permissionGroupEnabled;
     @Getter private boolean queueEnabled;
+    //Placeholders
+    @Getter private String placeholder_true;
+    @Getter private String placeholder_nopermission;
+    @Getter private String placeholder_cooldown;
+    @Getter private String placeholder_balance;
+    @Getter private String placeholder_timeFormat;
+    @Getter private String placeholder_timeDays;
+    @Getter private String placeholder_timeHours;
+    @Getter private String placeholder_timeMinutes;
+    @Getter private String placeholder_timeSeconds;
+
 
     public void load() { //Load Settings
         FileBasics.FILETYPE config = FileBasics.FILETYPE.CONFIG;
@@ -39,6 +50,16 @@ public class Settings {
         useLocationIfAvailable = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileBasics.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
         useLocationsInSameWorld = FileBasics.FILETYPE.LOCATIONS.getBoolean("UseLocationsInSameWorld");
+        //Placeholders
+        placeholder_true = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Success");
+        placeholder_nopermission = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.NoPermission");
+        placeholder_cooldown = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Cooldown");
+        placeholder_balance = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Price");
+        placeholder_timeFormat = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Format");
+        placeholder_timeDays = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Days");
+        placeholder_timeHours = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Hours");
+        placeholder_timeMinutes = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Minutes");
+        placeholder_timeSeconds = FileBasics.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
         depends.load();
     }
 

@@ -64,7 +64,7 @@ public class HelperRTP {
                     delay = true;
         RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
                 biomes, delay, rtpType, locations, !ignoreCooldown && cooldownApplies(sendi, player)); //ignore cooldown or else
-        if (ignoreCooldown || isCoolingDown(sendi, player, setup_info)) { //Is Cooling down
+        if (ignoreCooldown || isCoolingDown(sendi, player, setup_info, true)) { //Is Cooling down
             getPl().getRTP().start(setup_info);
         }
     }
@@ -77,12 +77,13 @@ public class HelperRTP {
         return false;
     }
 
-    private static boolean isCoolingDown(CommandSender sendi, Player player, RTPSetupInformation setupInfo) {
+    public static boolean isCoolingDown(CommandSender sendi, Player player, RTPSetupInformation setupInfo, boolean sendText) {
         if (!cooldownApplies(sendi, player))  //Bypassing/Forced?
             return true;
         CooldownHandler cooldownHandler = getPl().getCooldowns();
         if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
-            getPl().getText().getCooldown(sendi, String.valueOf(-1L));
+            if (sendText)
+                getPl().getText().getCooldown(sendi, String.valueOf(-1L));
             return false;
         }
         //Cooldown Data
@@ -91,13 +92,15 @@ public class HelperRTP {
             if (cooldownData.getTime() == 0) //Global cooldown with nothing
                 return true;
             else if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
-                getPl().getText().getNoPermission(sendi);
+                if (sendText)
+                    getPl().getText().getNoPermission(sendi);
                 return false;
             } else { //Normal cooldown
                 long timeLeft = cooldownHandler.timeLeft(player, cooldownData, BetterRTP.getInstance().getRTP().getPlayerWorld(setupInfo));
                 if (timeLeft > 0) {
                     //Still cooling down
-                    getPl().getText().getCooldown(sendi, String.valueOf(timeLeft));
+                    if (sendText)
+                        getPl().getText().getCooldown(sendi, String.valueOf(timeLeft));
                     return false;
                 } else {
                     //Reset timer, but allow them to tp
