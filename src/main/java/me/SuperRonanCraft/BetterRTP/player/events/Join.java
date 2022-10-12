@@ -4,6 +4,8 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
@@ -26,7 +28,7 @@ public class Join {
     private static void updater(Player p) {
         if (!getPl().getFiles().getType(FileOther.FILETYPE.CONFIG).getBoolean("Settings.DisableUpdater") && PermissionNode.UPDATER.check(p))
             if (!getPl().getDescription().getVersion().equals(Updater.updatedVersion))
-                getPl().getText().sms(p, "&7There is currently an update for &6BetterRTP &7version &e#" +
+                Message_RTP.sms(p, "&7There is currently an update for &6BetterRTP &7version &e#" +
                         Updater.updatedVersion + " &7you have version &e#" + getPl().getDescription().getVersion());
     }
 

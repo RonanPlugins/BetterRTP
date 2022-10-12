@@ -30,6 +30,8 @@ public enum MessagesCore {
     PREFIX("Prefix"),
     //EDIT
     EDIT_ERROR("Edit.Error"),
+    EDIT_SET("Edit.Set"),
+    EDIT_REMOVE("Edit.Remove"),
     ;
 
     final String section;

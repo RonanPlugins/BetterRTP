@@ -5,17 +5,19 @@ import org.bukkit.command.CommandSender;
 
 public enum MessagesUsage implements MessageData {
 
-    GIVE_GEAR("Give.Gear"),
-    GIVE_CATALYST("Give.Catalyst"),
-    GIVE_TRACKER("Give.Tracker"),
-    GIVE_COINS("Give.Coins"),
-    GIVE_AMETHYSTS("Give.Amethysts"),
-    GIVE_GEODES("Give.Geodes"),
-    XPBOOST_PLAYER("XpBoost.Player"),
-    XPBOOST_ONLINE("XpBoost.Online"),
-    XPBOOST_GLOBAL("XpBoost.Global"),
-    SPAWN_MOB("SpawnMob"),
-    RELOAD("Reload"),
+    RTP_OTHER("Player"),
+    WORLD("World"),
+    BIOME("Biome"),
+    LOCATION("Location"),
+    //Edit
+    EDIT_LOCATION("Edit.Location"),
+    EDIT_BASE("Edit.Base"),
+    EDIT_DEFAULT("Edit.Default"),
+    EDIT_WORLD("Edit.World"),
+    EDIT_WORLDTYPE("Edit.Worldtype"),
+    EDIT_OVERRIDE("Edit.Override"),
+    EDIT_BLACKLISTEDBLLOCKS("Edit.BlacklistedBlocks"),
+    EDIT_PERMISSIONGROUP("Edit.PermissionGroup"),
     ;
 
     final String section;

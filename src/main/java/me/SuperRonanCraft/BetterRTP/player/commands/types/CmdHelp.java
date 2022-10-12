@@ -4,9 +4,13 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.file.MessagesOLD;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CmdHelp implements RTPCommand, RTPCommandHelpable {
@@ -18,28 +22,20 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         MessagesOLD txt = BetterRTP.getInstance().getText();
         List<String> list = new ArrayList<>();
-        list.add(txt.getHelpPrefix());
-        list.add(txt.getHelpMain());
+        //list.add(txt.getHelpPrefix());
+        list.add(MessagesHelp.PREFIX.get());
+        //list.add(txt.getHelpMain());
+        list.add(MessagesHelp.MAIN.get());
         for (RTPCommand cmd : BetterRTP.getInstance().getCmd().commands)
             if (cmd.permission(sendi))
                 if (cmd instanceof RTPCommandHelpable) {
                     String help = ((RTPCommandHelpable) cmd).getHelp();
                     list.add(help);
                 }
-        for (int i = 0; i < list.size(); i++)
-            list.set(i, list.get(i).replace("%command%", label));
-        BetterRTP.getInstance().getText().sms(sendi, list);
-//        if (pl.getPerms().getRtpOther(sendi))
-//            pl.getText().getHelpPlayer(sendi, label);
-//        if (sendi instanceof Player) {
-//            if (pl.getPerms().getWorld(sendi))
-//                pl.getText().getHelpWorld(sendi, label);
-//        } else
-//            pl.getText().getHelpWorld(sendi, label);
-//        if (pl.getPerms().getReload(sendi))
-//            pl.getText().getHelpReload(sendi, label);
-        //if (pl.getPerms().getInfo(sendi))
-        //    pl.getText().getHelpInfo(sendi);
+        //for (int i = 0; i < list.size(); i++)
+        //    list.set(i, list.get(i).replace("%command%", label));
+        //BetterRTP.getInstance().getText().sms(sendi, list);
+        Message_RTP.sms(sendi, list, Collections.singletonList(label));
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
@@ -53,6 +49,6 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpHelp();
+        return MessagesHelp.HELP.get();
     }
 }

@@ -19,6 +19,8 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerDataManager;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,10 +44,14 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final QueueHandler queue = new QueueHandler();
     @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
     @Getter private final WarningHandler warningHandler = new WarningHandler();
+    @Getter private BukkitAudiences adventure;
+    @Getter private boolean PlaceholderAPI;
 
     @Override
     public void onEnable() {
         instance = this;
+        this.adventure = BukkitAudiences.create(this);
+        registerDependencies();
         new Updater(this);
         new Metrics(this);
         loadAll();
@@ -62,6 +68,14 @@ public class BetterRTP extends JavaPlugin {
     public void onDisable() {
         invs.closeAll();
         queue.unload();
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+    }
+
+    private void registerDependencies() {
+        PlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     public Files getFiles() {

@@ -2,15 +2,13 @@ package me.SuperRonanCraft.BetterRTP.references.messages;
 
 import com.google.common.collect.ImmutableCollection;
 import lombok.NonNull;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileData;
-import me.ronancraft.AmethystGear.AmethystGear;
-import me.ronancraft.AmethystGear.resources.files.FileData;
-import me.ronancraft.AmethystGear.resources.messages.placeholderdata.PlaceholderAnalyzer;
+import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.PlaceholderAnalyzer;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -27,25 +25,25 @@ public interface Message {
 
     static void sms(Message messenger, CommandSender sendi, String msg) {
         if (!msg.isEmpty())
-            Bukkit.getScheduler().runTask(AmethystGear.getInstance(), () ->
+            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
                     sendi.sendMessage(placeholder(sendi, getPrefix(messenger) + msg)));
     }
 
     static void sms(Message messenger, CommandSender sendi, String msg, Object placeholderInfo) {
         if (!msg.isEmpty())
-            Bukkit.getScheduler().runTask(AmethystGear.getInstance(), () ->
+            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
                     sendi.sendMessage(Objects.requireNonNull(placeholder(sendi, getPrefix(messenger) + msg, placeholderInfo))));
     }
 
     static void sms(Message messenger, CommandSender sendi, String msg, List<Object> placeholderInfo) {
         if (!msg.isEmpty())
-            Bukkit.getScheduler().runTask(AmethystGear.getInstance(), () ->
+            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
                     sendi.sendMessage(placeholder(sendi, getPrefix(messenger) + msg, placeholderInfo)));
     }
 
     static void sms(CommandSender sendi, List<String> msg, Object placeholderInfo) {
         if (msg != null && !msg.isEmpty()) {
-            Bukkit.getScheduler().runTask(AmethystGear.getInstance(), () -> {
+            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () -> {
                 msg.forEach(str -> msg.set(msg.indexOf(str), placeholder(sendi, str, placeholderInfo)));
                 sendi.sendMessage(msg.toArray(new String[0]));
             });
@@ -60,16 +58,18 @@ public interface Message {
 
     static void smsActionBar(Player sendi, String msg) {
         if (msg == null || msg.isEmpty()) return;
-        sendi.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(msg));
+        Audience audience = BetterRTP.getInstance().getAdventure().player(sendi);
+        audience.sendActionBar(Component.text(msg));
+        //sendi.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
     }
 
     static void smsTitle(Player sendi, List<String> msg) {
         if (msg == null || msg.isEmpty()) return;
+        Audience audience = BetterRTP.getInstance().getAdventure().player(sendi);
         if (msg.size() == 1)
-            Audience.audience(sendi).showTitle(Title.title(Component.text(" "), Component.text(msg.get(0))));
+            audience.showTitle(Title.title(Component.text(" "), Component.text(msg.get(0))));
         else
-            Audience.audience(sendi).showTitle(Title.title(Component.text(msg.get(0)), Component.text(msg.get(1))));
+            audience.showTitle(Title.title(Component.text(msg.get(0)), Component.text(msg.get(1))));
     }
 
     static String getPrefix(Message messenger) {
@@ -121,25 +121,27 @@ public interface Message {
     }
 
     static String color(String str) {
-        str = ChatColor.translateAlternateColorCodes('&', str);
         return translateHexColorCodes(str);
     }
 
-    char COLOR_CHAR = ChatColor.COLOR_CHAR;
-
-    private static String translateHexColorCodes(String message)
-    {
-        final Pattern hexPattern = Pattern.compile("&#" + "([A-Fa-f0-9]{6})");
-        Matcher matcher = hexPattern.matcher(message);
-        StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
+    //Thank you to zwrumpy on Spigot! (https://www.spigotmc.org/threads/hex-color-code-translate.449748/#post-4270781)
+    //Supports 1.8 to 1.18
+    static String translateHexColorCodes(String message) {
+        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        Matcher matcher = pattern.matcher(message);
         while (matcher.find()) {
-            String group = matcher.group(1);
-            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-            );
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace('#', 'x');
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+
+            message = message.replace(hexCode, builder.toString());
+            matcher = pattern.matcher(message);
         }
-        return matcher.appendTail(buffer).toString();
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

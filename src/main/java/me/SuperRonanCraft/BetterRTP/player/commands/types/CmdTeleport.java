@@ -1,10 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +17,7 @@ public class CmdTeleport implements RTPCommand {
         if (sendi instanceof Player)
             HelperRTP.tp((Player) sendi, sendi, world, biomes, RTP_TYPE.COMMAND);
         else
-            BetterRTP.getInstance().getText().getNotPlayer(sendi, label);
+            Message_RTP.sms(sendi, "Must be a player to use this command! Try '/" + label + " help'");
     }
 
     @Override

@@ -4,6 +4,9 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdEdit;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,7 +55,10 @@ public class HelperRTP_EditWorlds {
                 for (Object map2 : m.values()) {
                     Map<Object, Object> values = (Map<Object, Object>) map2;
                     values.put(cmd.get(), value);
-                    BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+                    Message_RTP.sms(sendi,
+                            MessagesCore.EDIT_SET.get(sendi, null)
+                                    .replace("%type%", cmd.get())
+                                    .replace("%value%", val));
                 }
                 break;
             }
@@ -110,7 +116,11 @@ public class HelperRTP_EditWorlds {
                             if (world.equals(worldFields.getKey().toString())) {
                                 Map<Object, Object> values = (Map<Object, Object>) worldFields.getValue();
                                 values.put(cmd.get(), value);
-                                BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+                                Message_RTP.sms(sendi,
+                                        MessagesCore.EDIT_SET.get(sendi, null)
+                                                .replace("%type%", cmd.get())
+                                                .replace("%value%", val));
+                                //BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
                             }
                         }
                     }
@@ -142,12 +152,14 @@ public class HelperRTP_EditWorlds {
             value = cmd.getResult(val);
         } catch (Exception e) {
             e.printStackTrace();
-            BetterRTP.getInstance().getText().getEditError(sendi);
+            MessagesCore.EDIT_ERROR.send(sendi);
+            //BetterRTP.getInstance().getText().getEditError(sendi);
             return;
         }
 
         if (value == null) {
-            BetterRTP.getInstance().getText().getEditError(sendi);
+            MessagesCore.EDIT_ERROR.send(sendi);
+            //BetterRTP.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -159,7 +171,11 @@ public class HelperRTP_EditWorlds {
         try {
             config.save(file.getFile());
             BetterRTP.getInstance().getRTP().loadWorlds();
-            BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
+            Message_RTP.sms(sendi,
+                    MessagesCore.EDIT_SET.get(sendi, null)
+                            .replace("%type%", cmd.get())
+                            .replace("%value%", val));
+            //BetterRTP.getInstance().getText().getEditSet(sendi, cmd.get(), val);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,7 +188,8 @@ public class HelperRTP_EditWorlds {
             type = WORLD_TYPE.valueOf(val.toUpperCase());
         } catch (Exception e) {
             //e.printStackTrace();
-            BetterRTP.getInstance().getText().getEditError(sendi);
+            MessagesCore.EDIT_ERROR.send(sendi);
+            //BetterRTP.getInstance().getText().getEditError(sendi);
             return;
         }
 
@@ -197,7 +214,11 @@ public class HelperRTP_EditWorlds {
         try {
             config.save(file.getFile());
             BetterRTP.getInstance().getRTP().load();
-            BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.WORLD_TYPE.name(), val);
+            Message_RTP.sms(sendi,
+                    MessagesCore.EDIT_SET.get(sendi, null)
+                            .replace("%type%", CmdEdit.RTP_CMD_EDIT.WORLD_TYPE.name())
+                            .replace("%value%", val));
+            //BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.WORLD_TYPE.name(), val);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -230,7 +251,11 @@ public class HelperRTP_EditWorlds {
         try {
             config.save(file.getFile());
             BetterRTP.getInstance().getRTP().load();
-            BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.OVERRIDE.name(), val);
+            Message_RTP.sms(sendi,
+                    MessagesCore.EDIT_SET.get(sendi, null)
+                            .replace("%type%", CmdEdit.RTP_CMD_EDIT.OVERRIDE.name())
+                            .replace("%value%", val));
+            //BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.OVERRIDE.name(), val);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -260,7 +285,11 @@ public class HelperRTP_EditWorlds {
         try {
             config.save(file.getFile());
             BetterRTP.getInstance().getRTP().load();
-            BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.BLACKLISTEDBLOCKS.name(), block);
+            Message_RTP.sms(sendi,
+                    MessagesCore.EDIT_SET.get(sendi, null)
+                            .replace("%type%", CmdEdit.RTP_CMD_EDIT.BLACKLISTEDBLOCKS.name())
+                            .replace("%value%", block));
+            //BetterRTP.getInstance().getText().getEditSet(sendi, CmdEdit.RTP_CMD_EDIT.BLACKLISTEDBLOCKS.name(), block);
         } catch (IOException e) {
             e.printStackTrace();
         }

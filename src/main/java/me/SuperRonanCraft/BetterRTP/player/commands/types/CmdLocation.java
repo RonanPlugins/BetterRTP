@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
@@ -102,6 +103,6 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpLocation();
+        return MessagesHelp.LOCATION.get();
     }
 }

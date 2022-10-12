@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -61,6 +62,6 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpWorld();
+        return MessagesHelp.WORLD.get();
     }
 }

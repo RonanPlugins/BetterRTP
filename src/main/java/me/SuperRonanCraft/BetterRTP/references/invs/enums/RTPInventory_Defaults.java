@@ -2,6 +2,8 @@ package me.SuperRonanCraft.BetterRTP.references.invs.enums;
 
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.Bukkit;
@@ -28,7 +30,8 @@ public interface RTPInventory_Defaults {
             if (lore != null)
                 _meta.setLore(lore);
             if (name != null)
-                _meta.setDisplayName(BetterRTP.getInstance().getText().color(name));
+                _meta.setDisplayName(Message.color(name));
+            //(BetterRTP.getInstance().getText().color(name));
         }
         _stack.setItemMeta(_meta);
         return _stack;
@@ -41,7 +44,7 @@ public interface RTPInventory_Defaults {
     }
 
     default Inventory createInv(int size, String title) {
-        title = BetterRTP.getInstance().getText().color(title);
+        title = Message.color(title);//BetterRTP.getInstance().getText().color(title);
         return Bukkit.createInventory(null, size, title);
     }
 }

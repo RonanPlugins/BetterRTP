@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Message_RTP implements Message {
 
-    static Message_RTP msg = new Message_RTP();
+    public static Message_RTP msg = new Message_RTP();
 
     public static FileData getLang() {
         return BetterRTP.getInstance().getFiles().getLang();
@@ -29,6 +29,10 @@ public class Message_RTP implements Message {
 
     public static void sms(CommandSender sendi, String msg, List<Object> placeholderInfo) {
         Message.sms(Message_RTP.msg, sendi, msg, placeholderInfo);
+    }
+
+    public static void sms(CommandSender sendi, List<String> msg, List<Object> placeholderInfo) {
+        Message.sms(sendi, msg, placeholderInfo);
     }
 
     public static String getPrefix() {

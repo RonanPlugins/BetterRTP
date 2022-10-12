@@ -6,6 +6,8 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_EditWorlds;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.Bukkit;
@@ -277,19 +279,19 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         if (type != null)
             switch (type) {
                 case DEFAULT:
-                    BetterRTP.getInstance().getText().getUsageEditDefault(sendi, label); break;
+                    MessagesUsage.EDIT_DEFAULT.send(sendi, label); break;
                 case CUSTOMWORLD:
-                    BetterRTP.getInstance().getText().getUsageEditWorld(sendi, label); break;
+                    MessagesUsage.EDIT_WORLD.send(sendi, label); break;
                 case WORLD_TYPE:
-                    BetterRTP.getInstance().getText().getUsageWorldtype(sendi, label); break;
+                    MessagesUsage.EDIT_WORLDTYPE.send(sendi, label); break;
                 case OVERRIDE:
-                    BetterRTP.getInstance().getText().getUsageOverride(sendi, label); break;
+                    MessagesUsage.EDIT_OVERRIDE.send(sendi, label); break;
                 case BLACKLISTEDBLOCKS:
-                    BetterRTP.getInstance().getText().getUsageBlacklistedBlocks(sendi, label); break;
+                    MessagesUsage.EDIT_BLACKLISTEDBLLOCKS.send(sendi, label); break;
                 case PERMISSION_GROUP:
-                    BetterRTP.getInstance().getText().getUsagePermissionGroup(sendi, label); break;
+                    MessagesUsage.EDIT_PERMISSIONGROUP.send(sendi, label); break;
                 case LOCATION:
-                    BetterRTP.getInstance().getText().getUsageEditLocation(sendi, label); break;
+                    MessagesUsage.EDIT_LOCATION.send(sendi, label); break;
             }
         else
             BetterRTP.getInstance().getText().getUsageEdit(sendi, label);
@@ -297,7 +299,7 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
 
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpEdit();
+        return MessagesHelp.EDIT.get();
     }
 
     public enum RTP_CMD_EDIT {

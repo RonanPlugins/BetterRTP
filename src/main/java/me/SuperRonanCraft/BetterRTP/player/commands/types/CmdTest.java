@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,7 +39,7 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpTest();
+        return MessagesHelp.TEST.get();
     }
 
     @Override

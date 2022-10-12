@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -72,12 +73,8 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
         BetterRTP.getInstance().getText().getUsageRTPOther(sendi, label);
     }
 
-    private Commands getCmd() {
-        return BetterRTP.getInstance().getCmd();
-    }
-
     @Override
     public String getHelp() {
-        return BetterRTP.getInstance().getText().getHelpPlayer();
+        return MessagesHelp.PLAYER.get();
     }
 }

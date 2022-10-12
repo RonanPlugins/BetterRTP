@@ -5,19 +5,18 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileData;
 public enum MessagesHelp implements MessageData {
 
     PREFIX("Prefix"),
-    //Amethyst
-    AMETHYST_ADMIN("Admin"),
-    AMETHYST_CATALOG("Catalog"),
-    AMETHYST_CATALYSTS("Catalysts"),
-    AMETHYST_GEAR("Gear"),
-    AMETHYST_GEODES("Geodes"),
-    AMETHYST_GIVE("Give"),
-    AMETHYST_PROFILE("Profile"),
-    AMETHYST_SHOP("Shop"),
-    AMETHYST_XPBOOST("XPBoost"),
-    //Base
-    RELOAD("Reload"),
+    MAIN("Main"),
+    BIOME("Biome"),
+    EDIT("Edit"),
     HELP("Help"),
+    INFO("Info"),
+    PLAYER("Player"),
+    RELOAD("Reload"),
+    SETTINGS("Settings"),
+    TEST("Test"),
+    VERSION("Version"),
+    WORLD("World"),
+    LOCATION("Location"),
     ;
 
     final String section;
