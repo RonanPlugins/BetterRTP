@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.messages;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileData;
-import me.ronancraft.AmethystGear.resources.files.FileData;
 import org.bukkit.command.CommandSender;
 
 public enum MessagesUsage implements MessageData {
@@ -26,7 +25,7 @@ public enum MessagesUsage implements MessageData {
     }
 
     public void send(CommandSender sendi, Object placeholderInfo) {
-        Message_Gear.sms(sendi, Message_Gear.getLang().getString(prefix() + section), placeholderInfo);
+        Message_RTP.sms(sendi, Message_RTP.getLang().getString(prefix() + section), placeholderInfo);
     }
 
     @Override
@@ -41,6 +40,6 @@ public enum MessagesUsage implements MessageData {
 
     @Override
     public FileData file() {
-        return Message_Gear.getLang();
+        return Message_RTP.getLang();
     }
 }

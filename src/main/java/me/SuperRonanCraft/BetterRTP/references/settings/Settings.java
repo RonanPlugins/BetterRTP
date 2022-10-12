@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.settings;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 
 public class Settings {
 
@@ -27,6 +28,7 @@ public class Settings {
     @Getter private String placeholder_nopermission;
     @Getter private String placeholder_cooldown;
     @Getter private String placeholder_balance;
+    @Getter private String placeholder_hunger;
     @Getter private String placeholder_timeFormat;
     @Getter private String placeholder_timeDays;
     @Getter private String placeholder_timeHours;
@@ -55,6 +57,7 @@ public class Settings {
         placeholder_nopermission = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.NoPermission");
         placeholder_cooldown = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Cooldown");
         placeholder_balance = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Price");
+        placeholder_hunger = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Hunger");
         placeholder_timeFormat = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Format");
         placeholder_timeDays = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Days");
         placeholder_timeHours = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Hours");

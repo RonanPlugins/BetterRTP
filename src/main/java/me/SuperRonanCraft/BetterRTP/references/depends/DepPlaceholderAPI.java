@@ -95,16 +95,16 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         if (!PermissionNode.getAWorld(player, world.getName()))
             return BetterRTP.getInstance().getSettings().getPlaceholder_nopermission();
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
+        WorldPlayer pWorld = BetterRTP.getInstance().getRTP().getPlayerWorld(setupInformation);
         //Cooldown
-        if (!HelperRTP_Check.isCoolingDown(player, player, world))
+        if (!HelperRTP_Check.isCoolingDown(player, player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
-        WorldPlayer worldPlayer = BetterRTP.getInstance().getRTP().getPlayerWorld(setupInformation);
         //Price
-        if (!BetterRTP.getInstance().getEco().hasBalance(player, worldPlayer))
+        if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
         //Hunger
-        if (!BetterRTP.getInstance().getEco().hasHunger(player, worldPlayer))
-            return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
+        if (!BetterRTP.getInstance().getEco().hasHunger(player, pWorld))
+            return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
     }

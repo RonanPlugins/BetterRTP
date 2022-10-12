@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -97,9 +98,9 @@ public class CooldownHandler {
         return null;
     }
 
-    public long timeLeft(CommandSender sendi, CooldownData data, World world) {
+    public long timeLeft(CommandSender sendi, CooldownData data, WorldPlayer pWorld) {
         long cooldown = data.getTime();
-        long timeLeft = ((cooldown / 1000) + rtpWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
+        long timeLeft = ((cooldown / 1000) + pWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
         if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))
             timeLeft = timeLeft + BetterRTP.getInstance().getSettings().getDelayTime();
         return timeLeft;

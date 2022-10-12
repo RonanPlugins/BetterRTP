@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -24,33 +25,36 @@ import java.util.Random;
 
 public class HelperRTP_Check {
 
-    public static RTP_ERROR_REQUEST_REASON canRTP(Player player, CommandSender sendi, World world, boolean ignoreCooldown) {
+    public static RTP_ERROR_REQUEST_REASON canRTP(Player player, CommandSender sendi, WorldPlayer pWorld, boolean ignoreCooldown) {
         if (isRTPing(player)) { //Is RTP'ing
             //getPl().getText().getAlready(sendi);
             return RTP_ERROR_REQUEST_REASON.IS_RTPING;
         }
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == player && !PermissionNode.getAWorld(sendi, world.getName())) {
+        if (sendi == player && !PermissionNode.getAWorld(sendi, pWorld.getWorld().getName())) {
             //getPl().getText().getNoPermissionWorld(player, world.getName());
             return RTP_ERROR_REQUEST_REASON.NO_PERMISSION;
         }
         // Check disabled worlds
-        if (getPl().getRTP().getDisabledWorlds().contains(world.getName())) {
+        if (getPl().getRTP().getDisabledWorlds().contains(pWorld.getWorld().getName())) {
             //getPl().getText().getDisabledWorld(sendi, world.getName());
             return RTP_ERROR_REQUEST_REASON.WORLD_DISABLED;
         }
-        if (sendi == player && checkCooldown(sendi, player) && !isCoolingDown(sendi, player, world)) { //Is Cooling down
+        if (sendi == player && checkCooldown(sendi, player) && !isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
             return RTP_ERROR_REQUEST_REASON.COOLDOWN;
         }
-        if (getPl().getEco().hasBalance(sendi, ))
-            return null;
+        if (getPl().getEco().hasBalance(sendi, pWorld))
+            return RTP_ERROR_REQUEST_REASON.PRICE_ECONOMY;
+        if (getPl().getEco().hasHunger(sendi, pWorld))
+            return RTP_ERROR_REQUEST_REASON.PRICE_HUNGER;
+        return null;
     }
 
     private static boolean isRTPing(Player player) {
         return getPl().getpInfo().getRtping().getOrDefault(player, false);
     }
 
-    public static boolean isCoolingDown(CommandSender sendi, Player player, World world) {
+    public static boolean isCoolingDown(CommandSender sendi, Player player, WorldPlayer pWorld) {
         if (!checkCooldown(sendi, player))  //Bypassing/Forced?
             return true;
         CooldownHandler cooldownHandler = getPl().getCooldowns();
@@ -59,7 +63,7 @@ public class HelperRTP_Check {
             return false;
         }
         //Cooldown Data
-        CooldownData cooldownData = getPl().getCooldowns().get(player, world);
+        CooldownData cooldownData = getPl().getCooldowns().get(player, pWorld.getWorld());
         if (cooldownData != null) {
             if (cooldownData.getTime() == 0) //Global cooldown with nothing
                 return true;
@@ -67,7 +71,7 @@ public class HelperRTP_Check {
                 getPl().getText().getNoPermission(sendi);
                 return false;
             } else { //Normal cooldown
-                long timeLeft = cooldownHandler.timeLeft(player, cooldownData, world);
+                long timeLeft = cooldownHandler.timeLeft(player, cooldownData, pWorld);
                 if (timeLeft > 0) {
                     //Still cooling down
                     getPl().getText().getCooldown(sendi, String.valueOf(timeLeft));

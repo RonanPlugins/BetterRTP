@@ -57,13 +57,13 @@ public class DepEconomy {
 
     public boolean hasBalance(CommandSender sendi, WorldPlayer pWorld) {
         check(false);
-        Player player = pWorld.getPlayer();
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
+        int price = pWorld.getPrice();
+        if (e != null && price != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
             try {
-                boolean passed_economy = e.getBalance(player) >= pWorld.getPrice();
+                boolean passed_economy = e.getBalance(pWorld.getPlayer()) >= price;
                 if (!passed_economy) {
-                    BetterRTP.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
+                    BetterRTP.getInstance().getText().getFailedPrice(sendi, price);
                     return false;
                 }
             } catch (Exception e) {

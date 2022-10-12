@@ -1,8 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.messages;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.ronancraft.AmethystGear.AmethystGear;
-import me.ronancraft.AmethystGear.resources.files.FileData;
+import me.SuperRonanCraft.BetterRTP.references.file.FileData;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -21,18 +20,18 @@ public class Message_RTP implements Message {
     }
 
     public static void sms(CommandSender sendi, String msg) {
-        Message.sms(Message_Gear.msg, sendi, msg);
+        Message.sms(Message_RTP.msg, sendi, msg);
     }
 
     public static void sms(CommandSender sendi, String msg, Object placeholderInfo) {
-        Message.sms(Message_Gear.msg, sendi, msg, placeholderInfo);
+        Message.sms(Message_RTP.msg, sendi, msg, placeholderInfo);
     }
 
     public static void sms(CommandSender sendi, String msg, List<Object> placeholderInfo) {
-        Message.sms(Message_Gear.msg, sendi, msg, placeholderInfo);
+        Message.sms(Message_RTP.msg, sendi, msg, placeholderInfo);
     }
 
     public static String getPrefix() {
-        return Message.getPrefix(Message_Gear.msg);
+        return Message.getPrefix(Message_RTP.msg);
     }
 }

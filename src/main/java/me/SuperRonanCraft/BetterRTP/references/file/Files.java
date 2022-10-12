@@ -4,7 +4,7 @@ public class Files {
     private final FileLanguage langFile = new FileLanguage();
     private final FileOther basics = new FileOther();
 
-    FileLanguage getLang() {
+    public FileLanguage getLang() {
         return langFile;
     }
 

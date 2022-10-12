@@ -161,7 +161,7 @@ public class RTP {
         WorldPlayer pWorld = getPlayerWorld(setup_info);
         //Debugging!
         //CmdInfo.sendInfoWorld(sendi, CmdInfo.infoGetWorld(sendi, setup_info.getWorld(), setup_info.getPlayer(), pWorld));
-        // Economy
+        // Second Economy check
         if (!getPl().getEco().hasBalance(sendi, pWorld))
             return;
         rtp(sendi, pWorld, setup_info.isDelay(), setup_info.getRtp_type(), setup_info.isCooldown());
