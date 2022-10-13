@@ -1,8 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.references.messages.placeholder;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,9 +22,19 @@ public class PlaceholderAnalyzer {
             str = ints(str, (Integer) info);
         if (info instanceof Biome)
             str = biome(str, (Biome) info);
+        if (info instanceof WorldPlayer)
+            str = worldPlayer((WorldPlayer) info, str);
+        if (info instanceof World)
+            str = world(str, (World) info);
         if (p instanceof Player)
             str = papi((Player) p, str);
         return str;
+    }
+
+    private static String worldPlayer(WorldPlayer pWorld, String str) {
+        str = ints(str, pWorld.getPrice());
+        str = world(str, pWorld.getWorld());
+        return player(str, pWorld.getPlayer());
     }
 
     private static String string(String str, String info) {
@@ -44,8 +56,12 @@ public class PlaceholderAnalyzer {
             str = str.replace(Placeholders.LOCATION_Y.name, String.valueOf(loc.getBlockY()));
         if (str.contains(Placeholders.LOCATION_Z.name))
             str = str.replace(Placeholders.LOCATION_Z.name, String.valueOf(loc.getBlockZ()));
+        return world(str, loc.getWorld());
+    }
+
+    private static String world(String str, World world) {
         if (str.contains(Placeholders.WORLD.name))
-            str = str.replace(Placeholders.WORLD.name, loc.getWorld().getName());
+            str = str.replace(Placeholders.WORLD.name, world.getName());
         return str;
     }
 
@@ -73,6 +89,8 @@ public class PlaceholderAnalyzer {
             str = str.replace(Placeholders.PRICE.name, String.valueOf(num));
         if (str.contains(Placeholders.DELAY.name))
             str = str.replace(Placeholders.DELAY.name, String.valueOf(num));
+        if (str.contains(Placeholders.TIME.name))
+            str = str.replace(Placeholders.TIME.name, String.valueOf(num));
         return str;
     }
 

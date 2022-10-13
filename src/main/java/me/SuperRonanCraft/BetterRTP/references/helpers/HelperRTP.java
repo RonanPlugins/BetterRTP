@@ -39,26 +39,23 @@ public class HelperRTP {
 
     public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
                           boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
-        if (world == null)
-            world = player.getWorld();
-        if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
-            world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
+        world = getActualWorld(player, world);
         RTPSetupInformation setup_info = new RTPSetupInformation(
                 world,
                 sendi,
                 player,
                 true,
                 biomes,
-                !ignoreDelay && HelperRTP_Check.isDelay(player, sendi),
+                !ignoreDelay && HelperRTP_Check.applyDelay(player, sendi),
                 rtpType,
                 locations,
-                !ignoreCooldown && HelperRTP_Check.checkCooldown(sendi, player)
+                !ignoreCooldown && HelperRTP_Check.applyCooldown(sendi, player)
         );
+        //RTP request cancelled reason
         WorldPlayer pWorld = getPlayerWorld(setup_info);
         RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, ignoreCooldown);
-        // Not forced and has 'betterrtp.world.<world>'
         if (cantReason != null) {
-            cantReason.getMsg().send(sendi);
+            cantReason.getMsg().send(sendi, pWorld);
             return;
         }
         //ignore cooldown or else
@@ -67,6 +64,14 @@ public class HelperRTP {
 
     private static BetterRTP getPl() {
         return BetterRTP.getInstance();
+    }
+
+    public static World getActualWorld(Player player, World world) {
+        if (world == null)
+            world = player.getWorld();
+        if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
+            world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
+        return world;
     }
 
     @Nullable
@@ -109,21 +114,7 @@ public class HelperRTP {
         }
 
         if (!pWorld.isSetup()) {
-            WorldPermissionGroup group = null;
-            if (pWorld.getPlayer() != null)
-                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().getPermissionGroups().entrySet()) {
-                    for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
-                        if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
-                            if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
-                                if (group != null) {
-                                    if (group.getPriority() < worldPermission.getValue().getPriority())
-                                        continue;
-                                }
-                                group = worldPermission.getValue();
-                            }
-                        }
-                    }
-                }
+            WorldPermissionGroup group = getGroup(pWorld);
 
             //Permission Group
             if (group != null) {
@@ -159,4 +150,22 @@ public class HelperRTP {
         return world_type;
     }
 
+    public static WorldPermissionGroup getGroup(WorldPlayer pWorld) {
+        WorldPermissionGroup group = null;
+        if (pWorld.getPlayer() != null)
+            for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().getPermissionGroups().entrySet()) {
+                for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
+                    if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
+                        if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
+                            if (group != null) {
+                                if (group.getPriority() < worldPermission.getValue().getPriority())
+                                    continue;
+                            }
+                            group = worldPermission.getValue();
+                        }
+                    }
+                }
+            }
+        return group;
+    }
 }

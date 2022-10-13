@@ -2,18 +2,19 @@
 betterrtp_count: 'Get total amount of rtp''s done'
 betterrtp_cooldown: 'Get cooldown in current world'
 betterrtp_cooldown_<world_name>: 'Get cooldown of a specified world'
+betterrtp_cooldowntime: 'Get cooldown time subject to in current world'
+betterrtp_cooldowntime_<world_name>: 'Get cooldown time subject to in specified world'
 betterrtp_canrtp_<world_name>: 'Get the reason or yes output if player can rtp in set world'
 betterrtp_canrtp: 'Get the reason or yes output if player can rtp in current world'
 
 ##Config section for placeholder outputs
 Config:
   TimeFormat:
-    Days: '{0} Day(s)'
-    Hours: '{0} Hours'
-    Minutes: '{0} Mins'
+    Days: '{0} Day(s), '
+    Hours: '{0} Hours, '
+    Minutes: '{0} Mins and '
     Seconds: '{0} Secs'
-    #Placeholder %d = DAYS, %h = HOURS, %m = MINUTES, %s = SECONDS
-    Format: '%d, %h, %m and %s'
+    ZeroAll: 'None'
   CanRTP:
     Success: '&aYes'
     NoPermission: '&cNo Permission'

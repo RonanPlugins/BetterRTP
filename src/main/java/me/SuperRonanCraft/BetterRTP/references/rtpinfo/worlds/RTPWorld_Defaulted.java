@@ -33,7 +33,7 @@ public interface RTPWorld_Defaulted {
     void setCooldown(long value);
 
     default void setupDefaults() {
-        setAllFrom(BetterRTP.getInstance().getRTP().RTPdefaultWorld);
+        setAllFrom(BetterRTP.getInstance().getRTP().getRTPdefaultWorld());
     }
 
     default void setAllFrom(RTPWorld rtpWorld) {

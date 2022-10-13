@@ -84,7 +84,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     private static HashMap<String, RTPWorld> getLocations() {
-        return BetterRTP.getInstance().getRTP().RTPworldLocations;
+        return BetterRTP.getInstance().getRTP().getRTPworldLocations();
     }
 
     //Get locations a player has access to

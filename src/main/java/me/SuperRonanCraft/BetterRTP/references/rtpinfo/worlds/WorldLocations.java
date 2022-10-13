@@ -74,7 +74,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (maxRad <= 0) {
                         Message_RTP.sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
-                        maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
+                        maxRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMaxRadius();
                     }
                     BetterRTP.debug("- - MaxRadius: " + maxRad);
                 }
@@ -84,9 +84,9 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (minRad < 0 || minRad >= maxRad) {
                         Message_RTP.sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
-                        minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
+                        minRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMinRadius();
                         if (minRad >= maxRad) {
-                            maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
+                            maxRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMaxRadius();
                             BetterRTP.debug("- ! MaxRadius: " + maxRad);
                         }
                     }

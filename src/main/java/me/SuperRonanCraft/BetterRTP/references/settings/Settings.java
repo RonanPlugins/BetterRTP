@@ -29,11 +29,11 @@ public class Settings {
     @Getter private String placeholder_cooldown;
     @Getter private String placeholder_balance;
     @Getter private String placeholder_hunger;
-    @Getter private String placeholder_timeFormat;
     @Getter private String placeholder_timeDays;
     @Getter private String placeholder_timeHours;
     @Getter private String placeholder_timeMinutes;
     @Getter private String placeholder_timeSeconds;
+    @Getter private String placeholder_timeZero;
 
 
     public void load() { //Load Settings
@@ -58,11 +58,11 @@ public class Settings {
         placeholder_cooldown = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Cooldown");
         placeholder_balance = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Price");
         placeholder_hunger = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.CanRTP.Hunger");
-        placeholder_timeFormat = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Format");
         placeholder_timeDays = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Days");
         placeholder_timeHours = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Hours");
         placeholder_timeMinutes = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Minutes");
         placeholder_timeSeconds = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
+        placeholder_timeZero = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.ZeroAll");
         depends.load();
     }
 

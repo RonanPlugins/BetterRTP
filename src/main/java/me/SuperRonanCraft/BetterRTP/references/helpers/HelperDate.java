@@ -13,10 +13,20 @@ public class HelperDate {
         return Calendar.getInstance().getTime();
     }
 
-    public static String stringFrom(Long amount) {
+    public static String left(Long amount) {
         Date current_date = HelperDate.getDate();
-        long min = Math.min(amount, current_date.getTime());
-        long max = Math.max(amount, current_date.getTime());
+        return fromTo(current_date.getTime(), amount);
+    }
+    public static String total(Long amount) {
+        return fromTo(0L, amount);
+    }
+
+    public static String fromTo(Long from, Long to) {
+        Settings settings = BetterRTP.getInstance().getSettings();
+        long min = Math.min(from, to);
+        long max = Math.max(from, to);
+        if (max == min)
+            return settings.getPlaceholder_timeZero();
         long diffInMillies = max - min;
         long days = 0, hours = 0, minutes = 0, seconds = 0;
         if (diffInMillies > 0) {
@@ -28,16 +38,14 @@ public class HelperDate {
             diffInMillies -= (1000 * 60) * minutes;
             seconds = TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         }
-        Settings settings = BetterRTP.getInstance().getSettings();
-        String time_str = settings.getPlaceholder_timeFormat();
-        if (time_str.contains("%d"))
-            time_str = time_str.replace("%d", settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(days)));
-        if (time_str.contains("%h"))
-            time_str = time_str.replace("%h", settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(hours)));
-        if (time_str.contains("%m"))
-            time_str = time_str.replace("%m", settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(max)));
-        if (time_str.contains("%s"))
-            time_str = time_str.replace("%s", settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(seconds)));
+        String time_str = "";
+        if (days > 0)
+            time_str += settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(days));
+        if (days > 0 || hours > 0)
+            time_str += settings.getPlaceholder_timeHours().replace("{0}", String.valueOf(hours));
+        if (days > 0 || hours > 0 || minutes > 0)
+            time_str += settings.getPlaceholder_timeMinutes().replace("{0}", String.valueOf(minutes));
+        time_str += settings.getPlaceholder_timeSeconds().replace("{0}", String.valueOf(seconds));
 
         return time_str;
     }

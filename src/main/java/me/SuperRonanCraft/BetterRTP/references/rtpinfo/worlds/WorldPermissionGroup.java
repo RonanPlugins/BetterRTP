@@ -66,7 +66,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                 if (maxRad <= 0) {
                     Message_RTP.sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
-                    maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
+                    maxRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMaxRadius();
                 }
             }
             if (field.equalsIgnoreCase("MinRadius")) {
@@ -77,9 +77,9 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                 if (minRad < 0 || minRad >= maxRad) {
                     Message_RTP.sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
-                    minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
+                    minRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMinRadius();
                     if (minRad >= maxRad)
-                        maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
+                        maxRad = BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMaxRadius();
                 }
             }
             if (field.equalsIgnoreCase("Biomes")) {

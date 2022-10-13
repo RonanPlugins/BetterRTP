@@ -15,6 +15,7 @@ public enum Placeholders {
     ATTEMPTS("attempts"),
     PRICE("price"),
     DELAY("delay"),
+    TIME("time"),
     //Other
     BIOME("biome")
     ;

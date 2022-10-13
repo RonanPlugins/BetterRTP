@@ -24,12 +24,12 @@ public class HelperRTP_Check {
         if (getPl().getRTP().getDisabledWorlds().contains(pWorld.getWorld().getName())) {
             return RTP_ERROR_REQUEST_REASON.WORLD_DISABLED;
         }
-        if (sendi == player && checkCooldown(sendi, player) && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
+        if (sendi == player && applyCooldown(sendi, player) && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
             return RTP_ERROR_REQUEST_REASON.COOLDOWN;
         }
-        if (getPl().getEco().hasBalance(sendi, pWorld))
+        if (!getPl().getEco().hasBalance(sendi, pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_ECONOMY;
-        if (getPl().getEco().hasHunger(sendi, pWorld))
+        if (!getPl().getEco().hasHunger(sendi, pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_HUNGER;
         return null;
     }
@@ -39,7 +39,7 @@ public class HelperRTP_Check {
     }
 
     public static boolean isCoolingDown(CommandSender sendi, Player player, WorldPlayer pWorld) {
-        if (!checkCooldown(sendi, player))  //Bypassing/Forced?
+        if (!applyCooldown(sendi, player))  //Bypassing/Forced?
             return false;
         CooldownHandler cooldownHandler = getPl().getCooldowns();
         if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
@@ -70,11 +70,11 @@ public class HelperRTP_Check {
         return false;
     }
 
-    static boolean checkCooldown(CommandSender sendi, Player player) {
+    public static boolean applyCooldown(CommandSender sendi, Player player) {
         return getPl().getCooldowns().isEnabled() && !(sendi != player || PermissionNode.BYPASS_COOLDOWN.check(player));
     }
 
-    static boolean isDelay(Player player, CommandSender sendi) {
+    public static boolean applyDelay(Player player, CommandSender sendi) {
         boolean delay = false;
         if (sendi == player) //Forced?
             if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?

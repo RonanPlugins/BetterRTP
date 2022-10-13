@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
@@ -42,18 +43,26 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
                 if (args.length > 2 && Bukkit.getWorld(args[2]) != null) {
                     sendInfoWorld(sendi, infoGetWorld(sendi, Bukkit.getWorld(args[2]), null, null));
                 } else if (sendi instanceof Player) { //Personalize with permission groups
-                    World world = null;
-                    Player player = null;
-                    if (args.length > 2) {
-                        player = Bukkit.getPlayer(args[2]);
-                        if (player != null)
-                            world = player.getWorld();
-                    }
-                    if (world == null)
-                        world = ((Player) sendi).getWorld();
+                    Player player = (Player) sendi;
+                    World world = player.getWorld();
                     sendInfoWorld(sendi, infoGetWorld(sendi, world, player, null));
                 } else
                     infoWorld(sendi);
+            } else if (args[1].equalsIgnoreCase(CmdInfoSub.PLAYER.name())) {
+                World world = null;
+                Player player = null;
+                if (args.length > 2) {
+                    player = Bukkit.getPlayer(args[2]);
+                    if (player != null)
+                        world = player.getWorld();
+                }
+                if (player == null) {
+                    MessagesCore.NOTONLINE.send(sendi, args.length > 2 ? args[2] : "NULL");
+                    return;
+                }
+                if (world == null)
+                    world = player.getWorld();
+                sendInfoWorld(sendi, infoGetWorld(sendi, world, player, null));
             }
         } else
             infoWorld(sendi);
@@ -65,7 +74,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     }
 
     enum CmdInfoSub { //Sub commands, future expansions
-        PARTICLES, SHAPES, POTION_EFFECTS, WORLD
+        PARTICLES, SHAPES, POTION_EFFECTS, WORLD, PLAYER
     }
 
     //Particles
@@ -116,40 +125,40 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         sendInfoWorld(sendi, info);
     }
 
-    public static List<String> infoGetWorld(CommandSender sendi, World w, Player player, WorldPlayer _rtpworld) { //Specific world
+    public static List<String> infoGetWorld(CommandSender sendi, World world, Player player, WorldPlayer _rtpworld) { //Specific world
         List<String> info = new ArrayList<>();
         BetterRTP pl = BetterRTP.getInstance();
         String _true = "&aTrue", _false = "&bFalse";
-        info.add("&bRTP info for &7" + w.getName() + (player != null ? " &d(personalized)" : ""));
+        info.add("&bRTP info for &7" + world.getName() + (player != null ? " &d(personalized)" : ""));
         info.add("&7- &eViewing as: &b" + (player != null ? player.getName() : "ADMIN"));
-        info.add("&7- &6Allowed: " + (player != null ? PermissionNode.getAWorld(player, w.getName()) ? _true : _false : "&cN/A"));
-        if (pl.getRTP().getDisabledWorlds().contains(w.getName())) //World disabled
+        info.add("&7- &6Allowed: " + (player != null ? PermissionNode.getAWorld(player, world.getName()) ? _true : _false : "&cN/A"));
+        if (pl.getRTP().getDisabledWorlds().contains(world.getName()) && !pl.getRTP().overriden.containsKey(world.getName())) //World disabled
             info.add("&7- &eDisabled: " + _true);
         else {
             info.add("&7- &eDisabled: " + _false);
-            if (pl.getRTP().overriden.containsKey(w.getName())) //World Overriden
-                info.add("&7- &6Overriden: " + _true + " &7- target `" + pl.getRTP().overriden.get(w.getName()) + "`");
-            else {
+            if (pl.getRTP().overriden.containsKey(world.getName())) { //World Overriden
+                world = Bukkit.getWorld(pl.getRTP().overriden.get(world.getName()));
+                info.add("&7- &6Overriden: " + _true + " &7- target `" + world.getName() + "`");
+            } else
                 info.add("&7- &6Overriden&7: " + _false);
-                if (_rtpworld == null)
-                    _rtpworld = HelperRTP.getPlayerWorld(new RTPSetupInformation(w, player != null ? player : sendi, player, player != null));
-                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().getRTPdefaultWorld();
-                info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
-                info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
-                info.add("&7- &eWorld Type&7: &f" + _rtpworld.getWorldtype().name());
-                info.add("&7- &6Center X&7: &f" + _rtpworld.getCenterX() + getInfo(_rtpworld, worldDefault, "centerx"));
-                info.add("&7- &eCenter Z&7: &f" + _rtpworld.getCenterZ() + getInfo(_rtpworld, worldDefault, "centerz"));
-                info.add("&7- &6Max Radius&7: &f" + _rtpworld.getMaxRadius() + getInfo(_rtpworld, worldDefault, "maxrad"));
-                info.add("&7- &eMin Radius&7: &f" + _rtpworld.getMinRadius() + getInfo(_rtpworld, worldDefault, "minrad"));
-                info.add("&7- &6Min Y&7: &f" + _rtpworld.getMinY());
-                info.add("&7- &eMax Y&7: &f" + _rtpworld.getMaxY());
-                info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
-                info.add("&7- &eCooldown&7: &f" + _rtpworld.getCooldown() + getInfo(_rtpworld, worldDefault, "cooldown"));
-                info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
-                info.add("&7- &eShape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
-                info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
-                info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicable(_rtpworld).size());
-            }
+            if (_rtpworld == null)
+                _rtpworld = HelperRTP.getPlayerWorld(new RTPSetupInformation(world, player != null ? player : sendi, player, player != null));
+            WorldDefault worldDefault = BetterRTP.getInstance().getRTP().getRTPdefaultWorld();
+            info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
+            info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
+            info.add("&7- &eWorld Type&7: &f" + _rtpworld.getWorldtype().name());
+            info.add("&7- &6Center X&7: &f" + _rtpworld.getCenterX() + getInfo(_rtpworld, worldDefault, "centerx"));
+            info.add("&7- &eCenter Z&7: &f" + _rtpworld.getCenterZ() + getInfo(_rtpworld, worldDefault, "centerz"));
+            info.add("&7- &6Max Radius&7: &f" + _rtpworld.getMaxRadius() + getInfo(_rtpworld, worldDefault, "maxrad"));
+            info.add("&7- &eMin Radius&7: &f" + _rtpworld.getMinRadius() + getInfo(_rtpworld, worldDefault, "minrad"));
+            info.add("&7- &6Min Y&7: &f" + _rtpworld.getMinY());
+            info.add("&7- &eMax Y&7: &f" + _rtpworld.getMaxY());
+            info.add("&7- &6Price&7: &f" + _rtpworld.getPrice() + getInfo(_rtpworld, worldDefault, "price"));
+            info.add("&7- &eCooldown&7: &f" + _rtpworld.getCooldown() + getInfo(_rtpworld, worldDefault, "cooldown"));
+            info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
+            info.add("&7- &eShape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
+            info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
+            info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicable(_rtpworld).size());
         }
         return info;
     }

@@ -7,18 +7,12 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.*;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
-import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class DepPlaceholderAPI extends PlaceholderExpansion {
 
@@ -45,29 +39,20 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         PlayerData data = HelperPlayer.getData(player);
         if (request.equalsIgnoreCase("count")) {
             return String.valueOf(data.getRtpCount());
-        } else if (request.equalsIgnoreCase("cooldown")) {
-            return cooldown(data, player.getWorld());
-        } else if (request.startsWith("cooldown_")) {
-            World world = null;
-            String world_name = request.replace("cooldown_", "");
-            if (world_name.length() > 0) {
-                for (World _world : Bukkit.getWorlds()) {
-                    if (world_name.equalsIgnoreCase(_world.getName())) {
-                        world = _world;
-                        break;
-                    }
-                }
+        } else if (request.startsWith("cooldown")) {
+            if (request.equalsIgnoreCase("cooldown")) {
+                return cooldown(data, player.getWorld());
+            } else if (request.startsWith("cooldown_")) {
+                World world = getWorld(request.replace("cooldown_", ""));
+                return cooldown(data, world);
+            } else if (request.equalsIgnoreCase("cooldowntime")) {
+                return cooldownTime(data, player.getWorld());
+            } else if (request.startsWith("cooldowntime_")) {
+                World world = getWorld(request.replace("cooldowntime_", ""));
+                return cooldownTime(data, world);
             }
-            return cooldown(data, world);
         } else if (request.startsWith("canrtp_")) {
-            String world_name = request.replace("canrtp_", "");
-            World world = null;
-            if (world_name.length() > 0)
-                for (World _world : Bukkit.getWorlds())
-                    if (world_name.equalsIgnoreCase(_world.getName())) {
-                        world = _world;
-                        break;
-                    }
+            World world = getWorld(request.replace("canrtp_", ""));
             return canRTP(player, world);
         } else if (request.equalsIgnoreCase("canrtp")) {
             World world = player.getWorld();
@@ -78,19 +63,23 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
 
     private String cooldown(PlayerData data, World world) {
         if (world == null) return "Invalid World";
-        if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
-            world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
-        CooldownData cooldownData = data.getCooldowns().getOrDefault(world, null);
+        CooldownData cooldownData = data.getCooldowns().getOrDefault(HelperRTP.getActualWorld(data.player, world), null);
         if (cooldownData != null)
-            return HelperDate.stringFrom(cooldownData.getTime());
+            return HelperDate.left(cooldownData.getTime());
         else
-            return "None";
+            return HelperDate.total(0L);
+    }
+
+    private String cooldownTime(PlayerData data, World world) {
+        if (world == null) return "Invalid World";
+        RTPSetupInformation setup_info = new RTPSetupInformation(HelperRTP.getActualWorld(data.player, world), data.player, data.player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setup_info);
+        return HelperDate.total(HelperRTP_Check.applyCooldown(data.player, data.player) ? pWorld.getCooldown() * 1000L : 0L);
     }
 
     private String canRTP(Player player, World world) {
         if (world == null) return "Invalid World";
-        if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
-            world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
+        world = HelperRTP.getActualWorld(player, world);
         //Permission
         if (!PermissionNode.getAWorld(player, world.getName()))
             return BetterRTP.getInstance().getSettings().getPlaceholder_nopermission();
@@ -107,5 +96,16 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
             return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
+    }
+
+    private World getWorld(String world_name) {
+        World world = null;
+        if (world_name.length() > 0)
+            for (World _world : Bukkit.getWorlds())
+                if (world_name.equalsIgnoreCase(_world.getName())) {
+                    world = _world;
+                    break;
+                }
+        return world;
     }
 }
