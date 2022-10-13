@@ -72,7 +72,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
                     if (test.get("MaxRadius").getClass() == Integer.class)
                         maxRad = Integer.parseInt((test.get("MaxRadius")).toString());
                     if (maxRad <= 0) {
-                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                        Message_RTP.sms(Bukkit.getConsoleSender(),
                                 "WARNING! Location '" + location_name + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
                         maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                     }

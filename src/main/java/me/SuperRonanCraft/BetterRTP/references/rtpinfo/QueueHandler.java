@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPlayer;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldCustom;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
@@ -164,14 +165,14 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
 
     private static HashMap<String, RTPWorld> getFromSetup(RTP_SETUP_TYPE type) {
         switch (type) {
-            case LOCATION: return BetterRTP.getInstance().getRTP().RTPworldLocations;
-            case CUSTOM_WORLD: return BetterRTP.getInstance().getRTP().RTPcustomWorld;
+            case LOCATION: return BetterRTP.getInstance().getRTP().getRTPworldLocations();
+            case CUSTOM_WORLD: return BetterRTP.getInstance().getRTP().getRTPcustomWorld();
             case DEFAULT:
                 HashMap<String, RTPWorld> list = new HashMap<>();
                 RTP rtp = BetterRTP.getInstance().getRTP();
                 for (World world : Bukkit.getWorlds())
-                    if (!rtp.getDisabledWorlds().contains(world.getName()) && !rtp.RTPcustomWorld.containsKey(world.getName()))
-                        list.put(world.getName(), new WorldCustom(world, rtp.RTPdefaultWorld));
+                    if (!rtp.getDisabledWorlds().contains(world.getName()) && !rtp.getRTPcustomWorld().containsKey(world.getName()))
+                        list.put(world.getName(), new WorldCustom(world, rtp.getRTPdefaultWorld()));
                 return list;
         }
         return null;
@@ -199,7 +200,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                 PaperLib.getChunkAtAsync(loc)
                         .thenAccept(v -> {
                             Location safeLoc = RTPPlayer.getSafeLocation(
-                                    RTP.getWorldType(rtpWorld.getWorld()),
+                                    HelperRTP.getWorldType(rtpWorld.getWorld()),
                                     loc.getWorld(),
                                     loc,
                                     rtpWorld.getMinY(),

@@ -28,10 +28,10 @@ public class RTP {
     boolean cancelOnMove, cancelOnDamage;
     public final HashMap<String, WORLD_TYPE> world_type = new HashMap<>();
     //Worlds
-    public final WorldDefault RTPdefaultWorld = new WorldDefault();
-    public final HashMap<String, RTPWorld> RTPcustomWorld = new HashMap<>();
-    public final HashMap<String, RTPWorld> RTPworldLocations = new HashMap<>();
-    public final HashMap<String, PermissionGroup> permissionGroups = new HashMap<>();
+    @Getter private final WorldDefault RTPdefaultWorld = new WorldDefault();
+    @Getter private final HashMap<String, RTPWorld> RTPcustomWorld = new HashMap<>();
+    @Getter private final HashMap<String, RTPWorld> RTPworldLocations = new HashMap<>();
+    @Getter private final HashMap<String, PermissionGroup> permissionGroups = new HashMap<>();
 
     public RTPTeleport getTeleport() {
         return teleport;
@@ -71,113 +71,32 @@ public class RTP {
         RTPLoader.loadPermissionGroups(permissionGroups);
     }
 
-    public WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
-        WorldPlayer pWorld = new WorldPlayer(setup_info.getPlayer(), setup_info.getWorld());
-
-        //Random Location
-        if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
-            WorldLocations worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
-            if (worldLocation != null) {
-                setup_info.setLocation(worldLocation);
-                setup_info.setWorld(worldLocation.getWorld());
-            }
-            if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isDebug())
-                WarningHandler.warn(WarningHandler.WARNING.USELOCATION_ENABLED_NO_LOCATION_AVAILABLE,
-                    "This is not an error! UseLocationIfAvailable is set to `true`, but no location was found for "
-                        + setup_info.getSender().getName() + "! Using world defaults! (Maybe they dont have permission?)");
-        }
-        //Location
-        if (setup_info.getLocation() != null) {
-            String setup_name = null;
-            for (Map.Entry<String, RTPWorld> location_set : RTPworldLocations.entrySet()) {
-                RTPWorld location = location_set.getValue();
-                if (location == setup_info.getLocation()) {
-                    setup_name = location_set.getKey();
-                    break;
-                }
-            }
-            pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes());
-        }
-
-        if (!pWorld.isSetup()) {
-            WorldPermissionGroup group = null;
-            if (pWorld.getPlayer() != null)
-                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().permissionGroups.entrySet()) {
-                    for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
-                        if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
-                            if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
-                                if (group != null) {
-                                    if (group.getPriority() < worldPermission.getValue().getPriority())
-                                        continue;
-                                }
-                                group = worldPermission.getValue();
-                            }
-                        }
-                    }
-                }
-
-            //Permission Group
-            if (group != null) {
-                pWorld.setup(null, group, setup_info.getBiomes());
-                pWorld.config = group;
-            }
-            //Custom World
-            else if (RTPcustomWorld.containsKey(setup_info.getWorld().getName())) {
-                RTPWorld cWorld = RTPcustomWorld.get(pWorld.getWorld().getName());
-                pWorld.setup(null, cWorld, setup_info.getBiomes());
-            }
-            //Default World
-            else
-                pWorld.setup(null, RTPdefaultWorld, setup_info.getBiomes());
-        }
-        //World type
-        pWorld.setWorldtype(getWorldType(pWorld.getWorld()));
-        return pWorld;
-    }
-
-    public static WORLD_TYPE getWorldType(World world) {
-        WORLD_TYPE world_type;
-        RTP rtp = BetterRTP.getInstance().getRTP();
-        if (rtp.world_type.containsKey(world.getName()))
-            world_type = rtp.world_type.get(world.getName());
-        else {
-            world_type = WORLD_TYPE.NORMAL;
-            rtp.world_type.put(world.getName(), world_type); //Defaults this so the error message isn't spammed
-            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + world.getName() + "` does not have a `WorldType` declared. " +
-                    "Please add/fix this in the config.yml file! This world will be treated as an overworld! " +
-                    "If this world is a nether world, configure it to NETHER (example: `- " + world.getName() + ": NETHER`", false);
-        }
-        return world_type;
-    }
-
     public void start(RTPSetupInformation setup_info) {
-        RTP_SettingUpEvent setup = new RTP_SettingUpEvent(setup_info.getPlayer());
+        start(HelperRTP.getPlayerWorld(setup_info));
+    }
+
+    public void start(WorldPlayer pWorld) {
+        RTP_SettingUpEvent setup = new RTP_SettingUpEvent(pWorld.getPlayer());
         Bukkit.getPluginManager().callEvent(setup);
         if (setup.isCancelled())
             return;
-
-        CommandSender sendi = setup_info.getSender();
-
-        WorldPlayer pWorld = getPlayerWorld(setup_info);
-        //Debugging!
-        //CmdInfo.sendInfoWorld(sendi, CmdInfo.infoGetWorld(sendi, setup_info.getWorld(), setup_info.getPlayer(), pWorld));
         // Second Economy check
-        if (!getPl().getEco().hasBalance(sendi, pWorld))
+        if (!getPl().getEco().hasBalance(pWorld.getSendi(), pWorld))
             return;
-        rtp(sendi, pWorld, setup_info.isDelay(), setup_info.getRtp_type(), setup_info.isCooldown());
+        rtp(pWorld.getSendi(), pWorld, pWorld.getRtp_type());
     }
 
-    private void rtp(CommandSender sendi, WorldPlayer pWorld, boolean delay, RTP_TYPE type, boolean cooldown) {
+    private void rtp(CommandSender sendi, WorldPlayer pWorld, RTP_TYPE type) {
         //Cooldown
         Player p = pWorld.getPlayer();
         //p.sendMessage("Cooling down: " + cooldown);
-        if (cooldown)
+        if (pWorld.isApplyCooldown())
             getPl().getCooldowns().add(p, pWorld.getWorld());
         getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
-        if (getPl().getSettings().isDelayEnabled() && delay) {
+        if (getPl().getSettings().isDelayEnabled() && pWorld.isApplyDelay()) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             teleport.beforeTeleportInstant(sendi, p);

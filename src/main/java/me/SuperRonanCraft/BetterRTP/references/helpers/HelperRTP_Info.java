@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 
@@ -21,7 +22,7 @@ public class HelperRTP_Info {
                     biomes.add(Biome.valueOf(str.replaceAll(",", "").toUpperCase()).name());
                 } catch (Exception e) {
                     if (!error_sent) {
-                        BetterRTP.getInstance().getText().getOtherBiome(sendi, str);
+                        MessagesCore.OTHER_BIOME.send(sendi, str);
                         error_sent = true;
                     }
                 }

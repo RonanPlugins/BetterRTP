@@ -4,6 +4,7 @@ public enum Placeholders {
 
     COMMAND("command"),
     PLAYER_NAME("player"),
+    COOLDOWN("cooldown"),
     //Location
     LOCATION_X("x"),
     LOCATION_Y("y"),
@@ -13,6 +14,7 @@ public enum Placeholders {
     //ints
     ATTEMPTS("attempts"),
     PRICE("price"),
+    DELAY("delay"),
     //Other
     BIOME("biome")
     ;

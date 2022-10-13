@@ -3,6 +3,8 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +63,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         BetterRTP.debug("- MaxRadius: " + this.maxRad);
                     }
                     if (maxRad <= 0) {
-                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                        Message_RTP.sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
                         maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                     }
@@ -72,7 +74,7 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
                         BetterRTP.debug("- MinRadius: " + this.minRad);
                     }
                     if (minRad < 0 || minRad >= maxRad) {
-                        BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                        Message_RTP.sms(Bukkit.getConsoleSender(),
                                 "WARNING! Custom world '" + world + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
                         minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
                         if (minRad >= maxRad)
@@ -123,13 +125,13 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
         }
 
         if (maxRad <= 0) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            Message_RTP.sms(Bukkit.getConsoleSender(),
                     "WARNING! Custom world '" + world + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
             maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
         }
 
         if (minRad < 0 || minRad >= maxRad) {
-            BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+            Message_RTP.sms(Bukkit.getConsoleSender(),
                     "WARNING! Custom world '" + world + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
             minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
         }

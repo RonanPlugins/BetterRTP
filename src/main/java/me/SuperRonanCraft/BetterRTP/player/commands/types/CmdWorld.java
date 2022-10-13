@@ -7,7 +7,9 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -31,7 +33,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
             if (world != null)
                 CmdTeleport.teleport(sendi, label, world, HelperRTP_Info.getBiomes(args, 2, sendi));
             else
-                BetterRTP.getInstance().getText().getNotExist(sendi, args[1]);
+                MessagesCore.NOTEXIST.send(sendi, args[1]);
         } else
             usage(sendi, label);
     }
@@ -57,7 +59,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
     }
 
     public void usage(CommandSender sendi, String label) {
-        BetterRTP.getInstance().getText().getUsageWorld(sendi, label);
+        MessagesUsage.WORLD.send(sendi, label);
     }
 
     @Override

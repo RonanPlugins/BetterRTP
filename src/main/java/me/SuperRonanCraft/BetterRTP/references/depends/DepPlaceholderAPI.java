@@ -95,7 +95,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         if (!PermissionNode.getAWorld(player, world.getName()))
             return BetterRTP.getInstance().getSettings().getPlaceholder_nopermission();
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
-        WorldPlayer pWorld = BetterRTP.getInstance().getRTP().getPlayerWorld(setupInformation);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Cooldown
         if (!HelperRTP_Check.isCoolingDown(player, player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();

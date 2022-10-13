@@ -6,6 +6,9 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
@@ -78,7 +81,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), pl.getText().color(str)));
+                info.set(info.indexOf(str), Message.color(str)));
         sendi.sendMessage(info.toString());
     }
 
@@ -94,7 +97,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), BetterRTP.getInstance().getText().color(str)));
+                info.set(info.indexOf(str), Message.color(str)));
         sendi.sendMessage(info.toString());
     }
 
@@ -102,7 +105,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     public static void sendInfoWorld(CommandSender sendi, List<String> list) { //Send info
         list.add(0, "&e&m-----&6 BetterRTP &8| Info &e&m-----");
         list.forEach(str ->
-                list.set(list.indexOf(str), BetterRTP.getInstance().getText().color(str)));
+                list.set(list.indexOf(str), Message.color(str)));
         sendi.sendMessage(list.toArray(new String[0]));
     }
 
@@ -129,8 +132,8 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
             else {
                 info.add("&7- &6Overriden&7: " + _false);
                 if (_rtpworld == null)
-                    _rtpworld = BetterRTP.getInstance().getRTP().getPlayerWorld(new RTPSetupInformation(w, player != null ? player : sendi, player, player != null));
-                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().RTPdefaultWorld;
+                    _rtpworld = HelperRTP.getPlayerWorld(new RTPSetupInformation(w, player != null ? player : sendi, player, player != null));
+                WorldDefault worldDefault = BetterRTP.getInstance().getRTP().getRTPdefaultWorld();
                 info.add("&7- &eSetup Type&7: " + _rtpworld.setup_type.name() + getInfo(_rtpworld, worldDefault, "setup"));
                 info.add("&7- &6Use World Border&7: " + (_rtpworld.getUseWorldborder() ? _true : _false));
                 info.add("&7- &eWorld Type&7: &f" + _rtpworld.getWorldtype().name());
@@ -189,7 +192,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         }
 
         info.forEach(str ->
-                info.set(info.indexOf(str), BetterRTP.getInstance().getText().color(str)));
+                info.set(info.indexOf(str), Message.color(str)));
         sendi.sendMessage(info.toString());
     }
 

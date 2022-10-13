@@ -4,6 +4,8 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
 
@@ -16,7 +18,7 @@ public class CmdVersion implements RTPCommand, RTPCommandHelpable {
     }
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        sendi.sendMessage(BetterRTP.getInstance().getText().colorPre("&aVersion #&e" + BetterRTP.getInstance().getDescription().getVersion()));
+        Message_RTP.sms(sendi, "&aVersion #&e" + BetterRTP.getInstance().getDescription().getVersion());
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {

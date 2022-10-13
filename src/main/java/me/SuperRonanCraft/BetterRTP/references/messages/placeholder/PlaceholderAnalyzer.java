@@ -30,6 +30,10 @@ public class PlaceholderAnalyzer {
             str = str.replace(Placeholders.COMMAND.name, info);
         if (str.contains(Placeholders.PLAYER_NAME.name))
             str = str.replaceAll(Placeholders.PLAYER_NAME.name, info);
+        if (str.contains(Placeholders.WORLD.name))
+            str = str.replaceAll(Placeholders.WORLD.name, info);
+        if (str.contains(Placeholders.COOLDOWN.name))
+            str = str.replaceAll(Placeholders.COOLDOWN.name, info);
         return str;
     }
 
@@ -67,6 +71,8 @@ public class PlaceholderAnalyzer {
             str = str.replace(Placeholders.ATTEMPTS.name, String.valueOf(num));
         if (str.contains(Placeholders.PRICE.name))
             str = str.replace(Placeholders.PRICE.name, String.valueOf(num));
+        if (str.contains(Placeholders.DELAY.name))
+            str = str.replace(Placeholders.DELAY.name, String.valueOf(num));
         return str;
     }
 

@@ -6,7 +6,10 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
 import org.bukkit.Bukkit;
@@ -50,7 +53,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
                 }
                 usage(sendi, label);
             } else if (p != null)
-                BetterRTP.getInstance().getText().getNotOnline(sendi, args[1]);
+                MessagesCore.NOTONLINE.send(sendi, args[1]);
             else
                 usage(sendi, label);
         } else
@@ -77,7 +80,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     }
 
     public void usage(CommandSender sendi, String label) {
-        BetterRTP.getInstance().getText().getUsageLocation(sendi, label);
+        MessagesUsage.LOCATION.send(sendi, label);
     }
 
     private static HashMap<String, RTPWorld> getLocations() {

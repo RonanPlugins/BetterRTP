@@ -31,7 +31,6 @@ public interface RTPInventory_Defaults {
                 _meta.setLore(lore);
             if (name != null)
                 _meta.setDisplayName(Message.color(name));
-            //(BetterRTP.getInstance().getText().color(name));
         }
         _stack.setItemMeta(_meta);
         return _stack;
@@ -44,7 +43,7 @@ public interface RTPInventory_Defaults {
     }
 
     default Inventory createInv(int size, String title) {
-        title = Message.color(title);//BetterRTP.getInstance().getText().color(title);
+        title = Message.color(title);
         return Bukkit.createInventory(null, size, title);
     }
 }

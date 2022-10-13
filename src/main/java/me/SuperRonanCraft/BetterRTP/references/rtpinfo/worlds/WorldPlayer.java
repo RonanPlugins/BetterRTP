@@ -3,10 +3,13 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +21,9 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private long cooldown;
     private List<String> Biomes;
     @Getter private final Player player;
+    @Getter private final CommandSender sendi;
+    @Getter private final boolean applyCooldown, applyDelay;
+    @Getter private final RTP_TYPE rtp_type;
     private final World world;
     private WORLD_TYPE world_type;
     public WorldPermissionGroup config = null;
@@ -28,9 +34,13 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     public boolean eco_money_taken = false;
     @Getter private boolean setup = false;
 
-    public WorldPlayer(Player p, World world) {
-        this.player = p;
-        this.world = world;
+    public WorldPlayer(RTPSetupInformation setup_info) {
+        this.sendi = setup_info.getSender();
+        this.player = setup_info.getPlayer();
+        this.world = setup_info.getWorld();
+        this.applyCooldown = setup_info.isCooldown();
+        this.applyDelay = setup_info.isDelay();
+        this.rtp_type = setup_info.getRtp_type();
     }
 
     public void setup(String setup_name, RTPWorld world, List<String> biomes) {
@@ -68,7 +78,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         }
         //Make sure our borders will not cause an invalid integer
         if (getMaxRadius() <= getMinRadius()) {
-            setMinRadius(BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius());
+            setMinRadius(BetterRTP.getInstance().getRTP().getRTPdefaultWorld().getMinRadius());
             if (getMaxRadius() <= getMinRadius())
                 setMinRadius(0);
         }

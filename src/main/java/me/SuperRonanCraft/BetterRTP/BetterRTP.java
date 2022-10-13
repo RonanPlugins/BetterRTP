@@ -8,6 +8,8 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepPlaceholderAPI;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
@@ -29,7 +31,6 @@ import java.util.List;
 
 public class BetterRTP extends JavaPlugin {
     private final Permissions perms = new Permissions();
-    private final MessagesOLD text = new MessagesOLD();
     private final DepEconomy eco = new DepEconomy();
     private final Commands cmd = new Commands(this);
     private final RTP rtp = new RTP();
@@ -92,7 +93,7 @@ public class BetterRTP extends JavaPlugin {
             this.cmd.commandExecuted(sendi, label, args);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            text.error(sendi);
+            Message_RTP.sms(sendi, "&cERROR &7Seems like your Administrator did not update their language file!");
         }
         return true;
     }
@@ -104,10 +105,6 @@ public class BetterRTP extends JavaPlugin {
 
     public Permissions getPerms() {
         return perms;
-    }
-
-    public MessagesOLD getText() {
-        return text;
     }
 
     public DepEconomy getEco() {
@@ -129,7 +126,7 @@ public class BetterRTP extends JavaPlugin {
     public void reload(CommandSender sendi) {
         invs.closeAll();
         loadAll();
-        text.getReload(sendi);
+        MessagesCore.RELOAD.send(sendi);
     }
 
     public RTPInventories getInvs() {

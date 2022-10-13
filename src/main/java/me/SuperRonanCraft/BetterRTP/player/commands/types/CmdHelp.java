@@ -20,11 +20,8 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
     }
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        MessagesOLD txt = BetterRTP.getInstance().getText();
         List<String> list = new ArrayList<>();
-        //list.add(txt.getHelpPrefix());
         list.add(MessagesHelp.PREFIX.get());
-        //list.add(txt.getHelpMain());
         list.add(MessagesHelp.MAIN.get());
         for (RTPCommand cmd : BetterRTP.getInstance().getCmd().commands)
             if (cmd.permission(sendi))
@@ -32,9 +29,6 @@ public class CmdHelp implements RTPCommand, RTPCommandHelpable {
                     String help = ((RTPCommandHelpable) cmd).getHelp();
                     list.add(help);
                 }
-        //for (int i = 0; i < list.size(); i++)
-        //    list.set(i, list.get(i).replace("%command%", label));
-        //BetterRTP.getInstance().getText().sms(sendi, list);
         Message_RTP.sms(sendi, list, Collections.singletonList(label));
     }
 

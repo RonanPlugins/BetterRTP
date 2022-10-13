@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
@@ -40,7 +41,7 @@ public class CmdQueue implements RTPCommand {
     public static void sendInfo(CommandSender sendi, List<String> list) { //Send info
         list.add(0, "&e&m-----&6 BetterRTP &8| Queue &e&m-----");
         list.forEach(str ->
-                list.set(list.indexOf(str), BetterRTP.getInstance().getText().color(str)));
+                list.set(list.indexOf(str), Message.color(str)));
         sendi.sendMessage(list.toArray(new String[0]));
     }
 

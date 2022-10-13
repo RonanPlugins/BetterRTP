@@ -9,7 +9,10 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -30,7 +33,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
                 HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld(), null, RTP_TYPE.FORCED);
             else if (Bukkit.getPlayer(args[1]) != null)
-                BetterRTP.getInstance().getText().getNotOnline(sendi, args[1]);
+                MessagesCore.NOTONLINE.send(sendi, args[1]);
             else
                 usage(sendi, label);
         else if (args.length >= 3)
@@ -39,9 +42,9 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 if (world != null) {
                     HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, world, HelperRTP_Info.getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
                 } else
-                    BetterRTP.getInstance().getText().getNotExist(sendi, args[2]);
+                    MessagesCore.NOTEXIST.send(sendi, args[2]);
             } else if (Bukkit.getPlayer(args[1]) != null)
-                BetterRTP.getInstance().getText().getNotOnline(sendi, args[1]);
+                MessagesCore.NOTONLINE.send(sendi, args[1]);
             else
                 usage(sendi, label);
         else
@@ -70,7 +73,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     }
 
     public void usage(CommandSender sendi, String label) {
-        BetterRTP.getInstance().getText().getUsageRTPOther(sendi, label);
+        MessagesUsage.RTP_OTHER.send(sendi, label);
     }
 
     @Override

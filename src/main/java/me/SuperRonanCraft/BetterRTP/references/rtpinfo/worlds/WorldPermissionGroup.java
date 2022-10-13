@@ -5,6 +5,8 @@ import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +64,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                     BetterRTP.debug("- - MaxRadius: " + maxRad);
                 }
                 if (maxRad <= 0) {
-                    BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                    Message_RTP.sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Maximum radius of '" + maxRad + "' is not allowed! Set to default value!");
                     maxRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMaxRadius();
                 }
@@ -73,7 +75,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                     BetterRTP.debug("- - MinRadius: " + minRad);
                 }
                 if (minRad < 0 || minRad >= maxRad) {
-                    BetterRTP.getInstance().getText().sms(Bukkit.getConsoleSender(),
+                    Message_RTP.sms(Bukkit.getConsoleSender(),
                             "WARNING! Group '" + group + "' Minimum radius of '" + minRad + "' is not allowed! Set to default value!");
                     minRad = BetterRTP.getInstance().getRTP().RTPdefaultWorld.getMinRadius();
                     if (minRad >= maxRad)
@@ -86,7 +88,7 @@ public class WorldPermissionGroup implements RTPWorld, RTPWorld_Defaulted {
                     BetterRTP.debug("- - Biomes: " + biomes);
                 }
             }
-            if (BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.ECO).getBoolean("Economy.Enabled"))
+            if (FileOther.FILETYPE.ECO.getBoolean("Economy.Enabled"))
                 if (field.equalsIgnoreCase("Price")) {
                     if (hash3.getValue().getClass() == Integer.class) {
                         this.price = Integer.parseInt(hash3.getValue().toString());

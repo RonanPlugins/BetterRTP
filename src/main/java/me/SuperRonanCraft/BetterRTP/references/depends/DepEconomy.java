@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -28,7 +29,7 @@ public class DepEconomy {
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
-                BetterRTP.getInstance().getText().getFailedHunger(sendi);
+                MessagesCore.FAILED_HUNGER.send(sendi);
                 return false;
             } else {
                 player.setFoodLevel(player.getFoodLevel() - hunger);
@@ -41,7 +42,7 @@ public class DepEconomy {
                 EconomyResponse r = e.withdrawPlayer(player, pWorld.getPrice());
                 boolean passed_economy = r.transactionSuccess();
                 if (!passed_economy) {
-                    BetterRTP.getInstance().getText().getFailedPrice(sendi, pWorld.getPrice());
+                    MessagesCore.FAILED_PRICE.send(sendi, pWorld.getPrice());
                     if (took_food)
                         player.setFoodLevel(player.getFoodLevel() + hunger);
                 } else
@@ -63,7 +64,7 @@ public class DepEconomy {
             try {
                 boolean passed_economy = e.getBalance(pWorld.getPlayer()) >= price;
                 if (!passed_economy) {
-                    BetterRTP.getInstance().getText().getFailedPrice(sendi, price);
+                    MessagesCore.FAILED_PRICE.send(sendi, price);
                     return false;
                 }
             } catch (Exception e) {
@@ -83,7 +84,7 @@ public class DepEconomy {
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
             boolean has_hunger = player.getFoodLevel() > hunger;
             if (!has_hunger) {
-                BetterRTP.getInstance().getText().getFailedHunger(sendi);
+                MessagesCore.FAILED_HUNGER.send(sendi);
                 return false;
             }
         }

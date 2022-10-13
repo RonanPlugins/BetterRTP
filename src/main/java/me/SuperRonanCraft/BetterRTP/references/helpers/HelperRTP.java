@@ -2,14 +2,14 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -17,10 +17,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class HelperRTP {
 
@@ -46,18 +43,25 @@ public class HelperRTP {
             world = player.getWorld();
         if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
             world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
-        RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, world, ignoreCooldown);
+        RTPSetupInformation setup_info = new RTPSetupInformation(
+                world,
+                sendi,
+                player,
+                true,
+                biomes,
+                !ignoreDelay && HelperRTP_Check.isDelay(player, sendi),
+                rtpType,
+                locations,
+                !ignoreCooldown && HelperRTP_Check.checkCooldown(sendi, player)
+        );
+        WorldPlayer pWorld = getPlayerWorld(setup_info);
+        RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, ignoreCooldown);
         // Not forced and has 'betterrtp.world.<world>'
         if (cantReason != null) {
-
+            cantReason.getMsg().send(sendi);
+            return;
         }
-        boolean delay = false;
-        if (!ignoreDelay && sendi == player) //Forced?
-            if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?
-                if (!PermissionNode.BYPASS_DELAY.check(player)) //Can bypass?
-                    delay = true;
-        RTPSetupInformation setup_info = new RTPSetupInformation(world, sendi, player, true,
-                biomes, delay, rtpType, locations, !ignoreCooldown && HelperRTP_Check.checkCooldown(sendi, player)); //ignore cooldown or else
+        //ignore cooldown or else
         getPl().getRTP().start(setup_info);
     }
 
@@ -76,5 +80,83 @@ public class HelperRTP {
         return null;
     }
 
+    public static WorldPlayer getPlayerWorld(RTPSetupInformation setup_info) {
+        WorldPlayer pWorld = new WorldPlayer(setup_info);
+
+        //Random Location
+        if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
+            WorldLocations worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
+            if (worldLocation != null) {
+                setup_info.setLocation(worldLocation);
+                setup_info.setWorld(worldLocation.getWorld());
+            }
+            if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isDebug())
+                WarningHandler.warn(WarningHandler.WARNING.USELOCATION_ENABLED_NO_LOCATION_AVAILABLE,
+                        "This is not an error! UseLocationIfAvailable is set to `true`, but no location was found for "
+                                + setup_info.getSender().getName() + "! Using world defaults! (Maybe they dont have permission?)");
+        }
+        //Location
+        if (setup_info.getLocation() != null) {
+            String setup_name = null;
+            for (Map.Entry<String, RTPWorld> location_set : BetterRTP.getInstance().getRTP().getRTPworldLocations().entrySet()) {
+                RTPWorld location = location_set.getValue();
+                if (location == setup_info.getLocation()) {
+                    setup_name = location_set.getKey();
+                    break;
+                }
+            }
+            pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes());
+        }
+
+        if (!pWorld.isSetup()) {
+            WorldPermissionGroup group = null;
+            if (pWorld.getPlayer() != null)
+                for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().getPermissionGroups().entrySet()) {
+                    for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
+                        if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
+                            if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
+                                if (group != null) {
+                                    if (group.getPriority() < worldPermission.getValue().getPriority())
+                                        continue;
+                                }
+                                group = worldPermission.getValue();
+                            }
+                        }
+                    }
+                }
+
+            //Permission Group
+            if (group != null) {
+                pWorld.setup(null, group, setup_info.getBiomes());
+                pWorld.config = group;
+            }
+            //Custom World
+            else if (BetterRTP.getInstance().getRTP().getRTPcustomWorld().containsKey(setup_info.getWorld().getName())) {
+                RTPWorld cWorld = BetterRTP.getInstance().getRTP().getRTPcustomWorld().get(pWorld.getWorld().getName());
+                pWorld.setup(null, cWorld, setup_info.getBiomes());
+            }
+            //Default World
+            else
+                pWorld.setup(null, BetterRTP.getInstance().getRTP().getRTPdefaultWorld(), setup_info.getBiomes());
+        }
+        //World type
+        pWorld.setWorldtype(getWorldType(pWorld.getWorld()));
+        return pWorld;
+    }
+
+    public static WORLD_TYPE getWorldType(World world) {
+        WORLD_TYPE world_type;
+        RTP rtp = BetterRTP.getInstance().getRTP();
+        if (rtp.world_type.containsKey(world.getName()))
+            world_type = rtp.world_type.get(world.getName());
+        else {
+            world_type = WORLD_TYPE.NORMAL;
+            rtp.world_type.put(world.getName(), world_type); //Defaults this so the error message isn't spammed
+            WarningHandler.warn(WarningHandler.WARNING.NO_WORLD_TYPE_DECLARED, "Seems like the world `" + world.getName() + "` does not have a `WorldType` declared. " +
+                    "Please add/fix this in the config.yml file! This world will be treated as an overworld! " +
+                    "If this world is a nether world, configure it to NETHER (example: `- " + world.getName() + ": NETHER`", false);
+        }
+        return world_type;
+    }
 
 }

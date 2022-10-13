@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPreEvent;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -96,7 +98,7 @@ public class RTPTeleport {
         eSounds.playDelay(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.NODELAY))
-            getPl().getText().getSuccessTeleport(sendi);
+            MessagesCore.SUCCESS_TELEPORT.send(sendi);
         getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPreEvent(p));
     }
 
@@ -104,28 +106,30 @@ public class RTPTeleport {
         eSounds.playDelay(p);
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.DELAY))
-            getPl().getText().getDelay(p, delay);
+            MessagesCore.DELAY.send(p, delay);
     }
 
     public void cancelledTeleport(Player p) { //Only Delays should call this
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.CANCEL, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.CANCEL))
-            getPl().getText().getMoved(p);
+            MessagesCore.MOVED.send(p);
     }
 
     private void loadingTeleport(Player p, CommandSender sendi) {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
         if ((eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) || sendi != p) //Show msg if enabled or if not same player
-            getPl().getText().getSuccessLoading(sendi);
+            MessagesCore.SUCCESS_LOADING.send(sendi);
     }
 
     public void failedTeleport(Player p, CommandSender sendi) {
         eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
         if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.FAILED))
             if (p == sendi)
-                getPl().getText().getFailedNotSafe(sendi, BetterRTP.getInstance().getRTP().maxAttempts);
+                MessagesCore.FAILED_NOTSAFE.send(sendi, BetterRTP.getInstance().getRTP().maxAttempts);
             else
-                getPl().getText().getOtherNotSafe(sendi, BetterRTP.getInstance().getRTP().maxAttempts, p.getName());
+                MessagesCore.OTHER_NOTSAFE.send(sendi, Arrays.asList(
+                        BetterRTP.getInstance().getRTP().maxAttempts,
+                        p.getName()));
     }
 
     //Processing
@@ -142,19 +146,14 @@ public class RTPTeleport {
         return asyncChunks;
     }*/
 
-    private void sendSuccessMsg(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer,
-                                int attempts) {
-        String x = Integer.toString(loc.getBlockX());
-        String y = Integer.toString(loc.getBlockY());
-        String z = Integer.toString(loc.getBlockZ());
-        String world = loc.getWorld().getName();
+    private void sendSuccessMsg(CommandSender sendi, String player, Location loc, int price, boolean sameAsPlayer, int attempts) {
         if (sameAsPlayer) {
             if (price == 0)
-                getPl().getText().getSuccessBypass(sendi, x, y, z, world, attempts);
+                MessagesCore.SUCCESS_BYPASS.send(sendi, Arrays.asList(loc, attempts));
             else
-                getPl().getText().getSuccessPaid(sendi, price, x, y, z, world, attempts);
+                MessagesCore.SUCCESS_PAID.send(sendi, Arrays.asList(loc, attempts, price));
         } else
-            getPl().getText().getOtherSuccess(sendi, player, x, y, z, world, attempts);
+            MessagesCore.OTHER_SUCCESS.send(sendi, Arrays.asList(loc, player, attempts));
     }
 
     private boolean sendStatusMessage() {

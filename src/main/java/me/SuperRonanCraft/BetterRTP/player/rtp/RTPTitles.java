@@ -2,9 +2,14 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RTPTitles {
@@ -46,15 +51,16 @@ public class RTPTitles {
         // int fadeIn = getPl().text.getFadeIn();
         // int stay = text.getStay();
         // int fadeOut = text.getFadeOut();
-        title = BetterRTP.getInstance().getText().color(title);
-        sub = BetterRTP.getInstance().getText().color(sub);
-        p.sendTitle(title, sub);
+        title = Message.color(title);
+        sub = Message.color(sub);
+        Message.smsTitle(p, Arrays.asList(title, sub));
+        //p.sendTitle(title, sub);
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
     }
 
     enum RTP_TITLE_TYPE {
         NODELAY("NoDelay"), TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading"), FAILED("Failed");
-        String path;
+        final String path;
         RTP_TITLE_TYPE(String path) {
             this.path = path;
         }

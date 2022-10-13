@@ -4,6 +4,9 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -23,7 +26,7 @@ class Interact {
         FileOther.FILETYPE file = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.SIGNS);
         enabled = file.getBoolean(pre + "Enabled");
         title = file.getString(pre + "Title");
-        coloredTitle = BetterRTP.getInstance().getText().color(title);
+        coloredTitle = Message.color(title);
     }
 
     void event(PlayerInteractEvent e) {
@@ -40,8 +43,8 @@ class Interact {
                             action(e.getPlayer(), cmd(sign.getLines()).split(" "));
                             return;
                         }
-                e.getPlayer().sendMessage(BetterRTP.getInstance().getText().colorPre("&cError! &7Command &a"
-                        + Arrays.toString(cmd(sign.getLines()).split(" ")) + "&7 does not exist! Defaulting command to /rtp!"));
+                Message_RTP.sms(e.getPlayer(), "&cError! &7Command &a"
+                        + Arrays.toString(cmd(sign.getLines()).split(" ")) + "&7 does not exist! Defaulting command to /rtp!");
             }
         }
     }
@@ -52,7 +55,7 @@ class Interact {
             if (line != null && (line.equalsIgnoreCase(title) ||
                     line.equalsIgnoreCase("[RTP]"))) {
                 e.setLine(0, coloredTitle != null ? coloredTitle : "[RTP]");
-                BetterRTP.getInstance().getText().getSignCreated(e.getPlayer(), cmd(e.getLines()));
+                MessagesCore.SIGN.send(e.getPlayer(), cmd(e.getLines()));
             }
         }
     }
