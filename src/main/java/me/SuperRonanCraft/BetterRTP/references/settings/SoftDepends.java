@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.references.settings;
 import lombok.Getter;
 import lombok.Setter;
 import me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins.REGIONPLUGINS;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import org.bukkit.Bukkit;

@@ -57,6 +57,13 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         } else if (request.equalsIgnoreCase("canrtp")) {
             World world = player.getWorld();
             return canRTP(player, world);
+        } else if (request.startsWith("price")) {
+            if (request.equalsIgnoreCase("price")) {
+                return price(player, player.getWorld());
+            } else if (request.startsWith("price_")) {
+                World world = getWorld(request.replace("price_", ""));
+                return price(player, world);
+            }
         }
         return null;
     }
@@ -96,6 +103,14 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
             return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
+    }
+
+    private String price(Player player, World world) {
+        if (world == null) return "Invalid World";
+        world = HelperRTP.getActualWorld(player, world);
+        RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
+        return String.valueOf(pWorld.getPrice());
     }
 
     private World getWorld(String world_name) {

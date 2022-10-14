@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
@@ -9,7 +8,6 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -62,11 +60,7 @@ public class DepEconomy {
         int price = pWorld.getPrice();
         if (e != null && price != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
             try {
-                boolean passed_economy = e.getBalance(pWorld.getPlayer()) >= price;
-                if (!passed_economy) {
-                    MessagesCore.FAILED_PRICE.send(sendi, price);
-                    return false;
-                }
+                return e.getBalance(pWorld.getPlayer()) >= price;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,11 +76,7 @@ public class DepEconomy {
         if (hunger != 0
                 && !PermissionNode.BYPASS_HUNGER.check(sendi)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
-            boolean has_hunger = player.getFoodLevel() > hunger;
-            if (!has_hunger) {
-                MessagesCore.FAILED_HUNGER.send(sendi);
-                return false;
-            }
+            return player.getFoodLevel() > hunger;
         }
         //Default value
         return true;

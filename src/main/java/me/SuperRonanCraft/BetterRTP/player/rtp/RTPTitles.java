@@ -1,11 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

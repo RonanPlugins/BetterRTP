@@ -1,8 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.settings;
 
 import lombok.Getter;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 
 public class Settings {
@@ -35,6 +33,8 @@ public class Settings {
     @Getter private String placeholder_timeSeconds;
     @Getter private String placeholder_timeZero;
     @Getter private String placeholder_timeInf;
+    @Getter private String placeholder_timeSeparator_middle;
+    @Getter private String placeholder_timeSeparator_last;
 
 
     public void load() { //Load Settings
@@ -65,6 +65,8 @@ public class Settings {
         placeholder_timeSeconds = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
         placeholder_timeZero = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.ZeroAll");
         placeholder_timeInf = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Infinite");
+        placeholder_timeSeparator_middle = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Separator.Middle");
+        placeholder_timeSeparator_last = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Separator.Last");
         depends.load();
     }
 

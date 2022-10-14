@@ -29,7 +29,6 @@ public enum MessagesCore {
     SIGN("Sign"),
     MOVED("Moved"),
     ALREADY("Already"),
-    PREFIX("Prefix"),
     //EDIT
     EDIT_ERROR("Edit.Error"),
     EDIT_SET("Edit.Set"),

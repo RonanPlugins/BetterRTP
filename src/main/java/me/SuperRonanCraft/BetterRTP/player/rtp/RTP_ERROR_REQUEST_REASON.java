@@ -9,7 +9,7 @@ public enum RTP_ERROR_REQUEST_REASON {
     WORLD_DISABLED(MessagesCore.DISABLED_WORLD),
     COOLDOWN(MessagesCore.COOLDOWN),
     PRICE_ECONOMY(MessagesCore.FAILED_PRICE),
-    PRICE_HUNGER(MessagesCore.FAILED_PRICE);
+    PRICE_HUNGER(MessagesCore.FAILED_HUNGER);
 
     @Getter private final MessagesCore msg;
 

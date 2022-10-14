@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds;
 import lombok.Getter;
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
-import me.SuperRonanCraft.BetterRTP.references.file.FileBasics;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;

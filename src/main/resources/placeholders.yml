@@ -6,16 +6,21 @@ betterrtp_cooldowntime: 'Get cooldown time subject to in current world'
 betterrtp_cooldowntime_<world_name>: 'Get cooldown time subject to in specified world'
 betterrtp_canrtp_<world_name>: 'Get the reason or yes output if player can rtp in set world'
 betterrtp_canrtp: 'Get the reason or yes output if player can rtp in current world'
+betterrtp_price: 'Get the price of rtp''ing in current world'
+betterrtp_price_<world_name>: 'Get the price of rtp''ing in specified world'
 
 ##Config section for placeholder outputs
 Config:
   TimeFormat:
-    Days: '{0} Day(s), '
-    Hours: '{0} Hours, '
-    Minutes: '{0} Mins and '
+    Days: '{0} Day(s)'
+    Hours: '{0} Hour(s)'
+    Minutes: '{0} Min(s)'
     Seconds: '{0} Secs'
     ZeroAll: 'None'
     Infinite: 'Inf'
+    Separator:
+      Middle:  ', ' #Ex: 1 Days, 5 Hours, 2 mins and 5 secs
+      Last:  ' and ' #Ex: 1 Mins and 10 Secs
   CanRTP:
     Success: '&aYes'
     NoPermission: '&cNo Permission'
