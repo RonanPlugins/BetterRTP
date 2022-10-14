@@ -43,26 +43,41 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
             if (request.equalsIgnoreCase("cooldown")) {
                 return cooldown(data, player.getWorld());
             } else if (request.startsWith("cooldown_")) {
-                World world = getWorld(request.replace("cooldown_", ""));
-                return cooldown(data, world);
+                return cooldown(data, getWorld(request.replace("cooldown_", "")));
             } else if (request.equalsIgnoreCase("cooldowntime")) {
                 return cooldownTime(data, player.getWorld());
             } else if (request.startsWith("cooldowntime_")) {
-                World world = getWorld(request.replace("cooldowntime_", ""));
-                return cooldownTime(data, world);
+                return cooldownTime(data, getWorld(request.replace("cooldowntime_", "")));
             }
-        } else if (request.startsWith("canrtp_")) {
-            World world = getWorld(request.replace("canrtp_", ""));
-            return canRTP(player, world);
-        } else if (request.equalsIgnoreCase("canrtp")) {
-            World world = player.getWorld();
-            return canRTP(player, world);
+        } else if (request.startsWith("canrtp")) {
+            if (request.equalsIgnoreCase("canrtp")) {
+                return canRTPALL(player, player.getWorld());
+            } else if (request.startsWith("canrtp_")) {
+                return canRTPALL(player, getWorld(request.replace("canrtp_", "")));
+            } else if (request.startsWith("canrtpcooldown")) {
+                if (request.equalsIgnoreCase("canrtpcooldown")) {
+                    return canRTP_cooldown(player, player.getWorld());
+                } else if (request.startsWith("canrtpcooldown_")) {
+                    return canRTP_cooldown(player, getWorld(request.replace("canrtpcooldown_", "")));
+                }
+            } else if (request.startsWith("canrtpprice")) {
+                if (request.equalsIgnoreCase("canrtpprice")) {
+                    return canRTP_price(player, player.getWorld());
+                } else if (request.startsWith("canrtpprice_")) {
+                    return canRTP_price(player, getWorld(request.replace("canrtpprice_", "")));
+                }
+            } else if (request.startsWith("canrtphunger")) {
+                if (request.equalsIgnoreCase("canrtphunger")) {
+                    return canRTP_hunger(player, player.getWorld());
+                } else if (request.startsWith("canrtphunger_")) {
+                    return canRTP_hunger(player, getWorld(request.replace("canrtphunger_", "")));
+                }
+            }
         } else if (request.startsWith("price")) {
             if (request.equalsIgnoreCase("price")) {
                 return price(player, player.getWorld());
             } else if (request.startsWith("price_")) {
-                World world = getWorld(request.replace("price_", ""));
-                return price(player, world);
+                return price(player, getWorld(request.replace("price_", "")));
             }
         }
         return null;
@@ -84,7 +99,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         return HelperDate.total(cooldownTime);
     }
 
-    private String canRTP(Player player, World world) {
+    private String canRTPALL(Player player, World world) {
         if (world == null) return "Invalid World";
         world = HelperRTP.getActualWorld(player, world);
         //Permission
@@ -98,6 +113,45 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         //Price
         if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
+        //Hunger
+        if (!BetterRTP.getInstance().getEco().hasHunger(player, pWorld))
+            return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
+        //True
+        return BetterRTP.getInstance().getSettings().getPlaceholder_true();
+    }
+
+    private String canRTP_cooldown(Player player, World world) {
+        if (world == null) return "Invalid World";
+        world = HelperRTP.getActualWorld(player, world);
+
+        RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
+        //Cooldown
+        if (HelperRTP_Check.isCoolingDown(player, player, pWorld))
+            return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
+        //True
+        return BetterRTP.getInstance().getSettings().getPlaceholder_true();
+    }
+
+    private String canRTP_price(Player player, World world) {
+        if (world == null) return "Invalid World";
+        world = HelperRTP.getActualWorld(player, world);
+
+        RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
+        //Price
+        if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))
+            return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
+        //True
+        return BetterRTP.getInstance().getSettings().getPlaceholder_true();
+    }
+
+    private String canRTP_hunger(Player player, World world) {
+        if (world == null) return "Invalid World";
+        world = HelperRTP.getActualWorld(player, world);
+
+        RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Hunger
         if (!BetterRTP.getInstance().getEco().hasHunger(player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
