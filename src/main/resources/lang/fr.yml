@@ -20,7 +20,7 @@ Messages:
     Basic: '&cDésolé ! Vous n''avez pas la permission de faire cela !'
     World: '&cDésolé ! Vous n''êtes pas autorisé à vous téléporter dans le monde %world%!'
   DisabledWorld: '&cLe monde %world% est désactivé ! &7Impossible de se téléporter!'
-  Cooldown: '&cDésolé ! Vous ne pouvez pas vous téléporter pendant encore &6%time% &csecondes !'
+  Cooldown: '&cDésolé ! Vous ne pouvez pas vous téléporter pendant encore &6%time%&c!'
   Locked: '&cSDésolé ! &7Vous avez utilisé tous vos RTP''s !'
   Invalid: '&cArgument invalide. Essayer ''/%command% help'''
   NotOnline: '&cLe joueur &7%player% &cn''est pas en ligne !'

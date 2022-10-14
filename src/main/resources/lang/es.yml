@@ -19,7 +19,7 @@ Messages:
     Basic: '&c¡Lo siento! &7¡No tienes permiso para usar este comando!'
     World: '&c¡Lo siento! &7¡No tienes permitido teletransportarte aleatoriamente en el mundo %world%!'
   DisabledWorld: '&c¡Mundo %world% Deshabilitado! &7¡No se puede usar RTP!'
-  Cooldown: '&c¡Lo siento! &7¡No puedes teletransportarte aleatoriamente por otros &c%time% &7segundos!'
+  Cooldown: '&c¡Lo siento! &7¡No puedes teletransportarte aleatoriamente por otros &c%time%&7!'
   Locked: '&c¡Lo siento! &7¡Has usado todos tus RTPs!'
   Invalid: '&cArgumento inválido. Intenta ''/%command% help'''
   NotOnline: '&c¡El jugador &7%player% &cno está conectado!'

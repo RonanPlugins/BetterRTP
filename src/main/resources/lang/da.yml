@@ -19,7 +19,7 @@ Messages:
     Basic: '&Beklager! &7Du har ikke tilladelse til at bruge denne kommando!'
     World: '&cBeklager! &7Du har ikke tilladelse til at rtp i %world% verden!'
   DisabledWorld: '&cVerden %world% er ikke aktiv! &7Kunne ikke RTP!'
-  Cooldown: '&cBeklager! &7Du kan ikke rtp før om &c%time% &7sekunder!'
+  Cooldown: '&cBeklager! &7Du kan ikke rtp før om &c%time%&7!'
   Locked: '&cBeklager! &7Du har brugt alle dine RTP''er!'
   Invalid: '&cUgyldigt parameter. Prøv ''/%command% help'''
   NotOnline: '&cSpilleren &7%player% &cer ikke online!'

@@ -8,6 +8,9 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.Placeholders;
+import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
@@ -55,7 +58,12 @@ public class HelperRTP {
         WorldPlayer pWorld = getPlayerWorld(setup_info);
         RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, ignoreCooldown);
         if (cantReason != null) {
-            cantReason.getMsg().send(sendi, pWorld);
+            String msg = cantReason.getMsg().get(player, null);
+            if (cantReason == RTP_ERROR_REQUEST_REASON.COOLDOWN) {
+                msg = msg.replace(Placeholders.COOLDOWN.name, HelperDate.total(HelperRTP_Check.getCooldown(player, pWorld)));
+                msg = msg.replace(Placeholders.TIME.name, HelperDate.total(HelperRTP_Check.getCooldown(player, pWorld)));
+            }
+            Message_RTP.sms(sendi, msg, pWorld);
             return;
         }
         //ignore cooldown or else

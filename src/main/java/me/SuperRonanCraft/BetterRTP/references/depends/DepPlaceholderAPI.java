@@ -63,18 +63,18 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
 
     private String cooldown(PlayerData data, World world) {
         if (world == null) return "Invalid World";
-        CooldownData cooldownData = data.getCooldowns().getOrDefault(HelperRTP.getActualWorld(data.player, world), null);
-        if (cooldownData != null)
-            return HelperDate.left(cooldownData.getTime());
-        else
-            return HelperDate.total(0L);
+        long lng = BetterRTP.getInstance().getCooldowns().locked(data.player) ? -1L :
+                HelperRTP_Check.getCooldown(data.player, HelperRTP.getPlayerWorld(new RTPSetupInformation(world, data.player, data.player, true)));
+        return HelperDate.total(lng);
     }
 
     private String cooldownTime(PlayerData data, World world) {
         if (world == null) return "Invalid World";
         RTPSetupInformation setup_info = new RTPSetupInformation(HelperRTP.getActualWorld(data.player, world), data.player, data.player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setup_info);
-        return HelperDate.total(HelperRTP_Check.applyCooldown(data.player, data.player) ? pWorld.getCooldown() * 1000L : 0L);
+        Long cooldownTime = BetterRTP.getInstance().getCooldowns().locked(data.player) ? -1L :
+                (HelperRTP_Check.applyCooldown(data.player, data.player) ? pWorld.getCooldown() * 1000L : 0L);
+        return HelperDate.total(cooldownTime);
     }
 
     private String canRTP(Player player, World world) {
@@ -86,7 +86,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Cooldown
-        if (!HelperRTP_Check.isCoolingDown(player, player, pWorld))
+        if (HelperRTP_Check.isCoolingDown(player, player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
         //Price
         if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))

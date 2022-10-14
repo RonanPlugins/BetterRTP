@@ -34,6 +34,7 @@ public class Settings {
     @Getter private String placeholder_timeMinutes;
     @Getter private String placeholder_timeSeconds;
     @Getter private String placeholder_timeZero;
+    @Getter private String placeholder_timeInf;
 
 
     public void load() { //Load Settings
@@ -63,6 +64,7 @@ public class Settings {
         placeholder_timeMinutes = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Minutes");
         placeholder_timeSeconds = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Seconds");
         placeholder_timeZero = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.ZeroAll");
+        placeholder_timeInf = FileOther.FILETYPE.PLACEHOLDERS.getString("Config.TimeFormat.Infinite");
         depends.load();
     }
 

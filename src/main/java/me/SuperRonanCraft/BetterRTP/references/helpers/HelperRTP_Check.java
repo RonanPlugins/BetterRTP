@@ -24,7 +24,7 @@ public class HelperRTP_Check {
         if (getPl().getRTP().getDisabledWorlds().contains(pWorld.getWorld().getName())) {
             return RTP_ERROR_REQUEST_REASON.WORLD_DISABLED;
         }
-        if (sendi == player && applyCooldown(sendi, player) && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
+        if (sendi == player && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
             return RTP_ERROR_REQUEST_REASON.COOLDOWN;
         }
         if (!getPl().getEco().hasBalance(sendi, pWorld))
@@ -41,33 +41,30 @@ public class HelperRTP_Check {
     public static boolean isCoolingDown(CommandSender sendi, Player player, WorldPlayer pWorld) {
         if (!applyCooldown(sendi, player))  //Bypassing/Forced?
             return false;
+        return getCooldown(player, pWorld) > 0L || isLocked(player);
+    }
+
+    public static boolean isLocked(Player player) {
+        return getPl().getCooldowns().locked(player);
+    }
+
+    public static long getCooldown(Player player, WorldPlayer pWorld) {
         CooldownHandler cooldownHandler = getPl().getCooldowns();
         if (!cooldownHandler.isLoaded() || !cooldownHandler.loadedPlayer(player)) { //Cooldowns have yet to download
-            MessagesCore.COOLDOWN.send(sendi, String.valueOf(-1L));
-            return true;
+            return 1L;
         }
         //Cooldown Data
         CooldownData cooldownData = getPl().getCooldowns().get(player, pWorld.getWorld());
         if (cooldownData != null) {
             if (cooldownData.getTime() == 0) //Global cooldown with nothing
-                return false;
-            else if (cooldownHandler.locked(player)) { //Infinite cooldown (locked)
-                MessagesCore.NOPERMISSION.send(sendi);
-                return true;
+                return 0;
+            else if (isLocked(player)) { //Infinite cooldown (locked)
+                return -1L;
             } else { //Normal cooldown
-                long timeLeft = cooldownHandler.timeLeft(player, cooldownData, pWorld);
-                if (timeLeft > 0) {
-                    //Still cooling down
-                    MessagesCore.COOLDOWN.send(sendi, String.valueOf(timeLeft));
-                    return true;
-                } else {
-                    //Reset timer, but allow them to tp
-                    //cooldowns.add(id);
-                    return false;
-                }
+                return cooldownHandler.timeLeft(player, cooldownData, pWorld);
             }
         }
-        return false;
+        return 0L;
     }
 
     public static boolean applyCooldown(CommandSender sendi, Player player) {

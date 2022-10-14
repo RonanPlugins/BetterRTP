@@ -19,7 +19,7 @@ Messages:
     Basic: '&cHej! &7Nie masz uprawnień do tej komendy!'
     World: '&cHej! &7Nie masz uprawnień aby wykonać losową teleoprtację w świecie %world%!'
   DisabledWorld: '&cŚwiat %world% jest wyłączony! &7Nie udało się wykonać losowej teleportacji!'
-  Cooldown: '&cWybacz! &7Nie możesz wykonać losowej teleportacji przez następne &c%time% &7sekund!'
+  Cooldown: '&cWybacz! &7Nie możesz wykonać losowej teleportacji przez następne &c%time%&7!'
   Locked: '&cWybacz! &7Wykorzystałeś wszystkie losowe teleportacje!'
   Invalid: '&cNiewłaściwy argument. Spróbuj ''/%command% help'''
   NotOnline: '&cGraz &7%player% &cnie jest online!'

@@ -27,17 +27,19 @@ public class HelperDate {
         long max = Math.max(from, to);
         if (max == min)
             return settings.getPlaceholder_timeZero();
+        if (max < 0L || min < 0L)
+            return settings.getPlaceholder_timeInf();
         long diffInMillies = max - min;
-        long days = 0, hours = 0, minutes = 0, seconds = 0;
-        if (diffInMillies > 0) {
-            days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            diffInMillies -= (((1000 * 60) * 60) * 24) * days;
-            hours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            diffInMillies -= ((1000 * 60) * 60) * hours;
-            minutes = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            diffInMillies -= (1000 * 60) * minutes;
-            seconds = TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        }
+        long days, hours, minutes, seconds;
+
+        days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        diffInMillies -= (((1000 * 60) * 60) * 24) * days;
+        hours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        diffInMillies -= ((1000 * 60) * 60) * hours;
+        minutes = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        diffInMillies -= (1000 * 60) * minutes;
+        seconds = TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
         String time_str = "";
         if (days > 0)
             time_str += settings.getPlaceholder_timeDays().replace("{0}", String.valueOf(days));

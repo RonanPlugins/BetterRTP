@@ -18,7 +18,7 @@ Messages:
     Basic: '&cScuze! &7Nu ai permisiunile necesare pentru a folosi aceasta comanda!'
     World: '&cScuze! &7Nu ai voie sa te teleportezi in lumea %world%!'
   DisabledWorld: '&cLumea %world% este dezactivata! &7Nu te-am putut teleporta!'
-  Cooldown: '&cScuze! &7Nu te mai poti teleporta pentru inca &c%time% &7secunde!'
+  Cooldown: '&cScuze! &7Nu te mai poti teleporta pentru inca &c%time%&7!'
   Locked: '&cScuze! &7Ti-ai folosit toate rtp-urile!'
   Invalid: '&cArgument Invalid. Incearca ''/%command% help'''
   NotOnline: '&cJucatorul &7%player% &cnu este online!'

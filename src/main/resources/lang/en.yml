@@ -19,7 +19,7 @@ Messages:
     Basic: '&cSorry! &7You don''t have permission to use this command!'
     World: '&cSorry! &7You are not allowed rtp in the %world% world!'
   DisabledWorld: '&cDisabled World %world%! &7Could not RTP!'
-  Cooldown: '&cSorry! &7You can''t rtp for another &c%time% &7seconds!'
+  Cooldown: '&cSorry! &7You can''t rtp for another &c%time%&7!'
   Locked: '&cSorry! &7You''ve used up all your RTP''s!'
   Invalid: '&cInvalid argument. Try ''/%command% help'''
   NotOnline: '&cThe player &7%player% &cis not online!'

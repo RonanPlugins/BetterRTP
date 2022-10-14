@@ -103,7 +103,7 @@ public class CooldownHandler {
         long timeLeft = ((cooldown / 1000) + pWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
         if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))
             timeLeft = timeLeft + BetterRTP.getInstance().getSettings().getDelayTime();
-        return timeLeft;
+        return timeLeft * 1000L;
     }
 
     public boolean locked(Player player) {

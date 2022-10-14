@@ -23,7 +23,7 @@ Messages:
   Locked: '&cBeklager! &7Du har brukt opp alle RTP-ene dine! '
   Invalid: '&cUgyldig argument. Prøv '' /%command% help '' '
   NotOnline: '&cSpilleren &7%player% &cer ikke online!'
-  Delay: '&aTeleporterer om &f%time% &asekunder! Ikke flytt deg! '
+  Delay: '&aTeleporterer om &f%time%&a! Ikke flytt deg! '
   Moved: '&cDu har flyttet deg! &7RTP ble kansellert! '
   NotExist: '&cSer ut som &7%world% &cIkke eksisterer!'
   Already: '&cWhoops! &7 Ser ut som om du allerede rtp''er, ha litt tålmodighet! '

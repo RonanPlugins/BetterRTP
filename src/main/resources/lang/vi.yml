@@ -19,7 +19,7 @@ Messages:
     Basic: '&cXin Lỗi! &7Bạn không có quyền!'
     World: '&cXin Lỗi! &7Bạn không có quyền dịch chuyển đến %world% world!'
   DisabledWorld: '&c%world% đã bị tắt dịch chuyển! &7Không thể dịch chuyển!'
-  Cooldown: '&cXin Lỗi! &7Bạn không thể dịc chuyển trong &c%time% &7giây!'
+  Cooldown: '&cXin Lỗi! &7Bạn không thể dịc chuyển trong &c%time%&7!'
   Locked: '&cXin Lỗi! &7Bạn đã sử dụng hết tất cả RTP của mình!'
   Invalid: '&cĐối số không hợp lệ. Thử ''/%command% help'''
   NotOnline: '&cNgười chơi &7%player% &ckhông hoạt động!'

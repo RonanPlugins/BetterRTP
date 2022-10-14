@@ -15,6 +15,7 @@ Config:
     Minutes: '{0} Mins and '
     Seconds: '{0} Secs'
     ZeroAll: 'None'
+    Infinite: 'Inf'
   CanRTP:
     Success: '&aYes'
     NoPermission: '&cNo Permission'
