@@ -5,17 +5,15 @@ import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileData;
 import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.PlaceholderAnalyzer;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,7 +48,7 @@ public interface Message {
         }
     }
 
-    static void smsActionBar(Player sendi, List<String> msg) {
+    /*static void smsActionBar(Player sendi, List<String> msg) {
         if (msg == null || msg.isEmpty()) return;
         String str = msg.get(new Random().nextInt(msg.size()));
         smsActionBar(sendi, str);
@@ -61,16 +59,16 @@ public interface Message {
         Audience audience = BetterRTP.getInstance().getAdventure().player(sendi);
         audience.sendActionBar(Component.text(msg));
         //sendi.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
-    }
+    }*/
 
-    static void smsTitle(Player sendi, List<String> msg) {
+    /*static void smsTitle(Player sendi, List<String> msg) {
         if (msg == null || msg.isEmpty()) return;
         Audience audience = BetterRTP.getInstance().getAdventure().player(sendi);
         if (msg.size() == 1)
             audience.showTitle(Title.title(Component.text(" "), Component.text(msg.get(0))));
         else
             audience.showTitle(Title.title(Component.text(msg.get(0)), Component.text(msg.get(1))));
-    }
+    }*/
 
     static String getPrefix(Message messenger) {
         return messenger.lang().getString("Messages.Prefix");

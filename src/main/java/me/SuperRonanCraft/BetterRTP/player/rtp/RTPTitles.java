@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -49,8 +50,8 @@ public class RTPTitles {
         // int fadeOut = text.getFadeOut();
         title = Message.color(title);
         sub = Message.color(sub);
-        Message.smsTitle(p, Arrays.asList(title, sub));
-        //p.sendTitle(title, sub);
+        //Message.smsTitle(p, Arrays.asList(title, sub));
+        p.sendTitle(title, sub);
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
     }
 
