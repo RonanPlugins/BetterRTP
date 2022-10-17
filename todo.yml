@@ -15,3 +15,6 @@ Queue System:
 
 CustomWorlds:
  - If a world has a custom config, if its missing a centerx/z, there will be a RNG error
+
+Suggestions:
+ - Halos#1112: option to not rtp players near each other
