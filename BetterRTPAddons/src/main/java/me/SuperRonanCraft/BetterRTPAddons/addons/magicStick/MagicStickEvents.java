@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds.MagicStickCommand;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -42,9 +43,9 @@ public class MagicStickEvents implements Listener {
         item = new ItemStack(mat);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName(BetterRTP.getInstance().getText().color(title));
+        meta.setDisplayName(Message.color(title));
         meta.setLore(lore);
-        lore.forEach((str) -> lore.set(lore.indexOf(str), BetterRTP.getInstance().getText().color(str)));
+        lore.forEach((str) -> lore.set(lore.indexOf(str), Message.color(str)));
         item.setItemMeta(meta);
 
         this.take = file.getBoolean("MagicStick.Take");

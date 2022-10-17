@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -121,7 +122,7 @@ public class RTPMenu_SelectWorld {
     }
 
     private static Inventory createInventory(String title, int size) {
-        title = BetterRTP.getInstance().getText().color(title);
+        title = Message.color(title);
         return Bukkit.createInventory(null, Math.max(Math.min(size, 54), 9), title);
     }
 

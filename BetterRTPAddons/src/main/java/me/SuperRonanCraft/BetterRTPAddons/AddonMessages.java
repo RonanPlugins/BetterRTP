@@ -17,7 +17,6 @@ public class AddonMessages implements AddonsMessages {
         return getLang().getString(preM + "List.Prefix");
     }
 
-
     public String getListDisabled() {
         return getLang().getString(preM + "List.Disabled");
     }

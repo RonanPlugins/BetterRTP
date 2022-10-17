@@ -3,6 +3,8 @@ package me.SuperRonanCraft.BetterRTPAddons;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommandsTabable;
 import me.SuperRonanCraft.BetterRTPAddons.cmds.AddonsCommand_Help;
 import me.SuperRonanCraft.BetterRTPAddons.cmds.AddonsCommand_List;
@@ -37,10 +39,10 @@ public class AddonsCommand implements RTPCommand, RTPCommandHelpable {
                     return;
                 }
             }
-            BetterRTP.getInstance().getText().getInvalid(sendi, label);
+            MessagesCore.INVALID.send(sendi, label);
         } else {
             List<String> list = new ArrayList<>();
-            list.add(BetterRTP.getInstance().getText().getHelpPrefix());
+            list.add(MessagesHelp.PREFIX.get());
             for (AddonsHandler.Addons addon : Main.getInstance().getAddonsHandler().addons) {
                 RTPCommand cmd = addon.getCmd();
                 if (cmd instanceof RTPCommandHelpable)
