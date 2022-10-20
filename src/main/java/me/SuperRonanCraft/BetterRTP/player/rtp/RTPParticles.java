@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -23,10 +24,7 @@ public class RTPParticles {
     private boolean enabled;
     private final List<ParticleEffect> effects = new ArrayList<>();
     private String shape;
-    private final int
-            radius = 30,
-            precision = 180; //Vector weirdness if allowed to be editable
-    private final double pHeight = 1.75;
+    private final int precision = 16;
 
     //Some particles act very differently and might not care how they are shaped before animating, ex: EXPLOSION_NORMAL
     public static String[] shapeTypes = {
@@ -73,58 +71,67 @@ public class RTPParticles {
 
     void display(Player p) {
         if (!enabled) return;
-        try { //Incase the library errors out
-            switch (shape) {
-                case "TELEPORT": partTeleport(p); break;
-                case "EXPLODE": partExplosion(p); break;
-                default: //Super redundant, but... just future proofing
-                case "SCAN": partScan(p); break;
+        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+            try { //Incase the library errors out
+                switch (shape) {
+                    case "TELEPORT":
+                        partTeleport(p);
+                        break;
+                    case "EXPLODE":
+                        partExplosion(p);
+                        break;
+                    default: //Super redundant, but... just future proofing
+                    case "SCAN":
+                        partScan(p);
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     private void partScan(Player p) { //Particles with negative velocity
-        Location loc = p.getLocation().add(new Vector(0, pHeight, 0));
+        Location loc = p.getLocation().add(new Vector(0, 1.75, 0));
         for (int index = 1; index < precision; index++) {
-            Vector vec = getVecCircle(index, precision, radius);
+            Vector vec = getVecCircle(index);
             for (ParticleEffect effect : effects) {
-                effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), 1f, 0, null);
+                effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), .15f, 0, null, p);
             }
         }
     }
 
     private void partTeleport(Player p) { //Static particles in a shape
-        Random ran = new Random();
-        Location loc = p.getLocation().add(new Vector(0, 0, 0));
-        for (int index = 1; index < precision; index++) {
-            double yran = ran.nextGaussian() * pHeight;
-            Vector vec = getVecCircle(index, precision, radius).add(new Vector(0, yran, 0));
-            for (ParticleEffect effect : effects) {
-                effect.display(loc.clone().add(vec));
+        Location loc = p.getLocation();
+        for (float y = 2.5f; y > 0; y -= .25f)
+            for (int index = 1; index < precision; index++) {
+                //double yran = ran.nextGaussian() * pHeight;
+                Vector vec = getVecCircle(index).add(new Vector(0, y, 0));
+                for (ParticleEffect effect : effects) {
+                    effect.display(loc.clone().add(vec), p);
+                }
             }
-        }
     }
 
     private void partExplosion(Player p) { //Particles with a shape and forward velocity
         Location loc = p.getLocation().add(new Vector(0, 1, 0));
         for (int index = 1; index < precision; index++) {
-            Vector vec = getVecCircle(index, precision, radius);
+            Vector vec = getVecCircle(index);
             for (ParticleEffect effect : effects) {
-                effect.display(loc.clone().add(vec), vec, 1.5f, 0, null);
+                effect.display(loc.clone().add(vec), vec, 1.5f, 0, null, p);
             }
         }
     }
 
-    private Vector getVecCircle(int index, int precise, int rad) {
-        double p1 = (index * Math.PI) / (precise / 2);
-        double p2 = (index - 1) * Math.PI / (precise / 2);
+    private Vector getVecCircle(int index) {
+        double p1 = (index * Math.PI) / (precision / 2);
+        double p2 = (index - 1) * Math.PI / (precision / 2);
         //Positions
-        double x1 = Math.cos(p1) * rad;
-        double x2 = Math.cos(p2) * rad;
-        double z1 = Math.sin(p1) * rad;
-        double z2 = Math.sin(p2) * rad;
+        int radius = 3;
+        double x1 = Math.cos(p1) * radius;
+        double x2 = Math.cos(p2) * radius;
+        double z1 = Math.sin(p1) * radius;
+        double z2 = Math.sin(p2) * radius;
         return new Vector(x2 - x1, 0, z2 - z1);
     }
 
