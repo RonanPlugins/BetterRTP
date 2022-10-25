@@ -3,8 +3,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-    Paid: '&aVous avez été téléporté aux coordonnées &7x=%x% y=%y% z=%z% pour un prix de &c$%price%&7 en &f%attempts% &7tentatives !'
-    Bypass: '&aVous avez été téléporté aux cooordonées &7x=%x% y=%y% z=%z% en &f%attempts% &7tentatives !'
+    Paid: '&aVous avez été téléporté aux coordonnées &7x=%x% y=%y% z=%z% pour un prix de &c$%price%&7!'
+    Bypass: '&aVous avez été téléporté aux cooordonées &7x=%x% y=%y% z=%z%!'
     Loading: '&aUn endroit sûr a été trouvé ! &7Chargement des chunks...'
     Teleport: '&aTéléportation... &fMerci de patienter pendant la recherche d''un endroit sûr !'
   Failed:
@@ -12,7 +12,7 @@ Messages:
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives ! &7Vous n''avez pas été téléporté !'
     Hunger: '&cImpossible de vous téléporter car vous avez trop faim, manger pour remplir votre barre de nourriture !'
   Other:
-    Success: '&a%player% a été téléporté aux coordonées &7x=%x% y=%y% z=%z% em &f%attempts% &7tentatives !'
+    Success: '&a%player% a été téléporté aux coordonées &7x=%x% y=%y% z=%z%!'
     NotSafe: '&cImpossible de trouver un endroit sûr en %attempts% tentatives ! &7%player% n''a pas été téléporté !'
     Biome: '&cIl demblerais que le biome &7%biome% &cn''existe pas ! &7Utiliser l''autocomplétion de la Tab list !'
   Reload: '&eConfiguration rechargée avec succès !'

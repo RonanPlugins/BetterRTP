@@ -2,23 +2,18 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-    Paid: '&aVocê foi enviado para&7 x=%x% y=%y% z=%z% por &c$%price%&7 em &f%attempts%
-      &7tentativas!'
-    Bypass: '&aVocê foi teleportado para&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentativas'
+    Paid: '&aVocê foi enviado para&7 x=%x% y=%y% z=%z% por &c$%price%&7!'
+    Bypass: '&aVocê foi teleportado para&7 x=%x% y=%y% z=%z%'
     Loading: '&aLocal seguro localizado! &7Carregando pedaços...'
     Teleport: '&aTeleportando... &fpor favor, espere enquanto encontramos um local seguro!'
   Failed:
-    Price: '&cRTP falhou devido a fundos insuficientes! &7Você deve ter pelo menos 
-      $%price% &7para o rtp!'
-    NotSafe: '&cNão foi possível encontrar local seguro em %attempts% tentativas! &7Você não foi
-      teleportado!'
+    Price: '&cRTP falhou devido a fundos insuficientes! &7Você deve ter pelo menos $%price% &7para o rtp!'
+    NotSafe: '&cNão foi possível encontrar local seguro em %attempts% tentativas! &7Você não foi teleportado!'
     Hunger: '&cRTP falhou porque você está... &7com muita fome&c, coma alguma coisa, cara!'
   Other:
-    Success: '&a%player% foi enviado para&7 x=%x% y=%y% z=%z% em &f%attempts% &7tentativas!'
-    NotSafe: '&cNão foi possível encontrar local seguro em %attempts% tentativas! &7%player% não
-      foi teleportado!'
-    Biome: '&cParece que o bioma&7 %bioma%&c não existe! &7Tente usar a 
-      lista de guias!'
+    Success: '&a%player% foi enviado para&7 x=%x% y=%y% z=%z%&a!'
+    NotSafe: '&cNão foi possível encontrar local seguro em %attempts% tentativas! &7%player% não foi teleportado!'
+    Biome: '&cParece que o bioma&7 %bioma%&c não existe! &7Tente usar a  lista de guias!'
   Reload: '&eConfig recarregado com sucesso!'
   NoPermission:
     Basic: '&cDesculpe! &7Você não tem permissão para usar este comando!'

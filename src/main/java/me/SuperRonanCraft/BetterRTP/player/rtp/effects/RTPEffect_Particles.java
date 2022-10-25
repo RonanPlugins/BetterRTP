@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player.rtp;
+package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
@@ -11,7 +11,6 @@ import xyz.xenondevs.particle.ParticleEffect;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 //---
 //Credit to @ByteZ1337 for ParticleLib - https://github.com/ByteZ1337/ParticleLib
@@ -19,7 +18,7 @@ import java.util.Random;
 //Use of particle creation
 //---
 
-public class RTPParticles {
+public class RTPEffect_Particles {
 
     private boolean enabled;
     private final List<ParticleEffect> effects = new ArrayList<>();
@@ -69,7 +68,7 @@ public class RTPParticles {
         }
     }
 
-    void display(Player p) {
+    public void display(Player p) {
         if (!enabled) return;
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             try { //Incase the library errors out

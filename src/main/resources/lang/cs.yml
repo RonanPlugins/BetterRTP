@@ -2,7 +2,7 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success:
-    Paid: '&aByl/a jsi teleportován/a na&7 x=%x% y=%y% z=%z% za &c$%price%&7 po &f%attempts% &7pokusech!'
+    Paid: '&aByl/a jsi teleportován/a na&7 x=%x% y=%y% z=%z% za &c$%price%&7!'
     Bypass: '&aByl/a jsi teleportován/a na&7 x=%x% y=%y% z=%z% po &f%attempts% &7pokusech!'
     Loading: '&aNalezeno bezpečné místo! &7Načítám chunky...'
     Teleport: '&aTeleportuji... &fProsím, počkejte, než nalezneme bezpečné místo!'
@@ -11,7 +11,7 @@ Messages:
     NotSafe: '&cNepodařilo se najít bezpečné místo po %attempts% pokusech! &7Nebyl/a jsi teleportován/a!'
     Hunger: '&cNebyl/a jsi teleportován, protože jsi... &7příliš hladový/á.&c Sněz něco, kámo!'
   Other:
-    Success: '&a%player% byl/a teleportován/a na&7 x=%x% y=%y% z=%z% po &f%attempts% &7pokusech!'
+    Success: '&a%player% byl/a teleportován/a na&7 x=%x% y=%y% z=%z%!'
     NotSafe: '&cNepodařilo se najít bezpečné místo po %attempts% pokusech! &7%player% nebyl/a teleportován/a!'
     Biome: '&cVypadá to, že biom&7 %biome%&c neexistuje! &7Zkus použít tabulátor!'
   Reload: '&eConfig úspěšně načten!'

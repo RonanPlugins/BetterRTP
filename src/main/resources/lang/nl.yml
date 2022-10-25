@@ -2,8 +2,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-    Paid: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z% voor &c$%price%&7 in &f%attempts% &7pogingen!'
-    Bypass: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z% in &f%attempts% &7pogingen'
+    Paid: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z% voor &c$%price%&7!'
+    Bypass: '&aJe bent random geteleporteerd naar&7 x=%x% y=%y% z=%z%'
     Loading: '&aVeilige plek gevonden! &7Laden van chunks...'
     Teleport: '&aTeleporteren... &7Wacht even terwijl we een veilige plek zoeken!'
   Failed:
@@ -11,7 +11,7 @@ Messages:
     NotSafe: '&cKon geen veilige plek vinden binnen %attempts% pogingen! &7Je werd niet random geteleporteerd!'
     Hunger: '&cKon niet random teleporteren omdat je... &7te hongerig&c bent, eet iets!'
   Other:
-    Success: '&a%player% is geteleporteerd naar&7 x=%x% y=%y% z=%z% in &f%attempts% &7pogingen!'
+    Success: '&a%player% is geteleporteerd naar&7 x=%x% y=%y% z=%z%!'
     NotSafe: '&cKon geen veilige plek vinden binnen %attempts% pogingen! &7%player% is niet random geteleporteerd!'
     Biome: '&cHet lijkt erop dat de biome&7 %biome%&c niet bestaat! &7Probeer de tabbladenlijst te gebruiken!'
   Reload: '&eConfig herlaadde met succes!'

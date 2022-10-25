@@ -2,21 +2,18 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.effects.*;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPreEvent;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 //---
 //Credit to @PaperMC for PaperLib - https://github.com/PaperMC/PaperLib
@@ -26,18 +23,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class RTPTeleport {
 
-    private final RTPParticles eParticles = new RTPParticles();
-    private final RTPPotions ePotions = new RTPPotions();
-    private final RTPSounds eSounds = new RTPSounds();
-    private final RTPTitles eTitles = new RTPTitles();
+    private final RTPEffects effects = new RTPEffects();
 
     //public HashMap<Player, List<CompletableFuture<Chunk>>> playerLoads = new HashMap<>();
 
     void load() {
-        eParticles.load();
-        ePotions.load();
-        eSounds.load();
-        eTitles.load();
+        effects.load();
     }
 
 //    void cancel(Player p) { //Cancel loading chunks/teleporting
@@ -85,45 +76,45 @@ public class RTPTeleport {
     //Effects
 
     public void afterTeleport(Player p, Location loc, int price, int attempts, Location oldLoc, RTP_TYPE type) { //Only a successful rtp should run this OR '/rtp test'
-        eSounds.playTeleport(p);
-        eParticles.display(p);
-        ePotions.giveEffects(p);
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.TELEPORT))
+        effects.getSounds().playTeleport(p);
+        effects.getParticles().display(p);
+        effects.getPotions().giveEffects(p);
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getName(), loc, price, true, attempts);
         getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, type));
     }
 
     public void beforeTeleportInstant(CommandSender sendi, Player p) {
-        eSounds.playDelay(p);
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.NODELAY))
+        effects.getSounds().playDelay(p);
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY))
             MessagesCore.SUCCESS_TELEPORT.send(sendi);
         getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPreEvent(p));
     }
 
     public void beforeTeleportDelay(Player p, int delay) { //Only Delays should call this
-        eSounds.playDelay(p);
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.DELAY))
+        effects.getSounds().playDelay(p);
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY))
             MessagesCore.DELAY.send(p, delay);
     }
 
     public void cancelledTeleport(Player p) { //Only Delays should call this
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.CANCEL, p, p.getLocation(), 0, 0);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.CANCEL))
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.CANCEL, p, p.getLocation(), 0, 0);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.CANCEL))
             MessagesCore.MOVED.send(p);
     }
 
     private void loadingTeleport(Player p, CommandSender sendi) {
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
-        if ((eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) || sendi != p) //Show msg if enabled or if not same player
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
+        if ((effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) || sendi != p) //Show msg if enabled or if not same player
             MessagesCore.SUCCESS_LOADING.send(sendi);
     }
 
     public void failedTeleport(Player p, CommandSender sendi) {
-        eTitles.showTitle(RTPTitles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
-        if (eTitles.sendMsg(RTPTitles.RTP_TITLE_TYPE.FAILED))
+        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.FAILED))
             if (p == sendi)
                 MessagesCore.FAILED_NOTSAFE.send(sendi, BetterRTP.getInstance().getRTP().maxAttempts);
             else

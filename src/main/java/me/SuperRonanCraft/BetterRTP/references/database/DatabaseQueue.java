@@ -1,8 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
+import lombok.Getter;
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueGenerator;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,7 +14,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public class DatabaseQueue extends SQLite {
@@ -45,7 +47,7 @@ public class DatabaseQueue extends SQLite {
         }
     }
 
-    public List<QueueData> getQueues() {
+    public List<QueueData> getAll() {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -54,6 +56,47 @@ public class DatabaseQueue extends SQLite {
             conn = getSQLConnection();
             ps = conn.prepareStatement("SELECT * FROM " + tables.get(0));
 
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                long x = rs.getLong(COLUMNS.X.name);
+                long z = rs.getLong(COLUMNS.Z.name);
+                String worldName = rs.getString(COLUMNS.WORLD.name);
+                int id = rs.getInt(COLUMNS.ID.name);
+                long generated = rs.getLong(COLUMNS.GENERATED.name);
+                World world = Bukkit.getWorld(worldName);
+                if (world != null) {
+                    queueDataList.add(new QueueData(new Location(world, x, 69 /*giggity*/, z), generated, id));
+                }
+            }
+        } catch (SQLException ex) {
+            BetterRTP.getInstance().getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
+        } finally {
+            close(ps, rs, conn);
+        }
+        return queueDataList;
+    }
+
+    public List<QueueData> getInRange(QueueRangeData range) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<QueueData> queueDataList = new ArrayList<>();
+        try {
+            conn = getSQLConnection();
+            //ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE ? BETWEEN ? AND ? AND ? BETWEEN ? AND ?");
+            ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE "
+                    + COLUMNS.X.name + " BETWEEN " + range.getXLow() + " AND " + range.getXHigh()
+                    + " AND " + COLUMNS.Z.name + " BETWEEN " + range.getZLow() + " AND " + range.getZHigh()
+                    + " ORDER BY " + COLUMNS.ID.name + " DESC LIMIT " + (QueueGenerator.queueMax + 1)
+            );
+            /*ps.setString(1, COLUMNS.X.name);
+            ps.setInt(2, range.getXLow());
+            ps.setInt(3, range.getXHigh());
+            ps.setString(4, COLUMNS.Z.name);
+            ps.setInt(5, range.getZLow());
+            ps.setInt(6, range.getZHigh());*/
+
+            //BetterRTP.getInstance().getLogger().info(ps.toString());
             rs = ps.executeQuery();
             while (rs.next()) {
                 long x = rs.getLong(COLUMNS.X.name);
@@ -144,18 +187,31 @@ public class DatabaseQueue extends SQLite {
         return id;
     }
 
-    public boolean removeQueue(QueueData data) {
+    public boolean removeLocation(Location loc) {
         String sql = "DELETE FROM " + tables.get(0) + " WHERE "
                 + COLUMNS.X.name + " = ? AND "
                 + COLUMNS.Z.name + " = ? AND "
                 + COLUMNS.WORLD.name + " = ?"
                 ;
-        Location loc = data.getLocation();
         List<Object> params = new ArrayList<Object>() {{
             add(loc.getBlockX());
             add(loc.getBlockZ());
             add(loc.getWorld().getName());
         }};
         return sqlUpdate(sql, params);
+    }
+
+    public static class QueueRangeData {
+
+        @Getter int xLow, xHigh;
+        @Getter int zLow, zHigh;
+
+        public QueueRangeData(RTPWorld rtpWorld) {
+            this.xLow = rtpWorld.getCenterX() - rtpWorld.getMaxRadius();
+            this.xHigh = rtpWorld.getCenterX() + rtpWorld.getMaxRadius();
+            this.zLow = rtpWorld.getCenterZ() - rtpWorld.getMaxRadius();
+            this.zHigh = rtpWorld.getCenterZ() + rtpWorld.getMaxRadius();
+        }
+
     }
 }

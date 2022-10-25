@@ -2,8 +2,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # Placeholders! %x% %y% and %z% are the x, y, and z ist du Position wo der Spieler telelportiert würde! ##
-    Paid: '&aDu wurdest zu &7 x=%x% y=%y% z=%z% für &c$%price%&7 in &f%attempts% Versuchen &7attempts!'
-    Bypass: '&adu würdest zu &7 x=%x% y=%y% z=%z% in &f%attempts% &7'
+    Paid: '&aDu wurdest zu &7 x=%x% y=%y% z=%z% für &c$%price%&7!'
+    Bypass: '&adu würdest zu &7 x=%x% y=%y% z=%z%'
     Loading: '&aSicherer Spot gefunden! &7Lade chunks...'
     Teleport: '&aTeleportiere... &fbitte Warte bis wir einen Sicheren Spot gefunden haben!'
   Failed:

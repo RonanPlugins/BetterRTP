@@ -15,10 +15,7 @@ import java.util.logging.Level;
 public abstract class SQLite {
 
     private static final String db_file_name = "database";
-    @Getter List<String> tables;
-    //private String host, database, username, password;
-    //private int port;
-    //boolean sqlEnabled;
+    List<String> tables;
     private boolean loaded;
 
     public String addMissingColumns = "ALTER TABLE %table% ADD COLUMN %column% %type%";
@@ -33,25 +30,8 @@ public abstract class SQLite {
 
     // SQL creation stuff
     public Connection getSQLConnection() {
-        /*if (sqlEnabled) {
-            try {
-                return getOnline();
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-                BetterRTP.getInstance().getLogger().info("MySQL setup is incorrect! Grabbing data from local database!");
-                sqlEnabled = false;
-            }
-        }*/
         return getLocal();
     }
-
-    /*private Connection getOnline() throws SQLException, ClassNotFoundException {
-        synchronized (this) {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database +
-                    "?autoReconnect=true&useSSL=false", this.username, this.password);
-        }
-    }*/
 
     private Connection getLocal() {
         File dataFolder = new File(BetterRTP.getInstance().getDataFolder().getPath() + File.separator + "data", db_file_name + ".db");
@@ -78,14 +58,6 @@ public abstract class SQLite {
     public void load() {
         loaded = false;
         tables = getTables();
-        /*switch (type) {
-            case COOLDOWN: table = "BetterRTP_Cooldown"; break;
-        }
-        if (table == null) {
-            BetterRTP.getInstance().getLogger().severe("The table for `" + type.name() + "` is invalid. Disabling the plugin!");
-            Bukkit.getPluginManager().disablePlugin(BetterRTP.getInstance());
-            return;
-        }*/
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             Connection connection = getSQLConnection();
             try {

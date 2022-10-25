@@ -2,8 +2,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success:
-    Paid: '&aZostałeś przeniesiony do&7 x=%x% y=%y% z=%z% za &c$%price%&7 po &f%attempts% &7próbach!'
-    Bypass: '&aZostałeś przeniesiony do&7 x=%x% y=%y% z=%z% po &f%attempts% &7próbach'
+    Paid: '&aZostałeś przeniesiony do&7 x=%x% y=%y% z=%z% za &c$%price%&7!'
+    Bypass: '&aZostałeś przeniesiony do&7 x=%x% y=%y% z=%z%'
     Loading: '&aZnaleziono bezpieczną strefę! &7Ładowanie chunków...'
     Teleport: '&aTeleportuję... &fproszę czekać aż znajdziemy bezpieczną lokację!'
   Failed:
@@ -11,7 +11,7 @@ Messages:
     NotSafe: '&cNie udało się znaleź bezpiecznego miejsca po %attempts% próbach! &7Nie zostałeś przeniesiony!'
     Hunger: '&cNie udało się wykonać losowej teleportacji, ponieważ jesteś &7zbyt głodny&c, zjedz coś!'
   Other:
-    Success: '&a%player% został przeteleportowany do&7 x=%x% y=%y% z=%z% po &f%attempts% &7próbach!'
+    Success: '&a%player% został przeteleportowany do&7 x=%x% y=%y% z=%z%!'
     NotSafe: '&cNie udało się znaleźć bezpiecznego miejsca po %attempts% próbach! &7%player% nie został przeteleportowany!'
     Biome: '&cWygląda na to, że biom&7 %biome%&c nie istnieje! &7Spróbuj użyć biomu z listy!'
   Reload: '&ePrzeładowano konfigurację!'

@@ -1,15 +1,13 @@
-package me.SuperRonanCraft.BetterRTP.player.rtp;
+package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
-public class RTPTitles {
+public class RTPEffect_Titles {
 
     boolean enabled = false;
     private final HashMap<RTP_TITLE_TYPE, RTP_TITLE> titles = new HashMap<>();
@@ -23,7 +21,7 @@ public class RTPTitles {
                 titles.put(type, new RTP_TITLE(type.path));
     }
 
-    void showTitle(RTP_TITLE_TYPE type, Player p, Location loc, int attempts, int delay) {
+    public void showTitle(RTP_TITLE_TYPE type, Player p, Location loc, int attempts, int delay) {
         if (titles.containsKey(type)) {
             String title = getPlaceholders(titles.get(type).title, p, loc, attempts, delay);
             String sub = getPlaceholders(titles.get(type).subTitle, p, loc, attempts, delay);
@@ -31,7 +29,7 @@ public class RTPTitles {
         }
     }
 
-    boolean sendMsg(RTP_TITLE_TYPE type) {
+    public boolean sendMsg(RTP_TITLE_TYPE type) {
         return titles.containsKey(type) && titles.get(type).send_message || !enabled;
     }
 
@@ -55,7 +53,7 @@ public class RTPTitles {
         // player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
     }
 
-    enum RTP_TITLE_TYPE {
+    public enum RTP_TITLE_TYPE {
         NODELAY("NoDelay"), TELEPORT("Teleport"), DELAY("Delay"), CANCEL("Cancelled"), LOADING("Loading"), FAILED("Failed");
         final String path;
         RTP_TITLE_TYPE(String path) {

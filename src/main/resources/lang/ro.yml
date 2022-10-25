@@ -1,8 +1,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: ## PlaceHolder-ele! %x% %y% si %z% sunt x, y, si z coordonatelor ce apare player-ilor! #
-    Paid: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% pentru &c$%price%&7 in &f%attempts% &7incercari!'
-    Bypass: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% in &f%attempts% &7incercari'
+    Paid: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% pentru &c$%price%&7!'
+    Bypass: '&aAi fost teleportat la coordonatele &7 x=%x% y=%y% z=%z%'
     Loading: '&aUn loc sigur a fost gasit! &7Se incarca chunk-urile...'
     Teleport: '&aTe teleportezi... &fte rugam sa astepti pana gasim un loc sigur!'
   Failed:
@@ -10,7 +10,7 @@ Messages:
     NotSafe: '&cNu am putut gasi un loc sigur in %attempts% incercari! &7Nu ai fost teleportat/a!'
     Hunger: '&cNu te-am putut teleporta pentru ca esti... &7prea infometat&c, mananca ceva!'
   Other:
-    Success: '&a%player% a fost teleportat la coordonatele &7 x=%x% y=%y% z=%z% in &f%attempts% &7incercari!'
+    Success: '&a%player% a fost teleportat la coordonatele &7 x=%x% y=%y% z=%z%!'
     NotSafe: '&cNu am putut gasi un loc sigur in %attempts% incercari! &7%player% nu a fost teleportat/a!'
     Biome: '&cSe pare ca biome-ul &7 %biome%&c nu exista! &7Incerca sa folosesti Tab-ul!'
   Reload: '&eConfiguratia a fost reincarcata cu success!'

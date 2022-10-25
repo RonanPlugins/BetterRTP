@@ -13,7 +13,7 @@ Titles:
     SendMessage: true
   Teleport:
     Title: '&6Teleported!'
-    Subtitle: '&fx=%x% y=%y% z=%z% in %attempts% attempts'
+    Subtitle: '&fx=%x% y=%y% z=%z%'
     SendMessage: true # Allow the teleport success message in chat
   Delay:
     Title: ''

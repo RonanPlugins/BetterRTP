@@ -3,12 +3,11 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
+import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffect_Particles;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
@@ -98,7 +97,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     private void infoShapes(CommandSender sendi) {
         List<String> info = new ArrayList<>();
 
-        for (String shape : RTPParticles.shapeTypes) {
+        for (String shape : RTPEffect_Particles.shapeTypes) {
             if (info.isEmpty() || info.size() % 2 == 0) {
                 info.add("&7" + shape + "&r");
             } else
@@ -158,7 +157,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
             info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
             info.add("&7- &eShape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
             info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
-            info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicable(_rtpworld).size());
+            info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicableAsync(null, _rtpworld).size());
         }
         return info;
     }

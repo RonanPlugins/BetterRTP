@@ -2,7 +2,7 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-    Paid: '&aDu er blevet tp''et til&7 x=%x% y=%y% z=%z% for &c$%price%&7 i &f%attempts% &7forsøg!'
+    Paid: '&aDu er blevet tp''et til&7 x=%x% y=%y% z=%z% for &c$%price%&7!'
     Bypass: '&aDu er blevet tp''et til&7 x=%x% y=%y% z=%z% i &f%attempts% &7forsøg'
     Loading: '&aSikkert sted fundet! &7Loader chunks...'
     Teleport: '&Teleportering... &fVent venligst, mens vi finde et sikkert sted!'
@@ -11,7 +11,7 @@ Messages:
     NotSafe: '&cKunne ikke finde et sikkert sted indenfor %attempts% forsøg! &7Du blev ikke RTP''et!'
     Hunger: '&cKunne ikke rtp, fordi du er... &7sulten&c, spis noget, min ven!'
   Other:
-    Success: '&a%player% er blevet tp''d til&7 x=%x% y=%y% z=%z% i &f%attempts% &7forsøg!'
+    Success: '&a%player% er blevet tp''d til&7 x=%x% y=%y% z=%z%!'
     NotSafe: '&cKunne ikke finde et sikkert sted indenfor %attempts% forsøg! &7%player% blev ikke rtp''et!'
     Biome: '&cDet ser ud til, at biomet&7 %biome%&c ikke findes! &7Prøv at bruge TAB listen!'
   Reload: '&eKonfiguration genindlæst med succes!'

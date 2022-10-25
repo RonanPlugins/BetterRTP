@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
@@ -39,34 +40,43 @@ public class RTPPlayer {
         if (attempts >= settings.maxAttempts) //Cancel out, too many tries
             metMax(sendi, p);
         else { //Try again to find a safe location
-            //Find a queue'd  location
-            RTP_FindLocationEvent event = new RTP_FindLocationEvent(p, pWorld); //Find a queue'd location
+            //Find a location from another Plugin
+            RTP_FindLocationEvent event = new RTP_FindLocationEvent(p, pWorld); //Find an external plugin location
             Bukkit.getServer().getPluginManager().callEvent(event);
-            Location loc;
-            if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
-                loc = event.getLocation();
-            else
-                loc = WorldPlayer.generateLocation(pWorld);
-            attempts++; //Add an attempt
-            //Load chunk and find out if safe location (asynchronously)
-            CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
-            chunk.thenAccept(result -> {
-                //BetterRTP.debug("Checking location for " + p.getName());
-                Location tpLoc;
-                tpLoc = getSafeLocation(pWorld.getWorldtype(), pWorld.getWorld(), loc, pWorld.getMinY(), pWorld.getMaxY(), pWorld.getBiomes());
-                attemptedLocations.add(loc);
-                //Valid location?
-                if (tpLoc != null && checkDepends(tpLoc)) {
-                    tpLoc.add(0.5, 0, 0.5); //Center location
-                    if (getPl().getEco().charge(p, pWorld)) {
-                        tpLoc.setYaw(p.getLocation().getYaw());
-                        tpLoc.setPitch(p.getLocation().getPitch());
-                        settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), attempts, type, pWorld.getWorldtype());
-                    }
-                } else {
-                    randomlyTeleport(sendi);
-                    QueueHandler.remove(loc);
+            //Async Location finder
+            Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+                Location loc;
+                if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
+                    loc = event.getLocation();
+                else {
+                    QueueData queueData = QueueHandler.getRandomAsync(pWorld);
+                    if (queueData != null)
+                        loc = queueData.getLocation();
+                    else
+                        loc = WorldPlayer.generateLocation(pWorld);
                 }
+                attempts++; //Add an attempt
+                //Load chunk and find out if safe location (asynchronously)
+                CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
+                chunk.thenAccept(result -> {
+                    //BetterRTP.debug("Checking location for " + p.getName());
+                    Location tpLoc;
+                    tpLoc = getSafeLocation(pWorld.getWorldtype(), pWorld.getWorld(), loc, pWorld.getMinY(), pWorld.getMaxY(), pWorld.getBiomes());
+                    attemptedLocations.add(loc);
+                    //Valid location?
+                    if (tpLoc != null && checkDepends(tpLoc)) {
+                        tpLoc.add(0.5, 0, 0.5); //Center location
+                        if (getPl().getEco().charge(p, pWorld)) {
+                            tpLoc.setYaw(p.getLocation().getYaw());
+                            tpLoc.setPitch(p.getLocation().getPitch());
+                            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
+                                settings.teleport.sendPlayer(sendi, p, tpLoc, pWorld.getPrice(), attempts, type, pWorld.getWorldtype()));
+                        }
+                    } else {
+                        randomlyTeleport(sendi);
+                        QueueHandler.remove(loc);
+                    }
+                });
             });
         }
     }
@@ -82,12 +92,7 @@ public class RTPPlayer {
     // Compressed code for MaxAttempts being met
     private void metMax(CommandSender sendi, Player p) {
         settings.teleport.failedTeleport(p, sendi);
-        /*if (p == sendi)
-            getPl().getText().getFailedNotSafe(sendi, settings.maxAttempts);
-        else
-            getPl().getText().getOtherNotSafe(sendi, settings.maxAttempts, p.getName());*/
         getPl().getCooldowns().removeCooldown(p, pWorld.getWorld());
-        //getPl().getEco().unCharge(p, pWorld);
         getPl().getpInfo().getRtping().put(p, false);
     }
 

@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player.rtp;
+package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class RTPSounds {
+public class RTPEffect_Sounds {
 
     private boolean enabled;
     private String soundTeleport, soundDelay;
@@ -24,7 +24,7 @@ public class RTPSounds {
         }
     }
 
-    void playTeleport(Player p) {
+    public void playTeleport(Player p) {
         if (!enabled)
             return;
         if (soundTeleport != null) {
@@ -33,7 +33,7 @@ public class RTPSounds {
         }
     }
 
-    void playDelay(Player p) {
+    public void playDelay(Player p) {
         if (!enabled) return;
         if (soundDelay != null) {
             playSound(p.getLocation(), p, soundDelay);

@@ -24,7 +24,7 @@ import java.util.*;
 
 public class HelperRTP {
 
-    //Teleporter and sender are the same
+    //Teleported and Sender are the same
     public static void tp(Player player, World world, List<String> biomes, RTP_TYPE rtpType) {
         tp(player, player, world, biomes, rtpType, false, false);
     }

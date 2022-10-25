@@ -1,4 +1,4 @@
-package me.SuperRonanCraft.BetterRTP.player.rtp;
+package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RTPPotions { //Potions AND Invincibility
+public class RTPEffect_Potions { //Potions AND Invincibility
 
     private boolean potionEnabled;
     private final HashMap<PotionEffectType, Integer[]> potionEffects = new HashMap<>();
@@ -48,7 +48,7 @@ public class RTPPotions { //Potions AND Invincibility
         }
     }
 
-    void giveEffects(Player p) {
+    public void giveEffects(Player p) {
         if (invincibleEnabled)
             p.setNoDamageTicks(invincibleTime * 20);
         if (potionEnabled) {

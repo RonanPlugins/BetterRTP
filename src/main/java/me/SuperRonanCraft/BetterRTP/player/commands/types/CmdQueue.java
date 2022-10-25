@@ -2,25 +2,20 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPParticles;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
-import xyz.xenondevs.particle.ParticleEffect;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +26,15 @@ public class CmdQueue implements RTPCommand {
     }
 
     public void execute(CommandSender sendi, String label, String[] args) {
-        if (args.length > 1 && Bukkit.getWorld(args[1]) != null) {
-            sendInfo(sendi, queueGetWorld(Bukkit.getWorld(args[1])));
-        } else
-            queueWorlds(sendi);
+        Player p = (Player) sendi;
+        //sendi.sendMessage("Loading...");
+        World world = args.length > 1 ? Bukkit.getWorld(args[1]) : null;
+        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+            if (world != null) {
+                sendInfo(sendi, queueGetWorld(p, world));
+            } else
+                queueWorlds(p);
+        });
     }
 
     //World
@@ -45,18 +45,20 @@ public class CmdQueue implements RTPCommand {
         sendi.sendMessage(list.toArray(new String[0]));
     }
 
-    private void queueWorlds(CommandSender sendi) { //All worlds
+    private void queueWorlds(Player p) { //All worlds
         List<String> info = new ArrayList<>();
         for (World w : Bukkit.getWorlds())
-            info.addAll(queueGetWorld(w));
-        info.add("&eTotal of &a%amount% &egenerated locations".replace("%amount%", String.valueOf(QueueHandler.getCount())));
-        sendInfo(sendi, info);
+            info.addAll(queueGetWorld(p, w));
+        info.add("&eTotal of &a%amount% &egenerated locations".replace("%amount%", String.valueOf(DatabaseHandler.getQueue().getCount())));
+        sendInfo(p, info);
     }
 
-    public static List<String> queueGetWorld(World world) { //Specific world
+    private static List<String> queueGetWorld(Player player, World world) { //Specific world
         List<String> info = new ArrayList<>();
         info.add("&eWorld: &6" + world.getName());
-        for (QueueData queue : QueueHandler.getApplicable(world)) {
+        RTPSetupInformation setup_info = new RTPSetupInformation(HelperRTP.getActualWorld(player, world), player, player, true);
+        WorldPlayer pWorld = HelperRTP.getPlayerWorld(setup_info);
+        for (QueueData queue : QueueHandler.getApplicableAsync(null, pWorld)) {
             String str = "&8- &7x= &b%x, &7z= &b%z";
             Location loc = queue.getLocation();
             str = str.replace("%x", String.valueOf(loc.getBlockX())).replace("%z", String.valueOf(loc.getBlockZ()));

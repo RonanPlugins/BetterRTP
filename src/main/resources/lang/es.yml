@@ -2,8 +2,8 @@
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # ¡Placeholders! ¡%x% %y% y %z% son las coordinadas x, y, y z al que el jugador está siendo teletransportado! #
-    Paid: '&a¡Has sido teletransportado a&7 x=%x% y=%y% z=%z% por &c$%price%&7 en &f%attempts% &7intentos!'
-    Bypass: '&aHas sido teletransportado a&7 x=%x% y=%y% z=%z% en &f%attempts% &7intentos'
+    Paid: '&a¡Has sido teletransportado a&7 x=%x% y=%y% z=%z% por &c$%price%&7!'
+    Bypass: '&aHas sido teletransportado a&7 x=%x% y=%y% z=%z%'
     Loading: '&a¡Lugar seguro localizado! &7Cargando chunks...'
     Teleport: '&f¡&aTeletransportandote... &fpor favor, espere mientras encontramos un lugar seguro!'
   Failed:
@@ -11,7 +11,7 @@ Messages:
     NotSafe: '&c¡No pudimos encontrar un lugar seguro en %attempts% intentos! &7¡No fuiste teletransportado!'
     Hunger: '&c¡No pudimos teletransportarte aleatoriamente porque tienes... &7demasiada hambre&c, come algo amigo!'
   Other:
-    Success: '&7¡&a%player% ha sido teletransportado a&7 x=%x% y=%y% z=%z% en &f%attempts% &7intentos!'
+    Success: '&7¡&a%player% ha sido teletransportado a&7 x=%x% y=%y% z=%z%!'
     NotSafe: '&c¡No se pudo encontrar un lugar seguro en %attempts% intentos! &7¡%player% no fue teletransportado aleatoriamente!'
     Biome: '&c¡Parece que el bioma&7 %biome%&c no existe! &7¡Intenta usar la lista del tab!'
   Reload: '&e¡Configuración recargada exitosamente!'
