@@ -157,7 +157,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
             info.add("&7- &6Biomes&7: &f" + _rtpworld.getBiomes().toString());
             info.add("&7- &eShape&7: &f" + _rtpworld.getShape().toString() + getInfo(_rtpworld, worldDefault, "shape"));
             info.add("&7- &6Permission Group&7: " + (_rtpworld.getConfig() != null ? "&a" + _rtpworld.getConfig().getGroupName() : "&cN/A"));
-            info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicableAsync(null, _rtpworld).size());
+            info.add("&7- &eQueue Available&7: " + QueueHandler.getApplicableAsync(_rtpworld).size());
         }
         return info;
     }

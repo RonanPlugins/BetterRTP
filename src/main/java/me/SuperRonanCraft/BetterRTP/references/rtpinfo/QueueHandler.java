@@ -38,21 +38,23 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     @EventHandler
     public void onRTP(RTP_TeleportPostEvent e) {
         //Delete previously used location
-        Location location = e.getLocation();
-        remove(location);
+        remove(e.getLocation());
     }
 
     public static QueueData getRandomAsync(RTPWorld rtpWorld) {
-        List<QueueData> queueData = getApplicableAsync(null, rtpWorld);
+        List<QueueData> queueData = getApplicableAsync(rtpWorld);
         if (queueData.size() <= QueueGenerator.queueMin && !BetterRTP.getInstance().getQueue().generator.generating)
             BetterRTP.getInstance().getQueue().generator.generate(rtpWorld);
-        if (!queueData.isEmpty())
-            return queueData.get(new Random().nextInt(queueData.size()));
+        if (!queueData.isEmpty()) {
+            QueueData randomQueue = queueData.get(new Random().nextInt(queueData.size()));
+            queueData.clear();
+            return randomQueue;
+        }
         return null;
     }
 
-    public static List<QueueData> getApplicableAsync(@Nullable List<QueueData> queueCache, RTPWorld rtpWorld) {
-        List<QueueData> queueData = queueCache == null ? DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld)) : queueCache;
+    public static List<QueueData> getApplicableAsync(RTPWorld rtpWorld) {
+        List<QueueData> queueData = DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld));
         List<QueueData> available = new ArrayList<>();
         for (QueueData data : queueData) {
             if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName()))
@@ -68,7 +70,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                         available.add(data);
             }
         }
-        BetterRTP.getInstance().getLogger().info("Available: " + available.size());
+        //BetterRTP.getInstance().getLogger().info("Available: " + available.size());
         return available;
     }
 

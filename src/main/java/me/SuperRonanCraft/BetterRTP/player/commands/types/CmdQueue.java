@@ -58,7 +58,7 @@ public class CmdQueue implements RTPCommand {
         info.add("&eWorld: &6" + world.getName());
         RTPSetupInformation setup_info = new RTPSetupInformation(HelperRTP.getActualWorld(player, world), player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setup_info);
-        for (QueueData queue : QueueHandler.getApplicableAsync(null, pWorld)) {
+        for (QueueData queue : QueueHandler.getApplicableAsync(pWorld)) {
             String str = "&8- &7x= &b%x, &7z= &b%z";
             Location loc = queue.getLocation();
             str = str.replace("%x", String.valueOf(loc.getBlockX())).replace("%z", String.valueOf(loc.getBlockZ()));

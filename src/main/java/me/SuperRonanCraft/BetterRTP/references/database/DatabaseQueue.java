@@ -47,7 +47,7 @@ public class DatabaseQueue extends SQLite {
         }
     }
 
-    public List<QueueData> getAll() {
+    /*public List<QueueData> getAll() {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -65,7 +65,7 @@ public class DatabaseQueue extends SQLite {
                 long generated = rs.getLong(COLUMNS.GENERATED.name);
                 World world = Bukkit.getWorld(worldName);
                 if (world != null) {
-                    queueDataList.add(new QueueData(new Location(world, x, 69 /*giggity*/, z), generated, id));
+                    queueDataList.add(new QueueData(new Location(world, x, 69, z), generated, id));
                 }
             }
         } catch (SQLException ex) {
@@ -74,7 +74,7 @@ public class DatabaseQueue extends SQLite {
             close(ps, rs, conn);
         }
         return queueDataList;
-    }
+    }*/
 
     public List<QueueData> getInRange(QueueRangeData range) {
         Connection conn = null;
@@ -85,9 +85,10 @@ public class DatabaseQueue extends SQLite {
             conn = getSQLConnection();
             //ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE ? BETWEEN ? AND ? AND ? BETWEEN ? AND ?");
             ps = conn.prepareStatement("SELECT * FROM " + tables.get(0) + " WHERE "
+                    + COLUMNS.WORLD.name + " = '" + range.getWorld().getName() + "' AND "
                     + COLUMNS.X.name + " BETWEEN " + range.getXLow() + " AND " + range.getXHigh()
                     + " AND " + COLUMNS.Z.name + " BETWEEN " + range.getZLow() + " AND " + range.getZHigh()
-                    + " ORDER BY " + COLUMNS.ID.name + " DESC LIMIT " + (QueueGenerator.queueMax + 1)
+                    + " ORDER BY RANDOM() LIMIT " + (QueueGenerator.queueMax + 1)
             );
             /*ps.setString(1, COLUMNS.X.name);
             ps.setInt(2, range.getXLow());
@@ -205,12 +206,14 @@ public class DatabaseQueue extends SQLite {
 
         @Getter int xLow, xHigh;
         @Getter int zLow, zHigh;
+        @Getter World world;
 
         public QueueRangeData(RTPWorld rtpWorld) {
             this.xLow = rtpWorld.getCenterX() - rtpWorld.getMaxRadius();
             this.xHigh = rtpWorld.getCenterX() + rtpWorld.getMaxRadius();
             this.zLow = rtpWorld.getCenterZ() - rtpWorld.getMaxRadius();
             this.zHigh = rtpWorld.getCenterZ() + rtpWorld.getMaxRadius();
+            this.world = rtpWorld.getWorld();
         }
 
     }

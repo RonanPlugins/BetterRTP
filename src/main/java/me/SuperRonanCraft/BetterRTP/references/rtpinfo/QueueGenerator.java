@@ -51,18 +51,18 @@ public class QueueGenerator {
             //BetterRTP.debug("Loaded " + queueList.size() + " previously generated safe locations!");
             //Queue after everything was loaded
             BetterRTP.debug("Attempting to queue up some more safe locations...");
-            queueGenerator(new ReQueueData(DatabaseHandler.getQueue().getAll(), rtpWorld, queueMax, queueMin, 0, "noone", 0));
+            queueGenerator(new ReQueueData(rtpWorld, queueMax, queueMin, 0, "noone", 0));
         }, 10L);
     }
 
     private void queueGenerator(ReQueueData data) {
         generating = true;
         task = Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
-            //BetterRTP.debug("Generating a new position... attemp # " + data.attempts);
+            //BetterRTP.debug("Generating a new position... attempt # " + data.attempts);
             //Generate more locations
             //Rare cases where a rtp world didn't have a location generated (Permission Groups?)
             if (data.rtpWorld != null) {
-                List<QueueData> applicable = QueueHandler.getApplicableAsync(data.queue, data.rtpWorld);
+                List<QueueData> applicable = QueueHandler.getApplicableAsync(data.rtpWorld);
                 String type = "rtp_" + (data.rtpWorld.getID() != null ? data.rtpWorld.getID() : data.rtpWorld.getWorld().getName());
                 int newCount = data.lastType.equalsIgnoreCase(type) ? data.lastCount : applicable.size();
                 int attempt = data.lastType.equalsIgnoreCase(type) ? data.attempts + 1: 0;
@@ -72,7 +72,7 @@ public class QueueGenerator {
                         return;
                     }
 
-                    addQueue(data.rtpWorld, type, new ReQueueData(data.queue, data.rtpWorld, queueMax, queueMin, newCount, type, attempt)); //Generate another later
+                    addQueue(data.rtpWorld, type, new ReQueueData(data.rtpWorld, queueMax, queueMin, newCount, type, attempt)); //Generate another later
 
                     return;
                 }
@@ -87,7 +87,7 @@ public class QueueGenerator {
                 for (Map.Entry<String, RTPWorld> rtpWorldEntry : map.entrySet()) {
                     RTPWorld world = rtpWorldEntry.getValue();
                     String type = getId(setup, rtpWorldEntry.getKey());
-                    List<QueueData> applicable = QueueHandler.getApplicableAsync(data.queue, world);
+                    List<QueueData> applicable = QueueHandler.getApplicableAsync(world);
                     int newCount = data.lastType.equalsIgnoreCase(type) ? data.lastCount : applicable.size();
                     int attempt = data.lastType.equalsIgnoreCase(type) ? data.attempts + 1 : 0;
                     if (newCount < queueMin && applicable.size() < queueMax) {
@@ -96,7 +96,7 @@ public class QueueGenerator {
                             continue;
                         }
                         //Generate a location sync to bukkit api
-                        addQueue(world, type, new ReQueueData(data.queue, null, queueMax, queueMin, newCount, type, attempt)); //Generate another when done later
+                        addQueue(world, type, new ReQueueData(null, queueMax, queueMin, newCount, type, attempt)); //Generate another when done later
 
                         return;
                     }
@@ -111,12 +111,10 @@ public class QueueGenerator {
 
     static class ReQueueData {
 
-        List<QueueData> queue;
         RTPWorld rtpWorld;
         int queueMax, queueMin, lastCount, attempts;
         String lastType;
-        ReQueueData(List<QueueData> queue, RTPWorld rtpWorld, int queueMax, int queueMin, int lastCount, String lastType, int attempts) {
-            this.queue = queue;
+        ReQueueData(RTPWorld rtpWorld, int queueMax, int queueMin, int lastCount, String lastType, int attempts) {
             this.rtpWorld = rtpWorld;
             this.queueMax = queueMax;
             this.queueMin = queueMin;
