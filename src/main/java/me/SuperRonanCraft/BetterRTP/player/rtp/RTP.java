@@ -99,8 +99,8 @@ public class RTP {
         if (getPl().getSettings().isDelayEnabled() && pWorld.isApplyDelay()) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
-            teleport.beforeTeleportInstant(sendi, p);
-            rtpPlayer.randomlyTeleport(sendi);
+            if (!teleport.beforeTeleportInstant(sendi, p))
+                rtpPlayer.randomlyTeleport(sendi);
         }
     }
 

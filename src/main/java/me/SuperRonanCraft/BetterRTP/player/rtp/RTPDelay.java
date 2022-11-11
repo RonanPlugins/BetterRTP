@@ -24,10 +24,11 @@ class RTPDelay implements Listener {
     }
 
     private void delay(CommandSender sendi, int delay) {
-        getPl().getRTP().getTeleport().beforeTeleportDelay(rtp.getPlayer(), delay);
-        run = Bukkit.getScheduler().scheduleSyncDelayedTask(BetterRTP.getInstance(), run(sendi, this), delay * 20L);
-        if (cancelOnMove || cancelOnDamage)
-            Bukkit.getPluginManager().registerEvents(this, BetterRTP.getInstance());
+        if (!getPl().getRTP().getTeleport().beforeTeleportDelay(rtp.getPlayer(), delay)) {
+            run = Bukkit.getScheduler().scheduleSyncDelayedTask(BetterRTP.getInstance(), run(sendi, this), delay * 20L);
+            if (cancelOnMove || cancelOnDamage)
+                Bukkit.getPluginManager().registerEvents(this, BetterRTP.getInstance());
+        }
     }
 
     @EventHandler
@@ -60,7 +61,7 @@ class RTPDelay implements Listener {
             HandlerList.unregisterAll(this);
             getPl().getRTP().getTeleport().cancelledTeleport(rtp.getPlayer());
             //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
-            getPl().getCooldowns().removeCooldown(rtp.getPlayer(), rtp.pWorld.getWorld());
+            getPl().getCooldowns().removeCooldown(rtp.getPlayer(), rtp.worldPlayer.getWorld());
             getPl().getpInfo().getRtping().put(rtp.getPlayer(), false);
             Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
         }

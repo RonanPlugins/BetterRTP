@@ -1,17 +1,25 @@
 package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 
-public class RTP_TeleportPreEvent extends RTPEvent { //Called upon every rtp call, does not mean player will be teleported
+public class RTP_TeleportPreEvent extends RTPEvent implements Cancellable { //Called upon every rtp call, does not mean player will be teleported
 
-    Player p;
+    @Getter Player p;
+    boolean cancelled;
 
     public RTP_TeleportPreEvent(Player p) {
         this.p = p;
     }
 
-    public Player getPlayer() {
-        return p;
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
     }
 
+    @Override
+    public void setCancelled(boolean b) {
+        cancelled = b;
+    }
 }

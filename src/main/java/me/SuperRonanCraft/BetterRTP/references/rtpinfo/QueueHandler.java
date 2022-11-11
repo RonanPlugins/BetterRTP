@@ -1,7 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseQueue;
@@ -11,10 +10,11 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 public class QueueHandler implements Listener { //Randomly queues up some safe locations
 

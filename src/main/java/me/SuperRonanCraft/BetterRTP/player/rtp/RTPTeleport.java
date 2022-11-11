@@ -11,6 +11,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -85,19 +86,28 @@ public class RTPTeleport {
         getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, type));
     }
 
-    public void beforeTeleportInstant(CommandSender sendi, Player p) {
-        effects.getSounds().playDelay(p);
-        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
-        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY))
-            MessagesCore.SUCCESS_TELEPORT.send(sendi);
-        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPreEvent(p));
+    public boolean beforeTeleportInstant(CommandSender sendi, Player p) {
+        RTP_TeleportPreEvent event = new RTP_TeleportPreEvent(p);
+        getPl().getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()) {
+            effects.getSounds().playDelay(p);
+            effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY, p, p.getLocation(), 0, 0);
+            if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.NODELAY))
+                MessagesCore.SUCCESS_TELEPORT.send(sendi);
+        }
+        return event.isCancelled();
     }
 
-    public void beforeTeleportDelay(Player p, int delay) { //Only Delays should call this
-        effects.getSounds().playDelay(p);
-        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
-        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY))
-            MessagesCore.DELAY.send(p, delay);
+    public boolean beforeTeleportDelay(Player p, int delay) { //Only Delays should call this
+        RTP_TeleportPreEvent event = new RTP_TeleportPreEvent(p);
+        getPl().getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()) {
+            effects.getSounds().playDelay(p);
+            effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY, p, p.getLocation(), 0, delay);
+            if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.DELAY))
+                MessagesCore.DELAY.send(p, delay);
+        }
+        return event.isCancelled();
     }
 
     public void cancelledTeleport(Player p) { //Only Delays should call this
