@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
+public class WorldLocation implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private long cooldown;
@@ -22,7 +22,7 @@ public class WorldLocations implements RTPWorld, RTPWorld_Defaulted {
     private RTP_SHAPE shape;
     private final String name;
 
-    public WorldLocations(String location_name) {
+    public WorldLocation(String location_name) {
         FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.LOCATIONS);
         List<Map<?, ?>> map = config.getMapList("Locations");
         //WorldDefault worldDefault = BetterRTP.getInstance().getRTP().defaultWorld;

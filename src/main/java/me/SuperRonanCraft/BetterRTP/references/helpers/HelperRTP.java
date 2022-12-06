@@ -10,7 +10,6 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.Placeholders;
-import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
@@ -41,8 +40,8 @@ public class HelperRTP {
     }
 
     public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
-                          boolean ignoreCooldown, boolean ignoreDelay, WorldLocations locations) {
-        world = getActualWorld(player, world);
+                          boolean ignoreCooldown, boolean ignoreDelay, @Nullable WorldLocation location) {
+        world = getActualWorld(player, world, location);
         RTPSetupInformation setup_info = new RTPSetupInformation(
                 world,
                 sendi,
@@ -51,7 +50,7 @@ public class HelperRTP {
                 biomes,
                 !ignoreDelay && HelperRTP_Check.applyDelay(player, sendi),
                 rtpType,
-                locations,
+                location,
                 !ignoreCooldown && HelperRTP_Check.applyCooldown(sendi, player)
         );
         //RTP request cancelled reason
@@ -74,21 +73,27 @@ public class HelperRTP {
         return BetterRTP.getInstance();
     }
 
-    public static World getActualWorld(Player player, World world) {
+    public static World getActualWorld(Player player, World world, @Nullable WorldLocation location) {
         if (world == null)
             world = player.getWorld();
+        if (location != null)
+            world = location.getWorld();
         if (BetterRTP.getInstance().getRTP().overriden.containsKey(world.getName()))
             world = Bukkit.getWorld(BetterRTP.getInstance().getRTP().overriden.get(world.getName()));
         return world;
     }
 
+    public static World getActualWorld(Player player, World world) {
+        return getActualWorld(player, world, null);
+    }
+
     @Nullable
-    public static WorldLocations getRandomLocation(CommandSender sender, World world) {
+    public static WorldLocation getRandomLocation(CommandSender sender, World world) {
         HashMap<String, RTPWorld> locations_permissible = CmdLocation.getLocations(sender, world);
         if (!locations_permissible.isEmpty()) {
             List<String> valuesList = new ArrayList<>(locations_permissible.keySet());
             String randomIndex = valuesList.get(new Random().nextInt(valuesList.size()));
-            return (WorldLocations) locations_permissible.get(randomIndex);
+            return (WorldLocation) locations_permissible.get(randomIndex);
         }
         return null;
     }
@@ -98,7 +103,7 @@ public class HelperRTP {
 
         //Random Location
         if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
-            WorldLocations worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
+            WorldLocation worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
             if (worldLocation != null) {
                 setup_info.setLocation(worldLocation);
                 setup_info.setWorld(worldLocation.getWorld());
@@ -121,6 +126,7 @@ public class HelperRTP {
             pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes());
         }
 
+        //Setup world (if no location pre-setup)
         if (!pWorld.isSetup()) {
             WorldPermissionGroup group = getGroup(pWorld);
 

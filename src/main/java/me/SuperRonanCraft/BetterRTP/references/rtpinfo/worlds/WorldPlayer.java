@@ -44,7 +44,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     }
 
     public void setup(String setup_name, RTPWorld world, List<String> biomes) {
-        if (world instanceof WorldLocations) {
+        if (world instanceof WorldLocation) {
             setup_type = RTP_SETUP_TYPE.LOCATION;
         } else if (world instanceof WorldCustom) {
             setup_type = RTP_SETUP_TYPE.CUSTOM_WORLD;

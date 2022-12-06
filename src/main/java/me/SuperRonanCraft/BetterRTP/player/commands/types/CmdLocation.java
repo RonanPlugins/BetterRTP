@@ -6,12 +6,11 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocations;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -34,9 +33,9 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         if (args.length == 2) {
             if (sendi instanceof Player) {
                 Player p = (Player) sendi;
-                for (String location_name : getLocations(sendi, p.getWorld()).keySet())
-                    if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
+                for (Map.Entry<String, RTPWorld> location : getLocations(sendi, p.getWorld()).entrySet())
+                    if (location.getKey().equalsIgnoreCase(args[1].toLowerCase())) {
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocation) location.getValue());
                         return;
                     }
                 usage(sendi, label);
@@ -47,7 +46,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
             if (p != null && p.isOnline()) {
                 for (String location_name : getLocations(sendi, null).keySet()) {
                     if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocations) getLocations().get(location_name));
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocation) getLocations().get(location_name));
                         return;
                     }
                 }

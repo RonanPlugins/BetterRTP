@@ -106,7 +106,7 @@ public class RTPLoader {
         List<Map<?, ?>> map = config.getMapList("Locations");
         for (Map<?, ?> m : map)
             for (Map.Entry<?, ?> entry : m.entrySet()) {
-                WorldLocations location = new WorldLocations(entry.getKey().toString());
+                WorldLocation location = new WorldLocation(entry.getKey().toString());
                 if (location.isValid()) {
                     worlds.put(entry.getKey().toString(), location);
                     BetterRTP.debug("- Location '" + entry.getKey() + "' registered");
