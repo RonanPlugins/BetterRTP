@@ -5,7 +5,7 @@ Messages:
     Paid: '&a您花費了&c$%price%&7，被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
     Bypass: '&a您被傳送到了&7 x=%x% y=%y% z=%z%。一共嘗試&f%attempts%&7次！'
     Loading: '&a已定位安全位置! &7正在讀取區塊...'
-    Teleport: '&a傳送中... &f請燒等我們正在幫你尋找安全的地點!'
+    Teleport: '&a傳送中... &f請稍等我們正在幫你尋找安全的地點!'
   Failed:
     Price: '&c您的資金不夠了！&7您需要有$%price%&7才能嘗試RTP！'
     NotSafe: '&c由於%attempts%次嘗試內未能找到適合的地方傳送，&7您未被傳送！'
