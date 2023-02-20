@@ -49,7 +49,7 @@ public class CmdQueue implements RTPCommand {
         List<String> info = new ArrayList<>();
         for (World w : Bukkit.getWorlds())
             info.addAll(queueGetWorld(p, w));
-        info.add("&eTotal of &a%amount% &egenerated locations".replace("%amount%", String.valueOf(DatabaseHandler.getQueue().getCount())));
+        info.add("&eTotal of &a%amount% &egenerated locations".replace("%amount%", String.valueOf(info.size())));
         sendInfo(p, info);
     }
 
