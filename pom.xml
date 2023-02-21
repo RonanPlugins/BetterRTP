@@ -24,7 +24,7 @@
                         <!-- Local Server Building -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.2.2</version>
                         <configuration>
                             <outputDirectory>../../Java/plugins</outputDirectory>
                         </configuration>
@@ -46,7 +46,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>hack-binary</id>
@@ -86,7 +86,7 @@
                 <!-- Shade PaperLib into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.4.1</version>
                 <configuration>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
@@ -108,7 +108,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.10.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -200,14 +200,14 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
         <!-- Worldguard (https://dev.bukkit.org/projects/worldguard) -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.3</version>
+            <version>7.0.7</version>
             <scope>provided</scope>
         </dependency>
         <!-- RedProtect (https://www.spigotmc.org/resources/redprotect.15841/) -->
@@ -234,7 +234,7 @@
         <dependency>
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>5.0.5</version>
+            <version>6.28.11</version>
             <scope>provided</scope>
         </dependency>
         <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
@@ -248,21 +248,21 @@
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.5.0</version>
+            <version>4.8.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- Towny (https://www.spigotmc.org/resources/towny.72694/) -->
         <dependency>
             <groupId>com.github.TownyAdvanced</groupId>
             <artifactId>Towny</artifactId>
-            <version>0.96.1.11</version>
+            <version>0.98.6.6</version>
             <scope>provided</scope>
         </dependency>
         <!-- GriefPrevention (https://www.spigotmc.org/resources/griefprevention.1884/) -->
         <dependency>
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
-            <version>16.15.0</version>
+            <version>16.18</version>
             <scope>provided</scope>
         </dependency>
         <!-- KingdomsX v1.10.5.2 (https://www.spigotmc.org/resources/kingdomsx.77670/) -->
@@ -310,21 +310,21 @@
         <dependency>
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
-            <version>1.8.1</version>
+            <version>1.8.3</version>
             <scope>compile</scope>
         </dependency>
         <!-- Lombok Support (@Getter & @Setter)-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
         <!-- EssentialsX -->
         <dependency>
             <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.19.0</version>
+            <version>2.19.7</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -337,7 +337,7 @@
         <dependency>
             <groupId>com.github.SaberLLC</groupId>
             <artifactId>Saber-Factions</artifactId>
-            <version>2.4.0-RC</version>
+            <version>2.9.1-RC</version>
             <scope>provided</scope>
         </dependency>
         <!-- PlaceholderAPI Support (Added in 3.4.5)-->
@@ -351,7 +351,7 @@
         <dependency>
             <groupId>net.william278</groupId>
             <artifactId>HuskTowns</artifactId>
-            <version>1.8.1</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
