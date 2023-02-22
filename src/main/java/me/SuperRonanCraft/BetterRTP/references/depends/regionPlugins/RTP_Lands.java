@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
-import me.angeschossen.lands.api.integration.LandsIntegration;
+import me.angeschossen.lands.api.LandsIntegration;
 import org.bukkit.Location;
 
 public class RTP_Lands implements RegionPluginCheck {
@@ -14,7 +14,7 @@ public class RTP_Lands implements RegionPluginCheck {
         boolean result = true;
         if (REGIONPLUGINS.LANDS.isEnabled())
             try {
-                result = !(new LandsIntegration(BetterRTP.getInstance()).isClaimed(loc));
+                result = !(LandsIntegration.of(BetterRTP.getInstance()).getArea(loc) == null);
             } catch (Exception e) {
                 e.printStackTrace();
             }

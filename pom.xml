@@ -53,7 +53,6 @@
                         <phase>clean</phase>
                         <configuration>
                             <file>${basedir}/LocalJars/Residence4.9.1.9.jar</file>
-                            <repositoryLayout>default</repositoryLayout>
                             <groupId>com.bekvon.bukkit</groupId>
                             <artifactId>residence</artifactId>
                             <version>4.9.1.9</version>
@@ -69,7 +68,6 @@
                         <phase>clean</phase>
                         <configuration>
                             <file>${basedir}/LocalJars/hClaims.jar</file>
-                            <repositoryLayout>default</repositoryLayout>
                             <groupId>com.hakan</groupId>
                             <artifactId>claimapi</artifactId>
                             <version>2.1.8</version>
@@ -94,6 +92,10 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern>
                         </relocation>
+                        <!--relocation>
+                            <pattern>xyz.xenondevs.particle</pattern>
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.particleLib</shadedPattern>
+                        </relocation-->
                     </relocations>
                 </configuration>
                 <executions>
@@ -311,7 +313,7 @@
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.8.3</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <!-- Lombok Support (@Getter & @Setter)-->
         <dependency>

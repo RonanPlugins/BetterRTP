@@ -2,7 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
-import net.william278.husktowns.HuskTownsAPI;
+import net.william278.husktowns.api.HuskTownsAPI;
 import org.bukkit.Location;
 
 public class RTP_HuskTowns implements RegionPluginCheck {
@@ -14,7 +14,7 @@ public class RTP_HuskTowns implements RegionPluginCheck {
         boolean result = true;
         if (REGIONPLUGINS.HUSKTOWNS.isEnabled())
             try {
-                result = !HuskTownsAPI.getInstance().isClaimed(loc);
+                result = !HuskTownsAPI.getInstance().getClaimAt(loc).isPresent();
             } catch (Exception e) {
                 e.printStackTrace();
             }
