@@ -66,7 +66,7 @@ public class HelperRTP {
             return;
         }
         //ignore cooldown or else
-        BetterRTP.getInstance().getLogger().info("Center X: " + pWorld.getCenterX());
+        //BetterRTP.getInstance().getLogger().info("Center X: " + pWorld.getCenterX());
         getPl().getRTP().start(pWorld);
     }
 

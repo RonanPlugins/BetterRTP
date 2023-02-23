@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import org.apache.commons.lang.UnhandledException;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -60,27 +61,39 @@ public class RTPPlayer {
                 }
                 attempts++; //Add an attempt
                 //Load chunk and find out if safe location (asynchronously)
-                CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
-                chunk.thenAccept(result -> {
-                    //BetterRTP.debug("Checking location for " + p.getName());
-                    Location tpLoc;
-                    tpLoc = getSafeLocation(worldPlayer.getWorldtype(), worldPlayer.getWorld(), loc, worldPlayer.getMinY(), worldPlayer.getMaxY(), worldPlayer.getBiomes());
-                    attemptedLocations.add(loc);
-                    //Valid location?
-                    if (tpLoc != null && checkDepends(tpLoc)) {
-                        tpLoc.add(0.5, 0, 0.5); //Center location
-                        if (getPl().getEco().charge(player, worldPlayer)) {
-                            tpLoc.setYaw(player.getLocation().getYaw());
-                            tpLoc.setPitch(player.getLocation().getPitch());
-                            Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
-                                settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer.getPrice(), attempts, type, worldPlayer.getWorldtype()));
-                        }
-                    } else {
-                        randomlyTeleport(sendi);
-                        QueueHandler.remove(loc);
+                Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () -> {
+                    try { //Prior to 1.12 this async chunk will NOT work
+                        CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
+                        chunk.thenAccept(result -> {
+                            //BetterRTP.debug("Checking location for " + p.getName());
+                            attempt(sendi, loc);
+                        });
+                    } catch (IllegalStateException e) {
+                        attempt(sendi, loc);
+                    } catch (Throwable ignored) {
+
                     }
                 });
             });
+        }
+    }
+
+    private void attempt(CommandSender sendi, Location loc) {
+        Location tpLoc;
+        tpLoc = getSafeLocation(worldPlayer.getWorldtype(), worldPlayer.getWorld(), loc, worldPlayer.getMinY(), worldPlayer.getMaxY(), worldPlayer.getBiomes());
+        attemptedLocations.add(loc);
+        //Valid location?
+        if (tpLoc != null && checkDepends(tpLoc)) {
+            tpLoc.add(0.5, 0, 0.5); //Center location
+            if (getPl().getEco().charge(player, worldPlayer)) {
+                tpLoc.setYaw(player.getLocation().getYaw());
+                tpLoc.setPitch(player.getLocation().getPitch());
+                Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
+                        settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer.getPrice(), attempts, type, worldPlayer.getWorldtype()));
+            }
+        } else {
+            randomlyTeleport(sendi);
+            QueueHandler.remove(loc);
         }
     }
 
