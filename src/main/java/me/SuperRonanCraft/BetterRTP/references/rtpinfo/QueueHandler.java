@@ -70,6 +70,8 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                         available.add(data);
             }
         }
+
+        //BetterRTP.getInstance().getLogger().info("Centerx " + rtpWorld.getCenterX());
         //BetterRTP.getInstance().getLogger().info("Available: " + available.size());
         return available;
     }

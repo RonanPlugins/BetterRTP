@@ -52,7 +52,11 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
             setup_type = RTP_SETUP_TYPE.PERMISSIONGROUP;
         this.setup_name = setup_name;
         setUseWorldBorder(world.getUseWorldborder());
+
+        //BetterRTP.getInstance().getLogger().info("WorldPlayer Center x: " + CenterX);
         setCenterX(world.getCenterX());
+        //BetterRTP.getInstance().getLogger().info("set to " + world.getCenterX());
+        //BetterRTP.getInstance().getLogger().info("is now " + CenterX);
         setCenterZ(world.getCenterZ());
         setMaxRadius(world.getMaxRadius());
         setMinRadius(world.getMinRadius());
@@ -88,6 +92,8 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         //Cooldown
         setCooldown(world.getCooldown());
         setup = true;
+
+        //BetterRTP.getInstance().getLogger().info("WorldPlayer Center x: " + CenterX);
     }
 
     public static boolean checkIsValid(Location loc, RTPWorld rtpWorld) { //Will check if a previously given location is valid

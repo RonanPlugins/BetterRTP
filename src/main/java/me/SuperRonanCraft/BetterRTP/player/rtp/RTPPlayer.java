@@ -52,6 +52,7 @@ public class RTPPlayer {
                     loc = event.getLocation();
                 else {
                     QueueData queueData = QueueHandler.getRandomAsync(worldPlayer);
+                    //BetterRTP.getInstance().getLogger().warning("Center x " + worldPlayer.getCenterX());
                     if (queueData != null)
                         loc = queueData.getLocation();
                     else

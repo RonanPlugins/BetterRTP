@@ -44,9 +44,9 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         } else if (args.length == 3 && PermissionNode.RTP_OTHER.check(sendi)) {
             Player p = Bukkit.getPlayer(args[2]);
             if (p != null && p.isOnline()) {
-                for (String location_name : getLocations(sendi, null).keySet()) {
-                    if (location_name.equalsIgnoreCase(args[1].toLowerCase())) {
-                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocation) getLocations().get(location_name));
+                for (Map.Entry<String, RTPWorld> location : getLocations(sendi, null).entrySet()) {
+                    if (location.getKey().equalsIgnoreCase(args[1].toLowerCase())) {
+                        HelperRTP.tp(p, sendi, null, null, RTP_TYPE.COMMAND, false, false, (WorldLocation) location.getValue());
                         return;
                     }
                 }
@@ -82,16 +82,12 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         MessagesUsage.LOCATION.send(sendi, label);
     }
 
-    private static HashMap<String, RTPWorld> getLocations() {
-        return BetterRTP.getInstance().getRTP().getRTPworldLocations();
-    }
-
     //Get locations a player has access to
     public static HashMap<String, RTPWorld> getLocations(CommandSender sendi, @Nullable World world) {
         HashMap<String, RTPWorld> locations = new HashMap<>();
         boolean needPermission = BetterRTP.getInstance().getSettings().isLocationNeedPermission();
         boolean needSameWorld = BetterRTP.getInstance().getSettings().isUseLocationsInSameWorld();
-        for (Map.Entry<String, RTPWorld> location : getLocations().entrySet()) {
+        for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().getRTPworldLocations().entrySet()) {
             boolean add = true;
             if (needPermission) //Do we need permission to go to this location?
                 add = PermissionNode.getLocation(sendi, location.getKey());
