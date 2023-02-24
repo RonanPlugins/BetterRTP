@@ -125,7 +125,7 @@ public class HelperRTP {
                 }
             }
             pWorld.setup(setup_name, setup_info.getLocation(), setup_info.getLocation().getBiomes());
-            BetterRTP.getInstance().getLogger().info("Location x: " + setup_info.getLocation().getCenterX());
+            //BetterRTP.getInstance().getLogger().info("Location x: " + setup_info.getLocation().getCenterX());
         }
 
         //Setup world (if no location pre-setup)
