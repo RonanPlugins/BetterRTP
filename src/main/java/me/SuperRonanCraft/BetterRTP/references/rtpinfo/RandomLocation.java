@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.database.ChunkDatabaseCache;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import org.bukkit.*;
@@ -149,38 +150,4 @@ public class RandomLocation {
         return true;
         //FALSE MEANS NO BAD BLOCKS/BIOME WHERE FOUND!
     }
-
-    public static void runChunkTest() {
-        BetterRTP.getInstance().getLogger().info("---------------- Starting chunk test!");
-        World world = Bukkit.getWorld("world");
-        cacheChunkAt(world, 32, -32, -32, -32);
-    }
-
-    private static void cacheTask(World world, int goal, int start, int xat, int zat) {
-        zat += 1;
-        if (zat > goal) {
-            zat = start;
-            xat += 1;
-        }
-        if (xat <= goal)
-            cacheChunkAt(world, goal, start, xat, zat);
-    }
-
-    private static void cacheChunkAt(World world, int goal, int start, int xat, int zat) {
-        CompletableFuture<Chunk> task = PaperLib.getChunkAtAsync(new Location(world, xat * 16, 0, zat * 16));
-        task.thenAccept(chunk -> {
-            try {
-                ChunkSnapshot snapshot = chunk.getChunkSnapshot(true, true, false);
-                int maxy = snapshot.getHighestBlockYAt(8, 8);
-                Biome biome = snapshot.getBiome(8, 8);
-                //BetterRTP.getInstance().getLogger().info("Added " + chunk.getX() + " " + chunk.getZ());
-                BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks().addChunk(chunk, maxy, biome);
-            } catch (Throwable e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-                //BetterRTP.getInstance().getLogger().info("Tried Adding " + chunk.getX() + " " + chunk.getZ());
-            }
-        }).thenRun(() -> cacheTask(world, goal, start, xat, zat));
-    }
-
 }

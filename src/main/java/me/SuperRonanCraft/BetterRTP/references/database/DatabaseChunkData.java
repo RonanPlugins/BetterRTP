@@ -52,24 +52,28 @@ public class DatabaseChunkData extends SQLite {
     }
 
 
-    public void addChunk(Chunk chunk, int maxy, Biome biome) {
+    public void addChunk(List<ChunkDatabaseCache> cacheList) {
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             String pre = "INSERT OR REPLACE INTO ";
-            String sql = pre + tables.get(0) + " ("
-                    + COLUMNS.WORLD.name + ", "
-                    + COLUMNS.X.name + ", "
-                    + COLUMNS.Z.name + ", "
-                    + COLUMNS.BIOME.name + ", "
-                    + COLUMNS.MAX_Y.name + " "
-                    + ") VALUES(?, ?, ?, ?, ?)";
-            List<Object> params = new ArrayList<Object>() {{
-                add(chunk.getWorld().getName());
-                add(chunk.getX());
-                add(chunk.getZ());
-                add(biome.name());
-                add(maxy);
-            }};
-            sqlUpdate(sql, params);
+            List<String> sqls = new ArrayList<>();
+            List<List<Object>> params = new ArrayList<>();
+            for (ChunkDatabaseCache cache : cacheList) {
+                sqls.add(pre + tables.get(0) + " ("
+                        + COLUMNS.WORLD.name + ", "
+                        + COLUMNS.X.name + ", "
+                        + COLUMNS.Z.name + ", "
+                        + COLUMNS.BIOME.name + ", "
+                        + COLUMNS.MAX_Y.name + " "
+                        + ") VALUES(?, ?, ?, ?, ?)");
+                params.add(new ArrayList<Object>() {{
+                    add(cache.getChunk().getWorld().getName());
+                    add(cache.getChunk().getX());
+                    add(cache.getChunk().getZ());
+                    add(cache.getBiome().name());
+                    add(cache.getMaxy());
+                }});
+            }
+            sqlUpdate(sqls, params);
         });
     }
 

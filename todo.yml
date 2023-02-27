@@ -4,6 +4,7 @@ To-Do list for BetterRTP
 
 Worlds with spaces:
 - Support for worlds with spaces in their names
+- FIX if console/player executes `/rtp player <player> <world>` the <player> will still be able to rtp after without cooldown applied
 
 -----DONE-----
 Add KingdomsX support:

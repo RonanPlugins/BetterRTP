@@ -5,6 +5,7 @@ import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,16 @@ public abstract class SQLite {
         return getLocal();
     }
 
+    private Connection con;
+
     private Connection getLocal() {
+        if (con != null) {
+            try {
+                if (!con.isClosed())
+                    return con;
+            } catch (SQLException ignored) {
+            }
+        }
         File dataFolder = new File(BetterRTP.getInstance().getDataFolder().getPath() + File.separator + "data", db_file_name + ".db");
         if (!dataFolder.exists()){
             try {
@@ -47,7 +57,8 @@ public abstract class SQLite {
         }
         try {
             Class.forName("org.sqlite.JDBC");
-            return DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
+            con = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
+            return con;
         } catch (SQLException ex) {
             BetterRTP.getInstance().getLogger().log(Level.SEVERE, "SQLite exception on initialize", ex);
         } catch (ClassNotFoundException ex) {
@@ -171,15 +182,16 @@ public abstract class SQLite {
         boolean success = true;
         try {
             conn = getSQLConnection();
+            String str = statement1.get(0);
+            for (int i = 1; i < statement1.size(); i++) {
+                String state = statement1.get(i);
+                str = str.concat("; " + state);
+            }
+            Statement statement = conn.statement
             for (int i = 0; i < statement1.size(); i++) {
-                String statement = statement1.get(i);
-                List<Object> params = params1.get(i);
-                if (ps == null)
-                    ps = conn.prepareStatement(statement);
-                else
-                    ps.addBatch(statement);
-                if (params != null) {
-                    Iterator<Object> it = params.iterator();
+                List<Object> param = params1.get(i);
+                if (param != null) {
+                    Iterator<Object> it = param.iterator();
                     int paramIndex = 1;
                     while (it.hasNext()) {
                         ps.setObject(paramIndex, it.next());
@@ -219,8 +231,8 @@ public abstract class SQLite {
     protected void close(PreparedStatement ps, ResultSet rs, Connection conn) {
         try {
             if (ps != null) ps.close();
-            if (conn != null) conn.close();
             if (rs != null) rs.close();
+            if (conn != null) conn.close();
         } catch (SQLException ex) {
             Error.close(BetterRTP.getInstance(), ex);
         }
