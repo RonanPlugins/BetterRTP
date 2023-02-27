@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.2</version>
+    <version>4.0.0-DEVBUILD</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

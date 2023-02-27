@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.database;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import org.bukkit.Bukkit;
 
 public class DatabaseHandler {
@@ -9,12 +10,14 @@ public class DatabaseHandler {
     @Getter private final DatabasePlayers databasePlayers = new DatabasePlayers();
     @Getter private final DatabaseCooldowns databaseCooldowns = new DatabaseCooldowns();
     @Getter private final DatabaseQueue databaseQueue = new DatabaseQueue();
+    @Getter private final DatabaseChunkData databaseChunks = new DatabaseChunkData();
 
     public void load() {
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             databasePlayers.load();
             databaseCooldowns.load();
             databaseQueue.load();
+            databaseChunks.load();
         });
     }
 
@@ -28,6 +31,10 @@ public class DatabaseHandler {
 
     public static DatabaseQueue getQueue() {
         return BetterRTP.getInstance().getDatabaseHandler().getDatabaseQueue();
+    }
+
+    public static DatabaseChunkData getChunks() {
+        return BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks();
     }
 
 }

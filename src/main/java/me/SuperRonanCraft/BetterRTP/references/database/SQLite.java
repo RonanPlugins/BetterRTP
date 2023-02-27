@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.database;
 import lombok.Getter;
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -112,6 +113,7 @@ public abstract class SQLite {
 
     private Enum<?>[] getColumns(DATABASE_TYPE type) {
         switch (type) {
+            case CHUNK_DATA: return DatabaseChunkData.COLUMNS.values();
             case PLAYERS: return DatabasePlayers.COLUMNS.values();
             case QUEUE: return DatabaseQueue.COLUMNS.values();
             case COOLDOWN:
@@ -121,6 +123,7 @@ public abstract class SQLite {
 
     private String getColumnName(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
+            case CHUNK_DATA: return ((DatabaseChunkData.COLUMNS) column).name;
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).name;
             case QUEUE: return ((DatabaseQueue.COLUMNS) column).name;
             case COOLDOWN:
@@ -130,6 +133,7 @@ public abstract class SQLite {
 
     private String getColumnType(DATABASE_TYPE type, Enum<?> column) {
         switch (type) {
+            case CHUNK_DATA: return ((DatabaseChunkData.COLUMNS) column).type;
             case PLAYERS: return ((DatabasePlayers.COLUMNS) column).type;
             case QUEUE: return ((DatabaseQueue.COLUMNS) column).type;
             case COOLDOWN:
@@ -230,5 +234,6 @@ public abstract class SQLite {
         PLAYERS,
         COOLDOWN,
         QUEUE,
+        CHUNK_DATA,
     }
 }
