@@ -15,7 +15,9 @@ public enum RTPCommandType {
     TEST(new CmdTest(), true),
     VERSION(new CmdVersion()),
     WORLD(new CmdWorld()),
-    DEV(new CmdDeveloper(), true);
+    DEV(new CmdDeveloper(), true),
+    LOGGER(new CmdLogger(), true),
+    ;
 
     private final RTPCommand cmd;
     private boolean debugOnly = false;

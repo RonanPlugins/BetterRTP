@@ -55,7 +55,7 @@ public class RTPEffect_Particles {
             effects.add(ParticleEffect.ASH);
             getPl().getLogger().severe("The particle '" + typeTrying + "' doesn't exist! Default particle enabled... " +
                     "Try using '/rtp info particles' to get a list of available particles");
-        } catch (ExceptionInInitializerError e2) {
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e2) {
             effects.clear();
             getPl().getLogger().severe("The particle '" + typeTrying + "' created a fatal error when loading particles! Your MC version isn't supported!");
             enabled = false;
@@ -63,7 +63,7 @@ public class RTPEffect_Particles {
         shape = config.getString("Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
             getPl().getLogger().severe("The particle shape '" + shape + "' doesn't exist! Default particle shape enabled...");
-            getPl().getLogger().severe("Try using '/rtp info shapes' to get a list of shapes, or: " + Arrays.asList(shapeTypes).toString());
+            getPl().getLogger().severe("Try using '/rtp info shapes' to get a list of shapes, or: " + Arrays.asList(shapeTypes));
             shape = shapeTypes[0];
         }
     }

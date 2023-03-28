@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.events.EventListener;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.references.Permissions;
+import me.SuperRonanCraft.BetterRTP.references.RTPLogger;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.depends.DepEconomy;
@@ -26,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class BetterRTP extends JavaPlugin {
     private final Permissions perms = new Permissions();
@@ -45,6 +47,7 @@ public class BetterRTP extends JavaPlugin {
     @Getter private final WarningHandler warningHandler = new WarningHandler();
     //@Getter private BukkitAudiences adventure;
     @Getter private boolean PlaceholderAPI;
+    @Getter private final RTPLogger rtpLogger = new RTPLogger();
 
     @Override
     public void onEnable() {
@@ -141,6 +144,7 @@ public class BetterRTP extends JavaPlugin {
         databaseHandler.load();
         files.loadAll();
         settings.load();
+        rtpLogger.setup(this);
         invs.load();
         cooldowns.load();
         rtp.load();
@@ -152,7 +156,6 @@ public class BetterRTP extends JavaPlugin {
     }
 
     public static void debug(String str) {
-        if (getInstance().getSettings().isDebug())
-            getInstance().getLogger().info(str);
+        getInstance().getLogger().info(str);
     }
 }
