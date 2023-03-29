@@ -70,6 +70,7 @@ public class BetterRTP extends JavaPlugin {
     public void onDisable() {
         invs.closeAll();
         queue.unload();
+        rtpLogger.unload();
         /*if (this.adventure != null) {
             this.adventure.close();
             this.adventure = null;

@@ -47,6 +47,11 @@ public class RTPLogger {
         return format.format(new Date());
     }
 
+    public void unload() {
+        if (handler != null)
+            handler.close();
+    }
+
     static class MyFormatter extends Formatter {
         @Override
         public String format(LogRecord record) {

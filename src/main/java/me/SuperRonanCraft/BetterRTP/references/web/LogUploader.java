@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Scanner;
 
 public class LogUploader {
 
@@ -50,17 +51,6 @@ public class LogUploader {
 
     @Nullable
     public static String post(File file) {
-        FileConfiguration config = new YamlConfiguration();
-        try {
-            config.load(file);
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // Convert the config file to a YAML string
-        String requestBody = config.saveToString();
-
         // Create the connection to the server
         try {
             URL url = new URL(UPLOAD_URL);
@@ -70,8 +60,12 @@ public class LogUploader {
             connection.setDoOutput(true);
 
             try (OutputStream outputStream = connection.getOutputStream()) {
-                byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-                outputStream.write(input, 0, input.length);
+                Scanner scan = new Scanner(file);
+                while(scan.hasNextLine()){
+                    String str = scan.nextLine();
+                    byte[] input = (str + System.lineSeparator()).getBytes(StandardCharsets.UTF_8);
+                    outputStream.write(input, 0, input.length);
+                }
             }
 
             StringBuilder response = new StringBuilder();
