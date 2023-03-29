@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -74,8 +75,8 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         return list;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.LOCATION.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.LOCATION;
     }
 
     public void usage(CommandSender sendi, String label) {

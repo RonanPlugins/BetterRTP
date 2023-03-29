@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -121,7 +122,7 @@ public class CmdQueue implements RTPCommand {
         return info;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.ADMIN.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.ADMIN;
     }
 }

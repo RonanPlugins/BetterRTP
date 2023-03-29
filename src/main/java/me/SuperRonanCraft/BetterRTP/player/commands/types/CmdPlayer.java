@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +63,14 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
-            if (RTPCommandType.BIOME.getCmd().permission(sendi))
+            if (RTPCommandType.BIOME.getCmd().permission().check(sendi))
                 HelperRTP_Info.addBiomes(list, args);
         }
         return list;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.RTP_OTHER.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.RTP_OTHER;
     }
 
     public void usage(CommandSender sendi, String label) {

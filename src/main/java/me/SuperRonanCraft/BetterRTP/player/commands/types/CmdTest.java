@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class CmdTest implements RTPCommand, RTPCommandHelpable {
         return null;
     }
 
-    @Override
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.ADMIN.check(sendi);
+    @NotNull @Override
+    public PermissionNode permission() {
+        return PermissionNode.ADMIN;
     }
 
     @Override

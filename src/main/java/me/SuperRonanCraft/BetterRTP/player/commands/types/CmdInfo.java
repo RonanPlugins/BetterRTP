@@ -26,6 +26,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -286,7 +287,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         return info;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.INFO.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.INFO;
     }
 }

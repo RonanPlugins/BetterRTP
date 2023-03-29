@@ -1,9 +1,12 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
+import com.griefdefender.api.permission.PermissionResult;
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 public enum PermissionNode {
 
@@ -24,6 +27,7 @@ public enum PermissionNode {
     VERSION("version"),
     EDIT("edit"),
     LOCATION("location"),
+    DEVELOPER("DEVELOPER_PERM"),
     ;
 
     private final String node;
@@ -34,6 +38,8 @@ public enum PermissionNode {
     }
 
     public boolean check(CommandSender sendi) {
+        if (this == DEVELOPER)
+            return sendi.getName().equalsIgnoreCase("SuperRonanCraft") || sendi.getName().equalsIgnoreCase("RonanCrafts");
         return BetterRTP.getInstance().getPerms().checkPerm(node, sendi);
     }
 
@@ -42,15 +48,19 @@ public enum PermissionNode {
     }
 
     public static boolean getAWorld(CommandSender sendi, String world) {
-        if (check(sendi, prefix + "world.*"))
-            return true;
-        else if (world == null) {
-            for (World w : Bukkit.getWorlds())
-                if (check(sendi, prefix + "world." + w.getName()))
-                    return true;
-        } else
-            return check(sendi, prefix + "world." + world);
-        return false;
+        return getAWorldText(sendi, world).passed;
+    }
+
+    public static PermissionResult getAWorldText(CommandSender sendi, @NotNull String world) {
+        String perm = prefix + "world.*";
+        if (check(sendi, perm)) {
+            return new PermissionResult(perm, true);
+        } else {
+            perm = prefix + "world." + world;
+            if (check(sendi, perm))
+                return new PermissionResult(perm, true);
+        }
+        return new PermissionResult(perm, false);
     }
 
 
@@ -60,6 +70,15 @@ public enum PermissionNode {
 
     public static boolean getPermissionGroup(CommandSender sendi, String group) {
         return check(sendi, prefix + "group." + group);
+    }
+
+    public static class PermissionResult {
+        @Getter private final boolean passed;
+        @Getter private final String string;
+        PermissionResult(String string, boolean passed) {
+            this.passed = passed;
+            this.string = string;
+        }
     }
 
 }

@@ -12,6 +12,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -63,8 +64,8 @@ public class CmdLogger implements RTPCommand {
         return null;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.ADMIN.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.ADMIN;
     }
 
     public void usage(CommandSender sendi, String label) {

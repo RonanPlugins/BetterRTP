@@ -13,6 +13,7 @@ import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.kingdoms.commands.general.misc.CommandTeleport;
 
 import java.util.ArrayList;
@@ -48,14 +49,14 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
                     list.add(_wName);
             }
         } else if (args.length >= 3) {
-            if (RTPCommandType.BIOME.getCmd().permission(sendi))
+            if (RTPCommandType.BIOME.getCmd().permission().check(sendi))
                 HelperRTP_Info.addBiomes(list, args);
         }
         return list;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.WORLD.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.WORLD;
     }
 
     public void usage(CommandSender sendi, String label) {

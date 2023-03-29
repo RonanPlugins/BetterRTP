@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -272,9 +273,9 @@ public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds
         return list;
     }
 
-    @Override
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.EDIT.check(sendi);
+    @NotNull @Override
+    public PermissionNode permission() {
+        return PermissionNode.EDIT;
     }
 
     private void usage(CommandSender sendi, String label, RTP_CMD_EDIT type) {

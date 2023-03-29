@@ -9,6 +9,7 @@ import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -29,8 +30,8 @@ public class CmdSettings implements RTPCommand, RTPCommandHelpable {
         return null;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.SETTINGS.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.SETTINGS;
     }
 
     @Override

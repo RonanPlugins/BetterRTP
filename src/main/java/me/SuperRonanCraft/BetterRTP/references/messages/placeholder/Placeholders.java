@@ -11,6 +11,7 @@ public enum Placeholders {
     LOCATION_Z("z"),
     //World
     WORLD("world"),
+    PERMISSION("permission"),
     //ints
     ATTEMPTS("attempts"),
     PRICE("price"),

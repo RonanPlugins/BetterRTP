@@ -37,7 +37,7 @@ public class Commands {
             if (args != null && args.length > 0) {
                 for (RTPCommand cmd : commands) {
                     if (cmd.getName().equalsIgnoreCase(args[0])) {
-                        if (cmd.permission(sendi)) {
+                        if (cmd.permission().check(sendi)) {
                             RTP_CommandEvent event = new RTP_CommandEvent(sendi, cmd);
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(event);
@@ -67,13 +67,13 @@ public class Commands {
         if (args.length == 1) {
             for (RTPCommand cmd : commands) {
                 if (cmd.getName().toLowerCase().startsWith(args[0].toLowerCase()))
-                    if (cmd.permission(sendi))
+                    if (cmd.permission().check(sendi))
                         list.add(cmd.getName().toLowerCase());
             }
         } else if (args.length > 1) {
             for (RTPCommand cmd : commands) {
                 if (cmd.getName().equalsIgnoreCase(args[0]))
-                    if (cmd.permission(sendi)) {
+                    if (cmd.permission().check(sendi)) {
                         List<String> _cmdlist = cmd.tabComplete(sendi, args);
                         if (_cmdlist != null)
                             list.addAll(_cmdlist);

@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class CmdReload implements RTPCommand, RTPCommandHelpable {
         return null;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.RELOAD.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.RELOAD;
     }
 
     @Override
