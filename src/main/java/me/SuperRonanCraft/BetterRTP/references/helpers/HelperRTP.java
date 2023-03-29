@@ -103,7 +103,9 @@ public class HelperRTP {
         WorldPlayer pWorld = new WorldPlayer(setup_info);
 
         //Random Location
-        if (setup_info.getLocation() == null && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
+        if (setup_info.getLocation() == null
+                && BetterRTP.getInstance().getSettings().isLocationEnabled()
+                && BetterRTP.getInstance().getSettings().isUseLocationIfAvailable()) {
             WorldLocation worldLocation = HelperRTP.getRandomLocation(setup_info.getSender(), setup_info.getWorld());
             if (worldLocation != null) {
                 setup_info.setLocation(worldLocation);

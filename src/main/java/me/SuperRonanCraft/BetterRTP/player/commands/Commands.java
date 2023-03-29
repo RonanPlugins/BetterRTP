@@ -42,6 +42,7 @@ public class Commands {
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(event);
                             if (!event.isCancelled()) {
+                                BetterRTP.debug(sendi.getName() + " executed: /" + label + " " + String.join(" ", args));
                                 cmd.execute(sendi, label, args);
                                 Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
                             }

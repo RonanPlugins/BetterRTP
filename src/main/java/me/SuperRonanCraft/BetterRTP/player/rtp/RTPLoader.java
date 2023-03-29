@@ -100,7 +100,7 @@ public class RTPLoader {
     static void loadLocations(@NotNull HashMap<String, RTPWorld> worlds) {
         worlds.clear();
         FileOther.FILETYPE config = FileOther.FILETYPE.LOCATIONS;
-        if (!config.getBoolean("Enabled"))
+        if (!BetterRTP.getInstance().getSettings().isLocationEnabled())
             return;
         BetterRTP.debug("Loading Locations...");
         List<Map<?, ?>> map = config.getMapList("Locations");

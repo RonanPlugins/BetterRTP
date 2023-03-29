@@ -103,4 +103,8 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
     public String getHelp() {
         return MessagesHelp.LOCATION.get();
     }
+
+    @Override public boolean enabled() {
+        return BetterRTP.getInstance().getSettings().isLocationEnabled();
+    }
 }

@@ -16,6 +16,7 @@ public class Settings {
     //Dependencies
     private final SoftDepends depends = new SoftDepends();
     @Getter private boolean protocolLibSounds;
+    @Getter private boolean locationEnabled;
     @Getter private boolean useLocationIfAvailable;
     @Getter private boolean locationNeedPermission;
     @Getter private boolean useLocationsInSameWorld;
@@ -50,6 +51,7 @@ public class Settings {
         permissionGroupEnabled = config.getBoolean("PermissionGroup.Enabled");
         queueEnabled = config.getBoolean("Settings.Queue.Enabled");
         protocolLibSounds = FileOther.FILETYPE.EFFECTS.getBoolean("Sounds.ProtocolLibSound");
+        locationEnabled = FileOther.FILETYPE.LOCATIONS.getBoolean("Enabled");
         useLocationIfAvailable = FileOther.FILETYPE.LOCATIONS.getBoolean("UseLocationIfAvailable");
         locationNeedPermission = FileOther.FILETYPE.LOCATIONS.getBoolean("RequirePermission");
         useLocationsInSameWorld = FileOther.FILETYPE.LOCATIONS.getBoolean("UseLocationsInSameWorld");

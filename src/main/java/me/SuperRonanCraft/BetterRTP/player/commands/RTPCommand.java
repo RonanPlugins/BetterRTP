@@ -17,4 +17,8 @@ public interface RTPCommand {
     default boolean isDebugOnly() {
         return false;
     }
+
+    default boolean enabled() {
+        return true;
+    };
 }
