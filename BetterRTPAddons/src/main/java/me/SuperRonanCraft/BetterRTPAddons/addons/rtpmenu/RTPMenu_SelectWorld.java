@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +35,7 @@ public class RTPMenu_SelectWorld {
         }
         int size = Math.floorDiv(actual_worlds.size(), 9) * 9;
         if (size < actual_worlds.size()) size += 9;
-        Inventory inv = createInventory(color(Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Title")), size);
+        Inventory inv = createInventory(color(p, Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Title")), size);
 
         HashMap<Integer, World> world_slots = centerWorlds(new ArrayList<>(actual_worlds));
 
@@ -45,9 +46,9 @@ public class RTPMenu_SelectWorld {
             ItemStack item = new ItemStack(worldInfo.item, 1);
             ItemMeta meta = item.getItemMeta();
             assert meta != null;
-            meta.setDisplayName(color(worldInfo.name));
+            meta.setDisplayName(color(p, worldInfo.name));
             List<String> lore = new ArrayList<>(worldInfo.lore);
-            lore.forEach(s -> lore.set(lore.indexOf(s), color(s).replace("%world%", world.getValue().getName())));
+            lore.forEach(s -> lore.set(lore.indexOf(s), color(p, s).replace("%world%", world.getValue().getName())));
             meta.setLore(lore);
             item.setItemMeta(meta);
             inv.setItem(slot, item);
@@ -117,8 +118,8 @@ public class RTPMenu_SelectWorld {
         return 0;
     }
 
-    private static String color(String str) {
-        return ChatColor.translateAlternateColorCodes('&', str);
+    private static String color(CommandSender sendi, String str) {
+        return ChatColor.translateAlternateColorCodes('&', Message.placeholder(sendi, str));
     }
 
     private static Inventory createInventory(String title, int size) {
