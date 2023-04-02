@@ -100,7 +100,9 @@ public class AddonRTPMenu implements Addon, Listener {
     private void onTeleport(RTP_CommandEvent e) {
         if (e.getCmd() instanceof CmdTeleport && e.getSendi() instanceof Player) {
             e.setCancelled(true);
-            RTPMenu_SelectWorld.createInv(this, (Player) e.getSendi());
+            int refresh = Files.FILETYPE.CONFIG.getInt(AddonRTPMenu.name + ".AutoRefresh");
+            Player player = (Player) e.getSendi();
+            new RTPMenu_Refresh(this, player, refresh);
         }
     }
 
