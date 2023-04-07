@@ -17,8 +17,8 @@ Messages:
     Biome: '&cIl demblerais que le biome &7%biome% &cn''existe pas ! &7Utiliser l''autocomplétion de la Tab list !'
   Reload: '&eConfiguration rechargée avec succès !'
   NoPermission:
-    Basic: '&cDésolé ! Vous n''avez pas la permission de faire cela !'
-    World: '&cDésolé ! Vous n''êtes pas autorisé à vous téléporter dans le monde %world%!'
+    Basic: '&cDésolé ! Vous n''avez pas la permission de faire cela! &8Permission: %permission%'
+    World: '&cDésolé ! Vous n''êtes pas autorisé à vous téléporter dans le monde %world%! &8Permission: %permission%'
   DisabledWorld: '&cLe monde %world% est désactivé ! &7Impossible de se téléporter!'
   Cooldown: '&cDésolé ! Vous ne pouvez pas vous téléporter pendant encore &6%time%&c!'
   Locked: '&cSDésolé ! &7Vous avez utilisé tous vos RTP''s !'

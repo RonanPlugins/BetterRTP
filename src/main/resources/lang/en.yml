@@ -16,7 +16,7 @@ Messages:
     Biome: '&cSeems like the biome&7 %biome%&c does not exist! &7Try using the tab list!'
   Reload: '&eConfig reloaded successfully!'
   NoPermission:
-    Basic: '&cSorry! &7You don''t have permission to use this command!'
+    Basic: '&cSorry! &7You don''t have permission to use this command! &8Permission: %permission%'
     World: '&cSorry! &7You are not allowed rtp in the %world% world! &8Permission: %permission%'
   DisabledWorld: '&cDisabled World %world%! &7Could not RTP!'
   Cooldown: '&cSorry! &7You can''t rtp for another &c%time%&7!'

@@ -16,8 +16,8 @@ Messages:
     Biome: '&cIl bioma &fc%biome%&c non esiste! &7Prova a utilizzare la lista inclusa nel Tab completer.'
   Reload: '&eConfigurazioni riavviate con successo!'
   NoPermission:
-    Basic: '&cNon hai il permesso di usare questo comando!'
-    World: '&cNon hai i permessi per teletrasportati nel mondo &f%world%&c!'
+    Basic: '&cNon hai il permesso di usare questo comando! &8Permission: %permission%'
+    World: '&cNon hai i permessi per teletrasportati nel mondo &f%world%&c! &8Permission: %permission%'
   DisabledWorld: '&cIl mondo &f%world%&c è disabilitato! &7Teletrasporto non avvenuto!'
   Cooldown: '&cAttendi ancora &f%time% &cprima di teletrasportarti nuovamente!'
   Locked: '&cHai esaurito tutti i tuoi RTP disponibili!'

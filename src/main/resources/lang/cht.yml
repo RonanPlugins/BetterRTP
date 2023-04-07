@@ -16,8 +16,8 @@ Messages:
     Biome: '&c看上去&7%biome%&c生態域不存在，&7試試使用Tab清單查找吧！'
   Reload: '&e配置成功重新加載！'
   NoPermission:
-    Basic: '&c抱歉，&7您沒有權限使用此指令！'
-    World: '&c抱歉，&7您不能在%world%世界傳送！'
+    Basic: '&c抱歉，&7您沒有權限使用此指令！ &8Permission: %permission%'
+    World: '&c抱歉，&7您不能在%world%世界傳送！ &8Permission: %permission%'
   DisabledWorld: '&c%world%世界已被禁止使用此指令，&7您無法傳送！'
   Cooldown: '&c抱歉，&7您需要在&c%time%&7秒後才能嘗試傳送！'
   Locked: '&c抱歉! &7你已用光了你的隨機傳送!'

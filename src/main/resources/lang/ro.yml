@@ -15,8 +15,8 @@ Messages:
     Biome: '&cSe pare ca biome-ul &7 %biome%&c nu exista! &7Incerca sa folosesti Tab-ul!'
   Reload: '&eConfiguratia a fost reincarcata cu success!'
   NoPermission:
-    Basic: '&cScuze! &7Nu ai permisiunile necesare pentru a folosi aceasta comanda!'
-    World: '&cScuze! &7Nu ai voie sa te teleportezi in lumea %world%!'
+    Basic: '&cScuze! &7Nu ai permisiunile necesare pentru a folosi aceasta comanda! &8Permission: %permission%'
+    World: '&cScuze! &7Nu ai voie sa te teleportezi in lumea %world%! &8Permission: %permission%'
   DisabledWorld: '&cLumea %world% este dezactivata! &7Nu te-am putut teleporta!'
   Cooldown: '&cScuze! &7Nu te mai poti teleporta pentru inca &c%time%&7!'
   Locked: '&cScuze! &7Ti-ai folosit toate rtp-urile!'

@@ -16,8 +16,8 @@ Messages:
 #    Biome: '&cSeems like the biome&7 %biome%&c does not exist! &7Try using the tab list!'
   Reload: '&eコンフィグは正常にリロードされました！'
   NoPermission:
-    Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！'
-    World: '&cごめんなさい！ &7ワールド%world%ではrtpが許可されていません！'
+    Basic: '&cごめんなさい！ &7このコマンドを使う権限がありません！ &8Permission: %permission%'
+    World: '&cごめんなさい！ &7ワールド%world%ではrtpが許可されていません！ &8Permission: %permission%'
   DisabledWorld: '&cワールド%world%は無効です！ &7RTPできませんでした！'
   Cooldown: '&cごめんなさい！ &7あなたは&c%time%&7秒間RTPできません！'
   Locked: '&cSorry! &7You''ve used up all your RTP''s!'

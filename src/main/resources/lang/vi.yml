@@ -16,8 +16,8 @@ Messages:
     Biome: '&cCó vẻ như biome&7 %biome%&c không tồn tại! &7Hãy thử dùng trong tablist!'
   Reload: '&aTải lại config thành công!'
   NoPermission:
-    Basic: '&cXin Lỗi! &7Bạn không có quyền!'
-    World: '&cXin Lỗi! &7Bạn không có quyền dịch chuyển đến %world% world!'
+    Basic: '&cXin Lỗi! &7Bạn không có quyền! &8Permission: %permission%'
+    World: '&cXin Lỗi! &7Bạn không có quyền dịch chuyển đến %world% world! &8Permission: %permission%'
   DisabledWorld: '&c%world% đã bị tắt dịch chuyển! &7Không thể dịch chuyển!'
   Cooldown: '&cXin Lỗi! &7Bạn không thể dịc chuyển trong &c%time%&7!'
   Locked: '&cXin Lỗi! &7Bạn đã sử dụng hết tất cả RTP của mình!'

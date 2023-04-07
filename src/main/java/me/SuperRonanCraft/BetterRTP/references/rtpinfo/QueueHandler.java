@@ -54,8 +54,10 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     }
 
     public static List<QueueData> getApplicableAsync(RTPWorld rtpWorld) {
-        List<QueueData> queueData = DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld));
         List<QueueData> available = new ArrayList<>();
+        //Is Enabled??
+        if (!BetterRTP.getInstance().getSettings().isQueueEnabled()) return available;
+        List<QueueData> queueData = DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld));
         for (QueueData data : queueData) {
             if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName()))
                 continue;

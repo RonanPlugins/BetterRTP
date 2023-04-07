@@ -16,8 +16,8 @@ Messages:
     Biome: '&cDet ser ud til, at biomet&7 %biome%&c ikke findes! &7Prøv at bruge TAB listen!'
   Reload: '&eKonfiguration genindlæst med succes!'
   NoPermission:
-    Basic: '&Beklager! &7Du har ikke tilladelse til at bruge denne kommando!'
-    World: '&cBeklager! &7Du har ikke tilladelse til at rtp i %world% verden!'
+    Basic: '&Beklager! &7Du har ikke tilladelse til at bruge denne kommando! &8Permission: %permission%'
+    World: '&cBeklager! &7Du har ikke tilladelse til at rtp i %world% verden! &8Permission: %permission%'
   DisabledWorld: '&cVerden %world% er ikke aktiv! &7Kunne ikke RTP!'
   Cooldown: '&cBeklager! &7Du kan ikke rtp før om &c%time%&7!'
   Locked: '&cBeklager! &7Du har brugt alle dine RTP''er!'

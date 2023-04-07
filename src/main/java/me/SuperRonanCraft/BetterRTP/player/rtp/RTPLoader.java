@@ -65,15 +65,17 @@ public class RTPLoader {
         world_type.clear();
         try {
             FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;
-            for (World world : Bukkit.getWorlds())
-                world_type.put(world.getName(), WORLD_TYPE.NORMAL);
+            //for (World world : Bukkit.getWorlds())
+            //    world_type.put(world.getName(), WORLD_TYPE.NORMAL);
             List<Map<?, ?>> world_map = config.getMapList("WorldType");
             for (Map<?, ?> m : world_map)
                 for (Map.Entry<?, ?> entry : m.entrySet()) {
-                    if (world_type.containsKey(entry.getKey())) {
+                    //if (world_type.containsKey(entry.getKey())) {
                         try {
+                            String world = entry.getKey().toString();
                             WORLD_TYPE type = WORLD_TYPE.valueOf(entry.getValue().toString().toUpperCase());
-                            world_type.put(entry.getKey().toString(), type);
+                            world_type.put(world, type);
+                            BetterRTP.debug("- World Type for '" + world + "' set to '" + type + "'");
                         } catch(IllegalArgumentException e) {
                             StringBuilder valids = new StringBuilder();
                             for (WORLD_TYPE type : WORLD_TYPE.values())
@@ -83,14 +85,11 @@ public class RTPLoader {
                                     "'. Valid ID's are: " + valids);
                             //Wrong rtp world type
                         }
-                    }/* else {
-                        if (getPl().getSettings().debug)
-                            getPl().getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
-                    }*/
+                    //}/* else {
+                    //    if (getPl().getSettings().debug)
+                    //        getPl().getLogger().info("- World Type failed for '" + entry.getKey() + "' is it loaded?");
+                    //}*/
                 }
-            if (getPl().getSettings().isDebug())
-                for (String world : world_type.keySet())
-                    BetterRTP.debug("- World Type for '" + world + "' set to '" + world_type.get(world) + "'");
         } catch (Exception e) {
             e.printStackTrace();
             //No World Types

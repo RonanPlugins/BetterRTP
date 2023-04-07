@@ -30,7 +30,7 @@ public enum PermissionNode {
     DEVELOPER("DEVELOPER_PERM"),
     ;
 
-    private final String node;
+    @Getter private final String node;
     private static final String prefix = "betterrtp.";
 
     PermissionNode(String node) {

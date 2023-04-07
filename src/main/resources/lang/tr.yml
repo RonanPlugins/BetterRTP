@@ -16,8 +16,8 @@ Messages:
     Biome: '&cGörünüşe göre&7 %biome%&c biyomu yok! &7Tab listesini kullanmayı deneyin!'
   Reload: '&eYapılandırma başarıyla yeniden yüklendi!'
   NoPermission:
-    Basic: '&cÜzgünüm! &7Bu komutu kullanma izniniz yok!'
-    World: '&cÜzgünüm! &7%world% dünyasında rtp yapmanıza izin verilmiyor!'
+    Basic: '&cÜzgünüm! &7Bu komutu kullanma izniniz yok! &8Permission: %permission%'
+    World: '&cÜzgünüm! &7%world% dünyasında rtp yapmanıza izin verilmiyor! &8Permission: %permission%'
   DisabledWorld: '&c%world% dünyası devredışı! &7RTP yapılamadı!'
   Cooldown: '&cÜzgünüm! &7Başka bir rtp için&c%time% beklemelisin&7!'
   Locked: '&cÜzgünüm! &7Tüm RTP''lerinizi kullandınız!'

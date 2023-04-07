@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import org.bukkit.Bukkit;
@@ -47,7 +48,7 @@ public class Commands {
                                 Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
                             }
                         } else
-                            MessagesCore.NOPERMISSION.send(sendi);
+                            MessagesCore.NOPERMISSION.send(sendi, cmd);
                         return;
                     }
                 }
@@ -59,7 +60,7 @@ public class Commands {
                     event.getCmd().execute(sendi, label, args);
             }
         } else
-            MessagesCore.NOPERMISSION.send(sendi);
+            MessagesCore.NOPERMISSION.send(sendi, PermissionNode.USE);
     }
 
     public List<String> onTabComplete(CommandSender sendi, String[] args) {

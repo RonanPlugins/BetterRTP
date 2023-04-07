@@ -16,8 +16,8 @@ Messages:
     Biome: '&cParece que o bioma&7 %bioma%&c não existe! &7Tente usar a  lista de guias!'
   Reload: '&eConfig recarregado com sucesso!'
   NoPermission:
-    Basic: '&cDesculpe! &7Você não tem permissão para usar este comando!'
-    World: '&cDesculpe! &7Você não tem permissão para o rtp no mundo %world%!'
+    Basic: '&cDesculpe! &7Você não tem permissão para usar este comando! &8Permission: %permission%'
+    World: '&cDesculpe! &7Você não tem permissão para o rtp no mundo %world%! &8Permission: %permission%'
   DisabledWorld: '&cMundo desativado %world%! &7RTP falhou!'
   Cooldown: '&cDesculpe! &7Você não pode fazer rtp por mais &c%time%&7!'
   Locked: '&cDesculpe! &7Você usou todos os seus RTP''s!'

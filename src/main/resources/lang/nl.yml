@@ -16,8 +16,8 @@ Messages:
     Biome: '&cHet lijkt erop dat de biome&7 %biome%&c niet bestaat! &7Probeer de tabbladenlijst te gebruiken!'
   Reload: '&eConfig herlaadde met succes!'
   NoPermission:
-    Basic: '&cSorry! &7Je hebt geen toestemming om dit commando te gebruiken!'
-    World: '&cSorry! &7Je mag geen rtp in de %world% wereld!'
+    Basic: '&cSorry! &7Je hebt geen toestemming om dit commando te gebruiken! &8Permission: %permission%'
+    World: '&cSorry! &7Je mag geen rtp in de %world% wereld! &8Permission: %permission%'
   DisabledWorld: '&cUitgeschakelde wereld %world%! &7Kon geen rtp!'
   Cooldown: '&cSorry! &7Je kunt niet rtp gebruiken voor nog eens &c%time%&7!'
   Locked: '&cSorry! &7Je hebt al je rtp''s opgebruikt!'
