@@ -90,7 +90,7 @@ public class RTPPlayer {
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
                 Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
-                        settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer.getPrice(), attempts, type, worldPlayer.getWorldtype()));
+                        settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
             }
         } else {
             randomlyTeleport(sendi);

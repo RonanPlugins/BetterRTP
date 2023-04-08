@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperDate;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Location;
@@ -35,6 +36,8 @@ public class PlaceholderAnalyzer {
             str = cmd(str, (RTPCommand) info);
         if (info instanceof PermissionNode)
             str = permNode(str, (PermissionNode) info);
+        if (info instanceof RTPWorld)
+            str = ints(str, ((RTPWorld) info).getPrice());
         if (p instanceof Player)
             str = papi((Player) p, str);
         return str;
