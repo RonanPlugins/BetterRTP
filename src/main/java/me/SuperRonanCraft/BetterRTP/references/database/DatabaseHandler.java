@@ -10,14 +10,14 @@ public class DatabaseHandler {
     @Getter private final DatabasePlayers databasePlayers = new DatabasePlayers();
     @Getter private final DatabaseCooldowns databaseCooldowns = new DatabaseCooldowns();
     @Getter private final DatabaseQueue databaseQueue = new DatabaseQueue();
-    @Getter private final DatabaseChunkData databaseChunks = new DatabaseChunkData();
+    //@Getter private final DatabaseChunkData databaseChunks = new DatabaseChunkData();
 
     public void load() {
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             databasePlayers.load();
             databaseCooldowns.load();
             databaseQueue.load();
-            databaseChunks.load();
+            //databaseChunks.load();
         });
     }
 
@@ -33,8 +33,8 @@ public class DatabaseHandler {
         return BetterRTP.getInstance().getDatabaseHandler().getDatabaseQueue();
     }
 
-    public static DatabaseChunkData getChunks() {
-        return BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks();
-    }
+    //public static DatabaseChunkData getChunks() {
+    //    return BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks();
+    //}
 
 }

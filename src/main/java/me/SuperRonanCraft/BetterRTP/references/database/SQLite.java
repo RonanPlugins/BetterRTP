@@ -57,6 +57,7 @@ public abstract class SQLite {
     }
 
     public void load() {
+        if (!BetterRTP.getInstance().getSettings().isQueueEnabled()) return;
         loaded = false;
         tables = getTables();
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
