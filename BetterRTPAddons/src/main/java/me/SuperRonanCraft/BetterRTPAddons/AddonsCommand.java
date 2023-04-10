@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTPAddons;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommandsTabable;
@@ -65,8 +66,8 @@ public class AddonsCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     @Override
-    public boolean permission(CommandSender sendi) {
-        return true;
+    public PermissionNode permission() {
+        return PermissionNode.USE;
     }
 
     @Override

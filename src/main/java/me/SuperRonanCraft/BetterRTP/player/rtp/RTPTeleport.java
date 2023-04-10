@@ -85,7 +85,7 @@ public class RTPTeleport {
         effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
         if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT))
             sendSuccessMsg(p, p.getName(), loc, wPlayer, true, attempts);
-        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, type));
+        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, wPlayer, type));
     }
 
     public boolean beforeTeleportInstant(CommandSender sendi, Player p) {

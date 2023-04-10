@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffect_Particles;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
@@ -185,7 +186,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         String _true = "&aTrue", _false = "&bFalse";
         info.add("&bRTP info for &7" + world.getName() + (player != null ? " &d(personalized)" : ""));
         info.add("&7- &eViewing as: &b" + (player != null ? player.getName() : "ADMIN"));
-        info.add("&7- &6Allowed: " + (player != null ? PermissionNode.getAWorld(player, world.getName()) ? _true : _false : "&cN/A"));
+        info.add("&7- &6Allowed: " + (player != null ? PermissionCheck.getAWorld(player, world.getName()) ? _true : _false : "&cN/A"));
         if (pl.getRTP().getDisabledWorlds().contains(world.getName()) && !pl.getRTP().overriden.containsKey(world.getName())) //World disabled
             info.add("&7- &eDisabled: " + _true);
         else {

@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
@@ -174,7 +175,7 @@ public class HelperRTP {
             for (Map.Entry<String, PermissionGroup> permissionGroup : BetterRTP.getInstance().getRTP().getPermissionGroups().entrySet()) {
                 for (Map.Entry<String, WorldPermissionGroup> worldPermission : permissionGroup.getValue().getWorlds().entrySet()) {
                     if (pWorld.getWorld().equals(worldPermission.getValue().getWorld())) {
-                        if (PermissionNode.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
+                        if (PermissionCheck.getPermissionGroup(pWorld.getPlayer(), permissionGroup.getKey())) {
                             if (group != null) {
                                 if (group.getPriority() < worldPermission.getValue().getPriority())
                                     continue;

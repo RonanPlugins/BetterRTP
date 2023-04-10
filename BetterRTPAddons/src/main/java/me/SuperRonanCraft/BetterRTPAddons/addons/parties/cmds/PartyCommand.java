@@ -1,8 +1,9 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.parties.cmds;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
+import me.SuperRonanCraft.BetterRTPAddons.PermissionNodeAddon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.parties.AddonParty;
 import org.bukkit.command.CommandSender;
 
@@ -55,8 +56,8 @@ public class PartyCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     @Override
-    public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.portals", sendi);
+    public PermissionCheck permission() {
+        return PermissionNodeAddon.PARTY;
     }
 
     @Override

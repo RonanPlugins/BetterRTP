@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
@@ -91,7 +92,7 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().getRTPworldLocations().entrySet()) {
             boolean add = true;
             if (needPermission) //Do we need permission to go to this location?
-                add = PermissionNode.getLocation(sendi, location.getKey());
+                add = PermissionCheck.getLocation(sendi, location.getKey());
             if (add && needSameWorld) //Can be added and needs same world (if not same world, we don't care to check)
                 add = world == null || location.getValue().getWorld().equals(world);
             if (add) //Location can be added to list

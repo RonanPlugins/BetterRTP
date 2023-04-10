@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.messages.placeholder;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperDate;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
@@ -52,7 +53,7 @@ public class PlaceholderAnalyzer {
 
     private static String perm(String str, CommandSender player, String world) {
         if (str.contains(Placeholders.PERMISSION.name))
-            str = str.replace(Placeholders.PERMISSION.name, PermissionNode.getAWorldText(player, world).getString());
+            str = str.replace(Placeholders.PERMISSION.name, PermissionCheck.getAWorldText(player, world).getString());
         return str;
     }
 
@@ -125,7 +126,7 @@ public class PlaceholderAnalyzer {
         return str;
     }
 
-    private static String permNode(String str, PermissionNode perm) {
+    private static String permNode(String str, PermissionCheck perm) {
         if (str.contains(Placeholders.PERMISSION.name))
             str = str.replace(Placeholders.PERMISSION.name, perm.getNode());
         return str;

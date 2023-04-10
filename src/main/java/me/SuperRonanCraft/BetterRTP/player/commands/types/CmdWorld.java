@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
@@ -45,7 +46,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
             for (World w : Bukkit.getWorlds()) {
                 String _wName = w.getName().replace(" ", "_");
                 if (w.getName().startsWith(args[1]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(_wName)
-                        && PermissionNode.getAWorld(sendi, _wName))
+                        && PermissionCheck.getAWorld(sendi, _wName))
                     list.add(_wName);
             }
         } else if (args.length >= 3) {

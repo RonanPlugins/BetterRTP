@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -10,12 +11,14 @@ public class RTP_TeleportPostEvent extends RTPEvent {
     Location loc;
     Location oldLoc;
     RTP_TYPE type;
+    WorldPlayer wPlayer;
 
-    public RTP_TeleportPostEvent(Player p, Location loc, Location oldLoc, RTP_TYPE type) {
+    public RTP_TeleportPostEvent(Player p, Location loc, Location oldLoc, WorldPlayer wPlayer, RTP_TYPE type) {
         this.p = p;
         this.loc = loc;
         this.oldLoc = oldLoc;
         this.type = type;
+        this.wPlayer = wPlayer;
     }
 
     public Player getPlayer() {
@@ -32,5 +35,9 @@ public class RTP_TeleportPostEvent extends RTPEvent {
 
     public RTP_TYPE getType() {
         return type;
+    }
+
+    public WorldPlayer getWorldPlayer() {
+        return wPlayer;
     }
 }

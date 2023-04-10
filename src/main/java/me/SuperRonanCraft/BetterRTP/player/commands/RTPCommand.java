@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +14,7 @@ public interface RTPCommand {
 
     List<String> tabComplete(CommandSender sendi, String[] args);
 
-    @NotNull
-    PermissionNode permission();
+    @NotNull PermissionCheck permission();
 
     String getName();
 

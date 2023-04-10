@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
@@ -17,7 +18,7 @@ public class HelperRTP_Check {
             return RTP_ERROR_REQUEST_REASON.IS_RTPING;
         }
         // Not forced and has 'betterrtp.world.<world>'
-        if (sendi == player && !PermissionNode.getAWorld(sendi, pWorld.getWorld().getName())) {
+        if (sendi == player && !PermissionCheck.getAWorld(sendi, pWorld.getWorld().getName())) {
             return RTP_ERROR_REQUEST_REASON.NO_PERMISSION;
         }
         // Check disabled worlds

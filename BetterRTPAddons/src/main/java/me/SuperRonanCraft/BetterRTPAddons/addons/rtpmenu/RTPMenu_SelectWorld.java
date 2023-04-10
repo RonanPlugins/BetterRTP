@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -26,7 +27,7 @@ public class RTPMenu_SelectWorld {
         List<World> bukkit_worlds = Bukkit.getWorlds();
         List<World> actual_worlds = new ArrayList<>();
         for (World world : bukkit_worlds) {
-            if (pl.getWorlds().containsKey(world.getName()) && PermissionNode.getAWorld(p, world.getName()))
+            if (pl.getWorlds().containsKey(world.getName()) && PermissionCheck.getAWorld(p, world.getName()))
                 actual_worlds.add(world);
         }
         if (actual_worlds.isEmpty() || (actual_worlds.size() <= 1 && !BetterRTP.getInstance().getSettings().isDebug())) {

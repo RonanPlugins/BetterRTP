@@ -3,6 +3,9 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.interfaces;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTPAddons.PermissionNodeAddon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand_Create;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand_Loc1;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.cmds.PortalsCommand_Loc2;
@@ -33,8 +36,8 @@ public class InterfaceCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     @Override
-    public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.portals", sendi);
+    public PermissionCheck permission() {
+        return PermissionNodeAddon.PORTALS;
     }
 
     @Override

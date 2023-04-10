@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.depends;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.*;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
@@ -103,7 +104,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         if (world == null) return "Invalid World";
         world = HelperRTP.getActualWorld(player, world);
         //Permission
-        if (!PermissionNode.getAWorld(player, world.getName()))
+        if (!PermissionCheck.getAWorld(player, world.getName()))
             return BetterRTP.getInstance().getSettings().getPlaceholder_nopermission();
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
