@@ -58,7 +58,8 @@ Settings:
     Enabled: true #Allows betterrtp to automatically queue up safe rtp locations prior to players executing `/rtp`
   DisableUpdater: false
   Logger:
-    LogToConsole: false
+    Enabled: true #Log all things rtp related to the log.log file
+    LogToConsole: true
     Format: 'yyyy-MM-dd HH:mm:ss'
 
 Default:

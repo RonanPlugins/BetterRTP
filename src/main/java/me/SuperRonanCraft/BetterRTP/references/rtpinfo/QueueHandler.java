@@ -79,6 +79,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     }
 
     public static void remove(Location loc) {
+        if (!BetterRTP.getInstance().getSettings().isQueueEnabled()) return;
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             //Delete all queue data async
             if (DatabaseHandler.getQueue().removeLocation(loc)) {

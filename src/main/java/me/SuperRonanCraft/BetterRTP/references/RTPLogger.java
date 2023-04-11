@@ -19,17 +19,22 @@ public class RTPLogger {
     //private ConsoleHandler consoleHandler_rtp, consoleHandler_logger;
 
     public void setup(BetterRTP plugin) {
-        this.format = plugin.getFiles().getType(FileOther.FILETYPE.CONFIG).getString("Settings.Logger.Format");
-        boolean toConsole = plugin.getFiles().getType(FileOther.FILETYPE.CONFIG).getBoolean("Settings.Logger.LogToConsole");
+        FileOther.FILETYPE config = plugin.getFiles().getType(FileOther.FILETYPE.CONFIG);
+        boolean enabled = config.getBoolean("Settings.Logger.Enabled");
+        Logger logger = plugin.getLogger();
+        logger.setUseParentHandlers(true);
+        if (handler != null) {
+            logger.removeHandler(handler);
+            handler.close();
+        }
+        if (!enabled) return;
+        this.format = config.getString("Settings.Logger.Format");
+        boolean toConsole = config.getBoolean("Settings.Logger.LogToConsole");
         try {
-            if (handler != null) {
-                handler.close();
-            }
             this.file = new File(plugin.getDataFolder() + File.separator + "log.txt");
             Files.deleteIfExists(file.toPath());
             this.handler = new FileHandler(file.getPath(), true);
             handler.setFormatter(new MyFormatter());
-            Logger logger = plugin.getLogger();
             logger.setUseParentHandlers(toConsole); //Disable logging to console
             logger.addHandler(handler);
             //Log copying
