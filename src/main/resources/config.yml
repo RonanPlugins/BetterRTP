@@ -5,6 +5,8 @@ Language-File: 'en.yml'
 
 Settings:
   Respect:
+    ## Respect MinePlots plots (https://builtbybit.com/resources/mineplots.21646/)
+    MinePlots: false
     ## Respect WorldGuard areas (https://dev.bukkit.org/projects/worldguard)
     WorldGuard: false
     ## Respect GriefPrevention areas (https://www.spigotmc.org/resources/griefprevention.1884/)
