@@ -42,7 +42,7 @@ public class QueueGenerator {
     }
 
     void generate(@Nullable RTPWorld rtpWorld) {
-        if (!BetterRTP.getInstance().getSettings().isQueueEnabled()) return;
+        if (!QueueHandler.isEnabled()) return;
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
             if (!DatabaseHandler.getQueue().isLoaded()) {
                 generate(rtpWorld);
