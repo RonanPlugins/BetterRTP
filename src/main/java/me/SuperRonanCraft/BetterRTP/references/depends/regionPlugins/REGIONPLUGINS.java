@@ -18,6 +18,8 @@ public enum REGIONPLUGINS {
     TOWNY("Towny", new RTP_Towny()),
     ULTIMATECLAIMS("UltimateClaims", new RTP_UltimateClaims()),
     WORLDGUARD("WorldGuard", new RTP_WorldGuard()),
+    MINEPLOTS("MinePlots", new RTP_MinePlots()),
+
     ;
     @Getter private final SoftDepends.RegionPlugin plugin = new SoftDepends.RegionPlugin();
     @Getter private final String setting_name, pluginyml_name;
