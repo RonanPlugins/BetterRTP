@@ -1,7 +1,5 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Location;
 

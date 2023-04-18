@@ -16,8 +16,8 @@ Messages:
     Biome: '&c看上去&7%biome%&c群系不存在，&7试试使用Tab表查找！'
   Reload: '&e配置成功重载！'
   NoPermission:
-    Basic: '&c对不起，&7你没有权限使用此命令！'
-    World: '&c对不起，&7你并没有被准许在%world%世界传送！'
+    Basic: '&c对不起，&7你没有权限使用此命令！&8Permission: %permission%'
+    World: '&c对不起，&7你并没有被准许在%world%世界传送！&8Permission: %permission%'
   DisabledWorld: '&c%world%世界已被禁止使用此命令，&7无法传送！'
   Cooldown: '&c对不起，&7你需要在&c%time%&7秒后才能传送！'
   Locked: '&c对不起，&7你已经用完了你的随机传送次数了！'

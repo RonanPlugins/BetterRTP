@@ -41,7 +41,8 @@ public class QueueGenerator {
         generate(null);
     }
 
-    public void generate(@Nullable RTPWorld rtpWorld) {
+    void generate(@Nullable RTPWorld rtpWorld) {
+        if (!QueueHandler.isEnabled()) return;
         Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
             if (!DatabaseHandler.getQueue().isLoaded()) {
                 generate(rtpWorld);
@@ -149,13 +150,13 @@ public class QueueGenerator {
     }
 
     private void addQueue(RTPWorld rtpWorld, String id, ReQueueData reQueueData) {
-        Location loc = WorldPlayer.generateLocation(rtpWorld);
+        Location loc = RandomLocation.generateLocation(rtpWorld);
         if (loc != null) {
             Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () -> {
                 //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
                 PaperLib.getChunkAtAsync(loc)
                         .thenAccept(v -> {
-                            Location safeLoc = RTPPlayer.getSafeLocation(
+                            Location safeLoc = RandomLocation.getSafeLocation(
                                     HelperRTP.getWorldType(rtpWorld.getWorld()),
                                     loc.getWorld(),
                                     loc,

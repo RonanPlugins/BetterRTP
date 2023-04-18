@@ -21,6 +21,10 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     boolean loaded = false;
     private final QueueGenerator generator = new QueueGenerator();
 
+    public static boolean isEnabled() {
+        return BetterRTP.getInstance().getSettings().isQueueEnabled();
+    }
+
     public void registerEvents(BetterRTP pl) {
         PluginManager pm = pl.getServer().getPluginManager();
         pm.registerEvents(this, pl);
@@ -54,8 +58,10 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     }
 
     public static List<QueueData> getApplicableAsync(RTPWorld rtpWorld) {
-        List<QueueData> queueData = DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld));
         List<QueueData> available = new ArrayList<>();
+        //Is Enabled??
+        if (!isEnabled()) return available;
+        List<QueueData> queueData = DatabaseHandler.getQueue().getInRange(new DatabaseQueue.QueueRangeData(rtpWorld));
         for (QueueData data : queueData) {
             if (!Objects.equals(data.getLocation().getWorld().getName(), rtpWorld.getWorld().getName()))
                 continue;
@@ -70,11 +76,14 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
                         available.add(data);
             }
         }
+
+        //BetterRTP.getInstance().getLogger().info("Centerx " + rtpWorld.getCenterX());
         //BetterRTP.getInstance().getLogger().info("Available: " + available.size());
         return available;
     }
 
     public static void remove(Location loc) {
+        if (!isEnabled()) return;
         Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
             //Delete all queue data async
             if (DatabaseHandler.getQueue().removeLocation(loc)) {

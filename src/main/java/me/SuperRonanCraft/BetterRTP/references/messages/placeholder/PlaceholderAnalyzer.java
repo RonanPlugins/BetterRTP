@@ -1,9 +1,13 @@
 package me.SuperRonanCraft.BetterRTP.references.messages.placeholder;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperDate;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Location;
@@ -29,6 +33,12 @@ public class PlaceholderAnalyzer {
             str = worldPlayer((WorldPlayer) info, str);
         if (info instanceof World)
             str = world(str, (World) info);
+        if (info instanceof RTPCommand)
+            str = cmd(str, (RTPCommand) info);
+        if (info instanceof PermissionNode)
+            str = permNode(str, (PermissionNode) info);
+        if (info instanceof RTPWorld)
+            str = ints(str, ((RTPWorld) info).getPrice());
         if (p instanceof Player)
             str = papi((Player) p, str);
         return str;
@@ -37,7 +47,14 @@ public class PlaceholderAnalyzer {
     private static String worldPlayer(WorldPlayer pWorld, String str) {
         str = ints(str, pWorld.getPrice());
         str = world(str, pWorld.getWorld());
+        str = perm(str, pWorld.getPlayer(), pWorld.getWorld().getName());
         return player(str, pWorld.getPlayer());
+    }
+
+    private static String perm(String str, CommandSender player, String world) {
+        if (str.contains(Placeholders.PERMISSION.name))
+            str = str.replace(Placeholders.PERMISSION.name, PermissionCheck.getAWorldText(player, world).getString());
+        return str;
     }
 
     private static String string(String str, String info) {
@@ -100,6 +117,18 @@ public class PlaceholderAnalyzer {
     private static String biome(String str, Biome biome) {
         if (str.contains(Placeholders.BIOME.name))
             str = str.replace(Placeholders.BIOME.name, biome.name());
+        return str;
+    }
+
+    private static String cmd(String str, RTPCommand cmd) {
+        if (str.contains(Placeholders.PERMISSION.name))
+            str = permNode(str, cmd.permission());
+        return str;
+    }
+
+    private static String permNode(String str, PermissionCheck perm) {
+        if (str.contains(Placeholders.PERMISSION.name))
+            str = str.replace(Placeholders.PERMISSION.name, perm.getNode());
         return str;
     }
 }

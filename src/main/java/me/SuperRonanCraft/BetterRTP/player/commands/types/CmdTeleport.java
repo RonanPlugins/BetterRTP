@@ -2,11 +2,13 @@ package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,9 +32,9 @@ public class CmdTeleport implements RTPCommand {
         return null;
     }
 
-    @Override
-    public boolean permission(CommandSender sendi) {
-        return true;
+    @NotNull @Override
+    public PermissionNode permission() {
+        return PermissionNode.USE;
     }
 
     @Override

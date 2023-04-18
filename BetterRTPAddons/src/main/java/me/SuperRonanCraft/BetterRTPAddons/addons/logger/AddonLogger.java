@@ -92,13 +92,13 @@ public class AddonLogger implements Addon, Listener {
         database.log(e.getPlayer(), e.getOldLocation(), e.getLocation());
     }
 
+    private void log(String str, Level lvl) {
+        logger.log(lvl, str);
+    }
+
     private String getDate() {
         SimpleDateFormat format = new SimpleDateFormat(this.format);
         return format.format(new Date());
-    }
-
-    private void log(String str, Level lvl) {
-        logger.log(lvl, str);
     }
 
     //Make the logs come out readable

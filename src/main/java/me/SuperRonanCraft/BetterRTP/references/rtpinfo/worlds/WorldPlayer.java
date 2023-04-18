@@ -52,7 +52,11 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
             setup_type = RTP_SETUP_TYPE.PERMISSIONGROUP;
         this.setup_name = setup_name;
         setUseWorldBorder(world.getUseWorldborder());
+
+        //BetterRTP.getInstance().getLogger().info("WorldPlayer Center x: " + CenterX);
         setCenterX(world.getCenterX());
+        //BetterRTP.getInstance().getLogger().info("set to " + world.getCenterX());
+        //BetterRTP.getInstance().getLogger().info("is now " + CenterX);
         setCenterZ(world.getCenterZ());
         setMaxRadius(world.getMaxRadius());
         setMinRadius(world.getMinRadius());
@@ -88,6 +92,8 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         //Cooldown
         setCooldown(world.getCooldown());
         setup = true;
+
+        //BetterRTP.getInstance().getLogger().info("WorldPlayer Center x: " + CenterX);
     }
 
     public static boolean checkIsValid(Location loc, RTPWorld rtpWorld) { //Will check if a previously given location is valid
@@ -106,73 +112,6 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         int _zRMin = rtpWorld.getCenterZ() + rtpWorld.getMinRadius(); //||-I|
         int _zLoc = loc.getBlockX();
         return _zLoc >= _zLMax && (_zLoc <= _zLMin || _zLoc >= _zRMin) && _zLoc <= _zRMax;
-    }
-
-    public static Location generateLocation(RTPWorld rtpWorld) {
-        Location loc;
-        switch (rtpWorld.getShape()) {
-            case CIRCLE: loc = generateRound(rtpWorld); break;
-            case SQUARE:
-            default: loc = generateSquare(rtpWorld); break;
-        }
-        return loc;
-    }
-
-    private static Location generateSquare(RTPWorld rtpWorld) {
-        //Generate a random X and Z based off the quadrant selected
-        int min = rtpWorld.getMinRadius();
-        int max = rtpWorld.getMaxRadius() - min;
-        int x, z;
-        int quadrant = new Random().nextInt(4);
-        try {
-            switch (quadrant) {
-                case 0: // Positive X and Z
-                    x = new Random().nextInt(max) + min;
-                    z = new Random().nextInt(max) + min;
-                    break;
-                case 1: // Negative X and Z
-                    x = -new Random().nextInt(max) - min;
-                    z = -(new Random().nextInt(max) + min);
-                    break;
-                case 2: // Negative X and Positive Z
-                    x = -new Random().nextInt(max) - min;
-                    z = new Random().nextInt(max) + min;
-                    break;
-                default: // Positive X and Negative Z
-                    x = new Random().nextInt(max) + min;
-                    z = -(new Random().nextInt(max) + min);
-                    break;
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            BetterRTP.getInstance().getLogger().warning("A bounding location was negative! Please check your config only has positive x/z for max/min radius!");
-            BetterRTP.getInstance().getLogger().warning("Max: " + rtpWorld.getMaxRadius() + " Min: " + rtpWorld.getMinRadius());
-            return null;
-        }
-        x += rtpWorld.getCenterX();
-        z += rtpWorld.getCenterZ();
-        //System.out.println(quadrant);
-        return new Location(rtpWorld.getWorld(), x, 69, z);
-    }
-
-    private static Location generateRound(RTPWorld rtpWorld) {
-        //Generate a random X and Z based off location on a spiral curve
-        int min = rtpWorld.getMinRadius();
-        int max = rtpWorld.getMaxRadius() - min;
-        int x, z;
-
-        double area = Math.PI * (max - min) * (max + min); //of all the area in this donut
-        double subArea = area * new Random().nextDouble(); //pick a random subset of that area
-
-        double r = Math.sqrt(subArea/Math.PI + min * min); //convert area to radius
-        double theta = (r - (int) r) * 2 * Math.PI; //use the remainder as an angle
-
-        // polar to cartesian
-        x = (int) (r * Math.cos(theta));
-        z = (int) (r * Math.sin(theta));
-        x += rtpWorld.getCenterX();
-        z += rtpWorld.getCenterZ();
-        return new Location(rtpWorld.getWorld(), x, 69, z);
     }
 
     @NotNull

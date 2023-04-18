@@ -16,8 +16,8 @@ Messages:
     Biome: '&cVypadá to, že biom&7 %biome%&c neexistuje! &7Zkus použít tabulátor!'
   Reload: '&eConfig úspěšně načten!'
   NoPermission:
-    Basic: '&cPozor! &7Na tento příkaz nemáš práva!'
-    World: '&cPozor! &7Ve světě %world% se nelze teleportovat!'
+    Basic: '&cPozor! &7Na tento příkaz nemáš práva! &8Permission: %permission%'
+    World: '&cPozor! &7Ve světě %world% se nelze teleportovat! &8Permission: %permission%'
   DisabledWorld: '&cSvět %world% je uzamčen! &7Teleport nebyl možný!'
   Cooldown: '&cPozor! &7Nemůžeš se teleportovat ještě &c%time%&7!'
   Locked: '&cPozor! &7Využil/a jsi všechny své teleporty!'

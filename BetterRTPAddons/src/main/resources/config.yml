@@ -39,9 +39,9 @@ MagicStick:
     Name: '&d&lMagic RTP Stick &8(Right-Click)'
     Material: 'Stick'
     Lore:
-      - ''
-      - '&7Right click this stick and unlock'
-      - '&7a brand new adventure!'
+    - ''
+    - '&7Right click this stick and unlock'
+    - '&7a brand new adventure!'
   Take: true
 
 #Addon Commands
@@ -64,17 +64,22 @@ Parties:
 #Addon RTPMenu (Enable `/rtp` world select menu)
 RTPMenu:
   Enabled: false
+  AutoRefresh: 0 #0 means menu will not refresh! (in ticks)
   Title: "Choose World"
   WorldList:
-    - world:
-        Name: '&7World'
-        Item: 'map'
-        Lore:
-          - ''
-          - '&8Click to rtp in world!'
-    - world_nether:
-        Name: '&cNether'
-        Item: 'netherrack'
-        Lore:
-          - ''
-          - '&8Click to rtp in world!'
+  - world:
+      Name: '&7World'
+      Item: 'map'
+      Lore:
+      - ''
+      - '&8Click to rtp in world!'
+      - ''
+      - '&7Cooldown&8: &d%betterrtp_cooldown%'
+  - world_nether:
+      Name: '&cNether'
+      Item: 'netherrack'
+      Lore:
+      - ''
+      - '&8Click to rtp in world!'
+      - ''
+      - '&7Cooldown&8: &d%betterrtp_cooldown%'

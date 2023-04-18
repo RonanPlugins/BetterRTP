@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
@@ -13,6 +14,7 @@ import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.kingdoms.commands.general.misc.CommandTeleport;
 
 import java.util.ArrayList;
@@ -44,18 +46,18 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
             for (World w : Bukkit.getWorlds()) {
                 String _wName = w.getName().replace(" ", "_");
                 if (w.getName().startsWith(args[1]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(_wName)
-                        && PermissionNode.getAWorld(sendi, _wName))
+                        && PermissionCheck.getAWorld(sendi, _wName))
                     list.add(_wName);
             }
         } else if (args.length >= 3) {
-            if (RTPCommandType.BIOME.getCmd().permission(sendi))
+            if (RTPCommandType.BIOME.getCmd().permission().check(sendi))
                 HelperRTP_Info.addBiomes(list, args);
         }
         return list;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.WORLD.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.WORLD;
     }
 
     public void usage(CommandSender sendi, String label) {

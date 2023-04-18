@@ -7,14 +7,17 @@ public enum RTPCommandType {
     EDIT(new CmdEdit()),
     HELP(new CmdHelp()),
     INFO(new CmdInfo()),
+    LOCATION(new CmdLocation()),
     PLAYER(new CmdPlayer()),
     QUEUE(new CmdQueue(), true),
     RELOAD(new CmdReload()),
-    LOCATION(new CmdLocation()),
     //SETTINGS(new CmdSettings(), true),
     TEST(new CmdTest(), true),
     VERSION(new CmdVersion()),
-    WORLD(new CmdWorld());
+    WORLD(new CmdWorld()),
+    DEV(new CmdDeveloper(), true),
+    LOGGER(new CmdLogger(), true),
+    ;
 
     private final RTPCommand cmd;
     private boolean debugOnly = false;

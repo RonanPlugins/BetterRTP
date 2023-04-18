@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
         return list;
     }
 
-    public boolean permission(CommandSender sendi) {
-        return PermissionNode.BIOME.check(sendi);
+    @NotNull public PermissionNode permission() {
+        return PermissionNode.BIOME;
     }
 
     public void usage(CommandSender sendi, String label) {

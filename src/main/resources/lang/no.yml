@@ -16,8 +16,8 @@ Messages:
     Biome: '&cSer ut som at %biome%&c ikke eksisterer! &7Prøv å bruke fanelisten! '
     Reload: '&eKonfigurasjonsfil lastet inn på nytt!'
   NoPermission:
-    Basic: '&cBeklager! &7Du har ikke tillatelse til å bruke denne kommandoen! '
-    World: '&cBeklager! &7Du har ikke tillatelse rtp i %world%! '
+    Basic: '&cBeklager! &7Du har ikke tillatelse til å bruke denne kommandoen!  &8Permission: %permission%'
+    World: '&cBeklager! &7Du har ikke tillatelse rtp i %world%!  &8Permission: %permission%'
   DisabledWorld: '&cDeaktivert verden %world%! &7Kan ikke RTP! '
   Cooldown: '&cBeklager! &7Du kan ikke bruke RTP før om &c%tid% &7sekunder! '
   Locked: '&cBeklager! &7Du har brukt opp alle RTP-ene dine! '

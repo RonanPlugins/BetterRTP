@@ -16,8 +16,8 @@ Messages:
     Biome: '&c¡Parece que el bioma&7 %biome%&c no existe! &7¡Intenta usar la lista del tab!'
   Reload: '&e¡Configuración recargada exitosamente!'
   NoPermission:
-    Basic: '&c¡Lo siento! &7¡No tienes permiso para usar este comando!'
-    World: '&c¡Lo siento! &7¡No tienes permitido teletransportarte aleatoriamente en el mundo %world%!'
+    Basic: '&c¡Lo siento! &7¡No tienes permiso para usar este comando! &8Permission: %permission%'
+    World: '&c¡Lo siento! &7¡No tienes permitido teletransportarte aleatoriamente en el mundo %world%! &8Permission: %permission%'
   DisabledWorld: '&c¡Mundo %world% Deshabilitado! &7¡No se puede usar RTP!'
   Cooldown: '&c¡Lo siento! &7¡No puedes teletransportarte aleatoriamente por otros &c%time%&7!'
   Locked: '&c¡Lo siento! &7¡Has usado todos tus RTPs!'

@@ -1,11 +1,14 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
+import com.griefdefender.api.permission.PermissionResult;
+import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
-public enum PermissionNode {
+public enum PermissionNode implements PermissionCheck {
 
     ADMIN("admin"),
     USE("use"),
@@ -24,42 +27,26 @@ public enum PermissionNode {
     VERSION("version"),
     EDIT("edit"),
     LOCATION("location"),
+    DEVELOPER("DEVELOPER_PERM"),
     ;
 
-    private final String node;
-    private static final String prefix = "betterrtp.";
+    @Getter private final String node;
 
     PermissionNode(String node) {
-        this.node = prefix + node;
+        this.node = PermissionCheck.getPrefix() + node;
     }
 
-    public boolean check(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().checkPerm(node, sendi);
+    @Override public boolean isDev() {
+        return this == DEVELOPER;
     }
 
-    public static boolean check(CommandSender sendi, String check) {
-        return BetterRTP.getInstance().getPerms().checkPerm(check, sendi);
-    }
-
-    public static boolean getAWorld(CommandSender sendi, String world) {
-        if (check(sendi, prefix + "world.*"))
-            return true;
-        else if (world == null) {
-            for (World w : Bukkit.getWorlds())
-                if (check(sendi, prefix + "world." + w.getName()))
-                    return true;
-        } else
-            return check(sendi, prefix + "world." + world);
-        return false;
-    }
-
-
-    public static boolean getLocation(CommandSender sendi, String location) {
-        return check(sendi, prefix + "location." + location);
-    }
-
-    public static boolean getPermissionGroup(CommandSender sendi, String group) {
-        return check(sendi, prefix + "group." + group);
+    public static class PermissionResult {
+        @Getter private final boolean passed;
+        @Getter private final String string;
+        PermissionResult(String string, boolean passed) {
+            this.passed = passed;
+            this.string = string;
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
 import org.bukkit.Bukkit;
@@ -37,16 +38,17 @@ public class Commands {
             if (args != null && args.length > 0) {
                 for (RTPCommand cmd : commands) {
                     if (cmd.getName().equalsIgnoreCase(args[0])) {
-                        if (cmd.permission(sendi)) {
+                        if (cmd.permission().check(sendi)) {
                             RTP_CommandEvent event = new RTP_CommandEvent(sendi, cmd);
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(event);
                             if (!event.isCancelled()) {
+                                BetterRTP.debug(sendi.getName() + " executed: /" + label + " " + String.join(" ", args));
                                 cmd.execute(sendi, label, args);
                                 Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
                             }
                         } else
-                            MessagesCore.NOPERMISSION.send(sendi);
+                            MessagesCore.NOPERMISSION.send(sendi, cmd);
                         return;
                     }
                 }
@@ -58,7 +60,7 @@ public class Commands {
                     event.getCmd().execute(sendi, label, args);
             }
         } else
-            MessagesCore.NOPERMISSION.send(sendi);
+            MessagesCore.NOPERMISSION.send(sendi, PermissionNode.USE);
     }
 
     public List<String> onTabComplete(CommandSender sendi, String[] args) {
@@ -66,13 +68,13 @@ public class Commands {
         if (args.length == 1) {
             for (RTPCommand cmd : commands) {
                 if (cmd.getName().toLowerCase().startsWith(args[0].toLowerCase()))
-                    if (cmd.permission(sendi))
+                    if (cmd.permission().check(sendi))
                         list.add(cmd.getName().toLowerCase());
             }
         } else if (args.length > 1) {
             for (RTPCommand cmd : commands) {
                 if (cmd.getName().equalsIgnoreCase(args[0]))
-                    if (cmd.permission(sendi)) {
+                    if (cmd.permission().check(sendi)) {
                         List<String> _cmdlist = cmd.tabComplete(sendi, args);
                         if (_cmdlist != null)
                             list.addAll(_cmdlist);

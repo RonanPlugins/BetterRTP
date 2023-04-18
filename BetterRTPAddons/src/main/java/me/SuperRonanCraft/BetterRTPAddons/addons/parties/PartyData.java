@@ -94,7 +94,7 @@ public class PartyData {
                                 String.valueOf(loc.getBlockZ()),
                                 loc.getWorld().getName(),
                                 1);*/
-                        BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, 0, 0, e.getOldLocation(), e.getType());
+                        BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, e.getWorldPlayer(), 0, e.getOldLocation(), e.getType());
                 });
                 //Set cooldowns
                 if (!PermissionNode.BYPASS_COOLDOWN.check(p)) {

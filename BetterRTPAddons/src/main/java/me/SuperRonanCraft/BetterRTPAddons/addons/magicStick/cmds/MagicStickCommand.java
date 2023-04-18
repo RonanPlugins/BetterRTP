@@ -3,6 +3,8 @@ package me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.cmds;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
+import me.SuperRonanCraft.BetterRTPAddons.PermissionNodeAddon;
 import me.SuperRonanCraft.BetterRTPAddons.addons.magicStick.AddonMagicStick;
 import org.bukkit.command.CommandSender;
 
@@ -46,8 +48,8 @@ public class MagicStickCommand implements RTPCommand, RTPCommandHelpable {
     }
 
     @Override
-    public boolean permission(CommandSender sendi) {
-        return BetterRTP.getInstance().getPerms().checkPerm("betterrtp.addon.magicstick", sendi);
+    public PermissionCheck permission() {
+        return PermissionNodeAddon.MAGICSTICK;
     }
 
     @Override

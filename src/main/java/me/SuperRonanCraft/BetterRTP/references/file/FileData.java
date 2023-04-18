@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public interface FileData {
         List<String> list = new ArrayList<>();
         if (getConfig().isList(path)) list.addAll(getStringList(path));
         else if (getConfig().isString(path)) list.add(getString(path));
-        else return List.of("&7The path &e" + path + " &7was not configured correctly!");
+        else return new ArrayList<>(Collections.singleton("&7The path &e" + path + " &7was not configured correctly!"));
         return list;
     }
 
