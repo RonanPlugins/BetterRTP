@@ -5,6 +5,7 @@ import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueGenerator;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -75,6 +76,11 @@ public class DatabaseQueue extends SQLite {
         }
         return queueDataList;
     }*/
+
+    @Override public void load() {
+        if (QueueHandler.isEnabled())
+            super.load();
+    }
 
     public List<QueueData> getInRange(QueueRangeData range) {
         Connection conn = null;

@@ -3,6 +3,7 @@ package me.SuperRonanCraft.BetterRTP.references.database;
 import lombok.Getter;
 import lombok.NonNull;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import org.bukkit.Bukkit;
@@ -58,10 +59,9 @@ public abstract class SQLite {
     }
 
     public void load() {
-        if (!QueueHandler.isEnabled()) return;
         loaded = false;
         tables = getTables();
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runAsync(() -> {
             Connection connection = getSQLConnection();
             try {
                 Statement s = connection.createStatement();

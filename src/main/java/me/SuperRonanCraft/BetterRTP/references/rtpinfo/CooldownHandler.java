@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseCooldowns;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
@@ -18,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CooldownHandler {
 
@@ -43,7 +45,7 @@ public class CooldownHandler {
     }
 
     private void queueDownload() {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runLaterAsync(() -> {
             if (cooldownByWorld && !DatabaseHandler.getCooldowns().isLoaded()) {
                queueDownload();
                return;
@@ -57,7 +59,7 @@ public class CooldownHandler {
             for (Player p : Bukkit.getOnlinePlayers())
                 loadPlayer(p);
             loaded = true;
-        }, 10L);
+        }, 10L * 50L, TimeUnit.MILLISECONDS);
     }
 
     public void add(Player player, World world) {
@@ -132,7 +134,7 @@ public class CooldownHandler {
     }
 
     private void savePlayer(Player player, @Nullable World world, @Nullable CooldownData data, boolean remove) {
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runAsync(() -> {
                 if (world != null && data != null && getDatabaseWorlds() != null) { //Per World enabled?
                     if (!remove)
                         getDatabaseWorlds().setCooldown(world, data);

@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class RTPMenu_SelectWorld {
 
-    public static void createInv(AddonRTPMenu pl, Player p) {
+    public static boolean createInv(AddonRTPMenu pl, Player p) {
         List<World> bukkit_worlds = Bukkit.getWorlds();
         List<World> actual_worlds = new ArrayList<>();
         for (World world : bukkit_worlds) {
@@ -32,7 +32,7 @@ public class RTPMenu_SelectWorld {
         }
         if (actual_worlds.isEmpty() || (actual_worlds.size() <= 1 && !BetterRTP.getInstance().getSettings().isDebug())) {
             CmdTeleport.teleport(p, "rtp", null, null);
-            return;
+            return false;
         }
         int size = Math.floorDiv(actual_worlds.size(), 9) * 9;
         if (size < actual_worlds.size()) size += 9;
@@ -58,6 +58,7 @@ public class RTPMenu_SelectWorld {
         pl.getData(p).setMenuInv(inv);
         pl.getData(p).setWorldSlots(world_slots);
         p.openInventory(inv);
+        return true;
     }
 
     private static HashMap<Integer, World> centerWorlds(List<World> actual_worlds) {

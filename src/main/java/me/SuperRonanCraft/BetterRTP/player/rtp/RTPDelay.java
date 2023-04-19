@@ -1,7 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import com.tcoded.folialib.wrapper.WrappedTask;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,9 +12,12 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.concurrent.TimeUnit;
 
 class RTPDelay implements Listener {
-    private int run;
+    private WrappedTask task;
     private final boolean cancelOnMove, cancelOnDamage;
     private final RTPPlayer rtp;
 
@@ -25,7 +30,7 @@ class RTPDelay implements Listener {
 
     private void delay(CommandSender sendi, int delay) {
         if (!getPl().getRTP().getTeleport().beforeTeleportDelay(rtp.getPlayer(), delay)) {
-            run = Bukkit.getScheduler().scheduleSyncDelayedTask(BetterRTP.getInstance(), run(sendi, this), delay * 20L);
+            task = FoliaHelper.get().runLater(run(sendi, this), (delay * 20L) * 50L, TimeUnit.MILLISECONDS);
             if (cancelOnMove || cancelOnDamage)
                 Bukkit.getPluginManager().registerEvents(this, BetterRTP.getInstance());
         }
@@ -56,22 +61,23 @@ class RTPDelay implements Listener {
     }
 
     private void cancel() {
-        Bukkit.getScheduler().cancelTask(run);
-        if (!Bukkit.getScheduler().isCurrentlyRunning(run)) {
-            HandlerList.unregisterAll(this);
-            getPl().getRTP().getTeleport().cancelledTeleport(rtp.getPlayer());
-            //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
-            getPl().getCooldowns().removeCooldown(rtp.getPlayer(), rtp.worldPlayer.getWorld());
-            getPl().getpInfo().getRtping().put(rtp.getPlayer(), false);
-            Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
-        }
+        if (task != null)
+            task.cancel();
+        HandlerList.unregisterAll(this);
+        getPl().getRTP().getTeleport().cancelledTeleport(rtp.getPlayer());
+        //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
+        getPl().getCooldowns().removeCooldown(rtp.getPlayer(), rtp.worldPlayer.getWorld());
+        getPl().getpInfo().getRtping().put(rtp.getPlayer(), false);
+        Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
     }
 
-    private Runnable run(final CommandSender sendi, final RTPDelay cls) {
-        return () -> {
+    private BukkitRunnable run(final CommandSender sendi, final RTPDelay cls) {
+        return new BukkitRunnable() {
+            @Override public void run() {
                 HandlerList.unregisterAll(cls);
                 if (getPl().getpInfo().getRtping().containsKey(rtp.getPlayer()))
                     rtp.randomlyTeleport(sendi);
+            }
         };
     }
 

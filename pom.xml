@@ -175,11 +175,16 @@
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        <!--    MinePlots Repo    -->
+        <!-- MinePlots Repo -->
         <repository>
             <id>minecodes-repository-releases</id>
             <name>mineCodes Organization Repository</name>
             <url>https://repository.minecodes.pl/releases</url>
+        </repository>
+        <!-- FoliaLib https://github.com/TechnicallyCoded/FoliaLib -->
+        <repository>
+            <id>devmart-other</id>
+            <url>https://nexuslite.gcnt.net/repos/other/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -374,6 +379,13 @@
             <artifactId>plugin-api</artifactId>
             <version>3.4.5</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- FoliaLib -->
+        <dependency>
+            <groupId>com.tcoded</groupId>
+            <artifactId>FoliaLib</artifactId>
+            <version>0.2.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

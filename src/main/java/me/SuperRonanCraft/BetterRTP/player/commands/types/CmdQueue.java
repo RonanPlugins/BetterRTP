@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
@@ -43,7 +44,7 @@ public class CmdQueue implements RTPCommand {
         Player p = (Player) sendi;
         //sendi.sendMessage("Loading...");
         World world = args.length > 1 ? Bukkit.getWorld(args[1]) : null;
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runAsync(() -> {
             if (world != null) {
                 sendInfo(sendi, queueGetWorld(p, world), label, args);
             } else

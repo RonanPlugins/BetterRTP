@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -32,7 +33,10 @@ public class RTPMenu_Refresh implements Listener {
 
     private void start() {
         opening = true;
-        RTPMenu_SelectWorld.createInv(addon, player);
+        if (!RTPMenu_SelectWorld.createInv(addon, player)) {
+            cancel();
+            return;
+        }
         opening = false;
         this.task = new BukkitRunnable() {
             @Override public void run() {
@@ -44,9 +48,21 @@ public class RTPMenu_Refresh implements Listener {
     @EventHandler
     void close(InventoryCloseEvent e) {
         if (e.getPlayer() == player && !opening) {
-            task.cancel();
-            HandlerList.unregisterAll(this);
+            cancel();
         }
+    }
+
+    @EventHandler
+    void leave(PlayerQuitEvent e) {
+        if (e.getPlayer() == player) {
+            cancel();
+        }
+    }
+
+    void cancel() {
+        if (task != null)
+            task.cancel();
+        HandlerList.unregisterAll(this);
     }
 
 }

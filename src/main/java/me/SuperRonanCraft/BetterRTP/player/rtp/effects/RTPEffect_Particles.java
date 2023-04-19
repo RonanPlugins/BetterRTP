@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -70,7 +71,7 @@ public class RTPEffect_Particles {
 
     public void display(Player p) {
         if (!enabled) return;
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runAsync(() -> {
             try { //Incase the library errors out
                 switch (shape) {
                     case "TELEPORT":

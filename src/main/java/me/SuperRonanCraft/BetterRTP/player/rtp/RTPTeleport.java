@@ -28,8 +28,6 @@ public class RTPTeleport {
 
     private final RTPEffects effects = new RTPEffects();
 
-    //public HashMap<Player, List<CompletableFuture<Chunk>>> playerLoads = new HashMap<>();
-
     void load() {
         effects.load();
     }
@@ -71,9 +69,6 @@ public class RTPTeleport {
             getPl().getpInfo().getRtping().remove(p); //No longer rtp'ing (errored)
             e.printStackTrace();
         }
-        //        }
-        //    }.runTask(getPl());
-        //});
     }
 
     //Effects

@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.database;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import org.bukkit.Bukkit;
 
@@ -13,7 +14,7 @@ public class DatabaseHandler {
     @Getter private final DatabaseChunkData databaseChunks = new DatabaseChunkData();
 
     public void load() {
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+        FoliaHelper.get().runAsync(() -> {
             databasePlayers.load();
             databaseCooldowns.load();
             databaseQueue.load();

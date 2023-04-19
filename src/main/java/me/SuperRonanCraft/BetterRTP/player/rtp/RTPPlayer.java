@@ -1,9 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import com.tcoded.folialib.FoliaLib;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
@@ -47,7 +49,7 @@ public class RTPPlayer {
                 attempts++;
                 return;
             }
-            Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), () -> {
+            FoliaHelper.get().runAsync(() -> {
                 Location loc;
                 if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
                     loc = event.getLocation();
@@ -61,7 +63,7 @@ public class RTPPlayer {
                 }
                 attempts++; //Add an attempt
                 //Load chunk and find out if safe location (asynchronously)
-                Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () -> {
+                FoliaHelper.get().runNextTick(() -> {
                     try { //Prior to 1.12 this async chunk will NOT work
                         CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
                         chunk.thenAccept(result -> {
@@ -89,7 +91,7 @@ public class RTPPlayer {
             if (getPl().getEco().charge(player, worldPlayer)) {
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
-                Bukkit.getScheduler().runTask(BetterRTP.getInstance(), () ->
+                FoliaHelper.get().runNextTick(() ->
                         settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
             }
         } else {
