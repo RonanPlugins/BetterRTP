@@ -2,6 +2,7 @@ main: me.SuperRonanCraft.BetterRTP.BetterRTP
 version: ${project.version}
 name: BetterRTP
 author: SuperRonanCraft
+folia-supported: true #As of 3.6.8 thanks to LOOHP#6007, TechnicallyCoded#9095 and loving11ish#2066
 softdepend:
     - Vault
     - WorldGuard #Respect WorldGuard areas (https://dev.bukkit.org/projects/worldguard)

@@ -144,9 +144,9 @@ public class BetterRTP extends JavaPlugin {
     //(Re)Load all plugin systems/files/cache
     private void loadAll() {
         playerDataManager.clear();
-        databaseHandler.load();
         files.loadAll();
         settings.load();
+        databaseHandler.load();
         rtpLogger.setup(this);
         invs.load();
         cooldowns.load();
