@@ -10,6 +10,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
 import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class CooldownHandler {
     }
 
     private void queueDownload() {
-        FoliaHelper.get().runLaterAsync(() -> {
+        AsyncHandler.asyncLater(() -> {
             if (cooldownByWorld && !DatabaseHandler.getCooldowns().isLoaded()) {
                queueDownload();
                return;
@@ -59,7 +60,7 @@ public class CooldownHandler {
             for (Player p : Bukkit.getOnlinePlayers())
                 loadPlayer(p);
             loaded = true;
-        }, 10L * 50L, TimeUnit.MILLISECONDS);
+        }, 10L);
     }
 
     public void add(Player player, World world) {
@@ -134,7 +135,7 @@ public class CooldownHandler {
     }
 
     private void savePlayer(Player player, @Nullable World world, @Nullable CooldownData data, boolean remove) {
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
                 if (world != null && data != null && getDatabaseWorlds() != null) { //Per World enabled?
                     if (!remove)
                         getDatabaseWorlds().setCooldown(world, data);

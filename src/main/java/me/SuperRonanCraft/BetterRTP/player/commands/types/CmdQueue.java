@@ -13,6 +13,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import me.SuperRonanCraft.BetterRTP.references.web.LogUploader;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -44,7 +45,7 @@ public class CmdQueue implements RTPCommand {
         Player p = (Player) sendi;
         //sendi.sendMessage("Loading...");
         World world = args.length > 1 ? Bukkit.getWorld(args[1]) : null;
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
             if (world != null) {
                 sendInfo(sendi, queueGetWorld(p, world), label, args);
             } else

@@ -1,17 +1,14 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
-import com.tcoded.folialib.wrapper.WrappedTask;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPPlayer;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
-import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldCustom;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class QueueGenerator {
 
@@ -30,7 +26,7 @@ public class QueueGenerator {
     public static final int queueMax = 32, queueMin = 2; //Amount to ready up for each rtp world
     private final int queueMaxAttempts = 50;
     boolean generating;
-    private WrappedTask task;
+    private BukkitTask task;
 
     public void unload() {
         if (task != null)
@@ -45,7 +41,7 @@ public class QueueGenerator {
 
     void generate(@Nullable RTPWorld rtpWorld) {
         if (!QueueHandler.isEnabled()) return;
-        FoliaHelper.get().runLaterAsync(() -> {
+        AsyncHandler.asyncLater(() -> {
             if (!DatabaseHandler.getQueue().isLoaded()) {
                 generate(rtpWorld);
                 return;
@@ -55,12 +51,12 @@ public class QueueGenerator {
             //Queue after everything was loaded
             BetterRTP.debug("Attempting to queue up some more safe locations...");
             queueGenerator(new ReQueueData(rtpWorld, queueMax, queueMin, 0, "noone", 0));
-        }, 10L * 50L, TimeUnit.MILLISECONDS);
+        }, 10L);
     }
 
     private void queueGenerator(ReQueueData data) {
         generating = true;
-        task = FoliaHelper.get().runLaterAsync(() -> {
+        task = AsyncHandler.asyncLater(() -> {
             //BetterRTP.debug("Generating a new position... attempt # " + data.attempts);
             //Generate more locations
             //Rare cases where a rtp world didn't have a location generated (Permission Groups?)
@@ -109,7 +105,7 @@ public class QueueGenerator {
             }
             generating = false;
             BetterRTP.debug("Queueing paused, max queue limit reached!");
-        }, 20L * 50L /*delay before starting queue generator*/, TimeUnit.MILLISECONDS);
+        }, 20L/*delay before starting queue generator*/);
     }
 
     static class ReQueueData {
@@ -154,7 +150,7 @@ public class QueueGenerator {
     private void addQueue(RTPWorld rtpWorld, String id, ReQueueData reQueueData) {
         Location loc = RandomLocation.generateLocation(rtpWorld);
         if (loc != null) {
-            FoliaHelper.get().runNextTick(() -> {
+            AsyncHandler.sync(() -> {
                 //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
                 PaperLib.getChunkAtAsync(loc)
                         .thenAccept(v -> {
@@ -167,7 +163,7 @@ public class QueueGenerator {
                                     rtpWorld.getBiomes());
                             //data.setLocation(safeLoc);
                             if (safeLoc != null) {
-                                FoliaHelper.get().runAsync(() -> {
+                                AsyncHandler.async(() -> {
                                     QueueData data = DatabaseHandler.getQueue().addQueue(safeLoc);
                                     if (data != null) {
                                         //queueList.add(data);

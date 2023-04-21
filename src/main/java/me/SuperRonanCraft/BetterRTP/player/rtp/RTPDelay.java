@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import com.tcoded.folialib.wrapper.WrappedTask;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CancelledEvent;
-import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,12 +11,10 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.concurrent.TimeUnit;
+import org.bukkit.scheduler.BukkitTask;
 
 class RTPDelay implements Listener {
-    private WrappedTask task;
+    private BukkitTask task;
     private final boolean cancelOnMove, cancelOnDamage;
     private final RTPPlayer rtp;
 
@@ -30,7 +27,7 @@ class RTPDelay implements Listener {
 
     private void delay(CommandSender sendi, int delay) {
         if (!getPl().getRTP().getTeleport().beforeTeleportDelay(rtp.getPlayer(), delay)) {
-            task = FoliaHelper.get().runLater(run(sendi, this), (delay * 20L) * 50L, TimeUnit.MILLISECONDS);
+            task = AsyncHandler.asyncLater(run(sendi, this), delay * 20L);
             if (cancelOnMove || cancelOnDamage)
                 Bukkit.getPluginManager().registerEvents(this, BetterRTP.getInstance());
         }

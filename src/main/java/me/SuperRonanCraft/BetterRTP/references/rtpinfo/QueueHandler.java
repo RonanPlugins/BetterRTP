@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
 import me.SuperRonanCraft.BetterRTP.references.database.DatabaseQueue;
 import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -85,7 +86,7 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
 
     public static void remove(Location loc) {
         if (!isEnabled()) return;
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
             //Delete all queue data async
             if (DatabaseHandler.getQueue().removeLocation(loc)) {
                 //BetterRTP.getInstance().getQueue().queueList.remove(data);

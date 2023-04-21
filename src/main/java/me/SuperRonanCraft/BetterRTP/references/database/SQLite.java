@@ -6,6 +6,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -61,7 +62,7 @@ public abstract class SQLite {
     public void load() {
         loaded = false;
         tables = getTables();
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
             Connection connection = getSQLConnection();
             try {
                 Statement s = connection.createStatement();

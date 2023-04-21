@@ -1,15 +1,14 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import com.tcoded.folialib.FoliaLib;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
-import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -49,7 +48,7 @@ public class RTPPlayer {
                 attempts++;
                 return;
             }
-            FoliaHelper.get().runAsync(() -> {
+            AsyncHandler.async(() -> {
                 Location loc;
                 if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
                     loc = event.getLocation();
@@ -63,7 +62,7 @@ public class RTPPlayer {
                 }
                 attempts++; //Add an attempt
                 //Load chunk and find out if safe location (asynchronously)
-                FoliaHelper.get().runNextTick(() -> {
+                AsyncHandler.sync(() -> {
                     try { //Prior to 1.12 this async chunk will NOT work
                         CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
                         chunk.thenAccept(result -> {
@@ -91,7 +90,7 @@ public class RTPPlayer {
             if (getPl().getEco().charge(player, worldPlayer)) {
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
-                FoliaHelper.get().runNextTick(() ->
+                AsyncHandler.sync(() ->
                         settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
             }
         } else {

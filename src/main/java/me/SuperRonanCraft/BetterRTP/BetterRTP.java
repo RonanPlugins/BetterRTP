@@ -1,6 +1,5 @@
 package me.SuperRonanCraft.BetterRTP;
 
-import com.tcoded.folialib.FoliaLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
@@ -49,7 +48,6 @@ public class BetterRTP extends JavaPlugin {
     //@Getter private BukkitAudiences adventure;
     @Getter private boolean PlaceholderAPI;
     @Getter private final RTPLogger rtpLogger = new RTPLogger();
-    @Getter FoliaLib folia = new FoliaLib(this);
 
     @Override
     public void onEnable() {

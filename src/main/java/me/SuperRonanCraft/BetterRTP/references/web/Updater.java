@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.web;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ public class Updater {
     public static String updatedVersion = BetterRTP.getInstance().getDescription().getVersion();
 
     public Updater(BetterRTP pl) {
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
             try {
                 URLConnection con = new URL(getUrl() + project()).openConnection();
                 updatedVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();

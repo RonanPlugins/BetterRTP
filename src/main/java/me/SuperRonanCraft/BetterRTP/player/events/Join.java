@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,7 +18,7 @@ public class Join {
     static void event(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         updater(p);
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
                 getPl().getCooldowns().loadPlayer(p);
             });
         rtpOnFirstJoin(p);

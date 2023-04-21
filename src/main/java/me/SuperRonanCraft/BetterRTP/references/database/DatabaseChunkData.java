@@ -8,6 +8,7 @@ import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueGenerator;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -54,7 +55,7 @@ public class DatabaseChunkData extends SQLite {
 
 
     public void addChunk(Chunk chunk, int maxy, Biome biome) {
-        FoliaHelper.get().runAsync(() -> {
+        AsyncHandler.async(() -> {
             String pre = "INSERT OR REPLACE INTO ";
             String sql = pre + tables.get(0) + " ("
                     + COLUMNS.WORLD.name + ", "
