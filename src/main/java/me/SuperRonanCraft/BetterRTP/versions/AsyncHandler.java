@@ -17,4 +17,7 @@ public class AsyncHandler {
     public static BukkitTask asyncLater(Runnable runnable, long ticks) {
         return Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), runnable, ticks);
     }
+    public static BukkitTask syncLater(Runnable runnable, long ticks) {
+        return Bukkit.getScheduler().runTaskLater(BetterRTP.getInstance(), runnable, ticks);
+    }
 }
