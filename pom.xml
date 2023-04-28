@@ -156,11 +156,6 @@
             <id>factions-uuid</id>
             <url>http://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
-        <!-- Residence -->
-        <repository>
-            <id>residence-repo</id>
-            <url>file:${project.basedir}/LocalJars/Residence4.9.1.9.jar</url>
-        </repository>
         <!-- ProtocolLib Repo -->
         <repository>
             <id>dmulloy2-repo</id>
@@ -252,6 +247,7 @@
             <scope>provided</scope>
         </dependency>
         <!-- Residence v4.9.1.9 (https://www.spigotmc.org/resources/residence.11480/) (LOCAL REPO) -->
+        <!-- Installation: mvn install:install-file -Dfile=<path-to-project>/LocalJars/Residence4.9.1.9 -DgroupId=com.bekvon.bukkit -DartifactId=Residence -Dversion=<version> -Dpackaging=jar -->
         <dependency>
             <groupId>com.bekvon.bukkit</groupId>
             <artifactId>Residence</artifactId>
@@ -292,7 +288,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- ClaimAPI for Pandomim on Discord (https://www.spigotmc.org/resources/hclaims.90540/) -->
+        <!-- ClaimAPI for Pandomim on Discord (https://www.spigotmc.org/resources/hclaims.90540/) (LOCAL REPO) -->
+        <!-- Installation: mvn install:install-file -Dfile=<path-to-project>/LocalJars/hClaims -DgroupId=com.hakan -DartifactId=claimapi -Dversion=<version> -Dpackaging=jar -->
         <dependency>
             <groupId>com.hakan</groupId>
             <artifactId>claimapi</artifactId>
