@@ -55,7 +55,8 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
+                    </dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
@@ -351,14 +352,6 @@
             <version>2.5.3</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.hakan</groupId>
-            <artifactId>hClaims</artifactId>
-            <version>2.5.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/hClaims-2.5.3.jar</systemPath>
-        </dependency>
-
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <dependency>
