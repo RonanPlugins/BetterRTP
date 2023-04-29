@@ -342,11 +342,15 @@
             <version>0.2.0</version>
             <scope>compile</scope>
         </dependency-->
+        <!-- Private Repoed -->
+        <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <dependency>
             <groupId>com.ronanplugins</groupId>
             <artifactId>hClaims</artifactId>
             <version>2.1.8</version>
         </dependency>
+        <!-- Private Repoed -->
+        <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <dependency>
             <groupId>com.ronanplugins</groupId>
             <artifactId>Residence</artifactId>
