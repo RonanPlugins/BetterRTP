@@ -1,8 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import com.hakan.claimsystem.api.ClaimAPI;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
+import com.hakan.claim.api.ClaimHandler;
 import org.bukkit.Location;
 
 public class RTP_hClaims implements RegionPluginCheck {
@@ -14,7 +12,7 @@ public class RTP_hClaims implements RegionPluginCheck {
         boolean result = true;
         if (REGIONPLUGINS.HCLAIMS.isEnabled())
             try {
-                result = ClaimAPI.getInstance().isClaimed(loc);
+                result = ClaimHandler.has(loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -344,11 +344,21 @@
         </dependency-->
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
+        <!-- hClaims (https://www.spigotmc.org/resources/90540/) -->
         <dependency>
             <groupId>com.ronanplugins</groupId>
             <artifactId>hClaims</artifactId>
-            <version>2.1.8</version>
+            <version>2.5.3</version>
+            <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.hakan</groupId>
+            <artifactId>hClaims</artifactId>
+            <version>2.5.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/hClaims-2.5.3.jar</systemPath>
+        </dependency>
+
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <dependency>
