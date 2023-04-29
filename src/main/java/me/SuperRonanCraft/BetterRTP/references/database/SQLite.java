@@ -37,6 +37,8 @@ public abstract class SQLite {
         return getLocal();
     }
 
+    public abstract Connection getConnection();
+
     private Connection getLocal() {
         File dataFolder = new File(BetterRTP.getInstance().getDataFolder().getPath() + File.separator + "data", db_file_name + ".db");
         if (!dataFolder.exists()){
