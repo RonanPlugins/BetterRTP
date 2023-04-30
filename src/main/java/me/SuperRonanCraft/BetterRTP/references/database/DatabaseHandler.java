@@ -35,4 +35,8 @@ public class DatabaseHandler {
         return BetterRTP.getInstance().getDatabaseHandler().getDatabaseQueue();
     }
 
+    //public static DatabaseChunkData getChunks() {
+    //    return BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks();
+    //}
+
 }
