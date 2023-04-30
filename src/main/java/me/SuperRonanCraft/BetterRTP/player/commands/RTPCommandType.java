@@ -3,7 +3,7 @@ package me.SuperRonanCraft.BetterRTP.player.commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.*;
 
 public enum RTPCommandType {
-    BIOME(new CmdBiome()),
+//    BIOME(new CmdBiome()),
     EDIT(new CmdEdit()),
     HELP(new CmdHelp()),
     INFO(new CmdInfo()),
