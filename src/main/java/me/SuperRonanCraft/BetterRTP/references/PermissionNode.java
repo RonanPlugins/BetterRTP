@@ -39,14 +39,4 @@ public enum PermissionNode implements PermissionCheck {
     @Override public boolean isDev() {
         return this == DEVELOPER;
     }
-
-    public static class PermissionResult {
-        @Getter private final boolean passed;
-        @Getter private final String string;
-        PermissionResult(String string, boolean passed) {
-            this.passed = passed;
-            this.string = string;
-        }
-    }
-
 }
