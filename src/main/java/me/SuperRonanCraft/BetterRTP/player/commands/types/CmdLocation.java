@@ -89,11 +89,13 @@ public class CmdLocation implements RTPCommand, RTPCommandHelpable {
         HashMap<String, RTPWorld> locations = new HashMap<>();
         boolean needPermission = BetterRTP.getInstance().getSettings().isLocationNeedPermission();
         boolean needSameWorld = BetterRTP.getInstance().getSettings().isUseLocationsInSameWorld();
+        if (needSameWorld)
+            needSameWorld = !PermissionNode.BYPASS_LOCATION.check(sendi);
         for (Map.Entry<String, RTPWorld> location : BetterRTP.getInstance().getRTP().getRTPworldLocations().entrySet()) {
             boolean add = true;
             if (needPermission) //Do we need permission to go to this location?
                 add = PermissionCheck.getLocation(sendi, location.getKey());
-            if (add && needSameWorld) //Can be added and needs same world (if not same world, we don't care to check)
+            if (add && needSameWorld) //Can be added and needs same world (if not same world, we don't check)
                 add = world == null || location.getValue().getWorld().equals(world);
             if (add) //Location can be added to list
                 locations.put(location.getKey(), location.getValue());

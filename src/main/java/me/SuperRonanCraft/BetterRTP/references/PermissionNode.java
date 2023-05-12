@@ -16,6 +16,7 @@ public enum PermissionNode implements PermissionCheck {
     BYPASS_HUNGER("bypass.hunger"),
     BYPASS_COOLDOWN("bypass.cooldown"),
     BYPASS_DELAY("bypass.delay"),
+    BYPASS_LOCATION("bypass.location"), //Ability to bypass `UseLocationsInSameWorld` if enabled in location.yml
     RELOAD("reload"),
     SETTINGS("settings"),
     INFO("info"),

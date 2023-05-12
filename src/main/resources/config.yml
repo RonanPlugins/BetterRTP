@@ -61,7 +61,7 @@ Settings:
   DisableUpdater: false
   Logger:
     Enabled: true #Log all things rtp related to the log.log file
-    LogToConsole: true
+    LogToConsole: false
     Format: 'yyyy-MM-dd HH:mm:ss'
 
 Default:
