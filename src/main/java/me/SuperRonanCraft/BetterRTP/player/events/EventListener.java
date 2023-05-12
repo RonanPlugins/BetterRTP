@@ -15,6 +15,7 @@ import org.bukkit.plugin.PluginManager;
 
 public class EventListener implements Listener {
     private final Interact interact = new Interact();
+    private final WorldLoad worldLoad = new WorldLoad();
 
     public void registerEvents(BetterRTP pl) {
         PluginManager pm = pl.getServer().getPluginManager();
@@ -62,6 +63,6 @@ public class EventListener implements Listener {
 
     @EventHandler
     private void worldLoad(WorldLoadEvent e) {
-        WorldLoad.worldLoad();
+        worldLoad.load(e);
     }
 }

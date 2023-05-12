@@ -50,7 +50,7 @@ public class CmdWorld implements RTPCommand, RTPCommandHelpable {
                     list.add(_wName);
             }
         } else if (args.length >= 3) {
-            if (RTPCommandType.BIOME.getCmd().permission().check(sendi))
+            if (PermissionNode.BIOME.check(sendi))
                 HelperRTP_Info.addBiomes(list, args);
         }
         return list;

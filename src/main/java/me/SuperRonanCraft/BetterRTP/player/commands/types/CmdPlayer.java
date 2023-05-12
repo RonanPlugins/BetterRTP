@@ -63,7 +63,7 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
-            if (RTPCommandType.BIOME.getCmd().permission().check(sendi))
+            if (PermissionNode.BIOME.check(sendi))
                 HelperRTP_Info.addBiomes(list, args);
         }
         return list;

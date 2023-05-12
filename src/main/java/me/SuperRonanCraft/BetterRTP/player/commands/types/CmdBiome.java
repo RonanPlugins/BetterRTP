@@ -1,11 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
@@ -31,7 +28,7 @@ public class CmdBiome implements RTPCommand, RTPCommandHelpable {
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
-        if (args.length == 2)
+        if (args.length >= 2)
             HelperRTP_Info.addBiomes(list, args);
         return list;
     }
