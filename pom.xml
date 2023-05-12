@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.8-3</version>
+    <version>3.6.9-FOLIA</version>
 
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
@@ -337,12 +337,12 @@
             <scope>provided</scope>
         </dependency>
         <!-- FoliaLib -->
-        <!--dependency>
+        <dependency>
             <groupId>com.tcoded</groupId>
             <artifactId>FoliaLib</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3-legacy-support</version>
             <scope>compile</scope>
-        </dependency-->
+        </dependency>
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <!-- hClaims (https://www.spigotmc.org/resources/90540/) -->

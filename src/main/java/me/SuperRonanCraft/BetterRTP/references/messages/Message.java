@@ -2,12 +2,9 @@ package me.SuperRonanCraft.BetterRTP.references.messages;
 
 import com.google.common.collect.ImmutableCollection;
 import lombok.NonNull;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileData;
-import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
 import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.PlaceholderAnalyzer;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;

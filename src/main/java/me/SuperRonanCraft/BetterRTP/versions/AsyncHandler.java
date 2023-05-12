@@ -1,23 +1,27 @@
 package me.SuperRonanCraft.BetterRTP.versions;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
+import com.tcoded.folialib.wrapper.WrappedTask;
+
+import java.util.concurrent.TimeUnit;
 
 public class AsyncHandler {
 
     public static void async(Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), runnable);
+        FoliaHandler.get().runAsync(runnable);
+        //Bukkit.getScheduler().runTaskAsynchronously(BetterRTP.getInstance(), runnable);
     }
 
     public static void sync(Runnable runnable) {
-        Bukkit.getScheduler().runTask(BetterRTP.getInstance(), runnable);
+        FoliaHandler.get().runNextTick(runnable);
+        //Bukkit.getScheduler().runTask(BetterRTP.getInstance(), runnable);
     }
 
-    public static BukkitTask asyncLater(Runnable runnable, long ticks) {
-        return Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), runnable, ticks);
+    public static WrappedTask asyncLater(Runnable runnable, long ticks) {
+        return FoliaHandler.get().runLaterAsync(runnable, ticks * 50, TimeUnit.MILLISECONDS);
+        //return Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), runnable, ticks);
     }
-    public static BukkitTask syncLater(Runnable runnable, long ticks) {
-        return Bukkit.getScheduler().runTaskLater(BetterRTP.getInstance(), runnable, ticks);
+    public static WrappedTask syncLater(Runnable runnable, long ticks) {
+        return FoliaHandler.get().runLaterAsync(runnable, ticks * 50, TimeUnit.MILLISECONDS);
+        //return Bukkit.getScheduler().runTaskLater(BetterRTP.getInstance(), runnable, ticks);
     }
 }

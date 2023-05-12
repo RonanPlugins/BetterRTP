@@ -1,21 +1,14 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
+import com.tcoded.folialib.wrapper.WrappedTask;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.database.DatabaseHandler;
-import me.SuperRonanCraft.BetterRTP.references.helpers.FoliaHelper;
-import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
-import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
-import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 public class WorldLoad {
 
-    BukkitTask loader;
+    WrappedTask loader;
 
     void load(WorldLoadEvent e) {
         //BetterRTP.getInstance().getLogger().info("NEW WORLD!");

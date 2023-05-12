@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
+import com.tcoded.folialib.wrapper.WrappedTask;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
@@ -26,7 +27,7 @@ public class QueueGenerator {
     public static final int queueMax = 32, queueMin = 2; //Amount to ready up for each rtp world
     private final int queueMaxAttempts = 50;
     boolean generating;
-    private BukkitTask task;
+    private WrappedTask task;
 
     public void unload() {
         if (task != null)
