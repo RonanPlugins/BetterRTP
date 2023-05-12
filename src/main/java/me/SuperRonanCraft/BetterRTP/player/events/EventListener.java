@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.PluginManager;
 
 public class EventListener implements Listener {
@@ -57,5 +58,10 @@ public class EventListener implements Listener {
     @EventHandler
     private void rtpPost(RTP_TeleportPostEvent e) {
         Custom.postRTP(e);
+    }
+
+    @EventHandler
+    private void worldLoad(WorldLoadEvent e) {
+        WorldLoad.worldLoad();
     }
 }
