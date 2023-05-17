@@ -89,8 +89,9 @@
         </plugins>
     </build>
 
-    <repositories><!--
-        <repository>
+    <repositories>
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE REPO -->
+        <!--<repository>
             <id>ronanplugins-private</id>
             <name>RonanPlugins Repository</name>
             <url>https://repo.ronanplugins.com/private</url>
@@ -343,6 +344,7 @@
             <version>0.2.3-legacy-support</version>
             <scope>compile</scope>
         </dependency>
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE PLUGIN -->
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <!-- hClaims (https://www.spigotmc.org/resources/90540/) -->
@@ -353,6 +355,7 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>-->
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE PLUGIN -->
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <!--<dependency>
