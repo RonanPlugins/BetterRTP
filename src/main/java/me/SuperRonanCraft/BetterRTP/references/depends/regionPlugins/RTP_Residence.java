@@ -1,12 +1,5 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import com.bekvon.bukkit.residence.Residence;
-import com.griefdefender.api.GriefDefender;
-import com.griefdefender.api.claim.Claim;
-import com.songoda.ultimateclaims.UltimateClaims;
-import me.RonanCraft.Pueblos.Pueblos;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
 
 public class RTP_Residence implements RegionPluginCheck {
@@ -18,7 +11,13 @@ public class RTP_Residence implements RegionPluginCheck {
         boolean result = true;
         if (REGIONPLUGINS.RESIDENCE.isEnabled())
             try {
-                result = Residence.getInstance().getResidenceManager().getByLoc(loc) == null;
+                // Using reflection
+                Class<?> residenceClass = Class.forName("com.bekvon.bukkit.residence.Residence");
+                Object residence = residenceClass.getMethod("getInstance").invoke(null);
+                Object residenceManager = residenceClass.getMethod("getResidenceManager").invoke(residence);
+                Class<?> residenceManagerClass = residenceManager.getClass();
+                Object claim = residenceManagerClass.getMethod("getByLoc", Location.class).invoke(residenceManager, loc);
+                result = claim == null;
             } catch (Exception e) {
                 e.printStackTrace();
             }
