@@ -113,7 +113,7 @@
         <!-- Vault Repo -->
         <repository>
             <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+            <url>https://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
         <!-- Worldguard Repo -->
         <repository>
@@ -128,7 +128,7 @@
         <!-- FactionsUUID Repo -->
         <repository>
             <id>factions-uuid</id>
-            <url>http://ci.ender.zone/plugin/repository/everything/</url>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
         <!-- ProtocolLib Repo -->
         <repository>
@@ -143,7 +143,7 @@
         <!-- PlaceholderAPI Repo -->
         <repository>
             <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <!-- MinePlots Repo -->
         <repository>
