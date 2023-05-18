@@ -1,7 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import com.hakan.claim.api.ClaimHandler;
 import org.bukkit.Location;
+
+import java.lang.reflect.Method;
 
 public class RTP_hClaims implements RegionPluginCheck {
 
@@ -12,7 +13,9 @@ public class RTP_hClaims implements RegionPluginCheck {
         boolean result = true;
         if (REGIONPLUGINS.HCLAIMS.isEnabled())
             try {
-                result = ClaimHandler.has(loc);
+                Class<?> claimHandlerClass = Class.forName("com.hakan.claim.api.ClaimHandler");
+                Method hasMethod = claimHandlerClass.getDeclaredMethod("has", Location.class);
+                result = (boolean) hasMethod.invoke(null, loc);
             } catch (Exception e) {
                 e.printStackTrace();
             }
