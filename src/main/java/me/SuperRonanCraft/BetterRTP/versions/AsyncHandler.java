@@ -21,7 +21,7 @@ public class AsyncHandler {
         //return Bukkit.getScheduler().runTaskLaterAsynchronously(BetterRTP.getInstance(), runnable, ticks);
     }
     public static WrappedTask syncLater(Runnable runnable, long ticks) {
-        return FoliaHandler.get().runLaterAsync(runnable, ticks * 50, TimeUnit.MILLISECONDS);
+        return FoliaHandler.get().runLater(runnable, ticks * 50, TimeUnit.MILLISECONDS);
         //return Bukkit.getScheduler().runTaskLater(BetterRTP.getInstance(), runnable, ticks);
     }
 }
