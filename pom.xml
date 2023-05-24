@@ -90,11 +90,12 @@
     </build>
 
     <repositories>
-        <repository>
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE REPO -->
+        <!--<repository>
             <id>ronanplugins-private</id>
             <name>RonanPlugins Repository</name>
             <url>https://repo.ronanplugins.com/private</url>
-        </repository>
+        </repository>-->
         <!-- GitHub based Repos -->
         <repository>
             <id>jitpack.io</id>
@@ -343,22 +344,26 @@
             <version>0.2.3-legacy-support</version>
             <scope>compile</scope>
         </dependency>
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE PLUGIN -->
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
         <!-- hClaims (https://www.spigotmc.org/resources/90540/) -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.ronanplugins</groupId>
             <artifactId>hClaims</artifactId>
             <version>2.5.3</version>
             <scope>provided</scope>
-        </dependency>
+            <optional>true</optional>
+        </dependency>-->
+        <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE PLUGIN -->
         <!-- Private Repoed -->
         <!-- This is uploaded to our private repo on https://repo.ronanplugins.com -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.ronanplugins</groupId>
             <artifactId>Residence</artifactId>
             <version>4.9.1.9</version>
             <scope>provided</scope>
-        </dependency>
+            <optional>true</optional>
+        </dependency>-->
     </dependencies>
 </project>
