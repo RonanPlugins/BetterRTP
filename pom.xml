@@ -262,13 +262,6 @@
             <version>920a610</version>
             <scope>provided</scope>
         </dependency>
-        <!-- UltimateClaims (https://songoda.com/marketplace/product/ultimateclaims-the-ultimate-claiming-plugin.65) -->
-        <dependency>
-            <groupId>com.github.songoda</groupId>
-            <artifactId>ultimateclaims</artifactId>
-            <version>012e53d</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Peublos (https://www.spigotmc.org/resources/pueblos.91255/) -->
         <dependency>
             <groupId>com.github.SuperRonanCraft</groupId>
