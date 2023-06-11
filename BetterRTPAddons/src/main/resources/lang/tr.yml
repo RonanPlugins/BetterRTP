@@ -1,0 +1,76 @@
+Flashback:
+  Warning: '&7Bu rastgele ışınlanma geçiciydi! Orijinal konumunuza geri ışınlandınız.'
+Portals:
+  Created:
+    Confirmation:
+      Default: '&7Portal &a%name% &7oluşturuldu!'
+      Destination: '&7Portal &a%name% &7oluşturuldu, hedef dünya "%world%"'
+    Invalid: '&7Portal konumu ayarlanmamış, lütfen bir bölge oluşturun!'
+    Name: '&7Lütfen bu portal için bir isim belirtin!'
+    Duplicate: '&7Bu isim başka bir portal için zaten kullanılıyor, lütfen başka bir isim seçin!'
+  Location:
+    1: '&7Konum &a1 &7%location% olarak ayarlandı'
+    2: '&7Konum &a2 &7%location% olarak ayarlandı'
+    Ready: '&7Bölge oluşturuldu, yeni bir portal oluşturmak için `/%command% portals create <portal_adı> [dünya]` komutunu kullanın!'
+    Look: '&7Lütfen bir bloğa bakın ve tekrar deneyin!'
+  Remove:
+    Confirm: '&cPortal &7%name% &cbaşarıyla kaldırıldı!'
+    None: '&c%name% &cadında bir portal bulunmamaktadır!'
+  List:
+    Prefix: '&e&m-----&6&l BetterRTP &7&lEklentiler &8| Portal Listesi &e&m-----'
+    Portal: ' &7- &6%name% &8| &7%location%'
+    None: '&7Portal bulunmamaktadır! &8`/rtp portals create` komutuyla bir tane oluşturun.'
+  Usage:
+    Base: '&cKullanım: &7/%command% portals <remove, create, loc1, loc2, list>'
+    Remove: '&cKullanım: &7/%command% portals remove <portal_adı>'
+MagicStick:
+  Give: '&dBüyülü Sopa&7, &a%player% &7adlı oyuncuya verildi'
+  Given: '&7Size bir &dBüyülü Sopa&7 verildi'
+  Player: '&cHata! &7Görünüşe göre &a%player% &7adlı bir oyuncu çevrimiçi değil!'
+Party:
+  NotInParty: '&cBunu yapamazsınız! Bir partiye üye değilsiniz...'
+  OnlyLeader: '&cSadece lider &f%name% &cBir RTP isteği yapabilir!'
+  Teleport: '&fPartiniz nedeniyle rtp yapıldınız!'
+  NotExist: '&eOyuncu &f%name% &eçevrimdışı veya mevcut değil!'
+  Members:
+    NotReady: '&cTüm üyeler hazır değil! &7%members%'
+    NotInParty: '&eOyuncu &f%name% &epartiye dahil değil!'
+    LeaderLeft: '&cParti lideri ayrıldı! &fParti artık mevcut değil'
+    Leave: '&7%name%''in rtp partisinden ayrıldınız!'
+  Ready:
+    Readied: '&eSonraki parti rtp için hazır oldunuz!'
+    Already: '&7Zaten hazırsınız! &8Lmao'
+    Leader: '&cSiz lider olduğunuz için her zaman hazırsınız!'
+  Kick:
+    OnlyLeader: '&cSadece lider &f%name% &cüyeyi atabilir!'
+    Kicked: '&fOyuncu &e%name% &ftarafından atıldı!'
+    Notification: '&c%name% tarafından RTP partisinden atıldınız!'
+    LeaderQuit: '&cParti lideri parti dağıttı!'
+  Invite:
+    Already: '&7%name% &eadından davet edildi!'
+    Invited: '&7%name% &frtp partinize davet edildi!'
+    Notification: '&7%name% &fsizi rtp partisine katılmaya davet etti!'
+  Accept:
+    NoInvites: '&cBekleyen davetiniz yok :('
+    Success: '&a%name% &arin rtp partisine başarıyla katıldınız!'
+    Notification: '&7%name% &artp partisine katıldı!'
+    InAParty: '&cBir rtp partisindeyken başka bir rtp partiye katılamazsınız!'
+  Usage:
+    Base: '&cKullanım: &7/%command% party <invite, accept, leave, kick, readyup>'
+    Accept: '&cKullanım: &7/%command% party accept <oyuncu_adı>'
+    Invite: '&cKullanım: &7/%command% party invite <oyuncu_adı>'
+    Kick: '&cKullanım: &7/%command% party kick <oyuncu_adı>'
+Addons:
+  List:
+    Prefix: '&e&m-----&6&l BetterRTP &7&lEklentiler &8| Eklenti Bilgileri &e&m-----'
+    Enabled: ' &7- &e%addon% &7- &aEtkin'
+    Disabled: ' &7- &e%addon% &7- &cDevre Dışı'
+
+Help:
+  Portals: ' &7- &e/%command% portals <loc1, loc2, create> [args...] &7- Bir rtp portalı oluşturun'
+  MagicStick: ' &7- &e/%command% magicstick give [oyuncu] &7- Bir oyuncuya büyülü bir sopa verin'
+  Party: ' &7- &e/%command% party [...] &7- Parti komutlarının bir listesini görüntüleyin'
+  Addons: ' &7- &e/%command% addons &7- Eklenti komutlarının bir listesini görüntüleyin'
+  Base:
+    Help: ' &7- &e/%command% addons help &7- Mevcut komutların bir listesini görüntüleyin'
+    List: ' &7- &e/%command% addons list &7- Etkin olan tüm eklentilerin bir listesini görüntüleyin'
