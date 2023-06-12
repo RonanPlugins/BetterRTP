@@ -2,10 +2,6 @@ package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
 import com.griefdefender.api.GriefDefender;
 import com.griefdefender.api.claim.Claim;
-import com.songoda.ultimateclaims.UltimateClaims;
-import me.RonanCraft.Pueblos.Pueblos;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
 
 public class RTP_GriefDefender implements RegionPluginCheck {
