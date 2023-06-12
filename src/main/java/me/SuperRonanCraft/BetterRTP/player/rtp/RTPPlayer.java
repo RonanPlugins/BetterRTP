@@ -106,6 +106,10 @@ public class RTPPlayer {
         getPl().getpInfo().getRtping().put(p, false);
     }
 
+    /**
+     * @param loc Location to check
+     * @return True if the location is valid
+     */
     public static boolean checkDepends(Location loc) {
         return RTPPluginValidation.checkLocation(loc);
     }
