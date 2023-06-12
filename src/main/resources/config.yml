@@ -35,6 +35,8 @@ Settings:
     SaberFactions: false
     ## Respect HuskTowns areas (https://www.spigotmc.org/resources/husktowns.92672/) (Added in 3.4.5)
     HuskTowns: false
+    ## Respect FactionsBridge compatible claims (https://www.spigotmc.org/resources/factionsbridge.89716/) (Added in 3.6.9)
+    FactionsBridge: false
 
   ## Output to console some debugging info
   Debugger: false
