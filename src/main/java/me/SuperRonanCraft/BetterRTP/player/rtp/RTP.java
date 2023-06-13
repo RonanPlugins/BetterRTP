@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
 import org.bukkit.Bukkit;
@@ -81,8 +82,14 @@ public class RTP {
         if (setup.isCancelled())
             return;
         // Second Economy check
-        if (!getPl().getEco().hasBalance(pWorld.getSendi(), pWorld))
+        if (!getPl().getEco().hasBalance(pWorld.getSendi(), pWorld)) {
+            MessagesCore.FAILED_PRICE.send(pWorld.getSendi());
             return;
+        }
+        if (!getPl().getEco().hasHunger(pWorld.getSendi(), pWorld)) {
+            MessagesCore.FAILED_HUNGER.send(pWorld.getSendi());
+            return;
+        }
         rtp(pWorld.getSendi(), pWorld, pWorld.getRtp_type());
     }
 

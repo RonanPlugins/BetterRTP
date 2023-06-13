@@ -92,6 +92,9 @@ public class RTPPlayer {
                 tpLoc.setPitch(player.getLocation().getPitch());
                 AsyncHandler.sync(() ->
                         settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
+            } else {
+                getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
+                getPl().getpInfo().getRtping().put(player, false);
             }
         } else {
             randomlyTeleport(sendi);

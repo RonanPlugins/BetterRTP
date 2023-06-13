@@ -1,0 +1,4 @@
+#Add flags to `/rtp player <player>` command
+ignore_cooldown: 'ignores current cooldown delay'
+ignore_hunger: 'no hunger checks/charge'
+ignore_economy: 'no price deducted from bank'
