@@ -22,41 +22,51 @@ import java.util.*;
 public class HelperRTP {
 
     //Teleported and Sender are the same
-    public static void tp(Player player, World world, List<String> biomes, RTP_TYPE rtpType) {
+    public static void tp(Player player,
+                          World world,
+                          List<String> biomes,
+                          RTP_TYPE rtpType) {
         tp(player, player, world, biomes, rtpType);
     }
 
     //Teleported and Sender MAY be different
-    public static void tp(Player player, CommandSender sendi, World world, List<String> biomes, RTP_TYPE rtpType) {
+    public static void tp(Player player,
+                          CommandSender sendi,
+                          World world,
+                          List<String> biomes,
+                          RTP_TYPE rtpType) {
         tp(player, sendi, world, biomes, rtpType, false, false);
     }
 
     //
-    public static void tp(Player player, CommandSender sendi, World world, List<String> biomes, RTP_TYPE rtpType,
-                   boolean ignoreCooldown, boolean ignoreDelay) {
+    public static void tp(Player player,
+                          CommandSender sendi,
+                          World world,
+                          List<String> biomes,
+                          RTP_TYPE rtpType,
+                          boolean ignoreCooldown,
+                          boolean ignoreDelay) {
         tp(player, sendi, world, biomes, rtpType, ignoreCooldown, ignoreDelay, null);
     }
 
-    public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
-                          boolean ignoreCooldown, boolean ignoreDelay, @Nullable WorldLocation location) {
-        world = getActualWorld(player, world, location);
-        RTPSetupInformation setup_info = new RTPSetupInformation(
-                world,
-                sendi,
-                player,
-                true,
-                biomes,
-                rtpType,
-                location,
-                new RTP_PlayerInfo(
-                        !ignoreDelay && HelperRTP_Check.applyDelay(player, sendi),
-                        !ignoreCooldown && HelperRTP_Check.applyCooldown(sendi, player))
-        );
-        tp(player, sendi, ignoreCooldown, ignoreDelay, setup_info);
+    public static void tp(@NotNull Player player,
+                          CommandSender sendi,
+                          @Nullable World world,
+                          List<String> biomes,
+                          RTP_TYPE rtpType,
+                          boolean ignoreCooldown,
+                          boolean ignoreDelay,
+                          @Nullable WorldLocation location) {
+        tp(player, sendi, world, biomes, rtpType, location, new RTP_PlayerInfo(!ignoreDelay, !ignoreCooldown));
     }
 
-    public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
-                          boolean ignoreCooldown, boolean ignoreDelay, @Nullable WorldLocation location, RTP_PlayerInfo playerInfo) {
+    public static void tp(@NotNull Player player,
+                          CommandSender sendi,
+                          @Nullable World world,
+                          List<String> biomes,
+                          RTP_TYPE rtpType,
+                          @Nullable WorldLocation location,
+                          RTP_PlayerInfo playerInfo) {
         world = getActualWorld(player, world, location);
         RTPSetupInformation setup_info = new RTPSetupInformation(
                 world,
@@ -68,13 +78,15 @@ public class HelperRTP {
                 location,
                 playerInfo
         );
-        tp(player, sendi, ignoreCooldown, ignoreDelay, setup_info);
+        tp(player, sendi, setup_info);
     }
 
-    public static void tp(@NotNull Player player, CommandSender sendi, boolean ignoreCooldown, boolean ignoreDelay, RTPSetupInformation setup_info) {
+    public static void tp(@NotNull Player player,
+                          CommandSender sendi,
+                          RTPSetupInformation setup_info) {
         //RTP request cancelled reason
         WorldPlayer pWorld = getPlayerWorld(setup_info);
-        RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, ignoreCooldown);
+        RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, setup_info.getPlayerInfo());
         if (cantReason != null) {
             String msg = cantReason.getMsg().get(player, null);
             if (cantReason == RTP_ERROR_REQUEST_REASON.COOLDOWN) {
@@ -93,7 +105,9 @@ public class HelperRTP {
         return BetterRTP.getInstance();
     }
 
-    public static World getActualWorld(Player player, World world, @Nullable WorldLocation location) {
+    public static World getActualWorld(Player player,
+                                       World world,
+                                       @Nullable WorldLocation location) {
         if (world == null)
             world = player.getWorld();
         if (location != null)
@@ -108,7 +122,8 @@ public class HelperRTP {
     }
 
     @Nullable
-    public static WorldLocation getRandomLocation(CommandSender sender, World world) {
+    public static WorldLocation getRandomLocation(CommandSender sender,
+                                                  World world) {
         HashMap<String, RTPWorld> locations_permissible = CmdLocation.getLocations(sender, world);
         if (!locations_permissible.isEmpty()) {
             List<String> valuesList = new ArrayList<>(locations_permissible.keySet());

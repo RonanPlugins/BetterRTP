@@ -43,8 +43,8 @@ public class DepEconomy {
                     MessagesCore.FAILED_PRICE.send(sendi, pWorld.getPrice());
                     if (took_food)
                         player.setFoodLevel(player.getFoodLevel() + hunger);
-                } else
-                    pWorld.eco_money_taken = true;
+                } //else
+                    //pWorld.eco_money_taken = true;
                 return passed_economy;
             } catch (Exception e) {
                 e.printStackTrace();

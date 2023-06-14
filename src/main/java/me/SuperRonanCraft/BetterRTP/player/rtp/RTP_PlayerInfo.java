@@ -12,6 +12,10 @@ public class RTP_PlayerInfo {
             takeMoney,
             takeHunger;
 
+    public RTP_PlayerInfo() {
+        this(true, true, true, true, true);
+    }
+
     public RTP_PlayerInfo(boolean applyDelay, boolean applyCooldown) {
         this.applyDelay = applyDelay;
         this.applyCooldown = applyCooldown;
@@ -27,6 +31,10 @@ public class RTP_PlayerInfo {
         this.checkCooldown = checkCooldown;
         this.takeMoney = takeMoney;
         this.takeHunger = takeHunger;
+    }
+
+    public enum RTP_PLAYERINFO_FLAG {
+        NODELAY, NOCOOLDOWN, IGNORECOOLDOWN, IGNOREMONEY, IGNOREHUNGER;
     }
 
 }
