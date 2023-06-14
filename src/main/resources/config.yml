@@ -37,6 +37,8 @@ Settings:
     HuskTowns: false
     ## Respect FactionsBridge compatible claims (https://www.spigotmc.org/resources/factionsbridge.89716/) (Added in 3.6.9)
     FactionsBridge: false
+    ## Respect CrashClaim claims (https://www.spigotmc.org/resources/crashclaim-claiming-plugin.94037/) (Added in 3.6.9)
+    CrashClaim: false
 
   ## Output to console some debugging info
   Debugger: false
