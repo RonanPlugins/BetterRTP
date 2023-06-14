@@ -2,6 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class HelperRTP_Check {
 
-    public static RTP_ERROR_REQUEST_REASON canRTP(Player player, CommandSender sendi, WorldPlayer pWorld, boolean ignoreCooldown) {
+    public static RTP_ERROR_REQUEST_REASON canRTP(Player player, CommandSender sendi, WorldPlayer pWorld, RTP_PlayerInfo rtpInfo) {
         if (isRTPing(player)) { //Is RTP'ing
             return RTP_ERROR_REQUEST_REASON.IS_RTPING;
         }
@@ -25,12 +26,12 @@ public class HelperRTP_Check {
         if (getPl().getRTP().getDisabledWorlds().contains(pWorld.getWorld().getName())) {
             return RTP_ERROR_REQUEST_REASON.WORLD_DISABLED;
         }
-        if (sendi == player && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
+        if (rtpInfo.isCheckCooldown() && sendi == player && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
             return RTP_ERROR_REQUEST_REASON.COOLDOWN;
         }
-        if (!getPl().getEco().hasBalance(sendi, pWorld))
+        if (rtpInfo.isTakeMoney() && !getPl().getEco().hasBalance(sendi, pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_ECONOMY;
-        if (!getPl().getEco().hasHunger(sendi, pWorld))
+        if (rtpInfo.isTakeHunger() && !getPl().getEco().hasHunger(sendi, pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_HUNGER;
         return null;
     }

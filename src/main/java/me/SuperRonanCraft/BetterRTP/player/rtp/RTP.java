@@ -82,11 +82,11 @@ public class RTP {
         if (setup.isCancelled())
             return;
         // Second Economy check
-        if (!getPl().getEco().hasBalance(pWorld.getSendi(), pWorld)) {
+        if (pWorld.getPlayerInfo().takeMoney && !getPl().getEco().hasBalance(pWorld.getSendi(), pWorld)) {
             MessagesCore.FAILED_PRICE.send(pWorld.getSendi());
             return;
         }
-        if (!getPl().getEco().hasHunger(pWorld.getSendi(), pWorld)) {
+        if (pWorld.getPlayerInfo().takeHunger && !getPl().getEco().hasHunger(pWorld.getSendi(), pWorld)) {
             MessagesCore.FAILED_HUNGER.send(pWorld.getSendi());
             return;
         }
@@ -103,7 +103,7 @@ public class RTP {
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
-        if (getPl().getSettings().isDelayEnabled() && pWorld.getPlayerInfo().isApplyDelay()) {
+        if (pWorld.getPlayerInfo().isApplyDelay() && getPl().getSettings().isDelayEnabled()) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             if (!teleport.beforeTeleportInstant(sendi, p))

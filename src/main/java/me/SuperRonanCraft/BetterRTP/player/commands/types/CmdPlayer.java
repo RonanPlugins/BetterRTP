@@ -1,8 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
-import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
@@ -10,7 +8,6 @@ import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
@@ -32,25 +29,30 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     //rtp player <world> <biome1> <biome2...>
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2)
-            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
+            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                 HelperRTP.tp(Bukkit.getPlayer(args[1]),
                         sendi,
                         Bukkit.getPlayer(args[1]).getWorld(),
                         null,
                         RTP_TYPE.FORCED,
-                        false,
-                        false,
                         null,
-                        new RTP_PlayerInfo(false, false));
-            else if (Bukkit.getPlayer(args[1]) != null)
+                        new RTP_PlayerInfo());
+            } else if (Bukkit.getPlayer(args[1]) != null)
                 MessagesCore.NOTONLINE.send(sendi, args[1]);
             else
                 usage(sendi, label);
         else if (args.length >= 3)
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                 World world = Bukkit.getWorld(args[2]);
+                RTP_PlayerInfo playerInfo = getFlags(args);
                 if (world != null) {
-                    HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, world, HelperRTP_Info.getBiomes(args, 3, sendi), RTP_TYPE.FORCED);
+                    HelperRTP.tp(Bukkit.getPlayer(args[1]),
+                            sendi,
+                            world,
+                            null,
+                            RTP_TYPE.FORCED,
+                            null,
+                            playerInfo);
                 } else
                     MessagesCore.NOTEXIST.send(sendi, args[2]);
             } else if (Bukkit.getPlayer(args[1]) != null)
@@ -59,6 +61,31 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 usage(sendi, label);
         else
             usage(sendi, label);
+    }
+
+    private RTP_PlayerInfo getFlags(String[] args) {
+        boolean applyDelay = true;
+        boolean applyCooldown = true;
+        boolean checkCooldown = true;
+        boolean takeMoney = true;
+        boolean takeHunger = true;
+
+        if (args.length > 3) {
+            for (int i = 3; i < args.length; i++) {
+                for (RTP_PlayerInfo.RTP_PLAYERINFO_FLAG flag : RTP_PlayerInfo.RTP_PLAYERINFO_FLAG.values()) {
+                    if (flag.name().equalsIgnoreCase(args[i])) {
+                        switch (flag) {
+                            case NODELAY: applyDelay = false; break;
+                            case NOCOOLDOWN: checkCooldown = false; break;
+                            case IGNORECOOLDOWN: applyCooldown = false; break;
+                            case IGNOREMONEY: takeMoney = false; break;
+                            case IGNOREHUNGER: takeHunger = false; break;
+                        }
+                    }
+                }
+            }
+        }
+        return new RTP_PlayerInfo(applyDelay, applyCooldown, checkCooldown, takeMoney, takeHunger);
     }
 
     public List<String> tabComplete(CommandSender sendi, String[] args) {
@@ -72,8 +99,11 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
                 if (w.getName().startsWith(args[2]) && !BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(w.getName()))
                     list.add(w.getName());
         } else if (args.length > 3) {
-            if (PermissionNode.BIOME.check(sendi))
-                HelperRTP_Info.addBiomes(list, args);
+            for (RTP_PlayerInfo.RTP_PLAYERINFO_FLAG flag : RTP_PlayerInfo.RTP_PLAYERINFO_FLAG.values()) {
+                if (flag.name().toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                    list.add(flag.name());
+                }
+            }
         }
         return list;
     }
