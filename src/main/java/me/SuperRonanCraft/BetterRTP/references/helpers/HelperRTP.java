@@ -2,10 +2,7 @@ package me.SuperRonanCraft.BetterRTP.references.helpers;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.player.rtp.*;
 import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
@@ -26,7 +23,7 @@ public class HelperRTP {
 
     //Teleported and Sender are the same
     public static void tp(Player player, World world, List<String> biomes, RTP_TYPE rtpType) {
-        tp(player, player, world, biomes, rtpType, false, false);
+        tp(player, player, world, biomes, rtpType);
     }
 
     //Teleported and Sender MAY be different
@@ -49,11 +46,32 @@ public class HelperRTP {
                 player,
                 true,
                 biomes,
-                !ignoreDelay && HelperRTP_Check.applyDelay(player, sendi),
                 rtpType,
                 location,
-                !ignoreCooldown && HelperRTP_Check.applyCooldown(sendi, player)
+                new RTP_PlayerInfo(
+                        !ignoreDelay && HelperRTP_Check.applyDelay(player, sendi),
+                        !ignoreCooldown && HelperRTP_Check.applyCooldown(sendi, player))
         );
+        tp(player, sendi, ignoreCooldown, ignoreDelay, setup_info);
+    }
+
+    public static void tp(@NotNull Player player, CommandSender sendi, @Nullable World world, List<String> biomes, RTP_TYPE rtpType,
+                          boolean ignoreCooldown, boolean ignoreDelay, @Nullable WorldLocation location, RTP_PlayerInfo playerInfo) {
+        world = getActualWorld(player, world, location);
+        RTPSetupInformation setup_info = new RTPSetupInformation(
+                world,
+                sendi,
+                player,
+                true,
+                biomes,
+                rtpType,
+                location,
+                playerInfo
+        );
+        tp(player, sendi, ignoreCooldown, ignoreDelay, setup_info);
+    }
+
+    public static void tp(@NotNull Player player, CommandSender sendi, boolean ignoreCooldown, boolean ignoreDelay, RTPSetupInformation setup_info) {
         //RTP request cancelled reason
         WorldPlayer pWorld = getPlayerWorld(setup_info);
         RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, ignoreCooldown);

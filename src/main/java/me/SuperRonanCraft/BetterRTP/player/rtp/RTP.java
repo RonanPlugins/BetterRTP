@@ -97,13 +97,13 @@ public class RTP {
         //Cooldown
         Player p = pWorld.getPlayer();
         //p.sendMessage("Cooling down: " + cooldown);
-        if (pWorld.isApplyCooldown())
+        if (pWorld.getPlayerInfo().isApplyCooldown())
             getPl().getCooldowns().add(p, pWorld.getWorld());
         getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
-        if (getPl().getSettings().isDelayEnabled() && pWorld.isApplyDelay()) {
+        if (getPl().getSettings().isDelayEnabled() && pWorld.getPlayerInfo().isApplyDelay()) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             if (!teleport.beforeTeleportInstant(sendi, p))

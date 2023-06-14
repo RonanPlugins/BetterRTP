@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private List<String> Biomes;
     @Getter private final Player player;
     @Getter private final CommandSender sendi;
-    @Getter private final boolean applyCooldown, applyDelay;
+    @Getter private final RTP_PlayerInfo playerInfo;
     @Getter private final RTP_TYPE rtp_type;
     private final World world;
     private WORLD_TYPE world_type;
@@ -30,17 +31,15 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private RTP_SHAPE shape;
     public RTP_SETUP_TYPE setup_type = RTP_SETUP_TYPE.DEFAULT;
     public String setup_name;
-    //Economy
-    public boolean eco_money_taken = false;
+
     @Getter private boolean setup = false;
 
     public WorldPlayer(RTPSetupInformation setup_info) {
         this.sendi = setup_info.getSender();
         this.player = setup_info.getPlayer();
         this.world = setup_info.getWorld();
-        this.applyCooldown = setup_info.isCooldown();
-        this.applyDelay = setup_info.isDelay();
         this.rtp_type = setup_info.getRtp_type();
+        this.playerInfo = setup_info.getPlayerInfo();
     }
 
     public void setup(String setup_name, RTPWorld world, List<String> biomes) {

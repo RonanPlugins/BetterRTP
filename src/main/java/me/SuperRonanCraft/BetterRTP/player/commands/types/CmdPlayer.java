@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandType;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
@@ -32,7 +33,15 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         if (args.length == 2)
             if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline())
-                HelperRTP.tp(Bukkit.getPlayer(args[1]), sendi, Bukkit.getPlayer(args[1]).getWorld(), null, RTP_TYPE.FORCED);
+                HelperRTP.tp(Bukkit.getPlayer(args[1]),
+                        sendi,
+                        Bukkit.getPlayer(args[1]).getWorld(),
+                        null,
+                        RTP_TYPE.FORCED,
+                        false,
+                        false,
+                        null,
+                        new RTP_PlayerInfo(false, false));
             else if (Bukkit.getPlayer(args[1]) != null)
                 MessagesCore.NOTONLINE.send(sendi, args[1]);
             else
