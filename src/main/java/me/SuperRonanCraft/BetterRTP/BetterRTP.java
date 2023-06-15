@@ -54,9 +54,9 @@ public class BetterRTP extends JavaPlugin {
     public void onEnable() {
         instance = this;
         registerDependencies();
+        loadAll();
         new Updater(this);
         new Metrics(this);
-        loadAll();
         listener.registerEvents(this);
         queue.registerEvents(this);
         try {
