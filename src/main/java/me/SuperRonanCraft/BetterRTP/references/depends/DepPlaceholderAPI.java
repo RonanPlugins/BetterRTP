@@ -96,7 +96,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setup_info = new RTPSetupInformation(HelperRTP.getActualWorld(data.player, world), data.player, data.player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setup_info);
         Long cooldownTime = BetterRTP.getInstance().getCooldowns().locked(data.player) ? -1L :
-                (HelperRTP_Check.applyCooldown(data.player, data.player) ? pWorld.getCooldown() * 1000L : 0L);
+                (HelperRTP_Check.applyCooldown(data.player) ? pWorld.getCooldown() * 1000L : 0L);
         return HelperDate.total(cooldownTime);
     }
 
@@ -109,13 +109,13 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Cooldown
-        if (HelperRTP_Check.isCoolingDown(player, player, pWorld))
+        if (HelperRTP_Check.isCoolingDown(player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
         //Price
-        if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))
+        if (!BetterRTP.getInstance().getEco().hasBalance(pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
         //Hunger
-        if (!BetterRTP.getInstance().getEco().hasHunger(player, pWorld))
+        if (!BetterRTP.getInstance().getEco().hasHunger(pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
@@ -128,7 +128,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Cooldown
-        if (HelperRTP_Check.isCoolingDown(player, player, pWorld))
+        if (HelperRTP_Check.isCoolingDown(player, pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_cooldown();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
@@ -141,7 +141,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Price
-        if (!BetterRTP.getInstance().getEco().hasBalance(player, pWorld))
+        if (!BetterRTP.getInstance().getEco().hasBalance(pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_balance();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();
@@ -154,7 +154,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
         RTPSetupInformation setupInformation = new RTPSetupInformation(world, player, player, true);
         WorldPlayer pWorld = HelperRTP.getPlayerWorld(setupInformation);
         //Hunger
-        if (!BetterRTP.getInstance().getEco().hasHunger(player, pWorld))
+        if (!BetterRTP.getInstance().getEco().hasHunger(pWorld))
             return BetterRTP.getInstance().getSettings().getPlaceholder_hunger();
         //True
         return BetterRTP.getInstance().getSettings().getPlaceholder_true();

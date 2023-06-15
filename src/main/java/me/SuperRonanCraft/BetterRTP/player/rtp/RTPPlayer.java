@@ -26,7 +26,7 @@ public class RTPPlayer {
     @Getter WorldPlayer worldPlayer;
     @Getter RTP_TYPE type;
     @Getter int attempts;
-    List<Location> attemptedLocations = new ArrayList<>();
+    //List<Location> attemptedLocations = new ArrayList<>();
 
     RTPPlayer(Player player, RTP settings, WorldPlayer worldPlayer, RTP_TYPE type) {
         this.player = player;
@@ -83,18 +83,19 @@ public class RTPPlayer {
     private void attempt(CommandSender sendi, Location loc) {
         Location tpLoc;
         tpLoc = RandomLocation.getSafeLocation(worldPlayer.getWorldtype(), worldPlayer.getWorld(), loc, worldPlayer.getMinY(), worldPlayer.getMaxY(), worldPlayer.getBiomes());
-        attemptedLocations.add(loc);
+        //attemptedLocations.add(loc);
         //Valid location?
         if (tpLoc != null && checkDepends(tpLoc)) {
             tpLoc.add(0.5, 0, 0.5); //Center location
-            if (worldPlayer.getPlayerInfo().isTakeMoney() && getPl().getEco().charge(player, worldPlayer)) {
+            if (getPl().getEco().charge(player, worldPlayer)) {
+                //Successfully found a safe location, teleport player
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
-                AsyncHandler.sync(() ->
-                        settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
+                AsyncHandler.sync(() -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
             } else {
-                getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
-                getPl().getpInfo().getRtping().put(player, false);
+                if (worldPlayer.getPlayerInfo().applyCooldown)
+                    getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
+                getPl().getpInfo().getRtping().remove(player);
             }
         } else {
             randomlyTeleport(sendi);
@@ -106,7 +107,7 @@ public class RTPPlayer {
     private void metMax(CommandSender sendi, Player p) {
         settings.teleport.failedTeleport(p, sendi);
         getPl().getCooldowns().removeCooldown(p, worldPlayer.getWorld());
-        getPl().getpInfo().getRtping().put(p, false);
+        getPl().getpInfo().getRtping().remove(p);
     }
 
     /**

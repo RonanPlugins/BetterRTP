@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.Placeholders;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
@@ -93,7 +94,9 @@ public class HelperRTP {
                 msg = msg.replace(Placeholders.COOLDOWN.name, HelperDate.total(HelperRTP_Check.getCooldown(player, pWorld)));
                 msg = msg.replace(Placeholders.TIME.name, HelperDate.total(HelperRTP_Check.getCooldown(player, pWorld)));
             }
-            Message_RTP.sms(sendi, msg, pWorld);
+            Message_RTP.sms(player, msg, pWorld);
+            if (sendi != player)
+                Message_RTP.sms(sendi, msg, pWorld);
             return;
         }
         //ignore cooldown or else

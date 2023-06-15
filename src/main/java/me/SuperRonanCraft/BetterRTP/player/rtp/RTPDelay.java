@@ -64,7 +64,7 @@ class RTPDelay implements Listener {
         getPl().getRTP().getTeleport().cancelledTeleport(rtp.getPlayer());
         //getPl().getEco().unCharge(rtp.getPlayer(), rtp.pWorld);
         getPl().getCooldowns().removeCooldown(rtp.getPlayer(), rtp.worldPlayer.getWorld());
-        getPl().getpInfo().getRtping().put(rtp.getPlayer(), false);
+        getPl().getpInfo().getRtping().remove(rtp.getPlayer());
         Bukkit.getServer().getPluginManager().callEvent(new RTP_CancelledEvent(rtp.getPlayer()));
     }
 

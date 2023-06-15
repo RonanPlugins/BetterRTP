@@ -115,15 +115,18 @@ public class RTPTeleport {
 
     private void loadingTeleport(Player p, CommandSender sendi) {
         effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.LOADING, p, p.getLocation(), 0, 0);
-        if ((effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) || sendi != p) //Show msg if enabled or if not same player
-            MessagesCore.SUCCESS_LOADING.send(sendi);
+        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.LOADING) && sendStatusMessage()) { //Show msg if enabled or if not same player
+            if (p == sendi)
+                MessagesCore.SUCCESS_LOADING.send(sendi);
+            MessagesCore.SUCCESS_LOADING.send(p);
+        }
     }
 
     public void failedTeleport(Player p, CommandSender sendi) {
         effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.FAILED, p, p.getLocation(), 0, 0);
         if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.FAILED))
             if (p == sendi)
-                MessagesCore.FAILED_NOTSAFE.send(sendi, BetterRTP.getInstance().getRTP().maxAttempts);
+                MessagesCore.FAILED_NOTSAFE.send(p, BetterRTP.getInstance().getRTP().maxAttempts);
             else
                 MessagesCore.OTHER_NOTSAFE.send(sendi, Arrays.asList(
                         BetterRTP.getInstance().getRTP().maxAttempts,

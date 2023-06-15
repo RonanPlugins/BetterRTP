@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.10-DEV</version>
+    <version>3.6.10-2DEV</version>
 
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
@@ -273,7 +273,9 @@
             <version>97b96c9</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Particles Library (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java) -->
+        <!-- Particles Library
+        https://github.com/ByteZ1337/ParticleLib
+        (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java) -->
         <dependency>
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
@@ -327,7 +329,7 @@
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
-        <!--    MinePlots (https://builtbybit.com/resources/mineplots.21646/) (Added in 3.6.6 )   -->
+        <!-- MinePlots (https://builtbybit.com/resources/mineplots.21646/) (Added in 3.6.6 )   -->
         <dependency>
             <groupId>pl.minecodes.plots</groupId>
             <artifactId>plugin-api</artifactId>
@@ -351,6 +353,7 @@
             <groupId>com.github.WhipDevelopment</groupId>
             <artifactId>CrashClaim</artifactId>
             <version>-75abe3b665-1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- CAN BE UNCOMMENTED IF YOU HAVE ACCESS TO THE PLUGIN -->

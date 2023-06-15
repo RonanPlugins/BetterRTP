@@ -23,9 +23,10 @@ public class DepEconomy {
         //Hunger Stuff
         boolean took_food = false;
         if (hunger != 0
-                && sendi == player
+                && pWorld.getPlayerInfo().isTakeHunger()
+                && !PermissionNode.BYPASS_HUNGER.check(player)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
-            boolean has_hunger = player.getFoodLevel() > hunger;
+            boolean has_hunger = player.getFoodLevel() >= hunger;
             if (!has_hunger) {
                 MessagesCore.FAILED_HUNGER.send(sendi);
                 return false;
@@ -35,7 +36,10 @@ public class DepEconomy {
             }
         }
         //Economy Stuff
-        if (e != null && pWorld.getPrice() != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
+        if (e != null
+                && pWorld.getPrice() != 0
+                && pWorld.getPlayerInfo().isTakeMoney()
+                && !PermissionNode.BYPASS_ECONOMY.check(player)) {
             try {
                 EconomyResponse r = e.withdrawPlayer(player, pWorld.getPrice());
                 boolean passed_economy = r.transactionSuccess();
@@ -54,11 +58,11 @@ public class DepEconomy {
         return true;
     }
 
-    public boolean hasBalance(CommandSender sendi, WorldPlayer pWorld) {
+    public boolean hasBalance(WorldPlayer pWorld) {
         check(false);
         //Economy Stuff
         int price = pWorld.getPrice();
-        if (e != null && price != 0 && !PermissionNode.BYPASS_ECONOMY.check(sendi)) {
+        if (e != null && price != 0 && !PermissionNode.BYPASS_ECONOMY.check(pWorld.getPlayer())) {
             try {
                 return e.getBalance(pWorld.getPlayer()) >= price;
             } catch (Exception e) {
@@ -69,14 +73,14 @@ public class DepEconomy {
         return true;
     }
 
-    public boolean hasHunger(CommandSender sendi, WorldPlayer pWorld) {
+    public boolean hasHunger(WorldPlayer pWorld) {
         check(false);
         Player player = pWorld.getPlayer();
         //Hunger Stuff
         if (hunger != 0
-                && !PermissionNode.BYPASS_HUNGER.check(sendi)
+                && !PermissionNode.BYPASS_HUNGER.check(player)
                 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
-            return player.getFoodLevel() > hunger;
+            return player.getFoodLevel() >= hunger;
         }
         //Default value
         return true;

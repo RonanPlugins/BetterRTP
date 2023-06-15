@@ -7,6 +7,7 @@ import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
@@ -82,12 +83,12 @@ public class RTP {
         if (setup.isCancelled())
             return;
         // Second Economy check
-        if (pWorld.getPlayerInfo().takeMoney && !getPl().getEco().hasBalance(pWorld.getSendi(), pWorld)) {
-            MessagesCore.FAILED_PRICE.send(pWorld.getSendi());
+        if (pWorld.getPlayerInfo().takeMoney && !getPl().getEco().hasBalance(pWorld)) {
+            MessagesCore.FAILED_PRICE.send(pWorld.getPlayer());
             return;
         }
-        if (pWorld.getPlayerInfo().takeHunger && !getPl().getEco().hasHunger(pWorld.getSendi(), pWorld)) {
-            MessagesCore.FAILED_HUNGER.send(pWorld.getSendi());
+        if (pWorld.getPlayerInfo().takeHunger && !getPl().getEco().hasHunger(pWorld)) {
+            MessagesCore.FAILED_HUNGER.send(pWorld.getPlayer());
             return;
         }
         rtp(pWorld.getSendi(), pWorld, pWorld.getRtp_type());
@@ -103,7 +104,7 @@ public class RTP {
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go
-        if (pWorld.getPlayerInfo().isApplyDelay() && getPl().getSettings().isDelayEnabled()) {
+        if (pWorld.getPlayerInfo().applyDelay && HelperRTP_Check.applyDelay(pWorld.getPlayer())) {
             new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
         } else {
             if (!teleport.beforeTeleportInstant(sendi, p))

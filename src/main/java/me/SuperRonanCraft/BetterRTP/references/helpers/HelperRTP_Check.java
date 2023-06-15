@@ -26,12 +26,12 @@ public class HelperRTP_Check {
         if (getPl().getRTP().getDisabledWorlds().contains(pWorld.getWorld().getName())) {
             return RTP_ERROR_REQUEST_REASON.WORLD_DISABLED;
         }
-        if (rtpInfo.isCheckCooldown() && sendi == player && isCoolingDown(sendi, player, pWorld)) { //Is Cooling down
+        if (rtpInfo.isCheckCooldown() && isCoolingDown(player, pWorld)) { //Is Cooling down
             return RTP_ERROR_REQUEST_REASON.COOLDOWN;
         }
-        if (rtpInfo.isTakeMoney() && !getPl().getEco().hasBalance(sendi, pWorld))
+        if (rtpInfo.isTakeMoney() && !getPl().getEco().hasBalance(pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_ECONOMY;
-        if (rtpInfo.isTakeHunger() && !getPl().getEco().hasHunger(sendi, pWorld))
+        if (rtpInfo.isTakeHunger() && !getPl().getEco().hasHunger(pWorld))
             return RTP_ERROR_REQUEST_REASON.PRICE_HUNGER;
         return null;
     }
@@ -40,8 +40,8 @@ public class HelperRTP_Check {
         return getPl().getpInfo().getRtping().getOrDefault(player, false);
     }
 
-    public static boolean isCoolingDown(CommandSender sendi, Player player, WorldPlayer pWorld) {
-        if (!applyCooldown(sendi, player))  //Bypassing/Forced?
+    public static boolean isCoolingDown(Player player, WorldPlayer pWorld) {
+        if (!applyCooldown(player))
             return false;
         return getCooldown(player, pWorld) > 0L || isLocked(player);
     }
@@ -69,17 +69,15 @@ public class HelperRTP_Check {
         return 0L;
     }
 
-    public static boolean applyCooldown(CommandSender sendi, Player player) {
-        return getPl().getCooldowns().isEnabled() && !(sendi != player || PermissionNode.BYPASS_COOLDOWN.check(player));
+    public static boolean applyCooldown(Player player) {
+        return getPl().getCooldowns().isEnabled()
+                && !PermissionNode.BYPASS_COOLDOWN.check(player);
     }
 
-    public static boolean applyDelay(Player player, CommandSender sendi) {
-        boolean delay = false;
-        if (sendi == player) //Forced?
-            if (getPl().getSettings().isDelayEnabled() && getPl().getSettings().getDelayTime() > 0) //Delay enabled?
-                if (!PermissionNode.BYPASS_DELAY.check(player)) //Can bypass?
-                    delay = true;
-        return delay;
+    public static boolean applyDelay(Player player) {
+        return getPl().getSettings().isDelayEnabled()
+                && getPl().getSettings().getDelayTime() > 0
+                && !PermissionNode.BYPASS_DELAY.check(player);
     }
 
     private static BetterRTP getPl() {
