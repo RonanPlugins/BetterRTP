@@ -6,9 +6,13 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 
 public class FoliaHandler {
 
-    private static final ServerImplementation SERVER_IMPLEMENTATION = new FoliaLib(BetterRTP.getInstance()).getImpl();
+    private ServerImplementation SERVER_IMPLEMENTATION;
 
-    public static ServerImplementation get() {
+    public void load() {
+        this.SERVER_IMPLEMENTATION = new FoliaLib(BetterRTP.getInstance()).getImpl();
+    }
+
+    public ServerImplementation get() {
         return SERVER_IMPLEMENTATION;
     }
 
