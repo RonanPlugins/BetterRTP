@@ -87,7 +87,7 @@ public class RTP {
     private void rtp(CommandSender sendi, WorldPlayer pWorld, RTP_TYPE type) {
         //Cooldown
         Player p = pWorld.getPlayer();
-        getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
+        getPl().getPInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
         // Delaying? Else, just go

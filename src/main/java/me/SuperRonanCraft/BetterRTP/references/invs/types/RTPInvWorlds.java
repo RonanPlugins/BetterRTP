@@ -52,8 +52,8 @@ public class RTPInvWorlds extends RTPInventory {
         int _index = 0;
         for (World world : Bukkit.getWorlds()) {
             if (_index == slot) {
-                BetterRTP.getInstance().getpInfo().setInvWorld(p, world);
-                BetterRTP.getInstance().getInvs().getInv(BetterRTP.getInstance().getpInfo().getInvNextInv().get(p)).show(p);
+                BetterRTP.getInstance().getPInfo().setInvWorld(p, world);
+                BetterRTP.getInstance().getInvs().getInv(BetterRTP.getInstance().getPInfo().getInvNextInv().get(p)).show(p);
             }
             _index ++;
         }

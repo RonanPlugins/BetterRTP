@@ -30,29 +30,27 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class BetterRTP extends JavaPlugin {
-    private final Permissions perms = new Permissions();
-    private final DepEconomy eco = new DepEconomy();
-    private final Commands cmd = new Commands(this);
-    private final RTP rtp = new RTP();
+    @Getter private final Permissions perms = new Permissions();
+    @Getter private final DepEconomy eco = new DepEconomy();
+    @Getter private final Commands cmd = new Commands(this);
+    @Getter private final RTP RTP = new RTP();
     private final EventListener listener = new EventListener();
-    private static BetterRTP instance;
-    private final Files files = new Files();
-    private final RTPInventories invs = new RTPInventories();
-    private final PlayerInfo pInfo = new PlayerInfo();
+    @Getter private static BetterRTP instance;
+    @Getter private final Files files = new Files();
+    @Getter private final RTPInventories invs = new RTPInventories();
+    @Getter private final PlayerInfo pInfo = new PlayerInfo();
     @Getter private final PlayerDataManager playerDataManager = new PlayerDataManager();
-    private final Settings settings = new Settings();
+    @Getter private final Settings settings = new Settings();
     @Getter private final CooldownHandler cooldowns = new CooldownHandler();
     @Getter private final QueueHandler queue = new QueueHandler();
     @Getter private final DatabaseHandler databaseHandler = new DatabaseHandler();
     @Getter private final WarningHandler warningHandler = new WarningHandler();
-    //@Getter private BukkitAudiences adventure;
     @Getter private boolean PlaceholderAPI;
     @Getter private final RTPLogger rtpLogger = new RTPLogger();
 
     @Override
     public void onEnable() {
         instance = this;
-        //this.adventure = BukkitAudiences.create(this);
         registerDependencies();
         new Updater(this);
         new Metrics(this);
@@ -71,22 +69,10 @@ public class BetterRTP extends JavaPlugin {
         invs.closeAll();
         queue.unload();
         rtpLogger.unload();
-        /*if (this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
-        }*/
     }
 
     private void registerDependencies() {
         PlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
-    }
-
-    public Files getFiles() {
-        return files;
-    }
-
-    public static BetterRTP getInstance() {
-        return instance;
     }
 
     @Override
@@ -105,38 +91,10 @@ public class BetterRTP extends JavaPlugin {
         return this.cmd.onTabComplete(sender, args);
     }
 
-    public Permissions getPerms() {
-        return perms;
-    }
-
-    public DepEconomy getEco() {
-        return eco;
-    }
-
-    public Commands getCmd() {
-        return cmd;
-    }
-
-    public RTP getRTP() {
-        return rtp;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
     public void reload(CommandSender sendi) {
         invs.closeAll();
         loadAll();
         MessagesCore.RELOAD.send(sendi);
-    }
-
-    public RTPInventories getInvs() {
-        return invs;
-    }
-
-    public PlayerInfo getpInfo() {
-        return pInfo;
     }
 
     //(Re)Load all plugin systems/files/cache
@@ -148,7 +106,7 @@ public class BetterRTP extends JavaPlugin {
         rtpLogger.setup(this);
         invs.load();
         cooldowns.load();
-        rtp.load();
+        RTP.load();
         cmd.load();
         listener.load();
         eco.load();

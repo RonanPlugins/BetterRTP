@@ -22,8 +22,8 @@ public class RTPInventories {
     public void closeAll() {
         BetterRTP main = BetterRTP.getInstance();
         for (Player p : Bukkit.getOnlinePlayers())
-            if (main.getpInfo().playerExists(p)) {
-                main.getpInfo().clearInvs(p);
+            if (main.getPInfo().playerExists(p)) {
+                main.getPInfo().clearInvs(p);
                 p.closeInventory();
             }
     }
