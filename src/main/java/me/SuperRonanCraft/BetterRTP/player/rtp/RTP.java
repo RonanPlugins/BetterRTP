@@ -58,7 +58,6 @@ public class RTP {
         //Permissions
         loadPermissionGroups();
         teleport.load(); //Load teleporting stuff
-        //permConfig.load(); //Load permission configs
     }
 
     public void loadWorlds() { //Keeping this here because of the edit command
@@ -82,24 +81,12 @@ public class RTP {
         Bukkit.getPluginManager().callEvent(setup);
         if (setup.isCancelled())
             return;
-        // Second Economy check
-        if (pWorld.getPlayerInfo().takeMoney && !getPl().getEco().hasBalance(pWorld)) {
-            MessagesCore.FAILED_PRICE.send(pWorld.getPlayer());
-            return;
-        }
-        if (pWorld.getPlayerInfo().takeHunger && !getPl().getEco().hasHunger(pWorld)) {
-            MessagesCore.FAILED_HUNGER.send(pWorld.getPlayer());
-            return;
-        }
         rtp(pWorld.getSendi(), pWorld, pWorld.getRtp_type());
     }
 
     private void rtp(CommandSender sendi, WorldPlayer pWorld, RTP_TYPE type) {
         //Cooldown
         Player p = pWorld.getPlayer();
-        //p.sendMessage("Cooling down: " + cooldown);
-        if (pWorld.getPlayerInfo().isApplyCooldown())
-            getPl().getCooldowns().add(p, pWorld.getWorld());
         getPl().getpInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
         //Setup player rtp methods
         RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);

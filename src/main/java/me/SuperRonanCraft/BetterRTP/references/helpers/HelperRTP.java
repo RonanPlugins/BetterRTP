@@ -67,7 +67,7 @@ public class HelperRTP {
                           List<String> biomes,
                           RTP_TYPE rtpType,
                           @Nullable WorldLocation location,
-                          RTP_PlayerInfo playerInfo) {
+                          @NotNull RTP_PlayerInfo playerInfo) {
         world = getActualWorld(player, world, location);
         RTPSetupInformation setup_info = new RTPSetupInformation(
                 world,
@@ -84,7 +84,7 @@ public class HelperRTP {
 
     public static void tp(@NotNull Player player,
                           CommandSender sendi,
-                          RTPSetupInformation setup_info) {
+                          @NotNull RTPSetupInformation setup_info) {
         //RTP request cancelled reason
         WorldPlayer pWorld = getPlayerWorld(setup_info);
         RTP_ERROR_REQUEST_REASON cantReason = HelperRTP_Check.canRTP(player, sendi, pWorld, setup_info.getPlayerInfo());
@@ -99,13 +99,9 @@ public class HelperRTP {
                 Message_RTP.sms(sendi, msg, pWorld);
             return;
         }
-        //ignore cooldown or else
-        //BetterRTP.getInstance().getLogger().info("Center X: " + pWorld.getCenterX());
-        getPl().getRTP().start(pWorld);
-    }
 
-    private static BetterRTP getPl() {
-        return BetterRTP.getInstance();
+        //Start teleport sequence!
+        BetterRTP.getInstance().getRTP().start(pWorld);
     }
 
     public static World getActualWorld(Player player,

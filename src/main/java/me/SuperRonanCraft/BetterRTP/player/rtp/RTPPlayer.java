@@ -4,6 +4,7 @@ import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
@@ -88,7 +89,9 @@ public class RTPPlayer {
         if (tpLoc != null && checkDepends(tpLoc)) {
             tpLoc.add(0.5, 0, 0.5); //Center location
             if (getPl().getEco().charge(player, worldPlayer)) {
-                //Successfully found a safe location, teleport player
+                //Successfully found a safe location, set cooldown and teleport player.
+                if (worldPlayer.getPlayerInfo().isApplyCooldown() && HelperRTP_Check.applyCooldown(player))
+                    getPl().getCooldowns().add(player, worldPlayer.getWorld());
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
                 AsyncHandler.sync(() -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));

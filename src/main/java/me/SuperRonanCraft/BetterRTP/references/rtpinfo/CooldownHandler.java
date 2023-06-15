@@ -100,8 +100,8 @@ public class CooldownHandler {
     public long timeLeft(CommandSender sendi, CooldownData data, WorldPlayer pWorld) {
         long cooldown = data.getTime();
         long timeLeft = ((cooldown / 1000) + pWorld.getCooldown()) - (System.currentTimeMillis() / 1000);
-        if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))
-            timeLeft = timeLeft + BetterRTP.getInstance().getSettings().getDelayTime();
+        //if (BetterRTP.getInstance().getSettings().isDelayEnabled() && !PermissionNode.BYPASS_DELAY.check(sendi))
+        //    timeLeft = timeLeft + BetterRTP.getInstance().getSettings().getDelayTime();
         return timeLeft * 1000L;
     }
 
