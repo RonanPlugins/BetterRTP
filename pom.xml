@@ -62,6 +62,10 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.folialib</shadedPattern>
+                        </relocation>
                         <!--relocation>
                             <pattern>xyz.xenondevs.particle</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.particleLib</shadedPattern>
