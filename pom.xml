@@ -53,14 +53,18 @@
                 <!-- Shade PaperLib into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <configuration>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
                     </dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.SuperRonanCraft.BetterRTP.paperlib</shadedPattern>
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.paperlib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.folialib</shadedPattern>
                         </relocation>
                         <!--relocation>
                             <pattern>xyz.xenondevs.particle</pattern>
