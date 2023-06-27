@@ -34,15 +34,17 @@ public class RTPMenu_SelectWorld {
             CmdTeleport.teleport(p, "rtp", null, null);
             return false;
         }
-        int size = Math.floorDiv(actual_worlds.size(), 9) * 9;
-        if (size < actual_worlds.size()) size += 9;
-        Inventory inv = createInventory(color(p, Files.FILETYPE.CONFIG.getString(AddonRTPMenu.name + ".Title")), size);
+        int lines = pl.getSettings().getLines();
+        if (lines == 0)
+            lines = Math.floorDiv(actual_worlds.size(), 9);
+        if (lines < actual_worlds.size() / 9) lines++;
+        Inventory inv = createInventory(color(p, pl.getSettings().getTitle()), Math.min(lines * 9, 6 * 9));
 
-        HashMap<Integer, World> world_slots = centerWorlds(new ArrayList<>(actual_worlds));
+        HashMap<Integer, World> world_slots = centerWorlds(pl, new ArrayList<>(actual_worlds));
 
         for (Map.Entry<Integer, World> world : world_slots.entrySet()) {
             String worldName = world.getValue().getName();
-            RTPMenuWorldInfo worldInfo = pl.getWorlds().getOrDefault(worldName, new RTPMenuWorldInfo(worldName, Material.MAP, null));
+            RTPMenuWorldInfo worldInfo = pl.getWorlds().getOrDefault(worldName, new RTPMenuWorldInfo(worldName, Material.MAP, null, 0));
             int slot = world.getKey();
             ItemStack item = new ItemStack(worldInfo.item, 1);
             ItemMeta meta = item.getItemMeta();
@@ -61,20 +63,26 @@ public class RTPMenu_SelectWorld {
         return true;
     }
 
-    private static HashMap<Integer, World> centerWorlds(List<World> actual_worlds) {
+    private static HashMap<Integer, World> centerWorlds(AddonRTPMenu pl, List<World> actual_worlds) {
         HashMap<Integer, World> map = new HashMap<>();
-        while(actual_worlds.size() >= 9) {
-            for (int i = 0; i < 9; i++) {
-                map.put(map.size(), actual_worlds.get(0));
-                actual_worlds.remove(0);
+        if (actual_worlds.size() >= 9) {
+            for (int i = 0; i < actual_worlds.size(); i++) {
+                map.put(map.size(), actual_worlds.get(i));
+                //actual_worlds.remove(0);
             }
+            return map;
         }
-        int slot = map.size();
-        //BetterRTP.getInstance().getLogger().log(Level.INFO, "- " + actual_worlds.size());
-        for (int i = 0; i < actual_worlds.size(); i++) {
-            int offset = getSlotOffset(actual_worlds.size(), i);
-            //BetterRTP.getInstance().getLogger().log(Level.INFO, "- " + offset);
-            map.put(slot + offset + i, actual_worlds.get(i));
+        if (pl.getSettings().getAutoCenter()) {
+            for (int i = 0; i < actual_worlds.size(); i++) {
+                int offset = getSlotOffset(actual_worlds.size(), i);
+                map.put(offset + i, actual_worlds.get(i));
+            }
+        } else {
+            for (int i = 0; i < actual_worlds.size(); i++) {
+                RTPMenuWorldInfo info = pl.getWorlds().get(actual_worlds.get(i).getName());
+                if (info != null)
+                    map.put(info.slot, actual_worlds.get(i));
+            }
         }
         return map;
     }

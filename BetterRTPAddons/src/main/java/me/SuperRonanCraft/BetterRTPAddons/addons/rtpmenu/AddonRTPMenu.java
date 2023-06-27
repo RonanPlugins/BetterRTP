@@ -22,6 +22,7 @@ import java.util.*;
 public class AddonRTPMenu implements Addon, Listener {
 
     public  static String name = "RTPMenu";
+    @Getter private final RTPMenu_Settings settings = new RTPMenu_Settings();
     private final HashMap<Player, MenuData> playerData = new HashMap<>();
     @Getter private HashMap<String, RTPMenuWorldInfo> worlds = new HashMap<>();
 
@@ -41,6 +42,7 @@ public class AddonRTPMenu implements Addon, Listener {
         for (Player p : playerData.keySet())
             p.closeInventory();
         playerData.clear();
+        settings.load(name); //Load settings
         ConfigurationSection config = getFile(Files.FILETYPE.CONFIG).getConfigurationSection("RTPMenu");
         List<Map<?, ?>> map = config.getMapList("WorldList");
         for (Map<?, ?> m : map) {
@@ -64,8 +66,13 @@ public class AddonRTPMenu implements Addon, Listener {
                     if (test.get("Lore").getClass() == ArrayList.class)
                         lore = new ArrayList<String>((ArrayList) test.get("Lore"));
                 }
+                int slot = 0;
+                if (test.get("Slot") != null) {
+                    if (test.get("Slot").getClass() == Integer.class)
+                        slot = (Integer) test.get("Slot");
+                }
                 try {
-                    worlds.put(world, new RTPMenuWorldInfo(name, Material.valueOf(item.toUpperCase()), lore));
+                    worlds.put(world, new RTPMenuWorldInfo(name, Material.valueOf(item.toUpperCase()), lore, slot));
                 } catch (IllegalArgumentException | NullPointerException e) {
                     Main.getInstance().getLogger().warning("The item " + item + " is an unknown item id! Set to a map!");
                 }
@@ -100,9 +107,8 @@ public class AddonRTPMenu implements Addon, Listener {
     private void onTeleport(RTP_CommandEvent e) {
         if (e.getCmd() instanceof CmdTeleport && e.getSendi() instanceof Player) {
             e.setCancelled(true);
-            int refresh = Files.FILETYPE.CONFIG.getInt(AddonRTPMenu.name + ".AutoRefresh");
             Player player = (Player) e.getSendi();
-            new RTPMenu_Refresh(this, player, refresh);
+            new RTPMenu_Refresh(this, player, settings.getRefresh());
         }
     }
 

@@ -66,10 +66,13 @@ RTPMenu:
   Enabled: false
   AutoRefresh: 0 #0 means menu will not refresh! (in ticks)
   Title: "Choose World"
+  AutoCenter: true #If true, will ignore `Slot`, does not work if world list >= 9
+  Lines: 3
   WorldList:
   - world:
       Name: '&7World'
       Item: 'map'
+      Slot: 3
       Lore:
       - ''
       - '&8Click to rtp in world!'
@@ -78,6 +81,7 @@ RTPMenu:
   - world_nether:
       Name: '&cNether'
       Item: 'netherrack'
+      Slot: 5
       Lore:
       - ''
       - '&8Click to rtp in world!'
