@@ -15,6 +15,7 @@ public class RTP_UltimateClaims implements RegionPluginCheck {
         if (REGIONPLUGINS.ULTIMATECLAIMS.isEnabled())
             try {
                 Chunk chunk = loc.getChunk();
+
                 // Get instance of UltimateClaims
                 Class<?> ultimateClaimsClass = Class.forName("com.songoda.ultimateclaims.UltimateClaims");
                 Method getInstanceMethod = ultimateClaimsClass.getMethod("getInstance");
@@ -25,7 +26,7 @@ public class RTP_UltimateClaims implements RegionPluginCheck {
                 Object claimManager = getClaimManagerMethod.invoke(ultimateClaims);
 
                 // Get the claim based on the chunk
-                Method getClaimMethod = claimManager.getClass().getMethod("getClaim", chunk.getClass());
+                Method getClaimMethod = claimManager.getClass().getMethod("getClaim", Chunk.class);
                 Object claimObj = getClaimMethod.invoke(claimManager, chunk);
 
                 // Check if a claim exists
