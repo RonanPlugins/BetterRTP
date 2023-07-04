@@ -74,13 +74,15 @@ public class RTPTeleport {
     //Effects
 
     public void afterTeleport(Player p, Location loc, WorldPlayer wPlayer, int attempts, Location oldLoc, RTP_TYPE type) { //Only a successful rtp should run this OR '/rtp test'
-        effects.getSounds().playTeleport(p);
-        effects.getParticles().display(p);
-        effects.getPotions().giveEffects(p);
-        effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
-        if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT))
-            sendSuccessMsg(p, p.getName(), loc, wPlayer, true, attempts);
-        getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, wPlayer, type));
+        getPl().getFoliaHandler().get().runAtLocation(loc, () -> {
+            effects.getSounds().playTeleport(p);
+            effects.getParticles().display(p);
+            effects.getPotions().giveEffects(p);
+            effects.getTitles().showTitle(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT, p, loc, attempts, 0);
+            if (effects.getTitles().sendMsg(RTPEffect_Titles.RTP_TITLE_TYPE.TELEPORT))
+                sendSuccessMsg(p, p.getName(), loc, wPlayer, true, attempts);
+            getPl().getServer().getPluginManager().callEvent(new RTP_TeleportPostEvent(p, loc, oldLoc, wPlayer, type));
+        });
     }
 
     public boolean beforeTeleportInstant(CommandSender sendi, Player p) {
