@@ -1,4 +1,9 @@
-#Add flags to `/rtp player <player>` command
-ignore_cooldown: 'ignores current cooldown delay'
-ignore_hunger: 'no hunger checks/charge'
-ignore_economy: 'no price deducted from bank'
+New:
+  formatting: add time formatting for cooldowns/delays
+
+
+Done:
+  #Add flags to `/rtp player <player>` command
+  ignore_cooldown: 'ignores current cooldown delay'
+  ignore_hunger: 'no hunger checks/charge'
+  ignore_economy: 'no price deducted from bank'

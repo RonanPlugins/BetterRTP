@@ -57,6 +57,10 @@ public abstract class SQLite {
     public void load() {
         loaded = false;
         tables = getTables();
+        if (tables.isEmpty()) { //Dont do anything is no colums to generate
+            loaded = true;
+            return;
+        }
         AsyncHandler.async(() -> {
             Connection connection = getSQLConnection();
             try {

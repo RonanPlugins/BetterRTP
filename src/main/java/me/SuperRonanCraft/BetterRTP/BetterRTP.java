@@ -105,10 +105,10 @@ public class BetterRTP extends JavaPlugin {
         playerDataManager.clear();
         files.loadAll();
         settings.load();
+        cooldowns.load();
         databaseHandler.load();
         rtpLogger.setup(this);
         invs.load();
-        cooldowns.load();
         RTP.load();
         cmd.load();
         listener.load();

@@ -1,7 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -23,8 +25,12 @@ public class DatabaseCooldowns extends SQLite {
     @Override
     public List<String> getTables() {
         List<String> list = new ArrayList<>();
-        for (World world : Bukkit.getWorlds())
-            list.add(world.getName());
+        if (BetterRTP.getInstance().getCooldowns().isEnabled())
+            return list;
+        for (World world : Bukkit.getWorlds()) {
+            if (!BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(world.getName()))
+                list.add(world.getName());
+        }
         return list;
     }
 
