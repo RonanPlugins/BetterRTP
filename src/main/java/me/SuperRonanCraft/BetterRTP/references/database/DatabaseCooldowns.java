@@ -65,7 +65,12 @@ public class DatabaseCooldowns extends SQLite {
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + world.getName() + " WHERE " + COLUMNS.UUID.name + " = ?");
+            // Create prepared statement with backtick-ed table name to allow for special characters
+            ps = conn.prepareStatement(String.format(
+                    "SELECT * FROM `%s` WHERE %s = ?",
+                    world.getName(),
+                    COLUMNS.UUID.name
+            ));
             ps.setString(1, uuid.toString());
 
             rs = ps.executeQuery();
