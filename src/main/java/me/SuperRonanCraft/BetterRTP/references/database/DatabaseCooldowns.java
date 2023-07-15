@@ -51,8 +51,12 @@ public class DatabaseCooldowns extends SQLite {
     }
 
     public void removePlayer(UUID uuid, World world) {
-        String sql = "DELETE FROM " + world.getName() + " WHERE "
-                + COLUMNS.UUID.name + " = ?";
+        // Create SQL query string with backtick-ed table name to allow for special characters
+        String sql = String.format(
+                "DELETE FROM `%s` WHERE %s = ?",
+                world.getName(),
+                COLUMNS.UUID.name
+        );
         List<Object> params = new ArrayList<Object>() {{
             add(uuid.toString());
         }};
