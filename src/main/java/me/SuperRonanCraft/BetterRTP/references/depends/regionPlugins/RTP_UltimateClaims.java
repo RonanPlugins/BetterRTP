@@ -17,7 +17,12 @@ public class RTP_UltimateClaims implements RegionPluginCheck {
                 Chunk chunk = loc.getChunk();
 
                 // Get instance of UltimateClaims
-                Class<?> ultimateClaimsClass = Class.forName("com.songoda.ultimateclaims.UltimateClaims");
+                Class<?> ultimateClaimsClass;
+                try {
+                    ultimateClaimsClass = Class.forName("com.songoda.ultimateclaims.UltimateClaims");
+                } catch(ClassNotFoundException error) {
+                    ultimateClaimsClass = Class.forName("com.craftaro.ultimateclaims.UltimateClaims");
+                }
                 Method getInstanceMethod = ultimateClaimsClass.getMethod("getInstance");
                 Object ultimateClaims = getInstanceMethod.invoke(null);
 
