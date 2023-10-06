@@ -25,12 +25,25 @@ public class DatabaseCooldowns extends SQLite {
     @Override
     public List<String> getTables() {
         List<String> list = new ArrayList<>();
-        if (BetterRTP.getInstance().getCooldowns().isEnabled())
+
+        // Ignore loaded world names if cooldowns are disabled
+        if (!BetterRTP.getInstance().getCooldowns().isEnabled())
             return list;
-        for (World world : Bukkit.getWorlds()) {
-            if (!BetterRTP.getInstance().getRTP().getDisabledWorlds().contains(world.getName()))
-                list.add(world.getName());
+
+        // Get list of disabled worlds and ensure list isn't null
+        List<String> disabledWorlds = BetterRTP.getInstance().getRTP().getDisabledWorlds();
+        if (disabledWorlds == null) disabledWorlds = new ArrayList<>();
+
+        // If there are disabled worlds, iterate through the loaded worlds on the server and
+        // add the world name to the list of table names if they aren't marked as disabled
+        List<World> worlds = Bukkit.getWorlds();
+        if (!disabledWorlds.isEmpty()) {
+            for (World world : worlds) {
+                if (!disabledWorlds.contains(world.getName()))
+                    list.add(world.getName());
+            }
         }
+
         return list;
     }
 
