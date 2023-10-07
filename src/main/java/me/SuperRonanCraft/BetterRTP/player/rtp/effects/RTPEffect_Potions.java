@@ -2,6 +2,8 @@ package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
+import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -49,18 +51,20 @@ public class RTPEffect_Potions { //Potions AND Invincibility
     }
 
     public void giveEffects(Player p) {
-        if (invincibleEnabled)
-            p.setNoDamageTicks(invincibleTime * 20);
-        if (potionEnabled) {
-            List<PotionEffect> effects = new ArrayList<>();
-            for (PotionEffectType e : potionEffects.keySet()) {
-                Integer[] mods = potionEffects.get(e);
-                int duration = mods[0];
-                int amplifier = mods[1];
-                effects.add(new PotionEffect(e, duration, amplifier, false, false));
+        AsyncHandler.sync(() -> {
+            if (invincibleEnabled)
+                p.setNoDamageTicks(invincibleTime * 20);
+            if (potionEnabled) {
+                List<PotionEffect> effects = new ArrayList<>();
+                for (PotionEffectType e : potionEffects.keySet()) {
+                    Integer[] mods = potionEffects.get(e);
+                    int duration = mods[0];
+                    int amplifier = mods[1];
+                    effects.add(new PotionEffect(e, duration, amplifier, false, false));
+                }
+                p.addPotionEffects(effects);
             }
-            p.addPotionEffects(effects);
-        }
+        });
     }
 
 }

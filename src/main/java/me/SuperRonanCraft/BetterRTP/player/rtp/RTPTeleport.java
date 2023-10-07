@@ -73,7 +73,8 @@ public class RTPTeleport {
 
     //Effects
 
-    public void afterTeleport(Player p, Location loc, WorldPlayer wPlayer, int attempts, Location oldLoc, RTP_TYPE type) { //Only a successful rtp should run this OR '/rtp test'
+    public void afterTeleport(Player p, Location loc, WorldPlayer wPlayer, int attempts, Location oldLoc, RTP_TYPE type) {
+        //Only a successful rtp should run this OR '/rtp test'
         effects.getSounds().playTeleport(p);
         effects.getParticles().display(p);
         effects.getPotions().giveEffects(p);
