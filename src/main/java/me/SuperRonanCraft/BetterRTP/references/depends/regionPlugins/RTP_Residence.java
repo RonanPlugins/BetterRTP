@@ -12,9 +12,8 @@ public class RTP_Residence implements RegionPluginCheck {
         if (REGIONPLUGINS.RESIDENCE.isEnabled())
             try {
                 // Using reflection
-                Class<?> residenceClass = Class.forName("com.bekvon.bukkit.residence.Residence");
-                Object residence = residenceClass.getMethod("getInstance").invoke(null);
-                Object residenceManager = residenceClass.getMethod("getResidenceManager").invoke(residence);
+                Class<?> residenceClass = Class.forName("com.bekvon.bukkit.residence.api.ResidenceApi");
+                Object residenceManager = residenceClass.getMethod("getResidenceManager").invoke(null);
                 Class<?> residenceManagerClass = residenceManager.getClass();
                 Object claim = residenceManagerClass.getMethod("getByLoc", Location.class).invoke(residenceManager, loc);
                 result = claim == null;
