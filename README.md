@@ -13,6 +13,12 @@ BetterRTP uses and is compiled with the following libraries:
 - [PaperLib](https://github.com/PaperMC/PaperLib) (included) - Library for interfacing with PaperMC specific APIs, used for async chunk loading.
 - [FoliaLib](https://github.com/TechnicallyCoded/FoliaLib) (included) - Library for interfacing with Folia specific APIs, used for cross-platform timers.
 
+## Build instructions on Ubuntu
+
+mvn clean install
+
+The file will be in the Target file.
+
 ## Where's the Wiki?  
 The wiki is available [here](../../wiki)!
     
