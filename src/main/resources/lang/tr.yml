@@ -1,64 +1,80 @@
-# Translation author: WinTone01 (Github) WinTone01#8556 (Discord)
 Messages:
-  Prefix: '&7[&6BetterRTP&7] '
-  Success: ## Placeholders! %x% %y% and %z% are the x, y, and z coordinates that the player is being teleported to! #
-    Paid: '&c$%price%&a karşılığında &7x=%x% y=%y% z=%z% &akoordinatlarına gönderildiniz!'
-    Bypass: '&7x=%x% y=%y% z=%z% &akoordinatlarına ışınlandınız'
-    Loading: '&aGüvenli nokta bulundu! &7Chunklar yükleniyor...'
-    Teleport: '&aIşınlanılıyor... &fgüvenli bir yer bulana kadar lütfen bekleyin!'
+  Prefix: '&7[&6BetterRTP&7]  '
+  Success:
+    Paid: '&aSizi x=%x% y=%y% z=%z% konumuna taşıdık. &7Ücret: &c$%price%&7!'
+    Bypass: '&aSizi x=%x% y=%y% z=%z% konumuna taşıdık.'
+    Loading: '&aGüvenli bir nokta bulundu! &7Bölge yükleniyor...'
+    Teleport: '&aTaşınıyor... &fLütfen güvenli bir konum bulunana kadar bekleyin!'
   Failed:
-    Price: '&cYetersiz bakiye nedeniyle rtp yapılamadı! &7Rtp için en az $%price%&7 sahip olmalısınız!'
-    NotSafe: '&c%attempts% denemede güvenli nokta bulunamadı! &7Rastgele ışınlanamadın!'
-    Hunger: '&cRtp yapamadın çünkü... &7çok açsın&c, bir şeyler ye dostum!'
+    Price: '&cYetersiz bakiye nedeniyle ışınlanma yapılamadı! &7En az &c$%price% &7bakiyeniz
+      olmalı!'
+    NotSafe: '&c%attempts% denemede güvenli bir nokta bulunamadı! &7ışınlanma yapılmadı!'
+    Hunger: '&cÇok aç olduğunuz için ışınlanma yapılamadı, bir şeyler yiyin!'
   Other:
-    Success: '&a%player% &7x=%x% y=%y% z=%z% &akonumuna ışınlandı'
-    NotSafe: '&c%attempts% denemede güvenli nokta bulunamadı! &7%player% rastgele ışınlanamadı!'
-    Biome: '&cGörünüşe göre&7 %biome%&c biyomu yok! &7Tab listesini kullanmayı deneyin!'
-  Reload: '&eYapılandırma başarıyla yeniden yüklendi!'
+    Success: '&a%player%, x=%x% y=%y% z=%z% konumuna taşındı.'
+    NotSafe: '&c%attempts% denemede %player%, güvenli bir nokta bulunamadı!'
+    Biome: '&cGörünüşe göre &7%biome%&c biyomu mevcut değil! &7Sekme listesini kullanmayı
+      deneyin!'
+  Reload: '&eAyarlar başarıyla yeniden yüklendi!'
   NoPermission:
-    Basic: '&cÜzgünüm! &7Bu komutu kullanma izniniz yok! &8Gerekli Yetki: %permission%'
-    World: '&cÜzgünüm! &7%world% dünyasında rtp yapmanıza izin verilmiyor! &8Gerekli Yetki: %permission%'
-  DisabledWorld: '&c%world% dünyası devredışı! &7RTP yapılamadı!'
-  Cooldown: '&cÜzgünüm! &7Başka bir rtp için&c%time% beklemelisin&7!'
-  Locked: '&cÜzgünüm! &7Tüm RTP''lerinizi kullandınız!'
-  Invalid: '&cGeçersiz argüman. ''/%command% help'' deneyin'
-  NotOnline: '&cOyuncu &7%player% &cçevrimiçi değil!'
-  Delay: '&f%time% &asaniye içinde ışınlanacaksınız! Hareket Etme!'
-  Moved: '&cHareket ettin! &7RTP iptal edildi!'
-  NotExist: '&cGörünüşe göre &7%world% &cdünyası yok!'
-  Already: '&cWhoops! &7Görünüşe göre zaten rtp yapıyorsun, biraz sabırlı ol!'
-  Sign: '&7Komut tabelası oluşturuldu! &7Komut... ''&f/rtp %command%&7'''
+    Basic: '&cÜzgünüz! &7Bu komutu kullanma izniniz yok! &8İzin: %permission%'
+    World: '&cÜzgünüz! &7%world% dünyasında ışınlanma yapma izniniz yok! &8İzin: %permission%'
+  DisabledWorld: '&c%world% Dünyası Devre Dışı! &7ışınlanma yapılamadı!'
+  Cooldown: '&cÜzgünüz! &7Başka bir &c%time% &7saniye boyunca ışınlanma yapamazsınız!'
+  Locked: '&cÜzgünüz! &7Tüm ışınlanma hakkınızı kullandınız!'
+  Invalid: '&cGeçersiz argüman. ''/%command% help'' komutunu deneyin'
+  NotOnline: '&cOyuncu &7%player% &çevrimdışı!'
+  Delay: '&a%time% &asaniye içinde taşınıyor! Lütfen hareket etmeyin!'
+  Moved: '&cHareket ettiniz! &7ışınlanma iptal edildi!'
+  NotExist: '&cGörünüşe göre &7%world% &cdünyası mevcut değil!'
+  Already: '&cHoppla! &7Zaten ışınlanma yapılıyor, lütfen sabırlı olun!'
+  Sign: '&7Komut tabelası oluşturuldu! Komut: ''&f/ışınlanma %command%&7'''
   Edit:
     Error: '&cHata! &7Geçersiz giriş sağlandı!'
-    Set: '&bBaşarılı! &7%type%, %value% olarak ayarlandı'
-    Remove: '&cSilindi! &7%world% Özel Dünyasını kaldırdınız'
+    Set: '&bBaşarılı! &7%type% değeri %value% olarak ayarlandı.'
+    Remove: '&cKaldırıldı! &7Özel Dünya %world% kaldırıldı.'
 
 Help:
-  Prefix: '&e&m-----&6&l BetterRTP &8| Yardım &e&m-----'
-  Main: ' &7- &e/%command% &7- Rastgele sizi ışınlar!'
-  Biome: ' &7- &e/%command% biome <biyom1, biyom2...> &7- Bu biyomlarla rastgele ışınlanma'
-  Edit: ' &7- &e/%command% edit <default/dünya> [arglar...] &7- Bazı eklenti ayarlarını düzenleyin'
+  Prefix: '&e&m-----&6&l ışınlanma &8| Yardım &e&m-----'
+  Main: ' &7- &e/%command% &7- Sizi rasgele bir yere taşır!'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Bu biyomlarda rasgele taşın'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Bazı eklenti ayarlarını
+    düzenle'
   Help: ' &7- &e/%command% help &7- Yardım listesini gösterir'
-  Info: ' &7- &e/%command% info [dünya/partiküller/	şekiller/iksir_efektleri] &7- Eklenti parametreleri hakkında belirli bilgileri görüntüleyin'
-  Player: ' &7- &e/%command% player <oyuncu> [dünya] [biyom1, biyom2...] &7- Randomly teleport another player'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Eklenti
+    parametreleri hakkında özel bilgileri görüntüler'
+  Player: ' &7- &e/%command% player <oyuncu> [world] [biome1, biome2...] &7- Başka
+    bir oyuncuyu rasgele taşır'
   Reload: ' &7- &e/%command% reload &7- Eklentiyi yeniden yükler'
-  Settings: ' &7- &e/%command% settings &7- Bir gui çekin ve bazı ayarları düzenleyin'
-  Test: ' &7- &e/%command% test &7- Hareket etmeden ışınlandıktan sonra eklenti efektlerini test edin'
-  Version: ' &7- &e/%command% version &7- Şu anda çalışan sürümü görüntüle'
-  World: ' &7- &e/%command% world <dünya> [biyom1, biyom2...] &7- Başka bir dünyada rastgele ışınlanma'
-  Location: ' &7- &e/%command% location <lokasyon_adı> &7- Belirli bir konumu kullanarak Rtp'
+  Settings: ' &7- &e/%command% settings &7- Bir arayüz açar ve bazı ayarları düzenler'
+  Test: ' &7- &e/%command% test &7- Taşındıktan sonra hareket etmeden eklenti efektlerini
+    test eder'
+  Version: ' &7- &e/%command% version &7- Şu anda çalışan sürümü görüntüler'
+  World: ' &7- &e/%command% world <dünya> [biome1, biome2...] &7- Başka bir dünyada
+    rasgele taşır'
+  Location: ' &7- &e/%command% location <konum_adı> &7- Belirli bir konumu kullanarak
+    ışınlanma yapar'
 
 Usage:
   Player: '&cKullanım&7: /%command% player <oyuncu> [dünya] [biyom1, biyom2]'
   World: '&cKullanım&7: /%command% world <dünya> [biyom1, biyom2...]'
   Biome: '&cKullanım&7: /%command% biome <biyom1, biyom2...>'
-  Location: '&cKullanım&7: /%command% location <lokasyon_adı>'
+  Location: '&cKullanım&7: /%command% location <konum_adı>'
   Edit:
-    Base: '&cKullanım&7: /%command% edit <default/dünya> [arglar...]'
-    Default: '&cKullanım&7: /%command% edit default <max/min/useworldborder/center> <değer>'
-    World: '&cKullanım&7: /%command% edit customworld <world> <max/min/useworldborder/center> <değer>'
-    PermissionGroup: '&cKullanım&7: /%command% edit permission_group <grup> <dünya> <max/min/useworldborder/center> <değer>'
-    Location: '&cKullanım&7: /%command% edit location <lokasyon_adı> <max/min/useworldborder/center> <değer>'
+    Base: '&cKullanım&7: /%command% edit <default/world> [args...]'
+    Default: '&cKullanım&7: /%command% edit default <max/min/useworldborder/center>
+      <değer>'
+    World: '&cKullanım&7: /%command% edit customworld <dünya> <max/min/useworldborder/center>
+      <değer>'
+    PermissionGroup: '&cKullanım&7: /%command% edit permission_group <grup> <dünya>
+      <max/min/useworldborder/center> <değer>'
+    Location: '&cKullanım&7: /%command% edit location <konum_adı> <max/min/useworldborder/center>
+      <değer>'
     Worldtype: '&cKullanım&7: /%command% edit world_type <dünya> <NETHER/NORMAL>'
-    Override: '&cKullanım&7: /%command% edit override <dünya> <gidilcek_dünya>'
-    BlacklistedBlocks: '&cKullanım&7: /%command% edit blacklistedblocks <add/remove> <blok_id>'
+    Override: '&cKullanım&7: /%command% edit override <dünya> <dünya_hedef>'
+    BlacklistedBlocks: '&cKullanım&7: /%command% edit blacklistedblocks <ekle/sil>
+      <blok_id>'
+#    PermissionGroup: '&cKullanım&7: /%command% edit permission_group <grup> <dünya> <max/min/useworldborder/center> <değer>'
+#    Worldtype: '&cKullanım&7: /%command% edit world_type <dünya> <NETHER/NORMAL>'
+#    Override: '&cKullanım&7: /%command% edit override <dünya> <dünyaya>'
+#    BlacklistedBlocks: '&cKullanım&7: /%command% edit blacklistedblocks <ekle/kaldr> <block_id>'
