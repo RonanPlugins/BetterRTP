@@ -6,10 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.PluginManager;
 
@@ -64,5 +61,10 @@ public class EventListener implements Listener {
     @EventHandler
     private void worldLoad(WorldLoadEvent e) {
         worldLoad.load(e);
+    }
+
+    @EventHandler
+    private void onRespawn(PlayerRespawnEvent e) {
+        Death.respawnEvent(e);
     }
 }

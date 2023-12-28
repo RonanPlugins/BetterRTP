@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class WorldDefault implements RTPWorld {
-    private boolean useWorldborder;
+    private boolean useWorldborder, RTPOnDeath;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private List<String> Biomes;
     private final HashMap<String, Integer> prices = new HashMap<>();
@@ -26,6 +26,7 @@ public class WorldDefault implements RTPWorld {
         FileOther.FILETYPE config = BetterRTP.getInstance().getFiles().getType(FileOther.FILETYPE.CONFIG);
         //Booleans
         useWorldborder = config.getBoolean(pre + ".UseWorldBorder");
+        RTPOnDeath = config.getBoolean(pre + ".RTPOnDeath");
         //Integers
         centerX = config.getInt(pre + ".CenterX");
         centerZ = config.getInt(pre + ".CenterZ");
@@ -148,5 +149,9 @@ public class WorldDefault implements RTPWorld {
     @Override
     public long getCooldown() {
         return BetterRTP.getInstance().getCooldowns().getDefaultCooldownTime();
+    }
+
+    @Override public boolean getRTPOnDeath() {
+        return RTPOnDeath;
     }
 }

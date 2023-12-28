@@ -18,6 +18,7 @@ import java.util.*;
 
 public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     private boolean useWorldborder;
+    private boolean RTPOnDeath;
     private int CenterX, CenterZ, maxRad, minRad, price, min_y, max_y;
     private long cooldown;
     private List<String> Biomes;
@@ -51,6 +52,7 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
             setup_type = RTP_SETUP_TYPE.PERMISSIONGROUP;
         this.setup_name = setup_name;
         setUseWorldBorder(world.getUseWorldborder());
+        setRTPOnDeath(world.getRTPOnDeath());
 
         //BetterRTP.getInstance().getLogger().info("WorldPlayer Center x: " + CenterX);
         setCenterX(world.getCenterX());
@@ -164,6 +166,10 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
         useWorldborder = bool;
     }
 
+    @Override public void setRTPOnDeath(boolean bool) {
+        RTPOnDeath = bool;
+    }
+
     @Override
     public void setCenterX(int x) {
         CenterX = x;
@@ -240,4 +246,9 @@ public class WorldPlayer implements RTPWorld, RTPWorld_Defaulted {
     public long getCooldown() {
         return cooldown;
     }
+
+    @Override public boolean getRTPOnDeath() {
+        return RTPOnDeath;
+    }
+
 }

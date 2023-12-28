@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     public World world;
-    private boolean useWorldborder;
+    private boolean useWorldborder, RTPOnDeath;
     private int centerX, centerZ, maxRad, minRad, price, miny, maxy;
     private long cooldown;
     private List<String> biomes;
@@ -202,6 +202,10 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
         return cooldown;
     }
 
+    @Override public boolean getRTPOnDeath() {
+        return RTPOnDeath;
+    }
+
     //Setters
     @Override
     public void setUseWorldBorder(boolean value) {
@@ -261,5 +265,9 @@ public class WorldCustom implements RTPWorld, RTPWorld_Defaulted {
     @Override
     public void setCooldown(long value) {
         this.cooldown = value;
+    }
+
+    @Override public void setRTPOnDeath(boolean bool) {
+        RTPOnDeath = bool;
     }
 }

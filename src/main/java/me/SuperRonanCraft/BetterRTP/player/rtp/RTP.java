@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class RTP {
 
-    final RTPTeleport teleport = new RTPTeleport();
+    @Getter final RTPTeleport teleport = new RTPTeleport();
     //Cache
     public final HashMap<String, String> overriden = new HashMap<>();
     @Getter List<String> disabledWorlds, blockList;
@@ -34,10 +34,6 @@ public class RTP {
     @Getter private final HashMap<String, RTPWorld> RTPcustomWorld = new HashMap<>();
     @Getter private final HashMap<String, RTPWorld> RTPworldLocations = new HashMap<>();
     @Getter private final HashMap<String, PermissionGroup> permissionGroups = new HashMap<>();
-
-    public RTPTeleport getTeleport() {
-        return teleport;
-    }
 
     public void load() {
         FileOther.FILETYPE config = FileOther.FILETYPE.CONFIG;

@@ -81,6 +81,7 @@ Default:
   Shape: 'square'
   MaxY: 320
   MinY: 0
+  RTPOnDeath: false
 
 ## Blocks BetterRTP will NOT teleport onto. More Blocks at: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html #
 BlacklistedBlocks:
@@ -131,6 +132,7 @@ CustomWorlds:
         - 'desert'
         - 'forest'
       Shape: 'circle'
+      RTPOnDeath: true
 
 ## Override a world and rtp a player executing the command in one world, to another
 Overrides:

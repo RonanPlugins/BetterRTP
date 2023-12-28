@@ -32,6 +32,8 @@ public interface RTPWorld_Defaulted {
 
     void setCooldown(long value);
 
+    void setRTPOnDeath(boolean bool);
+
     default void setupDefaults() {
         setAllFrom(BetterRTP.getInstance().getRTP().getRTPdefaultWorld());
     }
@@ -48,5 +50,6 @@ public interface RTPWorld_Defaulted {
         setMinY(rtpWorld.getMinY());
         setMaxY(rtpWorld.getMaxY());
         setCooldown(rtpWorld.getCooldown());
+        setRTPOnDeath(rtpWorld.getRTPOnDeath());
     }
 }

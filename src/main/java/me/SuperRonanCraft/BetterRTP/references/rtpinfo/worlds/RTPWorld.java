@@ -39,4 +39,6 @@ public interface RTPWorld {
     }
 
     long getCooldown();
+
+    boolean getRTPOnDeath();
 }
