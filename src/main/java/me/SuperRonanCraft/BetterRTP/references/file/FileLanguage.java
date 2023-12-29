@@ -59,6 +59,7 @@ public class FileLanguage implements FileData {
 
     private final String[] defaultLangs = {
             "en.yml", // English - KEEP AS FIRST IN THE LIST
+            "br.yml", //Portuguese
             "chs.yml", //Chinese Simplified (OasisAkari)
             "cht.yml", //Chinese (OasisAkari & kamiya10)
             "cs.yml", //Czech (Lewisparkle)
@@ -67,6 +68,7 @@ public class FileLanguage implements FileData {
             "es.yml", //Spanish (emgv)
             "fr.yml", //French (At0micA55 & Mrflo67)
             "he.yml", //Hebrew (thefourcraft)
+            "hu.yml", //Hungarian (Has-X)
             "it.yml", //Italian (iVillager)
             "ja.yml", //Japanese (ViaSnake)
             "nl.yml", //Dutch (QuestalNetwork) (GeleVla)
@@ -74,6 +76,7 @@ public class FileLanguage implements FileData {
             "pl.yml", //Polish (Farum & TeksuSiK)
             "ro.yml", //Romanian (GamingXBlood)
             "ru.yml", //Russian (Logan)
+            "tr.yml", //Turkish (Erissos)
             "vi.yml", //Vietnamese (VoChiDanh#0862)
     };
 
