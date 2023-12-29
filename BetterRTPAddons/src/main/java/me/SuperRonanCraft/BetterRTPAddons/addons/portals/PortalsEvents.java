@@ -54,10 +54,10 @@ public class PortalsEvents implements Listener {
 
                     if (ploc.getBlockX() <= Math.max(loc1.getBlockX(), loc2.getBlockX())
                             && ploc.getBlockX() >= Math.min(loc1.getBlockX(), loc2.getBlockX()))
-                    if (ploc.getBlockZ() <= Math.max(loc1.getBlockZ(), loc2.getBlockZ())
-                            && ploc.getBlockZ() >= Math.min(loc1.getBlockZ(), loc2.getBlockZ()))
-                    if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
-                            && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
+                        if (ploc.getBlockZ() <= Math.max(loc1.getBlockZ(), loc2.getBlockZ())
+                                && ploc.getBlockZ() >= Math.min(loc1.getBlockZ(), loc2.getBlockZ()))
+                            if (ploc.getBlockY() <= Math.max(loc1.getBlockY(), loc2.getBlockY())
+                                    && ploc.getBlockY() >= Math.min(loc1.getBlockY(), loc2.getBlockY())) {
                         playerPortaling.put(e.getPlayer(), portal);
                         World world = portal.getWorld() != null ? Bukkit.getWorld(portal.getWorld()) : null;
                         HelperRTP.tp(e.getPlayer(), e.getPlayer(), world, null, RTP_TYPE.ADDON_PORTAL, ignoreCooldown, ignoreDelay);

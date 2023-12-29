@@ -17,7 +17,11 @@ public class RTP_PlayerInfo {
     }
 
     public RTP_PlayerInfo(boolean applyDelay, boolean applyCooldown) {
-        this(applyDelay, applyCooldown, true, true, true);
+        this(applyDelay, applyCooldown, true);
+    }
+
+    public RTP_PlayerInfo(boolean applyDelay, boolean applyCooldown, boolean checkCooldown) {
+        this(applyDelay, applyCooldown, checkCooldown, true, true);
     }
 
     public RTP_PlayerInfo(boolean applyDelay,

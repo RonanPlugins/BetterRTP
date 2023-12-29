@@ -58,7 +58,7 @@ public class HelperRTP {
                           boolean ignoreCooldown,
                           boolean ignoreDelay,
                           @Nullable WorldLocation location) {
-        tp(player, sendi, world, biomes, rtpType, location, new RTP_PlayerInfo(!ignoreDelay, !ignoreCooldown));
+        tp(player, sendi, world, biomes, rtpType, location, new RTP_PlayerInfo(!ignoreDelay, true, !ignoreCooldown));
     }
 
     public static void tp(@NotNull Player player,

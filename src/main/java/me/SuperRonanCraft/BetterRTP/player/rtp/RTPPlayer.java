@@ -2,14 +2,18 @@ package me.SuperRonanCraft.BetterRTP.player.rtp;
 
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
+import me.RonanCraft.Pueblos.resources.tools.HelperEvent;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FailedEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
+import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -111,6 +115,8 @@ public class RTPPlayer {
         settings.teleport.failedTeleport(p, sendi);
         getPl().getCooldowns().removeCooldown(p, worldPlayer.getWorld());
         getPl().getPInfo().getRtping().remove(p);
+        //RTP Failed Event
+        Bukkit.getServer().getPluginManager().callEvent(new RTP_FailedEvent(this));
     }
 
     /**

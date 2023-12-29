@@ -9,11 +9,17 @@ import org.bukkit.entity.Player;
 public class DepEssentials {
 
     public static void setBackLocation(Player player, Location location) {
-        Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
-        if (ess == null) return;
-        User user = ess.getUser(player.getUniqueId());
-        if (user == null) return;
-        user.setLastLocation(location);
+        try {
+            Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+            if (ess == null)
+                return;
+            User user = ess.getUser(player.getUniqueId());
+            if (user == null)
+                return;
+            user.setLastLocation(location);
+        } catch (ClassCastException e) {
+            //Something wrong happened, idk why this would break...
+        }
     }
 
 }
