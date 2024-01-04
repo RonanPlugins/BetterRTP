@@ -15,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.kingdoms.commands.general.misc.CommandTeleport;
 
 import java.util.ArrayList;
 import java.util.List;
