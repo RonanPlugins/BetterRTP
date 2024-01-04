@@ -161,6 +161,7 @@
             <id>devmart-other</id>
             <url>https://nexuslite.gcnt.net/repos/other/</url>
         </repository>
+        <!-- Used by FactionsBridge -->
         <repository>
             <id>devmart-public</id>
             <url>https://nexuslite.gcnt.net/repos/public/</url>
