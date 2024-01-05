@@ -348,6 +348,7 @@
             <version>0.2.3-legacy-support</version>
             <scope>compile</scope>
         </dependency>
+        <!-- FactionsBridge -->
         <dependency>
             <groupId>com.dansplugins.factionsystem</groupId>
             <artifactId>FactionsBridge</artifactId>
