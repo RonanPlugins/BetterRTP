@@ -1,6 +1,7 @@
 main: me.SuperRonanCraft.BetterRTPAddons.Main
 version: ${project.version}
 api-version: '1.13'
+folia-supported: true
 name: BetterRTPAddons
 depend: [BetterRTP]
 softdepend: [ProtocolLib]
