@@ -1,0 +1,98 @@
+# Translated by Lynx1 (https://discord.com/users/346916032633503745)
+Messages:
+  Prefix: '&7[&6BetterRTP&7] '
+  Success:
+    Paid: '&aВас було телепортовано на координати&7 x=%x% y=%y% z=%z% за &c$%price%&7!'
+    Bypass: '&aВас було телепортовано на координати&7 x=%x% y=%y% z=%z%'
+    Loading: '&aБезпечне місце знайдено! &7Завантажуємо чанки...'
+    Teleport: '&aТелепортація... &fбудь ласка, зачекайте поки не буде знайдено безпечне
+      місце!'
+  Failed:
+    Price: '&cНе вдалось телепортувати через недостатню кількість коштів! &7Вам потрібно
+      $%price% &7для телепортації!'
+    NotSafe: '&cНе вдалось знайти безпечне місце за %attempts% спроб! &7Вас не буде
+      телепортовано!'
+    Hunger: '&cНе вдалось телепортувати, тому що ви... &7занадто голодні&c, перекусіть
+      чимось!'
+  Other:
+    Success: '&a%player% було телепортовано на координати&7 x=%x% y=%y% z=%z%'
+    NotSafe: '&cНе вдалось знайти безпечне місце за %attempts% спроб! &7%player% не
+      буде телепортовано!'
+    Biome: '&cСхоже, що біома&7 %biome%&c не існує!'
+  Reload: '&eКонфігурацію успішно перезавантажено!'
+  NoPermission:
+    Basic: '&7У вас немає прав на використання цієї команди!'
+    World: '&7Вам не можна телепортуватись в світі %world%!'
+  DisabledWorld: '&cТелепортація в світі %world% заборонена!'
+  Cooldown: '&7Ви не можете телепортуватись ще &c%time% &7секунд!'
+  Locked: '&7Ви використали всі свої телепортації!'
+  Invalid: '&cНеправильний аргумент. Спробуйте ''/%command% help'''
+  NotOnline: '&cГравець &7%player% &cзараз не на сервері!'
+  Delay: '&aВас буде телепортовано через &f%time% &aсекунд! Не рухайтесь!'
+  Moved: '&cВи почали рух! &7Телепортацію скасовано!'
+  NotExist: '&cСхоже, що біома &7%world% &cне існує!'
+  Already: '&cУпс! &7Схоже, що ви вже телепортуєтесь, наберіться трохи терпіння!'
+  Sign: '&7Табличка з командою створена! &7Команда: ''&f/rtp %command%&7'''
+  Edit:
+    Error: '&cПомилка! &7Неправильне використання!'
+    Set: '&bУспішно! &7%type% встановлено на %value%'
+    Remove: '&cВидалено! &7Ви видалили Custom World %world%'
+Help:
+  Prefix: '&e&m-----&6&l BetterRTP &8| Help &e&m-----'
+  Main: ' &7- &e/%command% &7- Телепортує вас в випадкове місце!'
+  Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Телепортує вас в випадкове
+    місце серед вибраних біомів'
+  Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Редагування деяких налаштувань
+    плагіна'
+  Help: ' &7- &e/%command% help &7- Довідка по команді'
+  Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- Переглянути
+    конкретну інформацію про параметри плагіна'
+  Player: ' &7- &e/%command% player <player> [world] [biome1, biome2...] &7- Телепортує
+    вибраного гравця в випадкове місце'
+  Reload: ' &7- &e/%command% reload &7- Перезавантажує плагін'
+  Settings: ' &7- &e/%command% settings &7- Відкрийте інтерфейс і відредагуйте деякі
+    налаштування'
+  Test: ' &7- &e/%command% test &7- Випробуйте ефекти плагіна після телепортації без
+    переміщення'
+  Version: ' &7- &e/%command% version &7- Переглянути поточну версію'
+  World: ' &7- &e/%command% world <world> [biome1, biome2...] &7- Телепортує в випадкове
+    місце вибраного світу'
+  Location: ' &7- &e/%command% location <location_name> &7- Телепортує в випадкове
+    місце конкретної локації'
+  List:
+  - '&e&m------&r &6&lBetterRTP &8| &7Help &e&m------'
+  - ' &7- &e/%command% &7- Телепортує вас в випадкове місце!'
+  RtpOther: ' &7- &e/%command% <player> &7- Телепортує вибраного гравця в випадкове
+    місце!'
+Usage:
+  Player: '&cUsage&7: /%command% player <player> [world] [biome1, biome2]'
+  World: '&cUsage&7: /%command% world <world> [biome1, biome2...]'
+  Biome: '&cUsage&7: /%command% biome <biome1, biome2...>'
+  Location: '&cUsage&7: /%command% location <location_name>'
+  Edit:
+    Base: '&cUsage&7: /%command% edit <default/world> [args...]'
+    Default: '&cUsage&7: /%command% edit default <max/min/useworldborder/center> <value>'
+    World: '&cUsage&7: /%command% edit customworld <world> <max/min/useworldborder/center>
+      <value>'
+    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world>
+      <max/min/useworldborder/center> <value>'
+    Location: '&cUsage&7: /%command% edit location <location_name> <max/min/useworldborder/center>
+      <value>'
+    Worldtype: '&cUsage&7: /%command% edit world_type <world> <NETHER/NORMAL>'
+    Override: '&cUsage&7: /%command% edit override <world> <world_to>'
+    BlacklistedBlocks: '&cUsage&7: /%command% edit blacklistedblocks <add/remove>
+      <block_id>'
+Titles:
+  Enabled: true
+  Delay:
+    SendChatMessage: true
+    Title: '&6BetterRTP by SRC'
+    Subtitle: '&fТелепортація через %time% секунд!'
+  Success:
+    SendChatMessage: true
+    Title: '&6BetterRTP by SRC'
+    Subtitle: '&fТелепортація на координати x=%x% y=%y% z=%z%'
+Sounds:
+  Enabled: true
+  Delay: entity_tnt_primed
+  Success: entity_generic_explode
