@@ -3,7 +3,6 @@ package me.SuperRonanCraft.BetterRTP.player.rtp.effects;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
-import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -51,7 +50,7 @@ public class RTPEffect_Potions { //Potions AND Invincibility
     }
 
     public void giveEffects(Player p) {
-        AsyncHandler.sync(() -> {
+        AsyncHandler.syncAtEntity(p, () -> {
             if (invincibleEnabled)
                 p.setNoDamageTicks(invincibleTime * 20);
             if (potionEnabled) {
