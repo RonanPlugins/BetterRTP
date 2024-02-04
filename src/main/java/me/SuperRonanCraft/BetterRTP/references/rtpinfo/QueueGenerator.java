@@ -1,6 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
-import com.tcoded.folialib.wrapper.WrappedTask;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
@@ -13,7 +13,6 @@ import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
