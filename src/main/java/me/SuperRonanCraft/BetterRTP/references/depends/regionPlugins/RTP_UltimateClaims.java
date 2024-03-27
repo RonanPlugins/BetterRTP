@@ -8,9 +8,11 @@ import java.lang.reflect.Method;
 
 public class RTP_UltimateClaims implements RegionPluginCheck {
 
-    // TESTED (v2.2.0)
+    // TESTED (v3.6.12)
     // UltimateClaims (v2.2.0 + v1.10.4)
-    // https://craftaro.com/marketplace/product/65
+    // Download @ https://songoda.com/product/ultimateclaims-14
+    // V1: https://github.com/craftaro/UltimateClaims/commit/e42376975a59874b05e8516eae1545e94775add5
+    // V2: https://github.com/craftaro/UltimateClaims/commit/261d83b8712c5ec967f2aa836521c1ff9065ac91
     public boolean check(Location loc) {
         boolean result = true;
         if (REGIONPLUGINS.ULTIMATECLAIMS.isEnabled())
