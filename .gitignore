@@ -8,3 +8,4 @@ target
 *.iml
 BetterRTP.wiki/
 .DS_Store
+.vscode/
