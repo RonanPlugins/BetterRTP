@@ -22,6 +22,7 @@ public class PlayerData {
     @Getter @Setter boolean rtping;
     @Getter @Setter int rtpCount;
     @Getter @Setter long globalCooldown;
+    @Getter @Setter long invincibleEndTime;
 
     PlayerData(Player player) {
         this.player = player;
