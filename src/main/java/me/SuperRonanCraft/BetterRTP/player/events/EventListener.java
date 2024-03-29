@@ -5,6 +5,7 @@ import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEven
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -66,5 +67,10 @@ public class EventListener implements Listener {
     @EventHandler
     private void onRespawn(PlayerRespawnEvent e) {
         Death.respawnEvent(e);
+    }
+
+    @EventHandler
+    private void onDamage(EntityDamageEvent e) {
+        Damage.onEntityDamage(e);
     }
 }
