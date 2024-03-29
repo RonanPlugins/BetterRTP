@@ -1,10 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
-import me.angeschossen.lands.api.LandsIntegration;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.angeschossen.lands.api.LandsIntegration;
 
 public class RTP_Lands implements RegionPluginCheck {
 

@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import com.palmergames.bukkit.towny.TownyAPI;
-import net.crashcraft.crashclaim.CrashClaim;
-import net.crashcraft.crashclaim.api.CrashClaimAPI;
 import org.bukkit.Location;
+
+import net.crashcraft.crashclaim.CrashClaim;
 
 public class RTP_CrashClaim implements RegionPluginCheck {
 

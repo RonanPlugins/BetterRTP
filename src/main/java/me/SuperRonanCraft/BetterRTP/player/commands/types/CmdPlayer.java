@@ -1,24 +1,24 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Info;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
 
 public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
 

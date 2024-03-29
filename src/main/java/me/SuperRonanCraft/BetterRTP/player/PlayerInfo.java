@@ -1,17 +1,13 @@
 package me.SuperRonanCraft.BetterRTP.player;
 
-import lombok.Getter;
-import lombok.Setter;
-import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
-import org.bukkit.Location;
+import java.util.HashMap;
+
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import lombok.Getter;
+import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
 
 public class PlayerInfo {
 

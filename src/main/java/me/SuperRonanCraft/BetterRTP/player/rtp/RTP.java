@@ -1,24 +1,23 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 
 public class RTP {
 

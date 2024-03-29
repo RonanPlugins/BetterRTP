@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import com.palmergames.bukkit.towny.TownyAPI;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
+
+import com.palmergames.bukkit.towny.TownyAPI;
 
 public class RTP_Towny implements RegionPluginCheck {
 

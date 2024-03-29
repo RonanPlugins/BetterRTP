@@ -1,16 +1,17 @@
 package me.SuperRonanCraft.BetterRTP.references.web;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
+
+import org.jetbrains.annotations.Nullable;
 
 public class LogUploader {
 
@@ -66,6 +67,7 @@ public class LogUploader {
                     byte[] input = (str + System.lineSeparator()).getBytes(StandardCharsets.UTF_8);
                     outputStream.write(input, 0, input.length);
                 }
+                scan.close();
             }
 
             StringBuilder response = new StringBuilder();

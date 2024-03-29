@@ -1,17 +1,21 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldCustom;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldDefault;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocation;
 
 public class RTPLoader {
 

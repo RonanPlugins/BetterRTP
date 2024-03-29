@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.customEvents;
 
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
+
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 
 public class RTP_CommandEvent_After extends RTP_CommandEvent {
 

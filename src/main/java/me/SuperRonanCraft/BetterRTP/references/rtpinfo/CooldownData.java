@@ -1,11 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.World;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class CooldownData {
 

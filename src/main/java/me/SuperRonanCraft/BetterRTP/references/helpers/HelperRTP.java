@@ -1,16 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.references.helpers;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
-import me.SuperRonanCraft.BetterRTP.player.rtp.*;
-import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
-import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.Placeholders;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -18,7 +13,23 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdLocation;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTPSetupInformation;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
+import me.SuperRonanCraft.BetterRTP.references.WarningHandler;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
+import me.SuperRonanCraft.BetterRTP.references.messages.placeholder.Placeholders;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.PermissionGroup;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldLocation;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPermissionGroup;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 
 public class HelperRTP {
 

@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import me.RonanCraft.Pueblos.Pueblos;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
+
+import me.RonanCraft.Pueblos.Pueblos;
 
 public class RTP_Pueblos implements RegionPluginCheck {
 

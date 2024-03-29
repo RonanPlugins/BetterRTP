@@ -1,10 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
+import org.bukkit.Location;
+
 import lombok.Getter;
 import lombok.Setter;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
-import org.bukkit.Location;
 
 public class QueueData {
 

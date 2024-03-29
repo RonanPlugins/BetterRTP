@@ -1,17 +1,17 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.List;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.types.CmdTeleport;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_CommandEvent_After;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 
 public class Commands {
 

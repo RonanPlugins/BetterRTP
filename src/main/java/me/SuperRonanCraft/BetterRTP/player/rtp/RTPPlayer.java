@@ -1,28 +1,24 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
-import io.papermc.lib.PaperLib;
-import lombok.Getter;
-import me.RonanCraft.Pueblos.resources.tools.HelperEvent;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FailedEvent;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
-import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_SettingUpEvent;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
-import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
-import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
+import java.util.concurrent.CompletableFuture;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import io.papermc.lib.PaperLib;
+import lombok.Getter;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FailedEvent;
+import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_FindLocationEvent;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_Check;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueData;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.RandomLocation;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 
 public class RTPPlayer {
 

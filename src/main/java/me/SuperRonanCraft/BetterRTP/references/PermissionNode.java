@@ -1,12 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
-import com.griefdefender.api.permission.PermissionResult;
 import lombok.Getter;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
 public enum PermissionNode implements PermissionCheck {
 

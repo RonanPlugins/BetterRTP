@@ -1,17 +1,15 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
-import org.bukkit.World;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
+
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 
 public class DatabasePlayers extends SQLite {
 

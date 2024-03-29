@@ -17,7 +17,8 @@ public class Updater {
         AsyncHandler.async(() -> {
             try {
                 URLConnection con = new URL(getUrl() + project()).openConnection();
-                updatedVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                updatedVersion = reader.readLine();
             } catch (Exception ex) {
                 Bukkit.getConsoleSender().sendMessage("[BetterRTP] Failed to check for an update on spigot");
                 updatedVersion = pl.getDescription().getVersion();

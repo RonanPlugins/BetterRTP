@@ -1,11 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.references.invs.enums;
 
-import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
-import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
-import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +10,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.List;
+import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
+import me.SuperRonanCraft.BetterRTP.references.messages.Message;
+import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 
 public interface RTPInventory_Defaults {
 

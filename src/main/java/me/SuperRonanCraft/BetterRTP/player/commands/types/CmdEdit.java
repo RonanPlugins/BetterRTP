@@ -1,17 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
-import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
-import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_EditWorlds;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -19,7 +12,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
+import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
+import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_SHAPE;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP_EditWorlds;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 
 public class CmdEdit implements RTPCommand, RTPCommandHelpable { //Edit a worlds properties
 

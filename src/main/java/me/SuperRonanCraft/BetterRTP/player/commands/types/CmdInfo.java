@@ -1,5 +1,22 @@
 package me.SuperRonanCraft.BetterRTP.player.commands.types;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommandHelpable;
@@ -21,24 +38,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import scala.concurrent.impl.FutureConvertersImpl;
 import xyz.xenondevs.particle.ParticleEffect;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class CmdInfo implements RTPCommand, RTPCommandHelpable {
 
@@ -107,7 +107,7 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
     //Particles
     private void infoParticles(CommandSender sendi) {
         List<String> info = new ArrayList<>();
-        BetterRTP pl = BetterRTP.getInstance();
+        // BetterRTP pl = BetterRTP.getInstance();
 
         for (ParticleEffect eff : ParticleEffect.VALUES) {
             if (info.isEmpty() || info.size() % 2 == 0) {

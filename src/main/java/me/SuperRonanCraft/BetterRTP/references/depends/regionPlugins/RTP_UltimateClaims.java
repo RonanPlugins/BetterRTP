@@ -1,10 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
+import java.lang.reflect.Method;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.lang.reflect.Method;
 
 public class RTP_UltimateClaims implements RegionPluginCheck {
 

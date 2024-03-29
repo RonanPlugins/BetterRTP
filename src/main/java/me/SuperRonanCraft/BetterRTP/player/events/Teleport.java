@@ -10,5 +10,6 @@ public class Teleport {
     static void tpEvent(PlayerTeleportEvent e) {
         Player p = e.getPlayer();
         PlayerData data = HelperPlayer.getData(p);
+        //Add data to database
     }
 }

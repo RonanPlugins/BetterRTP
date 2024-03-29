@@ -1,11 +1,10 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
+import org.bukkit.Location;
+
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
-import org.bukkit.Location;
 
 public class RTP_FactionsUUID implements RegionPluginCheck {
 

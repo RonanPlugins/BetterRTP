@@ -66,17 +66,3 @@ public enum RTP_SETTINGS {
         return filetype;
     }
 }
-
-enum SETTINGS_TYPE {
-    BOOLEAN(Boolean.class), STRING(String.class), INTEGER(Integer.class);
-
-    private Class cla;
-
-    SETTINGS_TYPE(Class cla) {
-        this.cla = cla;
-    }
-
-    Class getCla() {
-        return cla;
-    }
-}

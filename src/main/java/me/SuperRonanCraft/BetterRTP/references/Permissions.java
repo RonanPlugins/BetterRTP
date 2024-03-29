@@ -1,8 +1,6 @@
 package me.SuperRonanCraft.BetterRTP.references;
 
 import me.SuperRonanCraft.BetterRTP.references.depends.DepPerms;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public class Permissions {

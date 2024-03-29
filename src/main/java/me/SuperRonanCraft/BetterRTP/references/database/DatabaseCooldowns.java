@@ -1,12 +1,5 @@
 package me.SuperRonanCraft.BetterRTP.references.database;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 
 public class DatabaseCooldowns extends SQLite {
 

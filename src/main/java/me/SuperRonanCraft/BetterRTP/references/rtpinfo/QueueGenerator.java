@@ -1,6 +1,16 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.jetbrains.annotations.Nullable;
+
 import com.tcoded.folialib.wrapper.task.WrappedTask;
+
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
@@ -10,14 +20,6 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldCustom;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class QueueGenerator {
 
@@ -134,6 +136,8 @@ public class QueueGenerator {
                     if (!rtp.getDisabledWorlds().contains(world.getName()) && !rtp.getRTPcustomWorld().containsKey(world.getName()))
                         list.put(world.getName(), new WorldCustom(world, rtp.getRTPdefaultWorld()));
                 return list;
+            default:
+                break;
         }
         return null;
     }
@@ -143,6 +147,8 @@ public class QueueGenerator {
             case CUSTOM_WORLD: return "custom_" + id;
             case LOCATION: return "location_" + id;
             case DEFAULT: return "default_" + id;
+            default:
+                break;
         }
         return "unknown_" + id;
     }

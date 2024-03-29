@@ -1,13 +1,13 @@
 package me.SuperRonanCraft.BetterRTP.references.helpers;
 
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.List;
+import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 
 public class HelperRTP_Info {
 

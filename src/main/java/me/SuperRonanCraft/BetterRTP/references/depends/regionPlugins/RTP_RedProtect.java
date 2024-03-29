@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.depends.regionPlugins;
 
-import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
-import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.references.settings.SoftDepends;
 import org.bukkit.Location;
+
+import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
 
 public class RTP_RedProtect implements RegionPluginCheck {
 

@@ -1,16 +1,16 @@
 package me.SuperRonanCraft.BetterRTP.references.helpers;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_ERROR_REQUEST_REASON;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownHandler;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class HelperRTP_Check {
 

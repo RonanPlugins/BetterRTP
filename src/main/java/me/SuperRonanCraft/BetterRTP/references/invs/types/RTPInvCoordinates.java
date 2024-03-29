@@ -4,6 +4,7 @@ import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTPInventory;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther.FILETYPE;
 import me.SuperRonanCraft.BetterRTP.references.invs.RTP_INV_SETTINGS;
+import me.SuperRonanCraft.BetterRTP.references.invs.SETTINGS_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.invs.enums.RTP_INV_ITEMS;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -128,19 +129,5 @@ enum RTP_COORDINATES_SETTINGS {
 
     public FILETYPE getFiletype() {
         return filetype;
-    }
-
-    enum SETTINGS_TYPE {
-        BOOLEAN(Boolean.class), STRING(String.class), INTEGER(Integer.class);
-
-        private Class cla;
-
-        SETTINGS_TYPE(Class cla) {
-            this.cla = cla;
-        }
-
-        Class getCla() {
-            return cla;
-        }
     }
 }

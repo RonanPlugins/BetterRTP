@@ -1,22 +1,22 @@
 package me.SuperRonanCraft.BetterRTP.player.rtp;
 
+import java.util.Arrays;
+
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
-import me.SuperRonanCraft.BetterRTP.player.rtp.effects.*;
+import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffect_Titles;
+import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffects;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPreEvent;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Arrays;
 
 //---
 //Credit to @PaperMC for PaperLib - https://github.com/PaperMC/PaperLib

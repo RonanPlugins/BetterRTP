@@ -1,12 +1,11 @@
 package me.SuperRonanCraft.BetterRTP.player.commands;
 
-import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
-import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import me.SuperRonanCraft.BetterRTP.references.PermissionCheck;
 
 public interface RTPCommand {
 
