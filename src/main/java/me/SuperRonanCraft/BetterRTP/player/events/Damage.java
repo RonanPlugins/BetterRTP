@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class Damage {
     static boolean canCancel(EntityDamageEvent.DamageCause damageCause) {
-        return true; // TODO: Add a config for allowed damage causes, yourselves
+        return true; // TODO: Allow for filtering damage causes
     }
 
     static boolean isInInvincibleMode(Player player) {
