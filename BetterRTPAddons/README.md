@@ -2,6 +2,9 @@
   <b><a>Welcome to BetterRTPAddons's repository!</a></b>
 </p>
 
+BetterRTP-Addons is a paid resource, adding optional middleware to BetterRTP to help financially support the developement of BetterRTP.
+But this can be compiled free of charge if you know how to compile maven resources!
+
 ## Where's the Lang files?/Want to Contribute translating?  
 All language files are located [here](src/main/resources/lang)
 feel free to fork one of the language files and help translate!
