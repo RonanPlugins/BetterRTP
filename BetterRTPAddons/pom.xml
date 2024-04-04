@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTPAddons</artifactId>
     <packaging>jar</packaging>
-    <version>1.8.8</version>
+    <version>1.8.9</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -52,6 +52,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
+                <!-- Builds to local storage 3 folders back from where its saved, it's for Ronan :D -->
                     <outputDirectory>../../../Java/plugins</outputDirectory>
                 </configuration>
             </plugin>
