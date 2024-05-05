@@ -105,18 +105,15 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     }
 
     public static boolean isInSquare(Location loc, RTPWorld rtpWorld) {
-        //BetterRTP.getInstance().getLogger().warning("LOGIC TAKING PLACE. isInSquare: x = " +(loc.getBlockX())+", z = "+loc.getBlockZ()); // Some Debug code.
         int center_x = rtpWorld.getCenterX();
         int center_z = rtpWorld.getCenterZ();
         int radius_max = rtpWorld.getMinRadius();
         int radius_min = rtpWorld.getMinRadius();
         int x = loc.getBlockX() - center_x;
         int z = loc.getBlockZ() - center_z;
-
-        return ((Math.abs(x)>=radius_min || Math.abs(z)>=radius_min) && (x <= radius_max && z <= radius_max));
-        // Returns true if the x or z coordinate is above the MinRadius and if they are both under the max radius
-        // Returns false otherwise.
-        // (All locations provided should be below the max radius anyway, but I put it in just in-case.)
+        return ((Math.abs(x)>=radius_min || Math.abs(z)>=radius_min) && (Math.abs(x) <= radius_max && Math.abs(z) <= radius_max));
+        // Returns true if the x or z coordinate is above the MinRadius and if they are both under the MaxRadius. Returns false otherwise.
+        // (All locations provided should be below the MaxRadius anyway, but I put it in just in-case.)
     }
 }
 
