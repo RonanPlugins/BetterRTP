@@ -105,19 +105,13 @@ public class QueueHandler implements Listener { //Randomly queues up some safe l
     }
 
     public static boolean isInSquare(Location loc, RTPWorld rtpWorld) {
-        int center_x = rtpWorld.getCenterX();
-        int center_z = rtpWorld.getCenterZ();
-        int radius = rtpWorld.getMaxRadius();
+        int radius_max = rtpWorld.getMaxRadius();
         int radius_min = rtpWorld.getMinRadius();
-        int x = loc.getBlockX();
-        int z = loc.getBlockZ();
-        boolean xright = x <= center_x + radius && x >= center_x + radius_min;
-        boolean xleft = x >= center_x - radius && x <= center_x - radius_min;
-        if (!(xleft || xright))
-            return false;
-        boolean zbottom = z <= center_z + radius && z >= center_z + radius_min;
-        boolean ztop = z >= center_z - radius && z <= center_z - radius_min;
-        return ztop || zbottom;
+        int x = loc.getBlockX() - rtpWorld.getCenterX();
+        int z = loc.getBlockZ() - rtpWorld.getCenterZ();
+        return ((Math.abs(x)>=radius_min || Math.abs(z)>=radius_min) && (Math.abs(x) <= radius_max && Math.abs(z) <= radius_max));
+        // Returns true if the x or z coordinate is above the MinRadius and if they are both under the MaxRadius. Returns false otherwise.
+        // (All locations provided should be below the MaxRadius anyway, but I put it in just in-case.)
     }
 }
 
