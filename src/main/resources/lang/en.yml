@@ -15,6 +15,7 @@ Messages:
     NotSafe: '&cCould not find safe spot within %attempts% attempts! &7%player% was not rtp''d!'
     Biome: '&cSeems like the biome&7 %biome%&c does not exist! &7Try using the tab list!'
   Reload: '&eConfig reloaded successfully!'
+  Update: '&7There is currently an update for &6BetterRTP &7version &e#%newVersion% &7you have version &e#%currentVersion%'
   NoPermission:
     Basic: '&cSorry! &7You don''t have permission to use this command! &8Permission: %permission%'
     World: '&cSorry! &7You are not allowed rtp in the %world% world! &8Permission: %permission%'

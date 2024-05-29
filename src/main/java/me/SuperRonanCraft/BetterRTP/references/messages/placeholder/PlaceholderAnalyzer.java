@@ -64,9 +64,13 @@ public class PlaceholderAnalyzer {
             str = str.replaceAll(Placeholders.WORLD.name, info);
         if (str.contains(Placeholders.COOLDOWN.name))
             str = str.replaceAll(Placeholders.COOLDOWN.name, info);
+        if (str.contains(Placeholders.CURRENTDVERSION.name))
+            str = str.replaceAll(Placeholders.CURRENTDVERSION.name, info);
+
+        if (str.contains(Placeholders.NEWVERSION.name))
+            str = str.replaceAll(Placeholders.NEWVERSION.name, info);
         return str;
     }
-
     private static String location(String str, Location loc) {
         if (str.contains(Placeholders.LOCATION_X.name))
             str = str.replace(Placeholders.LOCATION_X.name, String.valueOf(loc.getBlockX()));
