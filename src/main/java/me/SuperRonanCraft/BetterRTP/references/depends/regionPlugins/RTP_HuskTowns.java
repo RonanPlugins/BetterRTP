@@ -8,6 +8,9 @@ public class RTP_HuskTowns implements RegionPluginCheck {
 
     private final BukkitHuskTownsAPI huskTownsAPI;
 
+    // NOT TESTED (3.6.13)
+    // HuskTowns (v3.0.4)
+    // https://www.spigotmc.org/resources/husktowns.92672/
     public RTP_HuskTowns(JavaPlugin plugin) {
         this.huskTownsAPI = BukkitHuskTownsAPI.getInstance();
     }
