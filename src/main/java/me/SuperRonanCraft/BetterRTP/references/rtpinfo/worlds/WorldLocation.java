@@ -43,7 +43,10 @@ public class WorldLocation implements RTPWorld, RTPWorld_Defaulted {
                 if (section.get("World") != null) {
                     if (section.get("World").getClass() == String.class) {
                         world = Bukkit.getWorld(section.get("World").toString());
-                        BetterRTP.debug("- - World: " + world.getName());
+                        if (world != null)
+                            BetterRTP.debug("- - World: " + world.getName());
+                        else
+                            BetterRTP.getInstance().getLogger().warning("Location `" + location_name + "` is declared, but the world " + section.get("World").toString() + " doesn't exist!");
                     }
                 }
                 if (world == null) {
