@@ -156,11 +156,6 @@
             <name>mineCodes Organization Repository</name>
             <url>https://repository.minecodes.pl/releases</url>
         </repository>
-        <!-- Used by FactionsBridge -->
-        <repository>
-            <id>devmart-public</id>
-            <url>https://nexuslite.gcnt.net/repos/public/</url>
-        </repository>
         <!-- Used by Husk plugins -->
         <repository>
             <id>william278-releases</id>
@@ -360,7 +355,8 @@
             <groupId>com.dansplugins.factionsystem</groupId>
             <artifactId>FactionsBridge</artifactId>
             <version>1.3.8</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/FactionsBridge-1.3.8.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.WhipDevelopment</groupId>
@@ -385,8 +381,9 @@
             <groupId>com.bekvon.bukkit.residence</groupId>
             <artifactId>Residence</artifactId>
             <version>5.1.4.1</version>
-            <scope>provided</scope>
+            <scope>system</scope>
             <optional>true</optional>
+            <systemPath>${project.basedir}/lib/Residence5.1.4.1.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
