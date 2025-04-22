@@ -1,4 +1,4 @@
-# Translation author: zFoxy#1717 (Discord)
+# Translation author: zFoxy#1717 (Discord) and Arqui9897 Small update to bring it into line with the latest English language file.
 Messages:
   Prefix: '&7[&6BetterRTP&7] '
   Success: # # ¡Placeholders! ¡%x% %y% y %z% son las coordinadas x, y, y z al que el jugador está siendo teletransportado! #
@@ -15,6 +15,7 @@ Messages:
     NotSafe: '&c¡No se pudo encontrar un lugar seguro en %attempts% intentos! &7¡%player% no fue teletransportado aleatoriamente!'
     Biome: '&c¡Parece que el bioma&7 %biome%&c no existe! &7¡Intenta usar la lista del tab!'
   Reload: '&e¡Configuración recargada exitosamente!'
+  Update: '&7Actualmente hay una actualización para &6BetterRTP &7versión &e#%newVersion% &7 tu tienes la versión &e#%currentVersion%'
   NoPermission:
     Basic: '&c¡Lo siento! &7¡No tienes permiso para usar este comando! &8Permission: %permission%'
     World: '&c¡Lo siento! &7¡No tienes permitido teletransportarte aleatoriamente en el mundo %world%! &8Permission: %permission%'
@@ -57,7 +58,8 @@ Usage:
     Base: '&cUso&7: /%command% edit <default/world> [args...]'
     Default: '&cUso&7: /%command% edit default <max/min/useworldborder/center> <valor>'
     World: '&cUso&7: /%command% edit world <mundo> <max/min/useworldborder/center> <valor>'
-#    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'
+    PermissionGroup: '&cUsage&7: /%command% edit permission_group <group> <world> <max/min/useworldborder/center> <value>'
+    Location: '&cUsage&7: /%command% edit location <location_name> <max/min/useworldborder/center> <value>'
     Worldtype: '&cUso&7: /%command% edit world_type <mundo> <NETHER/NORMAL>'
     Override: '&cUso&7: /%command% edit override <mundo1> <mundo2>'
     BlacklistedBlocks: '&cUso&7: /%command% edit blacklistedblocks <add/remove> <id_del_bloque>'
