@@ -121,4 +121,78 @@ public class QueueGenerator {
             this.queueMin = queueMin;
             this.lastCount = lastCount;
             this.lastType = lastType;
-            this.at
+            this.attempts = attempts;
+        }
+    }
+
+    private static HashMap<String, RTPWorld> getFromSetup(RTP_SETUP_TYPE type) {
+        switch (type) {
+            case LOCATION: return BetterRTP.getInstance().getRTP().getRTPworldLocations();
+            case CUSTOM_WORLD: return BetterRTP.getInstance().getRTP().getRTPcustomWorld();
+            case DEFAULT:
+                HashMap<String, RTPWorld> list = new HashMap<>();
+                RTP rtp = BetterRTP.getInstance().getRTP();
+                for (World world : Bukkit.getWorlds())
+                    if (!rtp.getDisabledWorlds().contains(world.getName()) && !rtp.getRTPcustomWorld().containsKey(world.getName()))
+                        list.put(world.getName(), new WorldCustom(world, rtp.getRTPdefaultWorld()));
+                return list;
+            default:
+                break;
+        }
+        return null;
+    }
+
+    private static String getId(RTP_SETUP_TYPE type, String id) {
+        switch (type) {
+            case CUSTOM_WORLD: return "custom_" + id;
+            case LOCATION: return "location_" + id;
+            case DEFAULT: return "default_" + id;
+            default:
+                break;
+        }
+        return "unknown_" + id;
+    }
+
+    private void addQueue(RTPWorld rtpWorld, String id, ReQueueData reQueueData) {
+        Location loc = RandomLocation.generateLocation(rtpWorld);
+        if (loc != null) {
+            AsyncHandler.syncAtLocation(loc, () -> {
+                //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
+                PaperLib.getChunkAtAsync(loc)
+                        .thenAccept(v -> {
+                            AsyncHandler.syncAtLocation(loc, () -> {
+                                Location safeLoc = RandomLocation.getSafeLocation(
+                                        HelperRTP.getWorldType(rtpWorld.getWorld()),
+                                        loc.getWorld(),
+                                        loc,
+                                        rtpWorld.getMinY(),
+                                        rtpWorld.getMaxY(),
+                                        rtpWorld.getBiomes());
+                                //data.setLocation(safeLoc);
+                                if (safeLoc != null) {
+                                    AsyncHandler.async(() -> {
+                                        QueueData data = DatabaseHandler.getQueue().addQueue(safeLoc);
+                                        if (data != null) {
+                                            //queueList.add(data);
+                                            String _x = String.valueOf(data.getLocation().getBlockX());
+                                            String _y = String.valueOf(data.getLocation().getBlockY());
+                                            String _z = String.valueOf(data.getLocation().getBlockZ());
+                                            String _world = data.getLocation().getWorld().getName();
+                                            BetterRTP.debug("Queue position generated"
+                                                    + ": id= " + id + ", database_ID= " + data.database_id
+                                                    + ", location= x: " + _x + ", y: " + _y + ", z: " + _z + ", world: " + _world);
+                                        } else
+                                            BetterRTP.debug("Database error occurred for a queue when trying to save: " + safeLoc);
+                                        queueGenerator(reQueueData);
+                                    });
+                                } else
+                                    queueGenerator(reQueueData);
+                            });
+                        });
+            });
+        } else {
+            BetterRTP.debug("Queue position wasn't able to generate a location!");
+            queueGenerator(reQueueData);
+        }
+    }
+}
