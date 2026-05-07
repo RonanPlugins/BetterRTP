@@ -38,7 +38,7 @@ public class RTPPlayer {
 
     void randomlyTeleport(CommandSender sendi) {
         if (attempts >= settings.maxAttempts) //Cancel out, too many tries
-            metMax(sendi, player);
+            AsyncHandler.syncAtEntity(player, () -> metMax(sendi, player));
         else { //Try again to find a safe location
             //Find a location from another Plugin
             RTP_FindLocationEvent event = new RTP_FindLocationEvent(this); //Find an external plugin location
@@ -63,12 +63,12 @@ public class RTPPlayer {
                 }
                 attempts++; //Add an attempt
                 //Load chunk and find out if safe location (asynchronously)
-                AsyncHandler.sync(() -> {
+                AsyncHandler.syncAtLocation(loc, () -> {
                     try { //Prior to 1.12 this async chunk will NOT work
                         CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
                         chunk.thenAccept(result -> {
                             //BetterRTP.debug("Checking location for " + p.getName());
-                            attempt(sendi, loc);
+                            AsyncHandler.syncAtLocation(loc, () -> attempt(sendi, loc));
                         });
                     } catch (IllegalStateException e) {
                         //Legacy non-async support
@@ -87,22 +87,26 @@ public class RTPPlayer {
         //attemptedLocations.add(loc);
         //Valid location?
         if (tpLoc != null && checkDepends(tpLoc)) {
-            tpLoc.add(0.5, 0, 0.5); //Center location
-            if (getPl().getEco().charge(player, worldPlayer)) {
-                //Successfully found a safe location, set cooldown and teleport player.
-                if (worldPlayer.getPlayerInfo().isApplyCooldown() && HelperRTP_Check.applyCooldown(player))
-                    getPl().getCooldowns().add(player, worldPlayer.getWorld());
-                tpLoc.setYaw(player.getLocation().getYaw());
-                tpLoc.setPitch(player.getLocation().getPitch());
-                AsyncHandler.sync(() -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
-            } else {
-                if (worldPlayer.getPlayerInfo().applyCooldown)
-                    getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
-                getPl().getPInfo().getRtping().remove(player);
-            }
+            AsyncHandler.syncAtEntity(player, () -> teleport(sendi, tpLoc));
         } else {
             randomlyTeleport(sendi);
             QueueHandler.remove(loc);
+        }
+    }
+
+    private void teleport(CommandSender sendi, Location tpLoc) {
+        tpLoc.add(0.5, 0, 0.5); //Center location
+        if (getPl().getEco().charge(player, worldPlayer)) {
+            //Successfully found a safe location, set cooldown and teleport player.
+            if (worldPlayer.getPlayerInfo().isApplyCooldown() && HelperRTP_Check.applyCooldown(player))
+                getPl().getCooldowns().add(player, worldPlayer.getWorld());
+            tpLoc.setYaw(player.getLocation().getYaw());
+            tpLoc.setPitch(player.getLocation().getPitch());
+            settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type);
+        } else {
+            if (worldPlayer.getPlayerInfo().applyCooldown)
+                getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
+            getPl().getPInfo().getRtping().remove(player);
         }
     }
 
