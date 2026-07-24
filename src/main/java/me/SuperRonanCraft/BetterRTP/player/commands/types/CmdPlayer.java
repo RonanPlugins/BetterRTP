@@ -19,6 +19,7 @@ import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesHelp;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesUsage;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 
 public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
 
@@ -28,38 +29,37 @@ public class CmdPlayer implements RTPCommand, RTPCommandHelpable {
 
     //rtp player <player> <world> <RTP_PlayerInfo.RTP_PLAYERINFO_FLAG...>
     public void execute(CommandSender sendi, String label, String[] args) {
-        if (args.length == 2)
-            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
-                HelperRTP.tp(Bukkit.getPlayer(args[1]),
-                        sendi,
-                        Bukkit.getPlayer(args[1]).getWorld(),
-                        null,
-                        RTP_TYPE.FORCED,
-                        null,
-                        new RTP_PlayerInfo());
-            } else if (Bukkit.getPlayer(args[1]) != null)
-                MessagesCore.NOTONLINE.send(sendi, args[1]);
-            else
-                usage(sendi, label);
-        else if (args.length >= 3)
-            if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
-                World world = Bukkit.getWorld(args[2]);
-                if (world != null) {
-                    HelperRTP.tp(Bukkit.getPlayer(args[1]),
-                            sendi,
-                            world,
-                            null,
-                            RTP_TYPE.FORCED,
-                            null,
-                            getFlags(args));
-                } else
-                    MessagesCore.NOTEXIST.send(sendi, args[2]);
-            } else if (Bukkit.getPlayer(args[1]) != null)
-                MessagesCore.NOTONLINE.send(sendi, args[1]);
-            else
-                usage(sendi, label);
-        else
+        if (args.length < 2) {
             usage(sendi, label);
+            return;
+        }
+
+        Player player = Bukkit.getPlayer(args[1]);
+        if (player == null) {
+            usage(sendi, label);
+            return;
+        }
+
+        World requestedWorld = args.length >= 3 ? Bukkit.getWorld(args[2]) : null;
+        if (args.length >= 3 && requestedWorld == null) {
+            MessagesCore.NOTEXIST.send(sendi, args[2]);
+            return;
+        }
+
+        RTP_PlayerInfo playerInfo = args.length >= 3 ? getFlags(args) : new RTP_PlayerInfo();
+        AsyncHandler.syncAtEntity(player, () -> {
+            if (!player.isOnline()) {
+                MessagesCore.NOTONLINE.send(sendi, player.getName());
+                return;
+            }
+            HelperRTP.tp(player,
+                    sendi,
+                    requestedWorld != null ? requestedWorld : player.getWorld(),
+                    null,
+                    RTP_TYPE.FORCED,
+                    null,
+                    playerInfo);
+        }, () -> MessagesCore.NOTONLINE.send(sendi, args[1]));
     }
 
     private RTP_PlayerInfo getFlags(String[] args) {

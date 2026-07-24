@@ -26,7 +26,7 @@ softdepend:
     - Essentials #adds `/back` support
     - PlaceholderAPI
     - HuskClaims #Respect HuskClaims areas (https://www.spigotmc.org/resources/huskclaims-1-17-1-21-modern-golden-shovel-land-claiming-fully-cross-server-compatible.114467/) (fixes race condition that breaks hooking)
-api-version: '1.21'
+api-version: '26.1'
 
 commands:
     betterrtp:

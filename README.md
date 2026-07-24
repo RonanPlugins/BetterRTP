@@ -15,6 +15,8 @@ BetterRTP uses and is compiled with the following libraries:
 
 Builds targeting Folia 26.1.2+ require Java 25 or newer.
 
+The main plugin and BetterRTPAddons target the Folia 26.1.2 build 8 API and declare `api-version: '26.1'`. CI also boots the shaded BetterRTP jar on that exact stable Folia build and runs plugin version and configuration smoke checks.
+
 ## Build instructions on Ubuntu
 
 mvn clean install

@@ -4,6 +4,7 @@ import com.tcoded.folialib.impl.ServerImplementation;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,18 @@ public class AsyncHandler {
     }
 
     public static void syncAtEntity(Entity entity, Runnable runnable) {
-        getFolia().runAtEntity(entity, task -> runnable.run());
+        syncAtEntity(entity, runnable, () -> { });
+    }
+
+    public static void syncAtEntity(Entity entity, Runnable runnable, Runnable retired) {
+        getFolia().runAtEntityWithFallback(entity, task -> runnable.run(), retired);
+    }
+
+    public static void syncAtSender(CommandSender sender, Runnable runnable) {
+        if (sender instanceof Entity entity)
+            syncAtEntity(entity, runnable);
+        else
+            sync(runnable);
     }
 
     public static void syncAtLocation(Location location, Runnable runnable) {

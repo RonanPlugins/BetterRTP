@@ -70,7 +70,7 @@ public class RTPEffect_Particles {
 
     public void display(Player p) {
         if (!enabled) return;
-        AsyncHandler.async(() -> {
+        AsyncHandler.syncAtEntity(p, () -> {
             try { //Incase the library errors out
                 switch (shape) {
                     case "TELEPORT":

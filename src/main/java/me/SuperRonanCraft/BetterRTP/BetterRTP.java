@@ -21,6 +21,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.QueueHandler;
 import me.SuperRonanCraft.BetterRTP.references.settings.Settings;
 import me.SuperRonanCraft.BetterRTP.references.web.Metrics;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import me.SuperRonanCraft.BetterRTP.versions.FoliaHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -66,7 +67,8 @@ public class BetterRTP extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        invs.closeAll();
+        invs.unload();
+        pInfo.unloadAll();
         queue.unload();
         rtpLogger.unload();
     }
@@ -92,9 +94,11 @@ public class BetterRTP extends JavaPlugin {
     }
 
     public void reload(CommandSender sendi) {
-        invs.closeAll();
-        loadAll();
-        MessagesCore.RELOAD.send(sendi);
+        AsyncHandler.sync(() -> {
+            invs.closeAll();
+            loadAll();
+            MessagesCore.RELOAD.send(sendi);
+        });
     }
 
     //(Re)Load all plugin systems/files/cache
