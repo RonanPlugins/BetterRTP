@@ -6,7 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import me.SuperRonanCraft.BetterRTPAddons.Main;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import me.SuperRonanCraft.BetterRTPAddons.addons.portals.AddonPortals;
 import me.SuperRonanCraft.BetterRTPAddons.packets.BlockChangeArray;
 import me.SuperRonanCraft.BetterRTPAddons.packets.WrapperPlayServerBlockChange;
@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -123,7 +122,7 @@ public class PortalsCache {
 
     private void preview(Location loc1, Location loc2) {
         ProtocolManager pm = ProtocolLibrary.getProtocolManager();
-        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+        AsyncHandler.syncAtLocation(loc1, () -> {
             PacketContainer packet = pm
                     .createPacket(PacketType.Play.Server.MULTI_BLOCK_CHANGE);
             Chunk chunk = loc1.getChunk();
@@ -147,12 +146,13 @@ public class PortalsCache {
 
             wrapper.setRecordData(change);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                try {
-                    pm.sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                AsyncHandler.syncAtEntity(player, () -> {
+                    try {
+                        pm.sendServerPacket(player, packet);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
 
         });

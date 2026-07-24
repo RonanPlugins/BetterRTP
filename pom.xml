@@ -12,7 +12,7 @@
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
     <properties>
-        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -50,18 +50,14 @@
                 <version>3.1.4</version>
             </plugin>
             <plugin>
-                <!-- Shade PaperLib into project -->
+                <!-- Shade runtime libraries into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.2</version>
                 <configuration>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
                     </dependencyReducedPomLocation>
                     <relocations>
-                        <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.paperlib</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>com.tcoded.folialib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.folialib</shadedPattern>
@@ -82,8 +78,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>25</source>
+                    <target>25</target>
+                    <release>25</release>
+                    <proc>full</proc>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
@@ -164,18 +169,11 @@
         </repository>
     </repositories>
     <dependencies>
-        <!--Spigot API-->
+        <!-- Folia API -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Spigot Stuff -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <groupId>dev.folia</groupId>
+            <artifactId>folia-api</artifactId>
+            <version>26.1.2.build.8-stable</version>
             <scope>provided</scope>
         </dependency>
         <!-- Vault -->
@@ -184,13 +182,6 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Paper Library for Async Chunk/Teleport -->
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
         </dependency>
         <!-- WorldGuard (https://dev.bukkit.org/projects/worldguard) -->
         <dependency> <!-- Saber Factions screws up if updated -->

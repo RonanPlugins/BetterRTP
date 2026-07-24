@@ -1,9 +1,9 @@
 package me.SuperRonanCraft.BetterRTP.references.rtpinfo;
 
-import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.RTPWorld;
 import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WORLD_TYPE;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -155,20 +155,27 @@ public class RandomLocation {
     }
 
     private static void cacheChunkAt(World world, int goal, int start, int xat, int zat) {
-        CompletableFuture<Chunk> task = PaperLib.getChunkAtAsync(new Location(world, xat * 16, 0, zat * 16));
-        task.thenAccept(chunk -> {
-            try {
-                ChunkSnapshot snapshot = chunk.getChunkSnapshot(true, true, false);
-                int maxy = snapshot.getHighestBlockYAt(8, 8);
-                Biome biome = snapshot.getBiome(8, 8);
-                //BetterRTP.getInstance().getLogger().info("Added " + chunk.getX() + " " + chunk.getZ());
-                BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks().addChunk(chunk, maxy, biome);
-            } catch (Throwable e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-                //BetterRTP.getInstance().getLogger().info("Tried Adding " + chunk.getX() + " " + chunk.getZ());
-            }
-        }).thenRun(() -> cacheTask(world, goal, start, xat, zat));
+        Location loc = new Location(world, xat * 16, 0, zat * 16);
+        AsyncHandler.syncAtLocation(loc, () -> {
+            CompletableFuture<Chunk> task = loc.getWorld().getChunkAtAsync(loc);
+            task.thenAccept(chunk -> AsyncHandler.syncAtLocation(loc, () -> {
+                try {
+                    ChunkSnapshot snapshot = chunk.getChunkSnapshot(true, true, false);
+                    int maxy = snapshot.getHighestBlockYAt(8, 8);
+                    Biome biome = snapshot.getBiome(8, 8);
+                    //BetterRTP.getInstance().getLogger().info("Added " + chunk.getX() + " " + chunk.getZ());
+                    BetterRTP.getInstance().getDatabaseHandler().getDatabaseChunks().addChunk(chunk, maxy, biome);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    //BetterRTP.getInstance().getLogger().info("Tried Adding " + chunk.getX() + " " + chunk.getZ());
+                }
+                cacheTask(world, goal, start, xat, zat);
+            })).exceptionally(ex -> {
+                ex.printStackTrace();
+                AsyncHandler.syncAtLocation(loc, () -> cacheTask(world, goal, start, xat, zat));
+                return null;
+            });
+        });
     }
 
 }

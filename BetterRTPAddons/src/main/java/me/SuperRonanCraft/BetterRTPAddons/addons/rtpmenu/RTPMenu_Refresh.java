@@ -1,5 +1,6 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.rtpmenu;
 
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import me.SuperRonanCraft.BetterRTPAddons.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,15 +9,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class RTPMenu_Refresh implements Listener {
 
     private final AddonRTPMenu addon;
     private final Player player;
     private final int time;
-    private BukkitTask task;
+    private Object task;
     private boolean opening = true;
 
     RTPMenu_Refresh(AddonRTPMenu addon, Player player, int time) {
@@ -38,11 +37,7 @@ public class RTPMenu_Refresh implements Listener {
             return;
         }
         opening = false;
-        this.task = new BukkitRunnable() {
-            @Override public void run() {
-                start();
-            }
-        }.runTaskLater(Main.getInstance(), time);
+        this.task = AsyncHandler.syncAtEntityLaterTask(player, this::start, time);
     }
 
     @EventHandler
@@ -61,7 +56,7 @@ public class RTPMenu_Refresh implements Listener {
 
     void cancel() {
         if (task != null)
-            task.cancel();
+            AsyncHandler.cancelTask(task);
         HandlerList.unregisterAll(this);
     }
 

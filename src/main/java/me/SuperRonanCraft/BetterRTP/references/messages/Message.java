@@ -22,25 +22,25 @@ public interface Message {
 
     static void sms(Message messenger, CommandSender sendi, String msg) {
         if (!msg.isEmpty())
-            AsyncHandler.sync(() ->
+            AsyncHandler.syncAtSender(sendi, () ->
                     sendi.sendMessage(placeholder(sendi, getPrefix(messenger) + msg)));
     }
 
     static void sms(Message messenger, CommandSender sendi, String msg, Object placeholderInfo) {
         if (!msg.isEmpty())
-            AsyncHandler.sync(() ->
+            AsyncHandler.syncAtSender(sendi, () ->
                     sendi.sendMessage(Objects.requireNonNull(placeholder(sendi, getPrefix(messenger) + msg, placeholderInfo))));
     }
 
     static void sms(Message messenger, CommandSender sendi, String msg, List<Object> placeholderInfo) {
         if (!msg.isEmpty())
-            AsyncHandler.sync(() ->
+            AsyncHandler.syncAtSender(sendi, () ->
                     sendi.sendMessage(placeholder(sendi, getPrefix(messenger) + msg, placeholderInfo)));
     }
 
     static void sms(CommandSender sendi, List<String> msg, Object placeholderInfo) {
         if (msg != null && !msg.isEmpty()) {
-            AsyncHandler.sync(() -> {
+            AsyncHandler.syncAtSender(sendi, () -> {
                 msg.forEach(str -> msg.set(msg.indexOf(str), placeholder(sendi, str, placeholderInfo)));
                 sendi.sendMessage(msg.toArray(new String[0]));
             });

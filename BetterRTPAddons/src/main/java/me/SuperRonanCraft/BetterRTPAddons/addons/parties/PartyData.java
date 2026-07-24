@@ -1,16 +1,12 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.parties;
 
-import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
-import me.SuperRonanCraft.BetterRTP.references.Permissions;
 import me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent;
-import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,20 +83,26 @@ public class PartyData {
             if (!p.equals(getLeader())) {
                 Location loc = e.getLocation();
                 //Async tp players
-                PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN).thenRun(() -> {
-                        /*BetterRTP.getInstance().getText().getSuccessBypass(p,
-                                String.valueOf(loc.getBlockX()),
-                                String.valueOf(loc.getBlockY()),
-                                String.valueOf(loc.getBlockZ()),
-                                loc.getWorld().getName(),
-                                1);*/
-                        BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, e.getWorldPlayer(), 0, e.getOldLocation(), e.getType());
+                AsyncHandler.syncAtEntity(p, () -> {
+                    AsyncHandler.teleportAsync(p, loc).thenAccept(success -> {
+                        if (success) {
+                            AsyncHandler.syncAtEntity(p, () -> {
+                                /*BetterRTP.getInstance().getText().getSuccessBypass(p,
+                                        String.valueOf(loc.getBlockX()),
+                                        String.valueOf(loc.getBlockY()),
+                                        String.valueOf(loc.getBlockZ()),
+                                        loc.getWorld().getName(),
+                                        1);*/
+                                BetterRTP.getInstance().getRTP().getTeleport().afterTeleport(p, loc, e.getWorldPlayer(), 0, e.getOldLocation(), e.getType());
+                            });
+                        }
+                    });
+                    //Set cooldowns
+                    if (!PermissionNode.BYPASS_COOLDOWN.check(p)) {
+                        BetterRTP.getInstance().getCooldowns().add(p, loc.getWorld());
+                        //BetterRTP.getInstance().getPlayerDataManager().getData(p).getCooldowns().put(loc.getWorld(), new CooldownData(p.getUniqueId(), System.currentTimeMillis(), loc.getWorld()));
+                    }
                 });
-                //Set cooldowns
-                if (!PermissionNode.BYPASS_COOLDOWN.check(p)) {
-                    BetterRTP.getInstance().getCooldowns().add(p, loc.getWorld());
-                    //BetterRTP.getInstance().getPlayerDataManager().getData(p).getCooldowns().put(loc.getWorld(), new CooldownData(p.getUniqueId(), System.currentTimeMillis(), loc.getWorld()));
-                }
             }
         });
     }

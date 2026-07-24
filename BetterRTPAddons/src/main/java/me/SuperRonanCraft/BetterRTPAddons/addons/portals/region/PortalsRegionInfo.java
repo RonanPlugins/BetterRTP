@@ -1,9 +1,8 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.portals.region;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class PortalsRegionInfo {
 
