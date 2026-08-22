@@ -10,3 +10,5 @@ BetterRTP.wiki/
 .DS_Store
 .vscode/
 node_modules/
+# local build logs
+*.log

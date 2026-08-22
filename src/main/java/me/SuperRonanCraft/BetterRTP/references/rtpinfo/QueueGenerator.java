@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 
-import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
@@ -158,7 +157,7 @@ public class QueueGenerator {
         if (loc != null) {
             AsyncHandler.sync(() -> {
                 //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
-                PaperLib.getChunkAtAsync(loc)
+                loc.getWorld().getChunkAtAsync(loc)
                         .thenAccept(v -> {
                             Location safeLoc = RandomLocation.getSafeLocation(
                                     HelperRTP.getWorldType(rtpWorld.getWorld()),

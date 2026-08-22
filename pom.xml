@@ -12,7 +12,7 @@
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
     <properties>
-        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -41,6 +41,15 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+            <!-- Bundle the MIT license into the jar (META-INF/LICENSE) -->
+            <resource>
+                <directory>${project.basedir}</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
         </resources>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
@@ -58,10 +67,6 @@
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
                     </dependencyReducedPomLocation>
                     <relocations>
-                        <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.paperlib</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>com.tcoded.folialib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.folialib</shadedPattern>
@@ -82,8 +87,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <!-- JDK 23+ no longer auto-discovers annotation processors on the
+                         classpath; lombok must be on the explicit processor path. -->
+                    <release>21</release>
+                    <proc>full</proc>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
@@ -164,18 +178,31 @@
         </repository>
     </repositories>
     <dependencies>
-        <!--Spigot API-->
+        <!-- Lophine 26.1.2 API (Paper fork API; Folia-aware chunk/teleport methods) -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <groupId>fun.bm.lophine</groupId>
+            <artifactId>lophine-api</artifactId>
+            <version>26.1.2.build.638-stable</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spigot Stuff -->
+        <!-- jspecify annotations referenced by the modern API classes -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- adventure API referenced by the modern API (Translatable, Component, Key) -->
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.26.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-key</artifactId>
+            <version>4.26.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- Vault -->
@@ -184,13 +211,6 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Paper Library for Async Chunk/Teleport -->
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
         </dependency>
         <!-- WorldGuard (https://dev.bukkit.org/projects/worldguard) -->
         <dependency> <!-- Saber Factions screws up if updated -->
@@ -226,13 +246,7 @@
             <version>6.28.11</version>
             <scope>provided</scope>
         </dependency>
-        <!-- ProtocolLib -->
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>5.3.0</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- ProtocolLib support removed: sounds now use the native String-key overload -->
         <!-- Towny (https://www.spigotmc.org/resources/towny.72694/) -->
         <dependency>
             <groupId>com.github.TownyAdvanced</groupId>
@@ -274,15 +288,7 @@
             <version>97b96c9</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Particles Library
-        https://github.com/ByteZ1337/ParticleLib
-        (https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java) -->
-        <dependency>
-            <groupId>xyz.xenondevs</groupId>
-            <artifactId>particle</artifactId>
-            <version>1.8.4</version>
-            <scope>compile</scope>
-        </dependency>
+        <!-- ParticleLib removed: particles now use the native org.bukkit.Particle API -->
         <!-- Lombok Support (@Getter & @Setter)-->
         <dependency>
             <groupId>org.projectlombok</groupId>

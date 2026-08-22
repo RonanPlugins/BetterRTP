@@ -39,8 +39,15 @@ public class Join {
 
     //RTP on first join
     private static void rtpOnFirstJoin(Player p) {
-        if (getPl().getSettings().isRtpOnFirstJoin_Enabled() && !p.hasPlayedBefore())
-            HelperRTP.tp(p, Bukkit.getConsoleSender(), Bukkit.getWorld(getPl().getSettings().getRtpOnFirstJoin_World()), null, RTP_TYPE.JOIN, true, true);
+        if (getPl().getSettings().isRtpOnFirstJoin_Enabled() && !p.hasPlayedBefore()) {
+            //Defer until the player is fully loaded into a region (Folia-safe): at PlayerJoinEvent
+            //time the entity may not be schedulable yet, which made the RTP run too early (#256).
+            p.getScheduler().run(BetterRTP.getInstance(), task -> {
+                if (!p.isOnline())
+                    return;
+                HelperRTP.tp(p, Bukkit.getConsoleSender(), Bukkit.getWorld(getPl().getSettings().getRtpOnFirstJoin_World()), null, RTP_TYPE.JOIN, true, true);
+            }, null);
+        }
     }
 
     private static BetterRTP getPl() {
