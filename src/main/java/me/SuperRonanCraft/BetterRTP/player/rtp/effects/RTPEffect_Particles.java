@@ -4,24 +4,23 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
 import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-import xyz.xenondevs.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//---
-//Credit to @ByteZ1337 for ParticleLib - https://github.com/ByteZ1337/ParticleLib
-//
-//Use of particle creation
-//---
+//Particles displayed with the native Bukkit Particle API.
+//The old ParticleLib (xyz.xenondevs.particle) only supported MC 1.8-1.19.3 and
+//broke on MC 1.21.5+ (particle packet rework), so particle effects are now
+//rendered through org.bukkit.Particle on the entity's region thread (Folia-safe).
 
 public class RTPEffect_Particles {
 
     private boolean enabled;
-    private final List<ParticleEffect> effects = new ArrayList<>();
+    private final List<Particle> effects = new ArrayList<>();
     private String shape;
     private final int precision = 16;
 
@@ -48,18 +47,18 @@ public class RTPEffect_Particles {
         try {
             for (String type : types) {
                 typeTrying = type;
-                effects.add(ParticleEffect.valueOf(type.toUpperCase()));
+                Particle particle = toBukkitParticle(type);
+                if (particle != null)
+                    effects.add(particle);
             }
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (NullPointerException e) {
             effects.clear();
-            effects.add(ParticleEffect.ASH);
+            effects.add(Particle.POOF);
             getPl().getLogger().severe("The particle '" + typeTrying + "' doesn't exist! Default particle enabled... " +
                     "Try using '/rtp info particles' to get a list of available particles");
-        } catch (ExceptionInInitializerError | NoClassDefFoundError e2) {
-            effects.clear();
-            getPl().getLogger().severe("The particle '" + typeTrying + "' created a fatal error when loading particles! Your MC version isn't supported!");
-            enabled = false;
         }
+        if (effects.isEmpty())
+            effects.add(Particle.POOF);
         shape = config.getString("Particles.Shape").toUpperCase();
         if (!Arrays.asList(shapeTypes).contains(shape)) {
             getPl().getLogger().severe("The particle shape '" + shape + "' doesn't exist! Default particle shape enabled...");
@@ -68,9 +67,52 @@ public class RTPEffect_Particles {
         }
     }
 
+    //Map the old ParticleLib enum names to modern Bukkit particle names (MC 1.13+ flattening)
+    private Particle toBukkitParticle(String type) {
+        String name = type.toUpperCase();
+        switch (name) {
+            case "EXPLOSION_NORMAL": name = "POOF"; break;
+            case "EXPLOSION_LARGE": name = "EXPLOSION"; break;
+            case "EXPLOSION_HUGE": name = "EXPLOSION_EMITTER"; break;
+            case "CRIT_MAGIC": name = "ENCHANTED_HIT"; break;
+            case "SMOKE_NORMAL": name = "SMOKE"; break;
+            case "SMOKE_LARGE": name = "LARGE_SMOKE"; break;
+            case "SPELL": name = "EFFECT"; break;
+            case "SPELL_INSTANT": name = "INSTANT_EFFECT"; break;
+            case "SPELL_MOB": name = "ENTITY_EFFECT"; break;
+            case "SPELL_MOB_AMBIENT": name = "AMBIENT_ENTITY_EFFECT"; break;
+            case "SPELL_WITCH": name = "WITCH"; break;
+            case "DRIP_WATER": name = "DRIPPING_WATER"; break;
+            case "DRIP_LAVA": name = "DRIPPING_LAVA"; break;
+            case "VILLAGER_ANGRY": name = "ANGRY_VILLAGER"; break;
+            case "VILLAGER_HAPPY": name = "HAPPY_VILLAGER"; break;
+            case "ENCHANTMENT_TABLE": name = "ENCHANT"; break;
+            case "REDSTONE": name = "DUST"; break;
+            case "SNOWBALL": name = "ITEM_SNOWBALL"; break;
+            case "SNOW_SHOVEL": name = "SNOWFLAKE"; break;
+            case "SLIME": name = "ITEM_SLIME"; break;
+            case "MOB_APPEARANCE": name = "ELDER_GUARDIAN"; break;
+            case "ITEM_CRACK": name = "ITEM"; break;
+            case "BLOCK_CRACK": name = "BLOCK"; break;
+            case "BLOCK_DUST": name = "BLOCK"; break;
+            case "WATER_DROP": name = "RAIN"; break;
+            case "TOWN_AURA": name = "MYCELIUM_UMBRELLA"; break;
+            //same names in both: CRIT, NOTE, PORTAL, FLAME, LAVA, CLOUD, HEART, BARRIER,
+            //ASH, DRAGON_BREATH, END_ROD, DAMAGE_INDICATOR, SWEEP_ATTACK, FALLING_DUST,
+            //TOTEM, SPIT, SQUID_INK, BUBBLE_POP, CURRENT_DOWN, BUBBLE_COLUMN_UP, NAUTILUS, DOLPHIN
+            default: break;
+        }
+        try {
+            return Particle.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            getPl().getLogger().severe("The particle '" + type + "' doesn't exist in this server version!");
+            return null;
+        }
+    }
+
     public void display(Player p) {
         if (!enabled) return;
-        AsyncHandler.async(() -> {
+        AsyncHandler.syncAtEntity(p, () -> {
             try { //Incase the library errors out
                 switch (shape) {
                     case "TELEPORT":
@@ -94,8 +136,8 @@ public class RTPEffect_Particles {
         Location loc = p.getLocation().add(new Vector(0, 1.75, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index);
-            for (ParticleEffect effect : effects) {
-                effect.display(loc.clone().add(vec), new Vector(0, -0.125, 0), .15f, 0, null, p);
+            for (Particle effect : effects) {
+                spawn(loc.clone().add(vec), new Vector(0, -0.125, 0), .15f, effect, p);
             }
         }
     }
@@ -106,8 +148,8 @@ public class RTPEffect_Particles {
             for (int index = 1; index < precision; index++) {
                 //double yran = ran.nextGaussian() * pHeight;
                 Vector vec = getVecCircle(index).add(new Vector(0, y, 0));
-                for (ParticleEffect effect : effects) {
-                    effect.display(loc.clone().add(vec), p);
+                for (Particle effect : effects) {
+                    spawn(loc.clone().add(vec), new Vector(0, 0, 0), 0f, effect, p);
                 }
             }
     }
@@ -116,10 +158,16 @@ public class RTPEffect_Particles {
         Location loc = p.getLocation().add(new Vector(0, 1, 0));
         for (int index = 1; index < precision; index++) {
             Vector vec = getVecCircle(index);
-            for (ParticleEffect effect : effects) {
-                effect.display(loc.clone().add(vec), vec, 1.5f, 0, null, p);
+            for (Particle effect : effects) {
+                spawn(loc.clone().add(vec), vec, 1.5f, effect, p);
             }
         }
+    }
+
+    //count=0 -> offset is used as velocity, extra as speed (same semantics as the old ParticleLib display call)
+    private void spawn(Location loc, Vector offset, float speed, Particle effect, Player p) {
+        p.spawnParticle(effect, loc.getX(), loc.getY(), loc.getZ(), 0,
+                offset.getX(), offset.getY(), offset.getZ(), speed);
     }
 
     private Vector getVecCircle(int index) {

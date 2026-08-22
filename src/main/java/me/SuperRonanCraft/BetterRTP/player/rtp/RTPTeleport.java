@@ -5,9 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffect_Titles;
 import me.SuperRonanCraft.BetterRTP.player.rtp.effects.RTPEffects;
@@ -52,10 +50,8 @@ public class RTPTeleport {
             RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, wPlayer.getWorldtype());
             getPl().getServer().getPluginManager().callEvent(event);
             Location loc = event.getLocation();
-            PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
-                @Override
-                public void run() {
-                    afterTeleport(p, loc, wPlayer, attempts, oldLoc, type);
+            p.teleportAsync(loc).thenRun(() -> { //Async teleport (Folia-safe: completes on the player's region thread)
+                afterTeleport(p, loc, wPlayer, attempts, oldLoc, type);
                     if (sendi != p) //Tell player who requested that the player rtp'd
                         sendSuccessMsg(sendi, p.getName(), loc, wPlayer, false, attempts);
                     getPl().getPInfo().getRtping().remove(p); //No longer rtp'ing
@@ -64,7 +60,7 @@ public class RTPTeleport {
                         if (BetterRTP.getInstance().getSettings().isRtpOnFirstJoin_SetAsRespawn()) //Save as respawn is enabled
                             p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
                 }
-            });
+            );
         } catch (Exception e) {
             getPl().getPInfo().getRtping().remove(p); //No longer rtp'ing (errored)
             e.printStackTrace();
