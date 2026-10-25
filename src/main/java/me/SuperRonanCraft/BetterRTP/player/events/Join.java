@@ -4,7 +4,6 @@ import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP_TYPE;
 import me.SuperRonanCraft.BetterRTP.references.PermissionNode;
 import me.SuperRonanCraft.BetterRTP.references.file.FileOther;
-import me.SuperRonanCraft.BetterRTP.references.messages.Message_RTP;
 import me.SuperRonanCraft.BetterRTP.references.messages.MessagesCore;
 import me.SuperRonanCraft.BetterRTP.references.web.Updater;
 import me.SuperRonanCraft.BetterRTP.references.helpers.HelperRTP;
@@ -20,8 +19,16 @@ public class Join {
     static void event(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         updater(p);
-        AsyncHandler.async(() -> getPl().getCooldowns().loadPlayer(p));
-        rtpOnFirstJoin(p);
+        // Capture this during the join event; hasPlayedBefore may change afterwards.
+        boolean firstJoin = !p.hasPlayedBefore();
+        AsyncHandler.async(() -> {
+            getPl().getCooldowns().loadPlayer(p);
+            // Wait until login has finished and run on the player's owning region.
+            AsyncHandler.syncAtEntity(p, () -> {
+                if (p.isOnline() && firstJoin)
+                    rtpOnFirstJoin(p);
+            });
+        });
     }
 
     //Updater
@@ -39,7 +46,7 @@ public class Join {
 
     //RTP on first join
     private static void rtpOnFirstJoin(Player p) {
-        if (getPl().getSettings().isRtpOnFirstJoin_Enabled() && !p.hasPlayedBefore())
+        if (getPl().getSettings().isRtpOnFirstJoin_Enabled())
             HelperRTP.tp(p, Bukkit.getConsoleSender(), Bukkit.getWorld(getPl().getSettings().getRtpOnFirstJoin_World()), null, RTP_TYPE.JOIN, true, true);
     }
 

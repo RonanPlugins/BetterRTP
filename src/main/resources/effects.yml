@@ -1,6 +1,6 @@
 Sounds:
   Enabled: true
-  ProtocolLibSound: false
+  ProtocolLibSound: false # Legacy option; Bukkit now handles sounds across server versions.
   ## More sounds at https://www.spigotmc.org/wiki/cc-sounds-list/
   Delay: 'entity_tnt_primed'
   Success: 'entity_generic_explode'
@@ -33,7 +33,7 @@ Titles:
     SendMessage: true
 Particles: #Use `rtp info particles` for a list of particles
   Enabled: true
-  Type: #list of particle types at https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java
+  Type: # Use /rtp info particles; legacy particle names remain supported.
     - 'EXPLOSION_NORMAL'
     - 'CRIT'
   Shape: 'EXPLODE' #Types available are "Scan, Teleport and Explode", or use `/rtp info shapes` for a list of shapes

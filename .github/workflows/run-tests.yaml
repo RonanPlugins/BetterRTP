@@ -1,21 +1,112 @@
 name: Maven Tests
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v4
+      - name: Set up build JDK
+        uses: actions/setup-java@v4
         with:
-          java-version: 17
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build and test Java 17 plugin
+        run: mvn -B -nsu install
+      - name: Build BetterRTPAddons
+        run: mvn -B -nsu package
+        working-directory: BetterRTPAddons
+      - name: Check Java 17 bytecode and plugin API baseline
+        run: |
+          python3 - <<'PY'
+          import struct
+          import zipfile
+          from pathlib import Path
+          for path in (Path("target/BetterRTP-3.6.13.jar"), Path("BetterRTPAddons/target/BetterRTPAddons-1.8.10.jar")):
+              with zipfile.ZipFile(path) as jar:
+                  assert "api-version: '1.20'" in jar.read("plugin.yml").decode(), path
+                  for name in jar.namelist():
+                      if name.endswith(".class") and not name.startswith("META-INF/versions/"):
+                          major = struct.unpack(">H", jar.read(name)[6:8])[0]
+                          assert major <= 61, (path, name, major)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BetterRTP
+          path: target/BetterRTP-*.jar
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BetterRTPAddons
+          path: BetterRTPAddons/target/BetterRTPAddons-*.jar
+          if-no-files-found: error
 
-      - name: Configure Maven settings
-        run: cp settings.xml $HOME/.m2/settings.xml
-
-      - name: Build and test with Maven
-        run: mvn test
+  smoke:
+    needs: build
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: Paper 1.20.1 / Java 17
+            java: '17'
+            client: '1.20.1'
+            url: https://fill-data.papermc.io/v1/objects/234a9b32098100c6fc116664d64e36ccdb58b5b649af0f80bcccb08b0255eaea/paper-1.20.1-196.jar
+            sha256: 234a9b32098100c6fc116664d64e36ccdb58b5b649af0f80bcccb08b0255eaea
+          - label: Paper 1.21.8 / Java 21
+            java: '21'
+            client: '1.21.8'
+            url: https://fill-data.papermc.io/v1/objects/8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e/paper-1.21.8-60.jar
+            sha256: 8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e
+          - label: Folia 1.21.8 / Java 21
+            java: '21'
+            client: '1.21.8'
+            url: https://fill-data.papermc.io/v1/objects/233843cfd5001b6f658fcab549178d694cc37f0277d004ea295de0a94c57278f/folia-1.21.8-6.jar
+            sha256: 233843cfd5001b6f658fcab549178d694cc37f0277d004ea295de0a94c57278f
+          - label: Folia 26.1.2 / Java 25
+            java: '25'
+            client: '26.1'
+            url: https://fill-data.papermc.io/v1/objects/607afd1c3320008e1ffd2eaee6780ace4419d5f8c527b75e79f259be79ebf57b/folia-26.1.2-8.jar
+            sha256: 607afd1c3320008e1ffd2eaee6780ace4419d5f8c527b75e79f259be79ebf57b
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: BetterRTP
+          path: target
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: scripts
+      - name: Verify commands, first join, delayed RTP, and effects
+        run: >-
+          python3 scripts/smoke_server.py
+          --server-url '${{ matrix.url }}'
+          --sha256 '${{ matrix.sha256 }}'
+          --label '${{ matrix.label }}'
+          --directory '${{ runner.temp }}/smoke'
+          --client-version '${{ matrix.client }}'
+      - name: Upload server logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/smoke/*.log

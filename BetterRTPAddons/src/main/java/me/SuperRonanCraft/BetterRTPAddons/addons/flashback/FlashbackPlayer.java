@@ -1,11 +1,8 @@
 package me.SuperRonanCraft.BetterRTPAddons.addons.flashback;
 
-import io.papermc.lib.PaperLib;
-import me.SuperRonanCraft.BetterRTPAddons.Main;
-import org.bukkit.Bukkit;
+import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -13,7 +10,7 @@ public class FlashbackPlayer {
     Player p;
     Location oldLoc;
     AddonFlashback plugin;
-    List<BukkitTask> tasks = new ArrayList<>();
+    List<Object> tasks = new ArrayList<>();
 
     public FlashbackPlayer(AddonFlashback plugin, Player p, Location oldLoc, Long seconds, HashMap<Long, String> warnings) {
         this.plugin = plugin;
@@ -21,7 +18,7 @@ public class FlashbackPlayer {
         this.oldLoc = oldLoc;
         if (warnings != null)
             createTimers(seconds, orderMap(warnings));
-        tasks.add(Bukkit.getScheduler().runTaskLater(Main.getInstance(), runFlashback(seconds), 20L * seconds));
+        tasks.add(AsyncHandler.syncAtEntityLaterTask(p, runFlashback(seconds), 20L * seconds));
     }
 
     void createTimers(Long seconds, TreeMap<Long, String> warnings) {
@@ -29,7 +26,7 @@ public class FlashbackPlayer {
             String str = entry.getValue();
             long time = seconds - entry.getKey();
             if (time >= 0)
-                tasks.add(Bukkit.getScheduler().runTaskLater(Main.getInstance(), runWarning(str), 20L * time));
+                tasks.add(AsyncHandler.syncAtEntityLaterTask(p, runWarning(str), 20L * time));
         }
     }
 
@@ -42,8 +39,10 @@ public class FlashbackPlayer {
             p.sendMessage("A Database error has occurred!");
         return () -> {
             plugin.msgs.getWarning(p);
-            PaperLib.teleportAsync(p, oldLoc);
-            completed();
+            AsyncHandler.teleportAsync(p, oldLoc).thenAccept(success -> {
+                if (success)
+                    AsyncHandler.syncAtEntity(p, this::completed);
+            });
         };
     }
 
@@ -52,8 +51,8 @@ public class FlashbackPlayer {
     }
 
     public void cancel() {
-        for (BukkitTask task : tasks)
-            task.cancel();
+        for (Object task : tasks)
+            AsyncHandler.cancelTask(task);
     }
 
     private void completed() {

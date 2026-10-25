@@ -9,9 +9,18 @@ feel free to fork one of the language files and help translate!
 ## Libraries
 BetterRTP uses and is compiled with the following libraries:
 
-- [ParticleLib](https://github.com/ByteZ1337/ParticleLib) (included) - Particles library by ByteZ1337. Find all supported particles [here](https://github.com/ByteZ1337/ParticleLib/blob/master/src/main/java/xyz/xenondevs/particle/ParticleEffect.java)
-- [PaperLib](https://github.com/PaperMC/PaperLib) (included) - Library for interfacing with PaperMC specific APIs, used for async chunk loading.
-- [FoliaLib](https://github.com/TechnicallyCoded/FoliaLib) (included) - Library for interfacing with Folia specific APIs, used for cross-platform timers.
+- [Paper API](https://github.com/PaperMC/Paper) (provided) - Compile-time baseline: 1.20.1.
+- [FoliaLib](https://github.com/TechnicallyCoded/FoliaLib) (included) - Selects Bukkit, Paper, or Folia scheduling and teleport APIs at runtime.
+
+## Compatibility
+
+BetterRTP and BetterRTPAddons target Minecraft 1.20+ with Java 17 bytecode and `api-version: '1.20'`. Run each server with the Java version required by that server (for example Java 21 for 1.21, Java 25 for 26.1). Build with JDK 21 or newer because some optional integration APIs require it.
+
+CI builds both jars, runs regression tests, and smoke-tests Paper 1.20.1, Paper 1.21.8, Folia 1.21.8, and Folia 26.1.2 using pinned server artifacts. The client confirms first-join and delayed RTP, sounds, particles, and potion effects. Other 1.20+ releases and third-party integrations still need their own runtime validation; future server compatibility is not guaranteed.
+
+First-join RTP waits for player data to load, then runs on the player's owning scheduler. It retains the configured delay bypass. Sounds use Bukkit's version-aware API, accepting both legacy names (`ENTITY_GENERIC_EXPLODE`) and resource keys (`minecraft:entity.generic.explode`). The legacy `ProtocolLibSound` setting no longer selects a packet implementation.
+
+Particles use Bukkit with legacy-name translation; /rtp info particles lists supported types.
 
 ## Build instructions on Ubuntu
 

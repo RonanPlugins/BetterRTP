@@ -12,7 +12,9 @@ feel free to fork one of the language files and help translate!
 ## Libraries
 BetterRTPAddons uses and is compiled with the following libraries:
 
-- [PaperLib](https://github.com/PaperMC/PaperLib) (included) - Library for interfacing with PaperMC specific APIs, used for async chunk loading.
+- [Paper API](https://github.com/PaperMC/Paper) (provided) - 1.20.1 compile-time API baseline.
+
+Built with JDK 21+ targeting Java 17 bytecode and Minecraft 1.20+. Use the Java version required by the server. Folia scheduling is delegated to BetterRTP; third-party addons and integrations must also support your server version.
 
 ## Where's the Wiki?  
 The wiki is available [here](../../../wiki)!
