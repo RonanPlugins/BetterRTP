@@ -91,3 +91,7 @@ permissions:
     betterrtp.edit:
         description: Edit a custom/default world rtp center/radius
         default: op
+
+    betterrtp.editor:
+        description: Open or cancel a temporary web editor with config write and reload access
+        default: op

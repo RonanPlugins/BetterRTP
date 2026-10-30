@@ -22,6 +22,7 @@ public enum PermissionNode implements PermissionCheck {
     SIGN_CREATE("sign"),
     VERSION("version"),
     EDIT("edit"),
+    EDITOR("editor"),
     LOCATION("location"),
     DEVELOPER("DEVELOPER_PERM"),
     ;

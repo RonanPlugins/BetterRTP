@@ -47,12 +47,17 @@ public class BetterRTP extends JavaPlugin {
     @Getter private boolean PlaceholderAPI;
     @Getter private final RTPLogger rtpLogger = new RTPLogger();
     @Getter private final FoliaHandler foliaHandler = new FoliaHandler();
+    @Getter private me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge editorBridge;
 
     @Override
     public void onEnable() {
         instance = this;
         registerDependencies();
         loadAll();
+        editorBridge = new me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge(
+                this, me.SuperRonanCraft.BetterRTP.versions.AsyncHandler::sync, this::reload,
+                me.SuperRonanCraft.BetterRTP.references.PermissionNode.EDITOR::check,
+                () -> me.SuperRonanCraft.BetterRTP.references.file.FileOther.FILETYPE.CONFIG.getConfig().saveToString());
         new Updater(this);
         new Metrics(this);
         listener.registerEvents(this);
@@ -66,6 +71,7 @@ public class BetterRTP extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (editorBridge != null) editorBridge.close();
         invs.closeAll();
         queue.unload();
         rtpLogger.unload();
