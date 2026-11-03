@@ -6,6 +6,7 @@ public enum RTPCommandType {
     BIOME(new CmdBiome()),
     EDIT(new CmdEdit()),
     EDITOR(new CmdEditor()),
+    EDITOR_SYNC(new CmdEditorSync()),
     HELP(new CmdHelp()),
     INFO(new CmdInfo()),
     LOCATION(new CmdLocation()),

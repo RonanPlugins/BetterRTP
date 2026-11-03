@@ -96,27 +96,24 @@ public final class EditorConfig {
 
     public static Path apply(Path file, byte[] snapshot, String edited, Reload reload) throws Exception {
         validate(new String(snapshot, StandardCharsets.UTF_8), edited);
-        if (!Arrays.equals(read(file), snapshot)) throw new IOException("config.yml changed; start a new session.");
         Path backups = file.getParent().resolve("editor-backups");
         Files.createDirectories(backups);
         Path backup = backups.resolve("config-" + System.currentTimeMillis() + "-" + UUID.randomUUID() + ".yml");
-        Files.write(backup, snapshot, StandardOpenOption.CREATE_NEW);
-        if (!Arrays.equals(read(file), snapshot)) throw new IOException("Configuration changed during save.");
+        // Back up the current file, but intentionally allow intervening local changes.
+        Files.write(backup, read(file), StandardOpenOption.CREATE_NEW);
         replace(file, edited.getBytes(StandardCharsets.UTF_8));
         try {
             reload.run();
             if (!equivalent(edited, new String(read(file), StandardCharsets.UTF_8)))
                 throw new IOException("Saved configuration does not match the submission.");
-            return backup;
         } catch (Exception failure) {
-            replace(file, snapshot);
-            try { reload.run(); }
-            catch (Exception rollback) {
-                IOException error = new IOException("Original file restored but reload failed; restart the server.", failure);
-                error.addSuppressed(rollback); throw error;
-            }
-            throw new IOException("Reload failed; original configuration restored.", failure);
+            throw new ReloadFailure(failure);
         }
+        return backup;
+    }
+
+    public static final class ReloadFailure extends IOException {
+        public ReloadFailure(Exception cause) { super("Configuration written, but reload failed. No rollback was performed.", cause); }
     }
 
     public static boolean equivalent(String expected, String actual) throws Exception {

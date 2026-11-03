@@ -93,5 +93,5 @@ permissions:
         default: op
 
     betterrtp.editor:
-        description: Open or cancel a temporary web editor with config write and reload access
+        description: Open, cancel, or sync a temporary web editor with config write and reload access
         default: op

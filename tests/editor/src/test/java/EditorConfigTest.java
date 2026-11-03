@@ -31,7 +31,7 @@ public class EditorConfigTest {
         String bundled = new String(Files.readAllBytes(Paths.get("../../src/main/resources/config.yml")), StandardCharsets.UTF_8);
         EditorConfig.validate(bundled, bundled.replace("MaxRadius: 1000\n", "MaxRadius: 2000\n"));
     }
-    @Test public void refusesStaleWritesAndRestoresAfterReloadFailure() throws Exception {
+    @Test public void allowsStaleWritesAndKeepsNewFileAfterReloadFailure() throws Exception {
         Path dir = Files.createTempDirectory("betterrtp-editor-apply"); Path file = dir.resolve("config.yml");
         byte[] snapshot = original.getBytes(StandardCharsets.UTF_8);
         try {
@@ -40,16 +40,21 @@ public class EditorConfigTest {
             Path backup = EditorConfig.apply(file, snapshot, edited, () -> {});
             assertArrayEquals(snapshot, Files.readAllBytes(backup));
             assertTrue(EditorConfig.equivalent(edited, new String(Files.readAllBytes(file), StandardCharsets.UTF_8)));
-            try { EditorConfig.apply(file, snapshot, original, () -> {}); fail("Stale overwrite"); }
-            catch (java.io.IOException expected) { }
+            // The original snapshot is now stale; applying it is intentionally allowed.
+            EditorConfig.apply(file, snapshot, original, () -> {});
+            assertArrayEquals(snapshot, Files.readAllBytes(file));
             byte[] current = Files.readAllBytes(file);
             final int[] reloads = { 0 };
             try {
-                EditorConfig.apply(file, current, original, () -> { if (reloads[0]++ == 0) throw new java.io.IOException("Simulated reload failure"); });
+                EditorConfig.apply(file, current, edited, () -> { reloads[0]++; throw new java.io.IOException("Simulated reload failure"); });
                 fail("Reload should fail");
             } catch (java.io.IOException expected) { }
-            assertEquals(2, reloads[0]);
-            assertArrayEquals(current, Files.readAllBytes(file));
+            assertEquals(1, reloads[0]);
+            assertArrayEquals(edited.getBytes(StandardCharsets.UTF_8), Files.readAllBytes(file));
+            byte[] unchanged = Files.readAllBytes(file);
+            try { EditorConfig.apply(file, snapshot, "broken: [", () -> fail("Must not reload")); fail("Must reject invalid config"); }
+            catch (Exception expected) { }
+            assertArrayEquals(unchanged, Files.readAllBytes(file));
         } finally {
             try (java.util.stream.Stream<Path> files = Files.walk(dir)) {
                 files.sorted(java.util.Comparator.reverseOrder()).forEach(p -> { try { Files.delete(p); } catch (java.io.IOException e) { throw new RuntimeException(e); } });

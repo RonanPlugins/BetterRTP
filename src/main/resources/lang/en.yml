@@ -39,6 +39,7 @@ Help:
   Main: ' &7- &e/%command% &7- Randomly teleports you!'
   Biome: ' &7- &e/%command% biome <biome1, biome2...> &7- Randomly teleport withing these biomes'
   Edit: ' &7- &e/%command% edit <default/world> [args...] &7- Edit some plugin settings'
+  EditorSync: ' &7- &e/%command% editorsync <token> &7- Apply your saved web editor configuration'
   Editor: ' &7- &e/%command% editor &7- Initialize an online config editor for easier configuration'
   Help: ' &7- &e/%command% help &7- Shows help list'
   Info: ' &7- &e/%command% info [world/particles/shapes/potion_effects] &7- View specific information about plugin parameters'

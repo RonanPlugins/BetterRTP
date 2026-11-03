@@ -9,6 +9,7 @@ public enum MessagesHelp implements MessageData {
     BIOME("Biome"),
     EDIT("Edit"),
     EDITOR("Editor"),
+    EDITOR_SYNC("EditorSync"),
     HELP("Help"),
     INFO("Info"),
     PLAYER("Player"),
