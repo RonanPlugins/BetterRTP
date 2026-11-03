@@ -14,9 +14,18 @@
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <editor.website>https://minecentral.net</editor.website>
+        <editor.buildSuffix></editor.buildSuffix>
     </properties>
 
     <profiles>
+        <profile>
+            <id>staging</id>
+            <properties>
+                <editor.website>https://n2nm1thopoojau1ggnalixvr.minecentral.net</editor.website>
+                <editor.buildSuffix>-staging</editor.buildSuffix>
+            </properties>
+        </profile>
         <profile>
             <id>dev</id>
             <build>
@@ -42,7 +51,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}${editor.buildSuffix}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

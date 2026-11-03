@@ -8,6 +8,7 @@ public enum MessagesHelp implements MessageData {
     MAIN("Main"),
     BIOME("Biome"),
     EDIT("Edit"),
+    EDITOR("Editor"),
     HELP("Help"),
     INFO("Info"),
     PLAYER("Player"),

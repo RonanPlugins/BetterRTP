@@ -27,3 +27,19 @@ The website is trusted with the submitted config; this protocol is not end-to-en
 ## Validation
 
 Run `mvn -f tests/editor/pom.xml test` for the isolated config validator/file-write suite. It uses the actual Spigot YAML implementation without requiring all of the plugin's protection integrations. Run `mvn package` for the full plugin. Before production use, test the complete flow on a staging Minecraft server, including permissions, disconnect, reload failure and Folia scheduling if applicable.
+
+## Production and staging builds
+
+The normal `mvn clean package` build embeds `https://minecentral.net` and produces
+`target/BetterRTP-3.6.13.jar`. Use `mvn clean package -Pstaging` to embed
+`https://n2nm1thopoojau1ggnalixvr.minecentral.net` and produce
+`target/BetterRTP-3.6.13-staging.jar` for the test Minecraft server.
+
+The address is filtered into internal JAR metadata at build time. It is not read
+from `editor.yml`, a server-side file, or an environment variable. Upload only one
+BetterRTP JAR to a server's plugins directory. The staging website should use its
+own origin as `APP_ORIGIN` and have the editor enabled and migrations applied.
+
+This profile changes only the destination website. The implementation described
+above still uses the original polling protocol; the agreed `editorsync` command,
+24-hour sessions, and independent 15-minute save tokens remain implementation work.

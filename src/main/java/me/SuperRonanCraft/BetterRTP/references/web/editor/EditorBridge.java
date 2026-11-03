@@ -20,7 +20,23 @@ import java.util.concurrent.*;
 
 /** One active session per server, all HTTP on a dedicated daemon worker. No inbound server port. */
 public final class EditorBridge {
-    private static final String WEBSITE = "https://minecentral.net";
+    private static final String WEBSITE = loadWebsite();
+
+    private static String loadWebsite() {
+        Properties metadata = new Properties();
+        try (InputStream input = EditorBridge.class.getResourceAsStream("/META-INF/betterrtp-editor.properties")) {
+            if (input == null) throw new IllegalStateException("Missing editor build metadata");
+            metadata.load(input);
+        } catch (IOException e) {
+            throw new IllegalStateException("Cannot read editor build metadata", e);
+        }
+        String website = metadata.getProperty("website");
+        if (!"https://minecentral.net".equals(website)
+                && !"https://n2nm1thopoojau1ggnalixvr.minecentral.net".equals(website)) {
+            throw new IllegalStateException("Invalid editor website in build metadata");
+        }
+        return website;
+    }
     private final JavaPlugin plugin;
     private final Consumer<Runnable> sync;
     private final Consumer<CommandSender> reload;
