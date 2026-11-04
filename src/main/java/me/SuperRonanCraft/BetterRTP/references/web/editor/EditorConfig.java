@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/** Validation is deliberately stricter than the local file loader. No new schema keys in protocol 1. */
+/** Fixed settings retain their schema; supported collections allow typed named entries. */
 public final class EditorConfig {
     public static final int MAX_BYTES = 128 * 1024;
     private static final Pattern TOKENS = Pattern.compile("(^|[\\s\\[\\]{},])[!&*]", Pattern.MULTILINE);
@@ -38,21 +38,28 @@ public final class EditorConfig {
         YamlConfiguration before = parse(original), after = parse(edited);
         if (!Objects.equals(before.get("Language-File"), after.get("Language-File")))
             throw new IOException("Change Language-File locally, not through the web editor.");
-        compare(before, after, "config", 0);
+        compare(before, after, "config", 0, (Map<?, ?>) normalize(after.get("Default")));
     }
 
     private static Object normalize(Object value) {
         return value instanceof ConfigurationSection ? ((ConfigurationSection) value).getValues(false) : value;
     }
 
-    private static void compare(Object oldValue, Object newValue, String path, int depth) throws IOException {
+    private static void compare(Object oldValue, Object newValue, String path, int depth, Map<?, ?> defaults) throws IOException {
         if (depth > 32) throw new IOException("Configuration nesting is too deep.");
         oldValue = normalize(oldValue); newValue = normalize(newValue);
+        if (Arrays.asList("config.BlacklistedBlocks", "config.DisabledWorlds", "config.Default.Biomes").contains(path)) {
+            stringList(newValue, path); return;
+        }
+        if (Arrays.asList("config.Overrides", "config.WorldType", "config.CustomWorlds", "config.PermissionGroup.Groups").contains(path)) {
+            String kind = path.equals("config.Overrides") ? "overrides" : path.equals("config.WorldType") ? "types" : path.equals("config.CustomWorlds") ? "worlds" : "groups";
+            named(oldValue, newValue, path, kind, depth, defaults); return;
+        }
         if (oldValue instanceof Map) {
             if (!(newValue instanceof Map)) throw new IOException("Expected section: " + path);
             Map<?, ?> oldMap = (Map<?, ?>) oldValue, newMap = (Map<?, ?>) newValue;
             if (!oldMap.keySet().equals(newMap.keySet())) throw new IOException("Keep existing setting names: " + path);
-            for (Object key : oldMap.keySet()) compare(oldMap.get(key), newMap.get(key), path + "." + key, depth + 1);
+            for (Object key : oldMap.keySet()) compare(oldMap.get(key), newMap.get(key), path + "." + key, depth + 1, defaults);
             checkRange(newMap, "MinRadius", "MaxRadius", path, true);
             checkRange(newMap, "MinY", "MaxY", path, false);
         } else if (oldValue instanceof List) {
@@ -63,7 +70,7 @@ public final class EditorConfig {
             if (structured && oldList.size() != newList.size()) throw new IOException("Keep existing world/group entries: " + path);
             for (int i = 0; i < newList.size(); i++) {
                 Object baseline = structured ? oldList.get(i) : oldList.isEmpty() ? "" : oldList.get(0);
-                compare(baseline, newList.get(i), path + "[" + i + "]", depth + 1);
+                compare(baseline, newList.get(i), path + "[" + i + "]", depth + 1, defaults);
             }
         } else if (oldValue instanceof Number) {
             if (!(newValue instanceof Number)) throw new IOException("Expected number: " + path);
@@ -82,6 +89,78 @@ public final class EditorConfig {
             if (path.endsWith(".Shape") && !Arrays.asList("square", "circle").contains(((String) newValue).toLowerCase(Locale.ROOT)))
                 throw new IOException("Shape must be square or circle.");
         } else if (!Objects.equals(oldValue, newValue)) throw new IOException("Unsupported setting: " + path);
+    }
+
+    private static boolean validName(String value) {
+        return !value.trim().isEmpty() && value.equals(value.trim()) && value.length() <= 100 && !Pattern.compile("[\\x00-\\x1f]").matcher(value).find();
+    }
+
+    private static void stringList(Object value, String path) throws IOException {
+        if (!(value instanceof List) || ((List<?>) value).size() > 1000) throw new IOException("Expected text list: " + path);
+        for (Object item : (List<?>) value)
+            if (!(item instanceof String) || ((String) item).trim().isEmpty()) throw new IOException("Expected non-empty text: " + path);
+    }
+
+    private static Map<String, Object> entries(Object value, String path) throws IOException {
+        if (!(value instanceof List) || ((List<?>) value).size() > 1000) throw new IOException("Expected named list: " + path);
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Object item : (List<?>) value) {
+            item = normalize(item);
+            if (!(item instanceof Map) || ((Map<?, ?>) item).isEmpty()) throw new IOException("Expected named entry: " + path);
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) item).entrySet()) {
+                if (!(entry.getKey() instanceof String) || !validName((String) entry.getKey()) || result.containsKey(entry.getKey()))
+                    throw new IOException("Invalid or duplicate name: " + path);
+                result.put((String) entry.getKey(), entry.getValue());
+            }
+        }
+        return result;
+    }
+
+    private static Map<String, Object> worldSettings(boolean group) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (String name : Arrays.asList("MaxRadius", "MinRadius", "CenterX", "CenterZ", "Price", "MaxY", "MinY", "Cooldown")) result.put(name, 0);
+        result.put("UseWorldBorder", false); result.put("RTPOnDeath", false);
+        result.put("Shape", "square"); result.put("Biomes", Collections.emptyList());
+        if (group) result.put("Priority", 0);
+        return result;
+    }
+
+    private static void named(Object before, Object after, String path, String kind, int depth, Map<?, ?> defaults) throws IOException {
+        if (depth > 32) throw new IOException("Configuration nesting is too deep.");
+        Map<String, Object> old = entries(before, path), next = entries(after, path);
+        for (Map.Entry<String, Object> entry : next.entrySet()) {
+            String key = entry.getKey(), at = path + "." + key;
+            Object value = normalize(entry.getValue());
+            if (kind.equals("overrides")) {
+                if (!(value instanceof String) || !validName((String) value)) throw new IOException("Invalid target world: " + at);
+            } else if (kind.equals("types")) {
+                if (!(value instanceof String) || !Arrays.asList("NORMAL", "NETHER").contains(((String) value).toUpperCase(Locale.ROOT)))
+                    throw new IOException("World type must be NORMAL or NETHER: " + at);
+            } else if (kind.equals("groups")) {
+                named(old.containsKey(key) ? old.get(key) : Collections.emptyList(), value, at, "groupWorlds", depth + 1, defaults);
+            } else {
+                if (!(value instanceof Map)) throw new IOException("Expected world settings: " + at);
+                Map<?, ?> settings = (Map<?, ?>) value;
+                Object previousValue = normalize(old.get(key));
+                Map<?, ?> previous = previousValue instanceof Map ? (Map<?, ?>) previousValue : Collections.emptyMap();
+                Map<String, Object> allowed = worldSettings(kind.equals("groupWorlds"));
+                for (Map.Entry<?, ?> field : settings.entrySet()) {
+                    if (!(field.getKey() instanceof String)) throw new IOException("Invalid setting name: " + at);
+                    String name = (String) field.getKey(); Object val = field.getValue();
+                    if (name.equals("Biomes")) stringList(val, at + ".Biomes");
+                    else if (allowed.containsKey(name)) {
+                        compare(allowed.get(name), val, at + "." + name, depth + 1, defaults);
+                        if (name.equals("Cooldown") && ((Number) val).doubleValue() < 0) throw new IOException("Negative cooldown: " + at);
+                    } else if (previous.containsKey(name)) compare(previous.get(name), val, at + "." + name, depth + 1, defaults);
+                    else throw new IOException("Unsupported world setting: " + at + "." + name);
+                }
+                for (Object name : previous.keySet())
+                    if (!allowed.containsKey(name) && !settings.containsKey(name)) throw new IOException("Keep existing setting: " + at + "." + name);
+                Map<Object, Object> effective = new LinkedHashMap<>(); effective.putAll(defaults); effective.putAll(settings);
+                checkRange(effective, "MinRadius", "MaxRadius", at, true);
+                checkRange(effective, "MinY", "MaxY", at, false);
+            }
+        }
     }
 
     private static void checkRange(Map<?, ?> map, String min, String max, String path, boolean strict) throws IOException {

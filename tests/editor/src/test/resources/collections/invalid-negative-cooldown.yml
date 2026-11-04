@@ -1,0 +1,25 @@
+Language-File: en.yml
+Settings:
+  MaxAttempts: 32
+Default:
+  MinRadius: 10
+  MaxRadius: 1000
+  MinY: 0
+  MaxY: 320
+  Biomes: []
+BlacklistedBlocks: [water]
+DisabledWorlds: [prison]
+Overrides:
+  - lobby: world
+WorldType:
+  - world: NORMAL
+CustomWorlds:
+  - world:
+      MaxRadius: 2000
+      Future: unchanged
+PermissionGroup:
+  Enabled: true
+  Groups:
+    - vip:
+        - world:
+            Cooldown: -1

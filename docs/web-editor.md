@@ -19,7 +19,7 @@ There are no inbound Minecraft connections and no automatic polling. Allow outbo
 - Session expiry preserves the browser text for download. The personal config library and Discord login are not implemented yet.
 - Tokens are consumed atomically when downloaded. If a response is lost, local validation fails, or the player disconnects before application, save again for a fresh token. The plugin does not retry writes. Minecraft reports the apply outcome; the website does not report generated commands as applied.
 - The player running editorsync must still be online and hold `betterrtp.editor` at apply time. Restarting/disabling the plugin discards its in-memory session, so old tokens cannot be applied by that plugin instance after restart.
-- Invalid content is rejected before any file change. Validation preserves the existing setting structure and types, checks selected numeric ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits config size to 128 KiB. This is conservative validation, not a complete schema for every integration.
+- Invalid content is rejected before any file change. Validation preserves fixed setting names and types, permits typed add/remove/rename operations in supported collections, checks selected numeric ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits config size to 128 KiB. This is conservative validation, not a complete schema for every integration.
 - Intervening edits to the Minecraft config do not block syncing: applying a saved version can overwrite those edits. A backup of the current file is created in `plugins/BetterRTP/editor-backups/`; rotate backups as appropriate.
 - If writing succeeds but reload fails, the new file stays in place and a reload error is reported. There is no automatic rollback. Check Minecraft's console and reload after resolving the failure.
 - The private plugin-session capability binds redemption to the original session; no server label is collected or used for authorization.
@@ -39,3 +39,19 @@ The address is internal JAR build metadata, not a server configuration or enviro
 Run `mvn -f tests/editor/pom.xml test` for configuration validation/file-write tests and `mvn package -Pstaging` for the full staging plugin. The web repository's `pnpm test` exercises version isolation, atomic single-use redemption, server binding, independent expiry, cancellation, validation, and limits against embedded PostgreSQL.
 
 Before production use, test the complete flow on the staging Minecraft server, including permission denial, permission loss, disconnect, expiry, repeated saves, intervening local changes, reload errors, restart, and Folia scheduling if applicable. Local automated checks do not substitute for this staging run.
+
+## Collection edits
+
+The shared web form now treats BlacklistedBlocks, DisabledWorlds and Biomes as editable lists; Overrides and WorldType as named mappings; CustomWorlds as named world settings; and PermissionGroup.Groups as groups containing named world settings. Empty lists are editable. World settings may be omitted to inherit defaults.
+
+EditorConfig validates these dynamic entries by name and type, rejects duplicate names and unsupported new setting keys, and validates effective radius/height ranges against Default. Existing unknown settings under an unchanged world name retain their original schema. Other sections keep their existing fixed schema, and Language-File still requires a local edit.
+
+Update both the website and plugin JAR before using structural list edits through editorsync. Older JARs reject renamed/added/removed world and group entries. The protocol remains version 2 and there is no database migration. Matching collection fixtures run in both repositories; this does not replace a deployed sync check.
+
+## Available worlds metadata
+
+Session creation sends a `worlds` string array captured from `Bukkit.getWorlds()` on the command thread before the HTTP worker runs. It lists loaded worlds at that moment; it does not read folder names, server name, or MOTD. The website stores this immutable session metadata separately from YAML and uses it for world suggestions and availability notices.
+
+Users may add/remove names from their editor suggestions, but this never creates/deletes actual worlds or changes the server-reported snapshot. Configs may intentionally reference unloaded/future worlds, so availability warnings do not block syncing. Open a fresh session to refresh reported worlds.
+
+Deploy the website migration adding `EditorSession.worlds`, then update the JAR and create a new session. Older protocol 2 plugins/sessions omit this optional field and continue working with unverified config-derived world names. World metadata does not grant additional sync authority.

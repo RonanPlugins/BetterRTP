@@ -61,6 +61,20 @@ public class EditorConfigTest {
             }
         }
     }
+    @Test public void validatesCollectionFixtures() throws Exception {
+        Path root = Paths.get("src/test/resources/collections");
+        String baseline = new String(Files.readAllBytes(root.resolve("baseline.yml")), StandardCharsets.UTF_8);
+        try (java.util.stream.Stream<Path> files = Files.list(root)) {
+            for (Path file : (Iterable<Path>) files::iterator) {
+                String value = new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
+                if (file.getFileName().toString().startsWith("invalid-")) {
+                    try { EditorConfig.validate(baseline, value); fail("Expected rejection: " + file); }
+                    catch (java.io.IOException expected) { }
+                } else EditorConfig.validate(baseline, value);
+            }
+        }
+    }
+
     @Test public void replacesAtomicallyAndBoundsReads() throws Exception {
         Path dir = Files.createTempDirectory("betterrtp-editor-test"); Path file = dir.resolve("config.yml");
         try {

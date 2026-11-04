@@ -1,6 +1,8 @@
 package me.SuperRonanCraft.BetterRTP.references.web.editor;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,6 +65,9 @@ public final class EditorBridge {
             byte[] bytes = EditorConfig.read(configPath());
             String content = new String(bytes, StandardCharsets.UTF_8); EditorConfig.parse(content);
             Session session = new Session(content, bytes, sender instanceof Player ? ((Player) sender).getUniqueId() : null);
+            // Snapshot loaded worlds on the command thread, before starting HTTP work.
+            List<String> worlds = new ArrayList<>();
+            for (org.bukkit.World world : Bukkit.getWorlds()) worlds.add(world.getName());
             current = session;
             sender.sendMessage("§7Creating a private BetterRTP editor session…");
             worker.execute(() -> {
@@ -70,6 +75,9 @@ public final class EditorBridge {
                     JsonObject body = new JsonObject(); body.addProperty("protocol", 2);
                     body.addProperty("playerId", session.player == null ? null : session.player.toString());
                     body.addProperty("configFile", "config.yml");
+                    JsonArray availableWorlds = new JsonArray();
+                    for (String world : worlds) availableWorlds.add(new JsonPrimitive(world));
+                    body.add("worlds", availableWorlds);
                     body.addProperty("version", plugin.getDescription().getVersion()); body.addProperty("content", content);
                     JsonObject result = request(session, "POST", "/api/editor/sessions", body);
                     session.pluginToken = result.get("pluginToken").getAsString();
