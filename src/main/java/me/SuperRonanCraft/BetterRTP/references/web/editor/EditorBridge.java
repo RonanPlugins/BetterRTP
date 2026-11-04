@@ -61,7 +61,6 @@ public final class EditorBridge {
 
     public void open(CommandSender sender) {
         if (!allowed.test(sender)) return;
-        if (!(sender instanceof Player)) { sender.sendMessage("§cEditor sessions must be created by a player."); return; }
         try {
             if (current != null && System.currentTimeMillis() >= current.expires + 15 * 60 * 1000) current = null;
             if (current != null) throw new IOException("An editor is already active. Use /rtp editor cancel first.");
@@ -74,7 +73,7 @@ public final class EditorBridge {
             worker.execute(() -> {
                 try {
                     JsonObject body = new JsonObject(); body.addProperty("protocol", 2);
-                    body.addProperty("playerId", session.player.toString());
+                    body.addProperty("playerId", session.player == null ? null : session.player.toString());
                     body.addProperty("serverName", serverName);
                     body.addProperty("configFile", "config.yml");
                     body.addProperty("version", plugin.getDescription().getVersion()); body.addProperty("content", content);
@@ -108,8 +107,8 @@ public final class EditorBridge {
     public void cancel(CommandSender sender) {
         if (!allowed.test(sender)) return;
         Session session = current;
-        if (session != null && (!(sender instanceof Player) || !session.player.equals(((Player) sender).getUniqueId()))) {
-            sender.sendMessage("§cOnly the player who created the editor session can cancel it."); return;
+        if (session != null && sender instanceof Player && !Objects.equals(session.player, ((Player) sender).getUniqueId())) {
+            sender.sendMessage("§cOnly the session creator or console can cancel it."); return;
         }
         if (session != null) cancelSession(session);
         sender.sendMessage("§7Editor session cancelled. Changes already applied cannot be undone by cancelling.");
@@ -130,22 +129,22 @@ public final class EditorBridge {
     }
     private void message(UUID playerId, String text) {
         if (!stopped) sync.accept(() -> {
-            Player player = Bukkit.getPlayer(playerId);
+            CommandSender player = playerId == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(playerId);
             if (player != null) player.sendMessage("§eEditor: " + text);
         });
     }
     public void redeem(CommandSender sender, String token) {
         if (!allowed.test(sender)) return;
         Session session = current;
-        if (!(sender instanceof Player) || session == null) {
-            sender.sendMessage("§cRun this command as a player on the server with an active editor session."); return;
+        if (session == null) {
+            sender.sendMessage("§cThis server has no active editor session. Run /rtp editor first."); return;
         }
         if (!token.matches("[a-f0-9]{64}")) { sender.sendMessage("§cInvalid sync token. Copy the command from the editor."); return; }
         if (session.pluginToken == null || session.applying) { sender.sendMessage("§eAn editor request is already in progress."); return; }
         if (System.currentTimeMillis() >= session.expires + 15 * 60 * 1000) {
             sender.sendMessage("§cSession expired. Run /rtp editor again."); return;
         }
-        final UUID executor = ((Player) sender).getUniqueId();
+        final UUID executor = sender instanceof Player ? ((Player) sender).getUniqueId() : null;
         session.applying = true;
         sender.sendMessage("§7Downloading your saved configuration…");
         worker.execute(() -> {
@@ -174,7 +173,7 @@ public final class EditorBridge {
         try {
             if (stopped || current != session) return;
             if (System.currentTimeMillis() >= tokenExpires) throw new IOException("Sync token expired before apply.");
-            CommandSender sender = Bukkit.getPlayer(executor);
+            CommandSender sender = executor == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(executor);
             if (sender == null || !allowed.test(sender)) throw new IOException("The syncing player must be online and still have betterrtp.editor.");
             Path backup = EditorConfig.apply(configPath(), session.bytes, edited, () -> {
                 reload.accept(sender);

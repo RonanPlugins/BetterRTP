@@ -1,14 +1,14 @@
 # Free command editor
 
-`/rtp editor` creates a private, 24-hour web session for `config.yml`. It requires a player with `betterrtp.editor` (default: op), but no Discord login or premium. `/rtp editor cancel` revokes the current session and all its saved tokens; only its creator may cancel it. One session is active per running server. Existing `/rtp edit` is unchanged.
+`/rtp editor` creates a private, 24-hour web session for `config.yml`. It can be run from the console or by a player with `betterrtp.editor` (default: op), but no Discord login or premium. `/rtp editor cancel` revokes the current session and all its saved tokens; its creator or console may cancel it. One session is active per running server. Existing `/rtp edit` is unchanged.
 
 ## Setup and use
 
 1. Deploy the companion website with PostgreSQL and apply its migrations using `pnpm db:deploy`. Protocol 2 requires migration `0002_editor_command_sync`. Set `APP_ORIGIN` to the deployed website origin. The editor API is available by default.
 2. Install the matching plugin build and restart Minecraft. Normal builds target `https://minecentral.net`; staging builds target the test website below. There is no website setting or `editor.yml` resource.
-3. As a player, run `/rtp editor` and open the private link. The website displays the target label and `config.yml` as read-only context.
+3. From the console or as a permitted player, run `/rtp editor` and open the private link. The website displays the target label and `config.yml` as read-only context.
 4. Edit and click **Save and get sync command**. This stores an immutable version; nothing is applied to Minecraft yet.
-5. Run `/betterrtp editorsync <token>` as a player with editor permission on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
+5. Run `/betterrtp editorsync <token>` from the console or as a player with editor permission on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
 
 There are no inbound Minecraft connections and no automatic polling. Allow outbound HTTPS. TLS certificate validation remains enabled and redirects are refused. Never publish editor links or command tokens; Minecraft command logging plugins may capture sync commands.
 
