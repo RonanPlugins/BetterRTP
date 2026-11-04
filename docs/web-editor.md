@@ -8,7 +8,7 @@
 2. Install the matching plugin build and restart Minecraft. Normal builds target `https://minecentral.net`; staging builds target the test website below. There is no website setting or `editor.yml` resource.
 3. As a player, run `/rtp editor` and open the private link. The website displays the target label and `config.yml` as read-only context.
 4. Edit and click **Save and get sync command**. This stores an immutable version; nothing is applied to Minecraft yet.
-5. Run `/betterrtp editorsync <token>` as the same player on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
+5. Run `/betterrtp editorsync <token>` as a player with editor permission on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
 
 There are no inbound Minecraft connections and no automatic polling. Allow outbound HTTPS. TLS certificate validation remains enabled and redirects are refused. Never publish editor links or command tokens; Minecraft command logging plugins may capture sync commands.
 
@@ -18,11 +18,11 @@ There are no inbound Minecraft connections and no automatic polling. Allow outbo
 - Expiring an editor stops new saves; existing save tokens retain their own deadlines. To replace the current session before its final tokens expire, its creator must use `/rtp editor cancel` first. Cancelling revokes all remaining tokens.
 - Session expiry preserves the browser text for download. The personal config library and Discord login are not implemented yet.
 - Tokens are consumed atomically when downloaded. If a response is lost, local validation fails, or the player disconnects before application, save again for a fresh token. The plugin does not retry writes. Minecraft reports the apply outcome; the website does not report generated commands as applied.
-- The creator must still be online and hold `betterrtp.editor` at apply time. Restarting/disabling the plugin discards its in-memory session, so old tokens cannot be applied by that plugin instance after restart.
+- The player running editorsync must still be online and hold `betterrtp.editor` at apply time. Restarting/disabling the plugin discards its in-memory session, so old tokens cannot be applied by that plugin instance after restart.
 - Invalid content is rejected before any file change. Validation preserves the existing setting structure and types, checks selected numeric ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits config size to 128 KiB. This is conservative validation, not a complete schema for every integration.
 - Intervening edits to the Minecraft config do not block syncing: applying a saved version can overwrite those edits. A backup of the current file is created in `plugins/BetterRTP/editor-backups/`; rotate backups as appropriate.
 - If writing succeeds but reload fails, the new file stays in place and a reload error is reported. There is no automatic rollback. Check Minecraft's console and reload after resolving the failure.
-- The website trusts the plugin-supplied target label for display only. The private plugin-session capability and player UUID bind redemption to the original session; browser target fields cannot redirect a write.
+- The website trusts the plugin-supplied target label for display only. The private plugin-session capability bind redemption to the original session; browser target fields cannot redirect a write.
 
 Protocol 1 automatic-apply clients are intentionally incompatible with protocol 2. The website migration closes existing protocol 1 sessions. Update website/database and plugin together for testing.
 
@@ -36,6 +36,6 @@ The address is internal JAR build metadata, not a server configuration or enviro
 
 ## Validation
 
-Run `mvn -f tests/editor/pom.xml test` for configuration validation/file-write tests and `mvn package -Pstaging` for the full staging plugin. The web repository's `pnpm test` exercises version isolation, atomic single-use redemption, creator/server binding, independent expiry, cancellation, validation, and limits against embedded PostgreSQL.
+Run `mvn -f tests/editor/pom.xml test` for configuration validation/file-write tests and `mvn package -Pstaging` for the full staging plugin. The web repository's `pnpm test` exercises version isolation, atomic single-use redemption, server binding, independent expiry, cancellation, validation, and limits against embedded PostgreSQL.
 
-Before production use, test the complete flow on the staging Minecraft server, including wrong-player denial, permission loss, disconnect, expiry, repeated saves, intervening local changes, reload errors, restart, and Folia scheduling if applicable. Local automated checks do not substitute for this staging run.
+Before production use, test the complete flow on the staging Minecraft server, including permission denial, permission loss, disconnect, expiry, repeated saves, intervening local changes, reload errors, restart, and Folia scheduling if applicable. Local automated checks do not substitute for this staging run.
