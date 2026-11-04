@@ -6,7 +6,7 @@
 
 1. Deploy the companion website with PostgreSQL and apply its migrations using `pnpm db:deploy`. Protocol 2 requires migration `0002_editor_command_sync`. Set `APP_ORIGIN` to the deployed website origin. The editor API is available by default.
 2. Install the matching plugin build and restart Minecraft. Normal builds target `https://minecentral.net`; staging builds target the test website below. There is no website setting or `editor.yml` resource.
-3. From the console or as a permitted player, run `/rtp editor` and open the private link. The website displays the target label and `config.yml` as read-only context.
+3. From the console or as a permitted player, run `/rtp editor` and open the private link. The website displays `config.yml`; no server name or MOTD is sent.
 4. Edit and click **Save and get sync command**. This stores an immutable version; nothing is applied to Minecraft yet.
 5. Run `/betterrtp editorsync <token>` from the console or as a player with editor permission on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
 
@@ -22,7 +22,7 @@ There are no inbound Minecraft connections and no automatic polling. Allow outbo
 - Invalid content is rejected before any file change. Validation preserves the existing setting structure and types, checks selected numeric ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits config size to 128 KiB. This is conservative validation, not a complete schema for every integration.
 - Intervening edits to the Minecraft config do not block syncing: applying a saved version can overwrite those edits. A backup of the current file is created in `plugins/BetterRTP/editor-backups/`; rotate backups as appropriate.
 - If writing succeeds but reload fails, the new file stays in place and a reload error is reported. There is no automatic rollback. Check Minecraft's console and reload after resolving the failure.
-- The website trusts the plugin-supplied target label for display only. The private plugin-session capability bind redemption to the original session; browser target fields cannot redirect a write.
+- The private plugin-session capability binds redemption to the original session; no server label is collected or used for authorization.
 
 Protocol 1 automatic-apply clients are intentionally incompatible with protocol 2. The website migration closes existing protocol 1 sessions. Update website/database and plugin together for testing.
 

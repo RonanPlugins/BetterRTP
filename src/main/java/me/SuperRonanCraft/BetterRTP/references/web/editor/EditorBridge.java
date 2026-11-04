@@ -31,10 +31,6 @@ public final class EditorBridge {
             throw new IllegalStateException("Cannot read editor build metadata", e);
         }
         String website = metadata.getProperty("website");
-        if (!"https://minecentral.net".equals(website)
-                && !"https://n2nm1thopoojau1ggnalixvr.minecentral.net".equals(website)) {
-            throw new IllegalStateException("Invalid editor website in build metadata");
-        }
         return website;
     }
     private final JavaPlugin plugin;
@@ -67,14 +63,12 @@ public final class EditorBridge {
             byte[] bytes = EditorConfig.read(configPath());
             String content = new String(bytes, StandardCharsets.UTF_8); EditorConfig.parse(content);
             Session session = new Session(content, bytes, sender instanceof Player ? ((Player) sender).getUniqueId() : null);
-            final String serverName = Bukkit.getServer().getServerName();
             current = session;
             sender.sendMessage("§7Creating a private BetterRTP editor session…");
             worker.execute(() -> {
                 try {
                     JsonObject body = new JsonObject(); body.addProperty("protocol", 2);
                     body.addProperty("playerId", session.player == null ? null : session.player.toString());
-                    body.addProperty("serverName", serverName);
                     body.addProperty("configFile", "config.yml");
                     body.addProperty("version", plugin.getDescription().getVersion()); body.addProperty("content", content);
                     JsonObject result = request(session, "POST", "/api/editor/sessions", body);
