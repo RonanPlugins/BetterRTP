@@ -1,57 +1,50 @@
 # Free command editor
 
-`/rtp editor` creates a private, 24-hour web session for `config.yml`. It can be run from the console or by a player with `betterrtp.editor` (default: op), but no Discord login or premium. `/rtp editor cancel` revokes the current session and all its saved tokens; its creator or console may cancel it. One session is active per running server. Existing `/rtp edit` is unchanged.
+`/rtp editor` uploads `config.yml` and loaded world names, then returns an independent eight-character editor token valid for 24 hours. Run the command from console or with `betterrtp.editor` (default: op). No login or premium is required. There is no active-editor slot, cancellation command, or plugin-controlled token lifetime. Running the command again creates another independent upload. `/rtp edit` is unchanged.
 
-## Setup and use
+## Use and refresh
 
-1. Deploy the companion website with PostgreSQL and apply its migrations using `pnpm db:deploy`. Protocol 2 requires migration `0002_editor_command_sync`. Set `APP_ORIGIN` to the deployed website origin. The editor API is available by default.
-2. Install the matching plugin build and restart Minecraft. Normal builds target `https://minecentral.net`; staging builds target the test website below. There is no website setting or `editor.yml` resource.
-3. From the console or as a permitted player, run `/rtp editor` and open the private link. The website displays `config.yml`; no server name or MOTD is sent.
-4. Edit and click **Save and get sync command**. This stores an immutable version; nothing is applied to Minecraft yet.
-5. Run `/betterrtp editorsync <token>` from the console or as a player with editor permission on the same server. The plugin downloads that version over HTTPS, checks permission again, validates it, backs up the current file, atomically replaces it, and reloads BetterRTP.
+1. Run `/rtp editor` and open `/editor/betterrtp?token=<code>`.
+2. Edit the form or YAML, then click **Save and get sync command**. This updates the upload's latest config/world suggestions while its token is valid, and creates an immutable sync payload.
+3. Run `/betterrtp editorsync <code>` on the originating Minecraft server. Console or any player with current editor permission can apply it.
+4. Refreshing a valid token restores its last successful save. Shared tokens use last-save-wins behavior. Refreshing an invalid/expired token removes it from the URL, shows a dismissible warning toast, and opens the default config.
 
-There are no inbound Minecraft connections and no automatic polling. Allow outbound HTTPS. TLS certificate validation remains enabled and redirects are refused. Never publish editor links or command tokens; Minecraft command logging plugins may capture sync commands.
+Uploads expire after 24 hours without extension. An open editor can continue generating public sync commands after expiry and cleanup. Refreshing an expired token opens defaults with a warning. The browser warns on refresh/tab close for unsaved changes and expired upload tokens. Download is available to recover local edits.
 
-## Expiry, versions, and errors
+## Sync authorization and retention
 
-- Editor sessions expire 24 hours after creation without activity extending them. Each save has an independent 15-minute, single-use sync token. Saving again does not invalidate previous tokens, and syncing does not close the editor session.
-- Expiring an editor stops new saves; existing save tokens retain their own deadlines. To replace the current session before its final tokens expire, its creator must use `/rtp editor cancel` first. Cancelling revokes all remaining tokens.
-- Session expiry preserves the browser text for download. The personal config library and Discord login are not implemented yet.
-- Tokens are consumed atomically when downloaded. If a response is lost, local validation fails, or the player disconnects before application, save again for a fresh token. The plugin does not retry writes. Minecraft reports the apply outcome; the website does not report generated commands as applied.
-- The player running editorsync must still be online and hold `betterrtp.editor` at apply time. Restarting/disabling the plugin discards its in-memory session, so old tokens cannot be applied by that plugin instance after restart.
-- Invalid content is rejected before any file change. Validation preserves fixed setting names and types, permits typed add/remove/rename operations in supported collections, checks selected numeric ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits config size to 128 KiB. This is conservative validation, not a complete schema for every integration.
-- Intervening edits to the Minecraft config do not block syncing: applying a saved version can overwrite those edits. A backup of the current file is created in `plugins/BetterRTP/editor-backups/`; rotate backups as appropriate.
-- If writing succeeds but reload fails, the new file stays in place and a reload error is reported. There is no automatic rollback. Check Minecraft's console and reload after resolving the failure.
-- The private plugin-session capability binds redemption to the original session; no server label is collected or used for authorization.
+Sync commands can be created from the public editor, a local YAML upload, My Configs, or an in-game upload link. No editor token, receipt, login, or server credential is required to generate/redeem a protocol-4 command. Anyone holding the command can run it on a compatible server with `betterrtp.editor` permission (or console access). The plugin validates against the receiving server’s current config before writing. Previously generated `editor-server.key` files are no longer used.
 
-Protocol 1 automatic-apply clients are intentionally incompatible with protocol 2. The website migration closes existing protocol 1 sessions. Update website/database and plugin together for testing.
+The editor token only provides 24-hour upload loading and latest-save refresh persistence. Saving without a valid token still generates an independent sync command; it does not create a new reloadable upload. No signed receipt or browser credential is needed.
 
-## Production and staging builds
+Each sync command expires after 15 minutes and is consumed atomically when downloaded. Different saves retain their own exact contents; applying an older command may overwrite newer changes. Upload expiry/deletion does not delete an independent sync payload. The plugin does not automatically apply changes, poll the website, or expose an inbound port.
 
-Run `mvn clean package` for `target/BetterRTP-3.6.13.jar`, targeting `https://minecentral.net`.
-Run `mvn clean package -Pstaging` for `target/BetterRTP-3.6.13-staging.jar`, targeting
-`https://n2nm1thopoojau1ggnalixvr.minecentral.net`.
+If download fails after consumption, save again for a new command. Minecraft reports the apply result; the website does not claim that a generated command was applied. Permission and player presence are checked again before writing. Validation failure makes no config changes. A backup of the current file is kept in `editor-backups`; an atomic replacement is followed by reload. Reload failure leaves the newly written config in place and reports an error, without automatic rollback.
 
-The address is internal JAR build metadata, not a server configuration or environment setting. Upload only one BetterRTP JAR to the plugins directory. Use the staging website origin as its `APP_ORIGIN` and apply the database migration there.
+Validation preserves fixed setting names/types, allows supported collection edits, checks effective ranges, blocks Language-File changes and unsafe Bukkit YAML constructs, and limits configs to 128 KiB. Intervening local edits do not block application. World availability is advisory: manually editing suggestions does not create/delete Minecraft worlds. The immutable reported list contains loaded worlds at upload time; run `/rtp editor` again for an updated list.
 
-## Validation
+## Deployment and cleanup
 
-Run `mvn -f tests/editor/pom.xml test` for configuration validation/file-write tests and `mvn package -Pstaging` for the full staging plugin. The web repository's `pnpm test` exercises version isolation, atomic single-use redemption, server binding, independent expiry, cancellation, validation, and limits against embedded PostgreSQL.
+Deploy the website, run `pnpm db:deploy` for migration `0007_calm_whirlwind`, then install the matching protocol-4 JAR. No additional environment variable is required. Generate fresh editor tokens after updating the JAR; legacy protocol-2/3 sync commands are not interchangeable with protocol 4. The website retains legacy reads/sync support until those records expire, but does not expose a plugin cancellation endpoint.
 
-Before production use, test the complete flow on the staging Minecraft server, including permission denial, permission loss, disconnect, expiry, repeated saves, intervening local changes, reload errors, restart, and Folia scheduling if applicable. Local automated checks do not substitute for this staging run.
+Schedule `cd /app && pnpm db:editor-cleanup` daily in Coolify (`0 0 * * *`). It deletes expired uploads and expired/consumed sync payloads independently. Legacy expired records are removed after their remaining sync tokens expire. Personal configs are unaffected. Legacy signing-key storage is unused and retained for migration compatibility; database backups have their own retention policy.
 
-## Collection edits
+Normal builds use `https://www.minecentral.net`; the staging profile uses the URL in `pom.xml`. The address comes from JAR build metadata, not a server configuration. Build with `mvn clean package` or `mvn clean package -Pstaging`; install only one JAR. TLS validation stays enabled and redirects are refused. Keep editor URLs, sync-token headers out of logs/analytics.
 
-The shared web form now treats BlacklistedBlocks, DisabledWorlds and Biomes as editable lists; Overrides and WorldType as named mappings; CustomWorlds as named world settings; and PermissionGroup.Groups as groups containing named world settings. Empty lists are editable. World settings may be omitted to inherit defaults.
+## Verification
 
-EditorConfig validates these dynamic entries by name and type, rejects duplicate names and unsupported new setting keys, and validates effective radius/height ranges against Default. Existing unknown settings under an unchanged world name retain their original schema. Other sections keep their existing fixed schema, and Language-File still requires a local edit.
+Run `mvn -f tests/editor/pom.xml test` for Java validation/file-write checks, and `pnpm test` in the website for database/token behavior. Test the deployed browser/Minecraft flow with multiple uploads, refresh, invalid tokens, saved world suggestions, restart, one-use sync, permission loss, and reload failure. Local checks do not replace this live verification.
 
-Update both the website and plugin JAR before using structural list edits through editorsync. Older JARs reject renamed/added/removed world and group entries. The protocol remains version 2 and there is no database migration. Matching collection fixtures run in both repositories; this does not replace a deployed sync check.
+### Save dialog
 
-## Available worlds metadata
+Both the public editor and uploaded-config editor provide **Save and get sync command**. A successful save opens a native modal dialog with steps for applying the config, the exact command, a copy button with confirmation/manual fallback, and its expiry time. Nothing is applied until someone runs the command in Minecraft. Commands remain single-use for 15 minutes; each applies its exact saved version.
 
-Session creation sends a `worlds` string array captured from `Bukkit.getWorlds()` on the command thread before the HTTP worker runs. It lists loaded worlds at that moment; it does not read folder names, server name, or MOTD. The website stores this immutable session metadata separately from YAML and uses it for world suggestions and availability notices.
+Deploy the updated website and plugin together. No additional migration is required beyond `0007_calm_whirlwind`. The plugin no longer generates or needs `editor-server.key`. Public editor saves intentionally work without first running `/rtp editor`.
 
-Users may add/remove names from their editor suggestions, but this never creates/deletes actual worlds or changes the server-reported snapshot. Configs may intentionally reference unloaded/future worlds, so availability warnings do not block syncing. Open a fresh session to refresh reported worlds.
+### Departure protection
 
-Deploy the website migration adding `EditorSession.worlds`, then update the JAR and create a new session. Older protocol 2 plugins/sessions omit this optional field and continue working with unverified config-derived world names. World metadata does not grant additional sync authority.
+Public and token editors share the same YAML/form renderer and departure guard. The guard compares YAML text and world suggestions against the loaded reference (or the latest successfully persisted save for a valid upload token). Searching, switching form/YAML views, and untouched loading do not count as edits. Reverting both YAML and world suggestions clears the warning. Public sync saves do not make the page reloadable, so they do not clear protection; expired tokens also cannot provide refresh recovery for edited content.
+
+Reload, closing the tab, and full-page navigation use the browser's native warning. Site links use Next.js `onNavigate` to ask before client-side navigation; download links and opening links in another tab do not interrupt the editor. Discord sign-in deliberately preserves a temporary recovery draft before navigating. Same-document browser Back/Forward and arbitrary programmatic routing are not intercepted by this guard. Mobile browser termination can bypass native unload warnings.
+
+The public/default and database-token loading wrappers remain separate; the renderer, sync dialog, change comparison, and departure protection are shared.

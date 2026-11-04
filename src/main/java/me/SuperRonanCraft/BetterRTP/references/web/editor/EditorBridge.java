@@ -20,7 +20,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-/** One active session per server, all HTTP on a dedicated daemon worker. No inbound server port. */
+/** Independent config uploads; HTTP runs on a dedicated worker. No editor lifecycle. */
 public final class EditorBridge {
     private static final String WEBSITE = loadWebsite();
 
@@ -43,7 +43,7 @@ public final class EditorBridge {
     private final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor(r -> {
         Thread thread = new Thread(r, "BetterRTP-editor"); thread.setDaemon(true); return thread;
     });
-    private volatile Session current;
+    private volatile boolean applying;
     private volatile boolean stopped;
 
     public EditorBridge(JavaPlugin plugin, Consumer<Runnable> sync, Consumer<CommandSender> reload,
@@ -55,41 +55,36 @@ public final class EditorBridge {
         this.loadedConfig = loadedConfig;
         // Saved versions are fetched only by an explicit editorsync command.
     }
-    public void close() { stopped = true; current = null; worker.shutdownNow(); }
+    public void close() { stopped = true; worker.shutdownNow(); }
 
-    public void open(CommandSender sender) {
+    public void upload(CommandSender sender) {
         if (!allowed.test(sender)) return;
         try {
-            if (current != null && System.currentTimeMillis() >= current.expires + 15 * 60 * 1000) current = null;
-            if (current != null) throw new IOException("An editor is already active. Use /rtp editor cancel first.");
             byte[] bytes = EditorConfig.read(configPath());
             String content = new String(bytes, StandardCharsets.UTF_8); EditorConfig.parse(content);
-            Session session = new Session(content, bytes, sender instanceof Player ? ((Player) sender).getUniqueId() : null);
+            Upload upload = new Upload(sender instanceof Player ? ((Player) sender).getUniqueId() : null);
             // Snapshot loaded worlds on the command thread, before starting HTTP work.
             List<String> worlds = new ArrayList<>();
             for (org.bukkit.World world : Bukkit.getWorlds()) worlds.add(world.getName());
-            current = session;
-            sender.sendMessage("§7Creating a private BetterRTP editor session…");
+            sender.sendMessage("§7Uploading a private BetterRTP editor config…");
             worker.execute(() -> {
                 try {
-                    JsonObject body = new JsonObject(); body.addProperty("protocol", 2);
-                    body.addProperty("playerId", session.player == null ? null : session.player.toString());
+                    JsonObject body = new JsonObject(); body.addProperty("protocol", 4);
+                    body.addProperty("playerId", upload.player == null ? null : upload.player.toString());
                     body.addProperty("configFile", "config.yml");
                     JsonArray availableWorlds = new JsonArray();
                     for (String world : worlds) availableWorlds.add(new JsonPrimitive(world));
                     body.add("worlds", availableWorlds);
                     body.addProperty("version", plugin.getDescription().getVersion()); body.addProperty("content", content);
-                    JsonObject result = request(session, "POST", "/api/editor/sessions", body);
-                    session.pluginToken = result.get("pluginToken").getAsString();
-                    String browserToken = result.get("browserToken").getAsString();
-                    if (!session.pluginToken.matches("[a-f0-9]{64}") || !browserToken.matches("[a-f0-9]{64}")) throw new IOException("Invalid relay response.");
-                    session.expires = Math.min(session.expires, result.get("expiresAt").getAsLong());
-                    if (current != session || stopped) { revoke(session); return; }
+                    JsonObject result = request("POST", "/api/editor/tokens", body, null);
+                    String browserToken = result.get("token").getAsString();
+                    if (!browserToken.matches("[A-Za-z0-9_-]{8}")) throw new IOException("Invalid relay response.");
+                    if (stopped) return;
                     sync.accept(() -> {
-                        if (current != session || stopped) return;
-                        CommandSender recipient = recipient(session);
-                        if (recipient == null || !allowed.test(recipient)) { cancelSession(session); return; }
-                        String url = WEBSITE + "/editor/session#" + browserToken;
+                        if (stopped) return;
+                        CommandSender recipient = recipient(upload);
+                        if (recipient == null || !allowed.test(recipient)) return;
+                        String url = WEBSITE + "/editor/betterrtp?token=" + browserToken;
                         recipient.sendMessage("§ePrivate editor link: expires in 24 hours. Save online, then run the sync command here. Do not share it.");
                         if (recipient instanceof Player) {
                             TextComponent link = new TextComponent("§a[Open BetterRTP editor]");
@@ -98,35 +93,18 @@ public final class EditorBridge {
                         } else recipient.sendMessage(url);
                     });
                 } catch (Exception error) {
-                    if (current == session) current = null;
-                    plugin.getLogger().warning("Editor session creation failed (" + error.getClass().getSimpleName() + "). Check website/database availability.");
-                    message(session, "Could not create an editor session. " + safeError(error));
+                    plugin.getLogger().warning("Editor upload failed (" + error.getClass().getSimpleName() + "). Check website/database availability.");
+                    message(upload, "Could not upload the editor config. " + safeError(error));
                 }
             });
         } catch (Exception error) { sender.sendMessage("§cEditor: " + error.getMessage()); }
     }
 
-    public void cancel(CommandSender sender) {
-        if (!allowed.test(sender)) return;
-        Session session = current;
-        if (session != null && sender instanceof Player && !Objects.equals(session.player, ((Player) sender).getUniqueId())) {
-            sender.sendMessage("§cOnly the session creator or console can cancel it."); return;
-        }
-        if (session != null) cancelSession(session);
-        sender.sendMessage("§7Editor session cancelled. Changes already applied cannot be undone by cancelling.");
-    }
-    private void cancelSession(Session session) {
-        if (current == session) current = null;
-        if (!stopped) worker.execute(() -> revoke(session));
-    }
-    private void revoke(Session session) {
-        if (session.pluginToken != null) try { request(session, "DELETE", "/api/editor/session", null); } catch (Exception ignored) { }
-    }
     private Path configPath() { return plugin.getDataFolder().toPath().resolve("config.yml"); }
-    private CommandSender recipient(Session session) { return session.player == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(session.player); }
-    private void message(Session session, String text) {
+    private CommandSender recipient(Upload upload) { return upload.player == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(upload.player); }
+    private void message(Upload upload, String text) {
         if (!stopped) sync.accept(() -> {
-            CommandSender sender = recipient(session); if (sender != null) sender.sendMessage("§eEditor: " + text);
+            CommandSender sender = recipient(upload); if (sender != null) sender.sendMessage("§eEditor: " + text);
         });
     }
     private void message(UUID playerId, String text) {
@@ -137,28 +115,23 @@ public final class EditorBridge {
     }
     public void redeem(CommandSender sender, String token) {
         if (!allowed.test(sender)) return;
-        Session session = current;
-        if (session == null) {
-            sender.sendMessage("§cThis server has no active editor session. Run /rtp editor first."); return;
-        }
-        if (!token.matches("[a-f0-9]{64}")) { sender.sendMessage("§cInvalid sync token. Copy the command from the editor."); return; }
-        if (session.pluginToken == null || session.applying) { sender.sendMessage("§eAn editor request is already in progress."); return; }
-        if (System.currentTimeMillis() >= session.expires + 15 * 60 * 1000) {
-            sender.sendMessage("§cSession expired. Run /rtp editor again."); return;
-        }
+        if (!token.matches("[A-Za-z0-9_-]{8}")) { sender.sendMessage("§cInvalid sync token. Copy the command from the editor."); return; }
+        if (applying) { sender.sendMessage("§eAn editor sync is already in progress."); return; }
         final UUID executor = sender instanceof Player ? ((Player) sender).getUniqueId() : null;
-        session.applying = true;
+        applying = true;
         sender.sendMessage("§7Downloading your saved configuration…");
         worker.execute(() -> {
             try {
-                JsonObject response = request(session, "GET", "/api/editor/sync", null, token);
+                JsonObject response = request("GET", "/api/editor/sync", null, token);
                 if (!"config.yml".equals(response.get("configFile").getAsString())) throw new IOException("Invalid sync target.");
                 String edited = response.get("content").getAsString();
                 long expires = response.get("expiresAt").getAsLong();
-                EditorConfig.validate(session.original, edited);
-                sync.accept(() -> apply(session, edited, expires, executor));
+                // Public commands can come from any editor; validate against this server, not a browser baseline.
+                String original = new String(EditorConfig.read(configPath()), StandardCharsets.UTF_8);
+                EditorConfig.validate(original, edited);
+                sync.accept(() -> apply(original, edited, expires, executor));
             } catch (Exception error) {
-                session.applying = false;
+                applying = false;
                 message(executor, "Sync failed: " + safeError(error) + " Save online again for a new command if this token was consumed.");
             }
         });
@@ -171,13 +144,13 @@ public final class EditorBridge {
         return "Request or validation failed (" + error.getClass().getSimpleName() + ").";
     }
 
-    private void apply(Session session, String edited, long tokenExpires, UUID executor) {
+    private void apply(String original, String edited, long tokenExpires, UUID executor) {
         try {
-            if (stopped || current != session) return;
+            if (stopped) return;
             if (System.currentTimeMillis() >= tokenExpires) throw new IOException("Sync token expired before apply.");
             CommandSender sender = executor == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(executor);
             if (sender == null || !allowed.test(sender)) throw new IOException("The syncing player must be online and still have betterrtp.editor.");
-            Path backup = EditorConfig.apply(configPath(), session.bytes, edited, () -> {
+            Path backup = EditorConfig.apply(configPath(), original.getBytes(StandardCharsets.UTF_8), edited, () -> {
                 reload.accept(sender);
                 String loaded = loadedConfig.get();
                 String persisted = new String(EditorConfig.read(configPath()), StandardCharsets.UTF_8);
@@ -190,22 +163,19 @@ public final class EditorBridge {
             plugin.getLogger().warning("Editor config was written but reload failed; no rollback was performed.");
         } catch (Exception error) {
             message(executor, "Sync not applied: " + error.getMessage());
-        } finally { session.applying = false; }
+        } finally { applying = false; }
     }
 
-    private JsonObject request(Session session, String method, String path, JsonObject body) throws IOException {
-        return request(session, method, path, body, null);
-    }
-    private JsonObject request(Session session, String method, String path, JsonObject body, String syncToken) throws IOException {
+    private JsonObject request(String method, String path, JsonObject body, String syncToken) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(WEBSITE + path).openConnection();
         connection.setConnectTimeout(5000); connection.setReadTimeout(10000); connection.setInstanceFollowRedirects(false);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("X-Editor-Actor", "plugin");
-        connection.setRequestProperty("User-Agent", "BetterRTP-Editor/2");
+        connection.setRequestProperty("User-Agent", "BetterRTP-Editor/4");
+        connection.setRequestProperty("X-Editor-Protocol", "4");
         if (syncToken != null) {
             connection.setRequestProperty("X-Editor-Sync-Token", syncToken);
         }
-        if (session.pluginToken != null) connection.setRequestProperty("Authorization", "Bearer " + session.pluginToken);
         try {
             if (body != null) {
                 byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
@@ -225,11 +195,8 @@ public final class EditorBridge {
             }
         } finally { connection.disconnect(); }
     }
-    private static final class Session {
-        final String original; final byte[] bytes; final UUID player;
-        volatile String pluginToken;
-        volatile boolean applying;
-        volatile long expires = System.currentTimeMillis() + 24 * 60 * 60 * 1000;
-        Session(String original, byte[] bytes, UUID player) { this.original = original; this.bytes = bytes; this.player = player; }
+    private static final class Upload {
+        final UUID player;
+        Upload(UUID player) { this.player = player; }
     }
 }
