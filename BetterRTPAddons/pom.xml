@@ -14,6 +14,17 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build><plugins><plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration><outputDirectory>../../../Java/plugins</outputDirectory></configuration>
+            </plugin></plugins></build>
+        </profile>
+    </profiles>
     <build>
         <resources>
             <resource>
@@ -47,15 +58,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Local Server Building -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <outputDirectory>../../../Java/plugins</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
@@ -69,13 +71,17 @@
 
     <repositories>
         <repository>
+            <id>minecodes-repository-releases</id>
+            <url>https://repository.minecodes.pl/releases</url>
+        </repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <!-- PaperMC Repo -->
         <repository>
             <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <!-- ProtocolLib Repo -->
         <repository>
@@ -102,14 +108,14 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
         <!-- BetterRTP -->
         <dependency>
             <groupId>me.SuperRonanCraft</groupId>
             <artifactId>BetterRTP</artifactId>
-            <version>LATEST</version>
+            <version>3.6.13</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->

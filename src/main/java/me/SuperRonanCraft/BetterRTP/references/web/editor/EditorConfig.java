@@ -14,12 +14,17 @@ public final class EditorConfig {
     private static final Pattern TOKENS = Pattern.compile("(^|[\\s\\[\\]{},])[!&*]", Pattern.MULTILINE);
     private EditorConfig() { }
 
+    private static String withoutQuotedScalars(String text) {
+        // Only complete, single-line quoted scalars: Minecraft color codes are text, not YAML anchors.
+        return text.replaceAll("\"(?:\\\\[^\\r\\n]|[^\"\\\\\\r\\n])*\"|'(?:''|[^'\\r\\n])*'", "quoted");
+    }
+
     public static YamlConfiguration parse(String text) throws Exception {
         // Bukkit supports object deserialization through the reserved == key. Reject equals
         // and encoded character escapes before invoking its parser, not only after parsing.
-        if (text.indexOf('=') >= 0 || Pattern.compile("\\\\[xuU]").matcher(text).find())
+        if (text.indexOf("==") >= 0 || Pattern.compile("\\\\[xuU]").matcher(text).find())
             throw new IOException("Object serialization markers and encoded character escapes are not supported.");
-        if (text.getBytes(StandardCharsets.UTF_8).length > MAX_BYTES || TOKENS.matcher(text).find())
+        if (text.getBytes(StandardCharsets.UTF_8).length > MAX_BYTES || TOKENS.matcher(withoutQuotedScalars(text)).find())
             throw new IOException("Configuration too large, or YAML tags/anchors/aliases present.");
         int lines = 0, flow = 0;
         for (String line : text.split("\\n")) {
@@ -29,7 +34,10 @@ public final class EditorConfig {
         if (flow > 128) throw new IOException("Too many flow collections.");
         YamlConfiguration parsed = new YamlConfiguration();
         parsed.loadFromString(text);
-        if (!parsed.isConfigurationSection("Settings") || !parsed.isConfigurationSection("Default"))
+        if (parsed.isConfigurationSection("Flashback")) {
+            for (String section : Arrays.asList("Flashback", "Logger", "Portals", "ExtraEffects", "MagicStick", "Commands", "Parties", "RTPMenu"))
+                if (!parsed.isConfigurationSection(section)) throw new IOException("Missing addon section: " + section);
+        } else if (!parsed.isConfigurationSection("Settings") || !parsed.isConfigurationSection("Default"))
             throw new IOException("Missing Settings or Default section.");
         return parsed;
     }
@@ -38,7 +46,11 @@ public final class EditorConfig {
         YamlConfiguration before = parse(original), after = parse(edited);
         if (!Objects.equals(before.get("Language-File"), after.get("Language-File")))
             throw new IOException("Change Language-File locally, not through the web editor.");
-        compare(before, after, "config", 0, (Map<?, ?>) normalize(after.get("Default")));
+        compare(before, after, "config", 0, (Map<?, ?>) normalize(after.get(after.isConfigurationSection("Flashback") ? "RTPMenu" : "Default")));
+        if (after.isConfigurationSection("Flashback")) {
+            new java.text.SimpleDateFormat(after.getString("Logger.Format"));
+            org.bukkit.Material.valueOf(after.getString("MagicStick.Item.Material").toUpperCase(Locale.ROOT));
+        }
     }
 
     private static Object normalize(Object value) {
@@ -48,6 +60,9 @@ public final class EditorConfig {
     private static void compare(Object oldValue, Object newValue, String path, int depth, Map<?, ?> defaults) throws IOException {
         if (depth > 32) throw new IOException("Configuration nesting is too deep.");
         oldValue = normalize(oldValue); newValue = normalize(newValue);
+        if (path.equals("config.RTPMenu.WorldList") || path.equals("config.Flashback.Timer.Warnings")) {
+            addonEntries(oldValue, newValue, path, depth, defaults); return;
+        }
         if (Arrays.asList("config.BlacklistedBlocks", "config.DisabledWorlds", "config.Default.Biomes").contains(path)) {
             stringList(newValue, path); return;
         }
@@ -78,6 +93,9 @@ public final class EditorConfig {
             if (!Double.isFinite(n) || n < Integer.MIN_VALUE || n > Integer.MAX_VALUE ||
                     ((oldValue instanceof Integer || oldValue instanceof Long) && n != Math.rint(n)))
                 throw new IOException("Invalid number: " + path);
+            if (path.equals("config.RTPMenu.Lines") && (n < 1 || n > 6)) throw new IOException("Menu lines must be 1–6.");
+            if (Arrays.asList("config.RTPMenu.AutoRefresh", "config.Flashback.Timer.Delay").contains(path) && n < 0) throw new IOException("Negative time: " + path);
+            if (path.equals("config.MagicStick.GiveFirstJoin.Amount") && (n < 1 || n > 64)) throw new IOException("Stick amount must be 1–64.");
             if (path.endsWith("Radius") && (n < 0 || n > 30000000)) throw new IOException("Invalid radius: " + path);
             if ((path.endsWith(".Time") || path.endsWith(".LockAfter")) && n < 0) throw new IOException("Negative time: " + path);
             if (path.endsWith(".PreloadRadius") && (n < 0 || n > 16)) throw new IOException("PreloadRadius must be 0–16.");
@@ -89,6 +107,56 @@ public final class EditorConfig {
             if (path.endsWith(".Shape") && !Arrays.asList("square", "circle").contains(((String) newValue).toLowerCase(Locale.ROOT)))
                 throw new IOException("Shape must be square or circle.");
         } else if (!Objects.equals(oldValue, newValue)) throw new IOException("Unsupported setting: " + path);
+    }
+
+    private static void addonEntries(Object before, Object after, String path, int depth, Map<?, ?> defaults) throws IOException {
+        boolean warnings = path.endsWith("Warnings");
+        Map<String, Object> old = addonMap(before, path), next = addonMap(after, path);
+        for (Map.Entry<String, Object> entry : next.entrySet()) {
+            String key = entry.getKey(); Object value = normalize(entry.getValue());
+            if (warnings) {
+                try {
+                    if (!key.matches("[0-9]+") || Long.parseLong(key) > Integer.MAX_VALUE || !(value instanceof String))
+                        throw new IOException("Invalid warning: " + key);
+                } catch (NumberFormatException e) { throw new IOException("Invalid warning time."); }
+            } else {
+                if (!(value instanceof Map)) throw new IOException("Expected menu world settings.");
+                Map<?, ?> settings = (Map<?, ?>) value;
+                Object previousValue = normalize(old.get(key));
+                Map<?, ?> previous = previousValue instanceof Map ? (Map<?, ?>) previousValue : Collections.emptyMap();
+                Map<String, Object> schema = new LinkedHashMap<>();
+                schema.put("Name", ""); schema.put("Item", "MAP"); schema.put("Slot", 0); schema.put("Lore", Collections.emptyList());
+                for (Map.Entry<?, ?> field : settings.entrySet()) {
+                    String name = String.valueOf(field.getKey());
+                    if (!schema.containsKey(name) && !previous.containsKey(name)) throw new IOException("Unknown menu setting: " + name);
+                    compare(schema.containsKey(name) ? schema.get(name) : previous.get(name), field.getValue(), path + "." + key + "." + name, depth + 1, defaults);
+                }
+                for (Object name : previous.keySet())
+                    if (!schema.containsKey(name) && !settings.containsKey(name)) throw new IOException("Keep existing menu setting: " + name);
+                Object slot = settings.containsKey("Slot") ? settings.get("Slot") : 0;
+                if (!(slot instanceof Number) || ((Number) slot).intValue() < 0 || ((Number) slot).intValue() >= ((Number) defaults.get("Lines")).intValue() * 9)
+                    throw new IOException("Menu slot must fit within the configured lines.");
+                if (settings.containsKey("Item")) {
+                    try { org.bukkit.Material.valueOf(((String) settings.get("Item")).toUpperCase(Locale.ROOT)); }
+                    catch (IllegalArgumentException e) { throw new IOException("Unknown menu material."); }
+                }
+            }
+        }
+    }
+
+    private static Map<String, Object> addonMap(Object value, String path) throws IOException {
+        if (!(value instanceof List) || ((List<?>) value).size() > 1000) throw new IOException("Expected named list: " + path);
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Object item : (List<?>) value) {
+            item = normalize(item);
+            if (!(item instanceof Map) || ((Map<?, ?>) item).isEmpty()) throw new IOException("Expected named entry: " + path);
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) item).entrySet()) {
+                String key = String.valueOf(entry.getKey());
+                if (!validName(key) || result.containsKey(key)) throw new IOException("Invalid or duplicate name: " + path);
+                result.put(key, entry.getValue());
+            }
+        }
+        return result;
     }
 
     private static boolean validName(String value) {

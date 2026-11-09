@@ -28,3 +28,9 @@ The wiki is available [here](../../../wiki)!
   <br/>
   <b><i><a href="https://www.spigotmc.org/resources/authors/superronancraft.13025/">Check out my other plugins!</a></i></b>
 </p>
+
+## Web configuration editor
+
+Run `/rtp addons editor`, edit your config on MineCentral, and choose **Save and get sync command**. Apply it with `/betterrtp addons editorsync <token>`. Console and players with `betterrtp.addon.editor` (default: op) can use these commands.
+
+Install the matching updated BetterRTP JAR as well: Addons shares its editor bridge. See [web editor setup](../docs/web-editor.md) for build, website migration, validation, and backup details.

@@ -1,4 +1,27 @@
-# Free command editor
+# Plugin web editors
+
+BetterRTP and BetterRTP Addons share the form/YAML editor, private config library, 24-hour uploads, and single-use 15-minute sync commands.
+
+| Plugin | Open server config | Apply saved config | Permission (default: op) | Website |
+| --- | --- | --- | --- | --- |
+| BetterRTP | `/rtp editor` | `/betterrtp editorsync <token>` | `betterrtp.editor` | `/editor/betterrtp` |
+| BetterRTP Addons | `/rtp addons editor` | `/betterrtp addons editorsync <token>` | `betterrtp.addon.editor` | `/editor/betterrtp-addons` |
+
+Console can use both commands. Addons sync backs up and replaces **BetterRTPAddons/config.yml**, then reloads the addons. It does not write BetterRTP's config or addon databases. Addons uses the editor bridge and website build metadata from the installed BetterRTP JAR, so install both updated JARs together.
+
+## Addons deployment
+
+1. Deploy the website with `pnpm db:deploy` to apply `0017_addons_editor` before serving the updated editor API. Existing tokens default to BetterRTP. The migration binds the existing `betterrtp-addons` catalog listing to its stable editor identity; its ID, release history, and premium classification remain unchanged. Later slug renames retain editor support.
+2. Build from the BetterRTP repository: `mvn clean install`, then `mvn -f BetterRTPAddons/pom.xml clean package`. The JARs are in `target/` and `BetterRTPAddons/target/`. The Addons `dev` profile optionally copies its JAR to the local plugins directory.
+3. Install both JARs and restart the Minecraft server. Open `/rtp addons editor`, edit a setting, save online, and run the returned command. Check Minecraft's apply confirmation and the Addons `editor-backups` folder.
+
+Uploads, sync payloads, login recovery drafts, and My Configs are scoped to their plugin. Redeeming an Addons token using BetterRTP's command is rejected without consuming it. Existing expiry/cleanup rules apply to both plugins. The editor is free even when the catalog plugin requires premium to download.
+
+The Addons form supports feature toggles, command/lore lists, menu worlds, and flashback warning times/messages. Validation preserves fixed keys/types, blocks Language-File changes, and checks menu lines/slots, timers, and stick quantities. The receiving server also validates materials and the logger date format. Quoted Minecraft color codes are accepted while YAML tags, aliases, and Bukkit object serialization remain blocked.
+
+Run `mvn -f tests/editor/pom.xml test` and the website's `pnpm test`, `pnpm typecheck`, and `pnpm db:validate`. Automated checks cover default Addons YAML, numeric warning keys, collection edits, backups, plugin isolation, one-use sync, migration binding, and separate snapshot allowances. A live Minecraft upload/apply/reload still needs a server smoke test.
+
+## BetterRTP command editor
 
 `/rtp editor` uploads `config.yml` and loaded world names, then returns an independent eight-character editor token valid for 24 hours. Run the command from console or with `betterrtp.editor` (default: op). No login or premium is required. There is no active-editor slot, cancellation command, or plugin-controlled token lifetime. Running the command again creates another independent upload. `/rtp edit` is unchanged.
 

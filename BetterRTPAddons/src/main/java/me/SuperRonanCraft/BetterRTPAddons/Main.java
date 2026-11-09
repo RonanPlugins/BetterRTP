@@ -17,15 +17,26 @@ public class Main extends JavaPlugin {
     public final AddonMessages msgs = new AddonMessages();
     private final ReloadListener reloadListener = new ReloadListener();
 
+    @Getter
+    private me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge editorBridge;
+
+    public boolean canEdit(org.bukkit.command.CommandSender sender) {
+        return !(sender instanceof org.bukkit.entity.Player) || sender.hasPermission("betterrtp.addon.editor");
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         Bukkit.getPluginManager().registerEvents(reloadListener, this);
         load();
+        editorBridge = new me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge(
+                this, me.SuperRonanCraft.BetterRTP.versions.AsyncHandler::sync, sender -> load(),
+                this::canEdit, () -> Files.FILETYPE.CONFIG.getConfig().saveToString(), "betterrtp-addons");
     }
 
     @Override
     public void onDisable() {
+        if (editorBridge != null) editorBridge.close();
         addonsHandler.unload();
     }
 

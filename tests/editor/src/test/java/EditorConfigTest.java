@@ -10,6 +10,34 @@ public class EditorConfigTest {
         try { EditorConfig.validate(original, edited); fail("Expected rejection"); }
         catch (java.io.IOException expected) { }
     }
+    private String addons() throws Exception {
+        return new String(Files.readAllBytes(Paths.get("../../BetterRTPAddons/src/main/resources/config.yml")), StandardCharsets.UTF_8);
+    }
+    @Test public void acceptsAddonDefaultsAndCollectionEdits() throws Exception {
+        String before = addons();
+        EditorConfig.validate(before, before);
+        String after = before.replace("600: ", "300: ").replace("world_nether:", "survival:").replace("Lines: 3", "Lines: 4");
+        EditorConfig.validate(before, after);
+        Path dir = Files.createTempDirectory("addons-editor");
+        Path file = dir.resolve("config.yml");
+        Files.write(file, before.getBytes(StandardCharsets.UTF_8));
+        Path backup = EditorConfig.apply(file, before.getBytes(StandardCharsets.UTF_8), after, () -> {});
+        assertEquals(before, new String(Files.readAllBytes(backup), StandardCharsets.UTF_8));
+        assertTrue(EditorConfig.equivalent(after, new String(Files.readAllBytes(file), StandardCharsets.UTF_8)));
+    }
+    @Test public void rejectsInvalidAddonSettingsAndUnsafeYaml() throws Exception {
+        String before = addons();
+        for (String after : new String[] {
+                before.replace("Lines: 3", "Lines: 7"), before.replace("Slot: 3", "Slot: 27"),
+                before.replace("AutoRefresh: 0", "AutoRefresh: -1"), before.replace("600:", "bad:"),
+                before.replace("en.yml", "other.yml"), before + "Bad: &anchor value\n",
+                before + "Bad: !!java/object something\n", before + "Bad:\n  ==: org.bukkit.inventory.ItemStack\n" }) {
+            try { EditorConfig.validate(before, after); fail("Expected addon validation failure"); }
+            catch (java.io.IOException expected) { }
+        }
+        try { EditorConfig.validate(original, before); fail("Expected cross-plugin failure"); }
+        catch (java.io.IOException expected) { }
+    }
     @Test public void acceptsValidChange() throws Exception { EditorConfig.validate(original, original.replace("1000", "2000")); }
     @Test public void rejectsWrongTypeAndRange() throws Exception {
         rejected(original.replace("1000", "false"));

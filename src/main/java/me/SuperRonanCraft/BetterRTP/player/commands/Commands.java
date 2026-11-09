@@ -43,7 +43,10 @@ public class Commands {
                             //Command Event
                             Bukkit.getServer().getPluginManager().callEvent(event);
                             if (!event.isCancelled()) {
-                                BetterRTP.debug(sendi.getName() + " executed: /" + label + " " + String.join(" ", args));
+                                boolean editorSync = args[0].equalsIgnoreCase("editorsync") ||
+                                        (args[0].equalsIgnoreCase("addons") && args.length > 1 && args[1].equalsIgnoreCase("editorsync"));
+                                BetterRTP.debug(sendi.getName() + " executed: /" + label + " " +
+                                        (editorSync ? (args[0].equalsIgnoreCase("addons") ? "addons editorsync [redacted]" : "editorsync [redacted]") : String.join(" ", args)));
                                 cmd.execute(sendi, label, args);
                                 Bukkit.getServer().getPluginManager().callEvent(new RTP_CommandEvent_After(sendi, cmd));
                             }

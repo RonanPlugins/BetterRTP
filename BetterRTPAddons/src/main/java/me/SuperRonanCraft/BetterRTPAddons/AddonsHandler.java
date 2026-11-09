@@ -30,7 +30,8 @@ public class AddonsHandler {
                 //addonCount++;
             }
         //Main.getInstance().getLogger().log(Level.INFO, addonCount + "/" + Addons.values().length + " addons were enabled!");
-        HelperRTP_Command.registerCommand(cmd, false);
+        if (!BetterRTP.getInstance().getCmd().commands.contains(cmd))
+            HelperRTP_Command.registerCommand(cmd, false);
     }
 
     public void unload() {

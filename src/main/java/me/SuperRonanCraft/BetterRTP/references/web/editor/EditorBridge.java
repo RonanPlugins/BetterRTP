@@ -36,6 +36,8 @@ public final class EditorBridge {
         return website;
     }
     private final JavaPlugin plugin;
+    private final String editorPlugin;
+    private final String editorName;
     private final Consumer<Runnable> sync;
     private final Consumer<CommandSender> reload;
     private final Predicate<CommandSender> allowed;
@@ -48,6 +50,13 @@ public final class EditorBridge {
 
     public EditorBridge(JavaPlugin plugin, Consumer<Runnable> sync, Consumer<CommandSender> reload,
                         Predicate<CommandSender> allowed, Supplier<String> loadedConfig) {
+        this(plugin, sync, reload, allowed, loadedConfig, "betterrtp");
+    }
+    public EditorBridge(JavaPlugin plugin, Consumer<Runnable> sync, Consumer<CommandSender> reload,
+                        Predicate<CommandSender> allowed, Supplier<String> loadedConfig, String editorPlugin) {
+        if (!Arrays.asList("betterrtp", "betterrtp-addons").contains(editorPlugin)) throw new IllegalArgumentException("Unknown editor plugin");
+        this.editorPlugin = editorPlugin;
+        this.editorName = editorPlugin.equals("betterrtp") ? "BetterRTP" : "BetterRTP Addons";
         this.plugin = plugin;
         this.sync = sync;
         this.reload = reload;
@@ -66,12 +75,13 @@ public final class EditorBridge {
             // Snapshot loaded worlds on the command thread, before starting HTTP work.
             List<String> worlds = new ArrayList<>();
             for (org.bukkit.World world : Bukkit.getWorlds()) worlds.add(world.getName());
-            sender.sendMessage("§7Uploading a private BetterRTP editor config…");
+            sender.sendMessage("§7Uploading a private " + editorName + " editor config…");
             worker.execute(() -> {
                 try {
                     JsonObject body = new JsonObject(); body.addProperty("protocol", 4);
                     body.addProperty("playerId", upload.player == null ? null : upload.player.toString());
                     body.addProperty("configFile", "config.yml");
+                    body.addProperty("plugin", editorPlugin);
                     JsonArray availableWorlds = new JsonArray();
                     for (String world : worlds) availableWorlds.add(new JsonPrimitive(world));
                     body.add("worlds", availableWorlds);
@@ -84,10 +94,10 @@ public final class EditorBridge {
                         if (stopped) return;
                         CommandSender recipient = recipient(upload);
                         if (recipient == null || !allowed.test(recipient)) return;
-                        String url = WEBSITE + "/editor/betterrtp?token=" + browserToken;
+                        String url = WEBSITE + "/editor/" + editorPlugin + "?token=" + browserToken;
                         recipient.sendMessage("§ePrivate editor link: expires in 24 hours. Save online, then run the sync command here. Do not share it.");
                         if (recipient instanceof Player) {
-                            TextComponent link = new TextComponent("§a[Open BetterRTP editor]");
+                            TextComponent link = new TextComponent("§a[Open " + editorName + " editor]");
                             link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
                             ((Player) recipient).spigot().sendMessage(link);
                         } else recipient.sendMessage(url);
@@ -149,7 +159,7 @@ public final class EditorBridge {
             if (stopped) return;
             if (System.currentTimeMillis() >= tokenExpires) throw new IOException("Sync token expired before apply.");
             CommandSender sender = executor == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(executor);
-            if (sender == null || !allowed.test(sender)) throw new IOException("The syncing player must be online and still have betterrtp.editor.");
+            if (sender == null || !allowed.test(sender)) throw new IOException("The syncing player must be online and still have editor permission.");
             Path backup = EditorConfig.apply(configPath(), original.getBytes(StandardCharsets.UTF_8), edited, () -> {
                 reload.accept(sender);
                 String loaded = loadedConfig.get();
@@ -159,7 +169,7 @@ public final class EditorBridge {
             });
             sender.sendMessage("§aEditor changes applied and reloaded. Backup: " + backup.getFileName());
         } catch (EditorConfig.ReloadFailure error) {
-            message(executor, "Configuration saved, but reload failed. The new file remains in place. Check the console and reload BetterRTP.");
+            message(executor, "Configuration saved, but reload failed. The new file remains in place. Check the console and reload the plugin.");
             plugin.getLogger().warning("Editor config was written but reload failed; no rollback was performed.");
         } catch (Exception error) {
             message(executor, "Sync not applied: " + error.getMessage());
@@ -173,6 +183,7 @@ public final class EditorBridge {
         connection.setRequestProperty("X-Editor-Actor", "plugin");
         connection.setRequestProperty("User-Agent", "BetterRTP-Editor/4");
         connection.setRequestProperty("X-Editor-Protocol", "4");
+        connection.setRequestProperty("X-Editor-Plugin", editorPlugin);
         if (syncToken != null) {
             connection.setRequestProperty("X-Editor-Sync-Token", syncToken);
         }
