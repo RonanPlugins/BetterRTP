@@ -56,7 +56,7 @@ public class EditorConfigTest {
         rejected(original + "Object:\n  ==: org.bukkit.inventory.ItemStack\n");
     }
     @Test public void validatesBundledConfig() throws Exception {
-        String bundled = new String(Files.readAllBytes(Paths.get("../../src/main/resources/config.yml")), StandardCharsets.UTF_8);
+        String bundled = new String(Files.readAllBytes(Paths.get("../../BetterRTP-Core/src/main/resources/config.yml")), StandardCharsets.UTF_8);
         EditorConfig.validate(bundled, bundled.replace("MaxRadius: 1000\n", "MaxRadius: 2000\n"));
     }
     @Test public void allowsStaleWritesAndKeepsNewFileAfterReloadFailure() throws Exception {

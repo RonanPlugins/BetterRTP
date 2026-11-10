@@ -2,8 +2,22 @@
   <b><a>Welcome to BetterRTP's repository!</a></b>
 </p>
 
+## Web configuration editor
+
+[Open the BetterRTP editor](https://www.minecentral.net/editor/betterrtp) to start with defaults or upload config.yml. Edit world settings, teleport ranges, cooldowns, and supported lists.
+
+1. Run `/rtp editor` on your server and open the private link it returns.
+2. Edit the form or YAML and choose **Save and get sync command**.
+3. Run `/betterrtp editorsync <token>` in Minecraft to apply that saved version.
+
+Console and players with `betterrtp.editor` (default: op) can use both commands. No account or premium is required for editing, downloading, or command sync. Upload links last 24 hours; each sync command works once and expires after 15 minutes. Keep links and commands private.
+
+Sync validates config.yml, saves a backup in `editor-backups`, then replaces the file and reloads the plugin. Nothing changes until the sync command runs. If reload fails after writing, the new file remains in place and Minecraft reports the error.
+
+Shared behavior, deployment, and verification are documented in the [webapp repository](https://github.com/RonanPlugins/BetterRTP-Webapp/blob/main/docs/web-editor.md).
+
 ## Where's the Lang files?/Want to Contribute translating?  
-All language files are located [here](src/main/resources/lang)
+All language files are located [here](BetterRTP-Core/src/main/resources/lang)
 feel free to fork one of the language files and help translate!
 
 ## Libraries
@@ -15,9 +29,14 @@ BetterRTP uses and is compiled with the following libraries:
 
 ## Build instructions on Ubuntu
 
-mvn clean install
+From this directory, run `mvn clean package` to build BetterRTP followed by BetterRTP Addons. Maven resolves Addons against the BetterRTP built in the same run; a separate `install` step is unnecessary.
 
-The file will be in the Target file.
+- BetterRTP JAR: `dist/BetterRTP-3.6.13.jar`
+- Addons JAR: `dist/BetterRTPAddons-1.8.10.jar`
+
+Both server-ready JARs are collected in `dist/`. `mvn clean` removes each selected plugin’s previous JARs from this folder; intermediate build files stay in `target/`. The `dev` profile still outputs directly to its configured server plugins folder.
+
+The root `pom.xml` aggregates both modules. Core plugin dependencies and build settings live in `BetterRTP-Core/pom.xml`; its sources live in `BetterRTP-Core/src/`. To build only the core plugin, use `mvn -pl :BetterRTP clean package`. Existing `-Deditor.website=...`, `-Deditor.buildSuffix=...`, and `-Pdev` options remain available.
 
 ## Where's the Wiki?  
 The wiki is available [here](../../wiki)!

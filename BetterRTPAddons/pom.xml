@@ -35,6 +35,14 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <outputDirectory>${project.basedir}/../dist</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- Shade PaperLib into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -65,6 +73,41 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <!-- Remove only Shade's unbundled backup, after the final JAR is ready. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/../dist</directory>
+                            <includes>
+                                <include>${project.artifactId}-*.jar</include>
+                                <include>original-${project.artifactId}-*.jar</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>remove-unshaded-backup</id>
+                        <phase>package</phase>
+                        <goals><goal>clean</goal></goals>
+                        <configuration>
+                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                            <filesets combine.self="override">
+                                <fileset>
+                                    <directory>${project.basedir}/../dist</directory>
+                                    <includes><include>original-${project.build.finalName}.jar</include></includes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -128,7 +171,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
