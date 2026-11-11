@@ -1,7 +1,7 @@
 package me.SuperRonanCraft.BetterRTPAddons;
 
 import com.ronanplugins.bettersync.editor.EditorClient;
-import com.ronanplugins.bettersync.editor.EditorProfile;
+import com.ronanplugins.bettersync.editor.EditorSchema;
 
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTPAddons.util.Files;
@@ -33,7 +33,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(reloadListener, this);
         load();
         editorBridge = new EditorClient(
-                this, EditorProfile.BETTERRTP_ADDONS,
+                this, EditorSchema.load(this, "META-INF/editor-schema.json"),
                 EditorClient.website(this, "META-INF/betterrtp-addons-editor.properties"),
                 me.SuperRonanCraft.BetterRTP.versions.AsyncHandler::sync, sender -> load(),
                 this::canEdit, () -> Files.FILETYPE.CONFIG.getConfig().saveToString());

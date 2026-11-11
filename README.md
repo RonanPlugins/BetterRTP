@@ -56,11 +56,28 @@ The wiki is available [here](../../wiki)!
 ## Shared editor library
 
 The web editor uses [BetterSync](https://github.com/RonanPlugins/BetterSync),
-downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:1.0.1`.
-No local BetterSync project or manual Maven install is required. Release `1.0.1` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
+downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:1.1.0`.
+No local BetterSync project or manual Maven install is required. Release `1.1.0` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
 POMs together when upgrading. Shade bundles and relocates the library into the
 plugin JAR; server owners do not install a separate BetterSync plugin.
 
 The plugin retains its scheduler, permissions, reload callbacks, and filtered
 `editor.website` setting. Editor transport and configuration validation are
 maintained in BetterSync.
+
+### Editor schema ownership
+
+Each plugin module owns `src/main/resources/META-INF/editor-schema.json`. Edit rules here,
+not in the website or BetterSync's deprecated legacy profiles. `EditorSchema.load` reads
+this resource from the plugin JAR; the client sends its independent `schemaVersion` and
+checks the version returned by the website before applying changes.
+
+Publish the same schema bytes as a public BetterSync GitHub release asset, then add the
+asset URL and SHA-256 to the website's `editor-schemas.lock.json`. Keep old versions in the
+lock for older servers. A changed rule requires a new schema version; plugin bug fixes
+that do not affect configuration can retain the version. Schema publication does not
+publish the rest of a private plugin repository.
+
+Deploy the matching website and its schema-version database migrations before installing
+the new plugin JARs. Schema resources are bundled automatically by Maven; no sibling
+plugin/library checkout is needed to compile this project.

@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ronanplugins.com/betterrtp-addons/1",
+  "title": "BetterRTP Addons editor configuration",
+  "type": "object",
+  "required": [
+    "Flashback",
+    "Logger",
+    "Portals",
+    "ExtraEffects",
+    "MagicStick",
+    "Commands",
+    "Parties",
+    "RTPMenu"
+  ],
+  "properties": {
+    "Flashback": {
+      "type": "object",
+      "properties": {
+        "Timer": {
+          "type": "object",
+          "properties": {
+            "Delay": {
+              "minimum": 0
+            },
+            "Warnings": {
+              "type": "array",
+              "maxItems": 1000,
+              "items": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "propertyNames": {
+                  "pattern": "^[0-9]+$",
+                  "x-maxNumericName": 2147483647
+                }
+              },
+              "x-named": true,
+              "x-editor": {
+                "collection": "warnings"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Logger": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "string",
+          "x-serverCheck": "date"
+        }
+      }
+    },
+    "Portals": {
+      "type": "object"
+    },
+    "ExtraEffects": {
+      "type": "object"
+    },
+    "MagicStick": {
+      "type": "object",
+      "properties": {
+        "GiveFirstJoin": {
+          "type": "object",
+          "properties": {
+            "Amount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            }
+          }
+        },
+        "Item": {
+          "type": "object",
+          "properties": {
+            "Material": {
+              "type": "string",
+              "x-serverCheck": "material"
+            }
+          }
+        }
+      }
+    },
+    "Commands": {
+      "type": "object"
+    },
+    "Parties": {
+      "type": "object"
+    },
+    "RTPMenu": {
+      "type": "object",
+      "properties": {
+        "Lines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "AutoRefresh": {
+          "minimum": 0
+        },
+        "WorldList": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "default": ""
+                },
+                "Item": {
+                  "type": "string",
+                  "default": "MAP",
+                  "x-serverCheck": "material"
+                },
+                "Slot": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 0,
+                  "x-lessThan": {
+                    "path": "RTPMenu.Lines",
+                    "multiply": 9
+                  }
+                },
+                "Lore": {
+                  "type": "array",
+                  "maxItems": 1000,
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": []
+                }
+              },
+              "x-editableProperties": true,
+              "x-defaultChecks": {
+                "Slot": 0
+              }
+            }
+          },
+          "x-named": true,
+          "x-editor": {
+            "collection": "menu"
+          }
+        }
+      }
+    },
+    "Language-File": {
+      "type": "string",
+      "x-immutable": true,
+      "description": "Change the language file locally."
+    }
+  },
+  "x-bettersync": {
+    "format": 1,
+    "plugin": "betterrtp-addons",
+    "schemaVersion": "1",
+    "displayName": "BetterRTP Addons"
+  },
+  "x-rules": [
+    {
+      "path": ".*Radius$",
+      "schema": {
+        "minimum": 0,
+        "maximum": 30000000
+      }
+    },
+    {
+      "path": ".*\\.(Time|LockAfter)$",
+      "schema": {
+        "minimum": 0
+      }
+    },
+    {
+      "path": ".*\\.PreloadRadius$",
+      "schema": {
+        "minimum": 0,
+        "maximum": 16
+      }
+    },
+    {
+      "path": ".*\\.MaxAttempts$",
+      "schema": {
+        "minimum": 1,
+        "maximum": 10000
+      }
+    },
+    {
+      "path": ".*\\.Shape$",
+      "schema": {
+        "enum": [
+          "square",
+          "circle"
+        ],
+        "x-caseInsensitive": true
+      }
+    }
+  ],
+  "x-objectRanges": [
+    {
+      "min": "MinRadius",
+      "max": "MaxRadius",
+      "strict": true
+    },
+    {
+      "min": "MinY",
+      "max": "MaxY",
+      "strict": false
+    }
+  ]
+}

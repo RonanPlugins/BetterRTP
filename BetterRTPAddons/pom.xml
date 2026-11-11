@@ -11,7 +11,7 @@
 
     <properties>
         <editor.website>https://www.minecentral.net</editor.website>
-        <bettersync.version>1.0.1</bettersync.version>
+        <bettersync.version>1.1.0</bettersync.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

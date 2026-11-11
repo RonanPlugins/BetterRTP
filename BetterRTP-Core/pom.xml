@@ -12,7 +12,7 @@
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
     <properties>
-        <bettersync.version>1.0.1</bettersync.version>
+        <bettersync.version>1.1.0</bettersync.version>
         <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <editor.website>https://www.minecentral.net</editor.website>
