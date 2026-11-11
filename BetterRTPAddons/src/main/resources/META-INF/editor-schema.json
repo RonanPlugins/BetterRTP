@@ -1,18 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.ronanplugins.com/betterrtp-addons/1",
+  "$id": "https://schemas.ronanplugins.com/betterrtp-addons/2",
   "title": "BetterRTP Addons editor configuration",
   "type": "object",
-  "required": [
-    "Flashback",
-    "Logger",
-    "Portals",
-    "ExtraEffects",
-    "MagicStick",
-    "Commands",
-    "Parties",
-    "RTPMenu"
-  ],
   "properties": {
     "Flashback": {
       "type": "object",
@@ -21,28 +11,24 @@
           "type": "object",
           "properties": {
             "Delay": {
-              "minimum": 0
+              "type": "number"
             },
             "Warnings": {
               "type": "array",
-              "maxItems": 1000,
               "items": {
                 "type": "object",
-                "minProperties": 1,
                 "additionalProperties": {
                   "type": "string"
-                },
-                "propertyNames": {
-                  "pattern": "^[0-9]+$",
-                  "x-maxNumericName": 2147483647
                 }
               },
-              "x-named": true,
               "x-editor": {
                 "collection": "warnings"
               }
             }
           }
+        },
+        "Enabled": {
+          "type": "boolean"
         }
       }
     },
@@ -50,16 +36,48 @@
       "type": "object",
       "properties": {
         "Format": {
-          "type": "string",
-          "x-serverCheck": "date"
+          "type": "string"
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "LogToConsole": {
+          "type": "boolean"
         }
       }
     },
     "Portals": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "IgnoreDelay": {
+          "type": "boolean"
+        },
+        "IgnoreCooldown": {
+          "type": "boolean"
+        }
+      }
     },
     "ExtraEffects": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "YOffset": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Offset": {
+              "type": "number"
+            }
+          }
+        }
+      }
     },
     "MagicStick": {
       "type": "object",
@@ -68,9 +86,10 @@
           "type": "object",
           "properties": {
             "Amount": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 64
+              "type": "integer"
+            },
+            "Enabled": {
+              "type": "boolean"
             }
           }
         },
@@ -78,36 +97,89 @@
           "type": "object",
           "properties": {
             "Material": {
-              "type": "string",
-              "x-serverCheck": "material"
+              "type": "string"
+            },
+            "Name": {
+              "type": "string"
+            },
+            "Lore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Take": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Commands": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Events": {
+          "type": "object",
+          "properties": {
+            "Teleport": {
+              "type": "object",
+              "properties": {
+                "Enabled": {
+                  "type": "boolean"
+                },
+                "Commands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Cancelled": {
+              "type": "object",
+              "properties": {
+                "Enabled": {
+                  "type": "boolean"
+                },
+                "Commands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "Commands": {
-      "type": "object"
-    },
     "Parties": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        }
+      }
     },
     "RTPMenu": {
       "type": "object",
       "properties": {
         "Lines": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 6
+          "type": "integer"
         },
         "AutoRefresh": {
-          "minimum": 0
+          "type": "number"
         },
         "WorldList": {
           "type": "array",
-          "maxItems": 1000,
           "items": {
             "type": "object",
-            "minProperties": 1,
             "additionalProperties": {
               "type": "object",
               "properties": {
@@ -117,101 +189,57 @@
                 },
                 "Item": {
                   "type": "string",
-                  "default": "MAP",
-                  "x-serverCheck": "material"
+                  "default": "MAP"
                 },
                 "Slot": {
                   "type": "integer",
-                  "minimum": 0,
-                  "default": 0,
-                  "x-lessThan": {
-                    "path": "RTPMenu.Lines",
-                    "multiply": 9
-                  }
+                  "default": 0
                 },
                 "Lore": {
                   "type": "array",
-                  "maxItems": 1000,
                   "items": {
                     "type": "string"
                   },
                   "default": []
                 }
               },
-              "x-editableProperties": true,
-              "x-defaultChecks": {
-                "Slot": 0
-              }
+              "x-editableProperties": true
             }
           },
-          "x-named": true,
           "x-editor": {
             "collection": "menu"
           }
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "AutoCenter": {
+          "type": "boolean"
         }
       }
     },
     "Language-File": {
       "type": "string",
-      "x-immutable": true,
       "description": "Change the language file locally."
     }
   },
   "x-bettersync": {
     "format": 1,
     "plugin": "betterrtp-addons",
-    "schemaVersion": "1",
+    "schemaVersion": "2",
     "displayName": "BetterRTP Addons"
   },
-  "x-rules": [
-    {
-      "path": ".*Radius$",
-      "schema": {
-        "minimum": 0,
-        "maximum": 30000000
-      }
-    },
-    {
-      "path": ".*\\.(Time|LockAfter)$",
-      "schema": {
-        "minimum": 0
-      }
-    },
-    {
-      "path": ".*\\.PreloadRadius$",
-      "schema": {
-        "minimum": 0,
-        "maximum": 16
-      }
-    },
-    {
-      "path": ".*\\.MaxAttempts$",
-      "schema": {
-        "minimum": 1,
-        "maximum": 10000
-      }
-    },
-    {
-      "path": ".*\\.Shape$",
-      "schema": {
-        "enum": [
-          "square",
-          "circle"
-        ],
-        "x-caseInsensitive": true
-      }
-    }
-  ],
-  "x-objectRanges": [
-    {
-      "min": "MinRadius",
-      "max": "MaxRadius",
-      "strict": true
-    },
-    {
-      "min": "MinY",
-      "max": "MaxY",
-      "strict": false
-    }
+  "required": [
+    "Flashback",
+    "Logger",
+    "Portals",
+    "ExtraEffects",
+    "MagicStick",
+    "Commands",
+    "Parties",
+    "RTPMenu"
   ]
 }

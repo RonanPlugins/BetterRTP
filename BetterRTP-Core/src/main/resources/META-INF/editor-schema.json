@@ -1,84 +1,222 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.ronanplugins.com/betterrtp/1",
+  "$id": "https://schemas.ronanplugins.com/betterrtp/2",
   "title": "BetterRTP editor configuration",
   "type": "object",
-  "required": [
-    "Settings",
-    "Default"
-  ],
   "properties": {
     "Settings": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "Respect": {
+          "type": "object",
+          "properties": {
+            "MinePlots": {
+              "type": "boolean"
+            },
+            "WorldGuard": {
+              "type": "boolean"
+            },
+            "GriefPrevention": {
+              "type": "boolean"
+            },
+            "Towny": {
+              "type": "boolean"
+            },
+            "RedProtect": {
+              "type": "boolean"
+            },
+            "FactionsUUID": {
+              "type": "boolean"
+            },
+            "Lands": {
+              "type": "boolean"
+            },
+            "Residence": {
+              "type": "boolean"
+            },
+            "KingdomsX": {
+              "type": "boolean"
+            },
+            "hClaims": {
+              "type": "boolean"
+            },
+            "GriefDefender": {
+              "type": "boolean"
+            },
+            "UltimateClaims": {
+              "type": "boolean"
+            },
+            "Pueblos": {
+              "type": "boolean"
+            },
+            "SaberFactions": {
+              "type": "boolean"
+            },
+            "HuskClaims": {
+              "type": "boolean"
+            },
+            "HuskTowns": {
+              "type": "boolean"
+            },
+            "FactionsBridge": {
+              "type": "boolean"
+            },
+            "CrashClaim": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Debugger": {
+          "type": "boolean"
+        },
+        "PreloadRadius": {
+          "type": "number"
+        },
+        "MaxAttempts": {
+          "type": "number"
+        },
+        "RtpOnFirstJoin": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "World": {
+              "type": "string"
+            },
+            "SetAsRespawn": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Cooldown": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "LockAfter": {
+              "type": "number"
+            },
+            "Time": {
+              "type": "number"
+            },
+            "PerWorld": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Delay": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Time": {
+              "type": "number"
+            },
+            "CancelOnMove": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Queue": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "DisableUpdater": {
+          "type": "boolean"
+        },
+        "Logger": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "LogToConsole": {
+              "type": "boolean"
+            },
+            "Format": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "Default": {
       "type": "object",
       "properties": {
         "Biomes": {
           "type": "array",
-          "maxItems": 1000,
           "items": {
-            "type": "string",
-            "pattern": "\\S"
+            "type": "string"
           }
-        }
-      },
-      "x-ranges": [
-        {
-          "min": "MinRadius",
-          "max": "MaxRadius",
-          "strict": true
         },
-        {
-          "min": "MinY",
-          "max": "MaxY",
-          "strict": false
+        "UseWorldBorder": {
+          "type": "boolean"
+        },
+        "MaxRadius": {
+          "type": "number"
+        },
+        "MinRadius": {
+          "type": "number"
+        },
+        "CenterX": {
+          "type": "number"
+        },
+        "CenterZ": {
+          "type": "number"
+        },
+        "Shape": {
+          "type": "string"
+        },
+        "MaxY": {
+          "type": "number"
+        },
+        "MinY": {
+          "type": "number"
+        },
+        "RTPOnDeath": {
+          "type": "boolean"
         }
-      ]
+      }
     },
     "Language-File": {
       "type": "string",
-      "x-immutable": true,
       "description": "Change the language file locally."
     },
     "BlacklistedBlocks": {
       "type": "array",
-      "maxItems": 1000,
       "items": {
-        "type": "string",
-        "pattern": "\\S"
+        "type": "string"
       }
     },
     "DisabledWorlds": {
       "type": "array",
-      "maxItems": 1000,
       "items": {
-        "type": "string",
-        "pattern": "\\S"
+        "type": "string"
       }
     },
     "Overrides": {
       "type": "array",
-      "maxItems": 1000,
       "items": {
         "type": "object",
-        "minProperties": 1,
         "additionalProperties": {
-          "type": "string",
-          "x-entryName": true
+          "type": "string"
         }
       },
-      "x-named": true,
       "x-editor": {
         "collection": "overrides"
       }
     },
     "WorldType": {
       "type": "array",
-      "maxItems": 1000,
       "items": {
         "type": "object",
-        "minProperties": 1,
         "additionalProperties": {
           "type": "string",
           "enum": [
@@ -88,17 +226,14 @@
           "x-caseInsensitive": true
         }
       },
-      "x-named": true,
       "x-editor": {
         "collection": "types"
       }
     },
     "CustomWorlds": {
       "type": "array",
-      "maxItems": 1000,
       "items": {
         "type": "object",
-        "minProperties": 1,
         "additionalProperties": {
           "type": "object",
           "properties": {
@@ -140,7 +275,6 @@
             },
             "Cooldown": {
               "type": "integer",
-              "minimum": 0,
               "default": 0
             },
             "RTPOnDeath": {
@@ -149,30 +283,15 @@
             },
             "Biomes": {
               "type": "array",
-              "maxItems": 1000,
               "items": {
-                "type": "string",
-                "pattern": "\\S"
+                "type": "string"
               }
             }
           },
           "x-editableProperties": true,
-          "x-inherit": "Default",
-          "x-ranges": [
-            {
-              "min": "MinRadius",
-              "max": "MaxRadius",
-              "strict": true
-            },
-            {
-              "min": "MinY",
-              "max": "MaxY",
-              "strict": false
-            }
-          ]
+          "x-inherit": "Default"
         }
       },
-      "x-named": true,
       "x-editor": {
         "collection": "worlds"
       }
@@ -182,16 +301,12 @@
       "properties": {
         "Groups": {
           "type": "array",
-          "maxItems": 1000,
           "items": {
             "type": "object",
-            "minProperties": 1,
             "additionalProperties": {
               "type": "array",
-              "maxItems": 1000,
               "items": {
                 "type": "object",
-                "minProperties": 1,
                 "additionalProperties": {
                   "type": "object",
                   "properties": {
@@ -233,7 +348,6 @@
                     },
                     "Cooldown": {
                       "type": "integer",
-                      "minimum": 0,
                       "default": 0
                     },
                     "RTPOnDeath": {
@@ -242,10 +356,8 @@
                     },
                     "Biomes": {
                       "type": "array",
-                      "maxItems": 1000,
                       "items": {
-                        "type": "string",
-                        "pattern": "\\S"
+                        "type": "string"
                       }
                     },
                     "Priority": {
@@ -254,31 +366,20 @@
                     }
                   },
                   "x-editableProperties": true,
-                  "x-inherit": "Default",
-                  "x-ranges": [
-                    {
-                      "min": "MinRadius",
-                      "max": "MaxRadius",
-                      "strict": true
-                    },
-                    {
-                      "min": "MinY",
-                      "max": "MaxY",
-                      "strict": false
-                    }
-                  ]
+                  "x-inherit": "Default"
                 }
               },
-              "x-named": true,
               "x-editor": {
                 "collection": "worlds"
               }
             }
           },
-          "x-named": true,
           "x-editor": {
             "collection": "groups"
           }
+        },
+        "Enabled": {
+          "type": "boolean"
         }
       }
     }
@@ -286,58 +387,11 @@
   "x-bettersync": {
     "format": 1,
     "plugin": "betterrtp",
-    "schemaVersion": "1",
+    "schemaVersion": "2",
     "displayName": "BetterRTP"
   },
-  "x-rules": [
-    {
-      "path": ".*Radius$",
-      "schema": {
-        "minimum": 0,
-        "maximum": 30000000
-      }
-    },
-    {
-      "path": ".*\\.(Time|LockAfter)$",
-      "schema": {
-        "minimum": 0
-      }
-    },
-    {
-      "path": ".*\\.PreloadRadius$",
-      "schema": {
-        "minimum": 0,
-        "maximum": 16
-      }
-    },
-    {
-      "path": ".*\\.MaxAttempts$",
-      "schema": {
-        "minimum": 1,
-        "maximum": 10000
-      }
-    },
-    {
-      "path": ".*\\.Shape$",
-      "schema": {
-        "enum": [
-          "square",
-          "circle"
-        ],
-        "x-caseInsensitive": true
-      }
-    }
-  ],
-  "x-objectRanges": [
-    {
-      "min": "MinRadius",
-      "max": "MaxRadius",
-      "strict": true
-    },
-    {
-      "min": "MinY",
-      "max": "MaxY",
-      "strict": false
-    }
+  "required": [
+    "Settings",
+    "Default"
   ]
 }

@@ -56,8 +56,8 @@ The wiki is available [here](../../wiki)!
 ## Shared editor library
 
 The web editor uses [BetterSync](https://github.com/RonanPlugins/BetterSync),
-downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:1.1.0`.
-No local BetterSync project or manual Maven install is required. Release `1.1.0` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
+downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:2.0.0`.
+No local BetterSync project or manual Maven install is required. Release `2.0.0` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
 POMs together when upgrading. Shade bundles and relocates the library into the
 plugin JAR; server owners do not install a separate BetterSync plugin.
 
@@ -67,17 +67,22 @@ maintained in BetterSync.
 
 ### Editor schema ownership
 
-Each plugin module owns `src/main/resources/META-INF/editor-schema.json`. Edit rules here,
-not in the website or BetterSync's deprecated legacy profiles. `EditorSchema.load` reads
-this resource from the plugin JAR; the client sends its independent `schemaVersion` and
-checks the version returned by the website before applying changes.
+Each plugin module owns `src/main/resources/META-INF/editor-schema.json` and packages
+it in its JAR. It describes field types, lists, defaults and form collection hints.
+BetterSync checks basic types and required sections; it does not enforce business
+rules such as ranges, material names or relationships between fields.
 
-Publish the same schema bytes as a public BetterSync GitHub release asset, then add the
-asset URL and SHA-256 to the website's `editor-schemas.lock.json`. Keep old versions in the
-lock for older servers. A changed rule requires a new schema version; plugin bug fixes
-that do not affect configuration can retain the version. Schema publication does not
-publish the rest of a private plugin repository.
+When a stable GitHub release is published, `.github/workflows/publish-editor-schema.yml`
+attaches the schema from that exact release tag to this repository's release. BetterRTP
+publishes both Core and Addons schemas. The workflow uses the built-in GitHub token;
+no cross-repository publishing secret is needed. Release tags must include the workflow
+and the schema resource. Do not replace a published schema; increment `schemaVersion`
+when changing field metadata.
 
-Deploy the matching website and its schema-version database migrations before installing
-the new plugin JARs. Schema resources are bundled automatically by Maven; no sibling
-plugin/library checkout is needed to compile this project.
+Website builds discover this repository's latest stable release and download its schema.
+No plugin checkout or local Maven install is needed. The website uses a build-only token
+with Contents read access for private repositories. It must be rebuilt after the schema
+publication workflow succeeds. An unsupported plugin schema version is rejected until
+the corresponding website build is deployed.
+
+Use the website's schema-version database migrations before deploying these clients.

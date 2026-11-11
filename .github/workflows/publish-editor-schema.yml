@@ -1,0 +1,37 @@
+name: Publish editor schema
+on:
+  release:
+    types: [published]
+permissions:
+  contents: write
+jobs:
+  publish:
+    if: '!github.event.release.prerelease'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare plugin-owned schemas
+        env:
+          SCHEMA_PATHS: BetterRTP-Core/src/main/resources/META-INF/editor-schema.json BetterRTPAddons/src/main/resources/META-INF/editor-schema.json
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+          mkdirSync('editor-schemas');
+          for (const path of process.env.SCHEMA_PATHS.split(' ')) {
+            const bytes = readFileSync(path), meta = JSON.parse(bytes)['x-bettersync'];
+            if (meta?.format !== 1 || !/^[a-z0-9-]+$/.test(meta.plugin) || !/^[A-Za-z0-9._-]+$/.test(meta.schemaVersion)) throw new Error('Invalid schema identity');
+            writeFileSync(`editor-schemas/${meta.plugin}-${meta.schemaVersion}.schema.json`, bytes);
+          }
+          JS
+      - name: Attach schemas to this plugin release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" editor-schemas/*.schema.json
