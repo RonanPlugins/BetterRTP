@@ -178,6 +178,14 @@
             <artifactId>ProtocolLib</artifactId>
             <version>4.5.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- ProtocolLib supplies its executor implementation; Addons does not use it.
+                     Its legacy transitive snapshot is no longer available to fresh builds. -->
+                <exclusion>
+                    <groupId>com.comphenix.executors</groupId>
+                    <artifactId>BukkitExecutors</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
