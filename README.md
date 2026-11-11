@@ -86,3 +86,16 @@ publication workflow succeeds. An unsupported plugin schema version is rejected 
 the corresponding website build is deployed.
 
 Use the website's schema-version database migrations before deploying these clients.
+
+### Automatic Maven releases
+
+`.github/workflows/release.yml` runs on pushes to `online-editor` (or manually from
+that branch). It reads the effective Maven project versions, builds the plugin JARs,
+runs the editor tests, and publishes a stable GitHub release with the JARs and schemas
+attached together. For the current POMs the title is `BetterRTP 3.6.13 / BetterRTPAddons 1.8.10` and the tag is
+`v3.6.13-addons-1.8.10`. BetterRTP includes both module versions so an Addons-only version bump
+can produce a new release containing both schemas.
+
+An existing release is left untouched. Bump the owning plugin's POM version to publish
+again; SNAPSHOT versions are rejected. GitHub's built-in token needs Contents write
+permission, which the workflow declares. No extra publishing token is required.

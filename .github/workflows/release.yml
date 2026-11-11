@@ -1,0 +1,84 @@
+name: Release Maven version
+on:
+  push:
+    branches: [online-editor]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-maven-version
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.ref == 'refs/heads/online-editor'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Read Maven versions
+        id: version
+        shell: bash
+        run: |
+          mvn -B -q -f BetterRTP-Core/pom.xml help:evaluate -Dexpression=project.version -Doutput="$RUNNER_TEMP/version-0"
+          version0=$(cat "$RUNNER_TEMP/version-0")
+          [[ "$version0" =~ ^[0-9][A-Za-z0-9._-]*$ ]] || { echo "Invalid Maven version"; exit 1; }
+          [[ "$version0" != *SNAPSHOT* ]] || { echo "Snapshot versions are not released"; exit 1; }
+          echo "version0=$version0" >> "$GITHUB_OUTPUT"
+          mvn -B -q -f BetterRTPAddons/pom.xml help:evaluate -Dexpression=project.version -Doutput="$RUNNER_TEMP/version-1"
+          version1=$(cat "$RUNNER_TEMP/version-1")
+          [[ "$version1" =~ ^[0-9][A-Za-z0-9._-]*$ ]] || { echo "Invalid Maven version"; exit 1; }
+          [[ "$version1" != *SNAPSHOT* ]] || { echo "Snapshot versions are not released"; exit 1; }
+          echo "version1=$version1" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version0-addons-$version1" >> "$GITHUB_OUTPUT"
+          echo "title=BetterRTP $version0 / BetterRTPAddons $version1" >> "$GITHUB_OUTPUT"
+      - name: Check for an existing release
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          # Listing errors fail the workflow; they are not mistaken for an absent release.
+          releases=$(gh api --paginate "repos/$GH_REPO/releases?per_page=100" --jq '.[].tag_name')
+          if printf '%s\n' "$releases" | grep -Fxq "$RELEASE_TAG"; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release $RELEASE_TAG already exists; bump the Maven version for another release."
+          fi
+      - name: Build and test
+        if: steps.existing.outputs.exists != 'true'
+        run: |
+          mvn -B clean verify
+          mvn -B -f tests/editor/pom.xml verify
+      - name: Prepare JARs and schemas
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          SCHEMA_PATHS: BetterRTP-Core/src/main/resources/META-INF/editor-schema.json BetterRTPAddons/src/main/resources/META-INF/editor-schema.json
+        run: |
+          mkdir release-assets
+          cp "dist/BetterRTP-${{ steps.version.outputs.version0 }}.jar" release-assets/
+          cp "dist/BetterRTPAddons-${{ steps.version.outputs.version1 }}.jar" release-assets/
+          python3 - <<'PYTHON'
+          import json, os, pathlib, re
+          for path in os.environ['SCHEMA_PATHS'].split():
+              data = pathlib.Path(path).read_bytes()
+              meta = json.loads(data)['x-bettersync']
+              if meta['format'] != 1 or not re.fullmatch(r'[a-z0-9-]+', meta['plugin']) or not re.fullmatch(r'[A-Za-z0-9._-]+', meta['schemaVersion']):
+                  raise ValueError('Invalid schema identity')
+              pathlib.Path('release-assets', f"{meta['plugin']}-{meta['schemaVersion']}.schema.json").write_bytes(data)
+          PYTHON
+      - name: Publish versioned release
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+          RELEASE_TITLE: ${{ steps.version.outputs.title }}
+        run: |
+          gh release create "$RELEASE_TAG" release-assets/* \
+            --target "$GITHUB_SHA" --title "$RELEASE_TITLE" --generate-notes --latest
