@@ -1,5 +1,8 @@
 package me.SuperRonanCraft.BetterRTP;
 
+import com.ronanplugins.bettersync.editor.EditorClient;
+import com.ronanplugins.bettersync.editor.EditorProfile;
+
 import lombok.Getter;
 import me.SuperRonanCraft.BetterRTP.player.PlayerInfo;
 import me.SuperRonanCraft.BetterRTP.player.commands.Commands;
@@ -47,15 +50,17 @@ public class BetterRTP extends JavaPlugin {
     @Getter private boolean PlaceholderAPI;
     @Getter private final RTPLogger rtpLogger = new RTPLogger();
     @Getter private final FoliaHandler foliaHandler = new FoliaHandler();
-    @Getter private me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge editorBridge;
+    @Getter private EditorClient editorBridge;
 
     @Override
     public void onEnable() {
         instance = this;
         registerDependencies();
         loadAll();
-        editorBridge = new me.SuperRonanCraft.BetterRTP.references.web.editor.EditorBridge(
-                this, me.SuperRonanCraft.BetterRTP.versions.AsyncHandler::sync, this::reload,
+        editorBridge = new EditorClient(
+                this, EditorProfile.BETTERRTP,
+                EditorClient.website(this, "META-INF/betterrtp-editor.properties"),
+                me.SuperRonanCraft.BetterRTP.versions.AsyncHandler::sync, this::reload,
                 me.SuperRonanCraft.BetterRTP.references.PermissionNode.EDITOR::check,
                 () -> me.SuperRonanCraft.BetterRTP.references.file.FileOther.FILETYPE.CONFIG.getConfig().saveToString());
         new Updater(this);

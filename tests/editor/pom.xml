@@ -1,9 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.SuperRonanCraft</groupId><artifactId>betterrtp-editor-tests</artifactId><version>1.0</version>
-  <properties><maven.compiler.release>8</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
-  <repositories><repository><id>spigot</id><url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url></repository></repositories>
+  <properties><bettersync.version>1.0.1</bettersync.version><maven.compiler.release>8</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+  <repositories><repository><id>spigot</id><url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url></repository><repository><id>jitpack.io</id><url>https://jitpack.io</url></repository></repositories>
   <dependencies>
+    <dependency><groupId>com.github.RonanPlugins</groupId><artifactId>BetterSync</artifactId><version>${bettersync.version}</version></dependency>
     <dependency><groupId>org.spigotmc</groupId><artifactId>spigot-api</artifactId><version>1.8.8-R0.1-SNAPSHOT</version><exclusions><exclusion><groupId>net.md-5</groupId><artifactId>bungeecord-chat</artifactId></exclusion></exclusions></dependency>
     <dependency><groupId>net.md-5</groupId><artifactId>bungeecord-chat</artifactId><version>1.16-R0.4</version></dependency>
     <dependency><groupId>junit</groupId><artifactId>junit</artifactId><version>4.13.2</version><scope>test</scope></dependency>

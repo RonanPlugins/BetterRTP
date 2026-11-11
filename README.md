@@ -52,3 +52,15 @@ The wiki is available [here](../../wiki)!
   <br/>
   <b><i><a href="https://www.spigotmc.org/resources/authors/superronancraft.13025/">Check out my other plugins!</a></i></b>
 </p>
+
+## Shared editor library
+
+The web editor uses [BetterSync](https://github.com/RonanPlugins/BetterSync),
+downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:1.0.1`.
+No local BetterSync project or manual Maven install is required. Release `1.0.1` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
+POMs together when upgrading. Shade bundles and relocates the library into the
+plugin JAR; server owners do not install a separate BetterSync plugin.
+
+The plugin retains its scheduler, permissions, reload callbacks, and filtered
+`editor.website` setting. Editor transport and configuration validation are
+maintained in BetterSync.

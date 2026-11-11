@@ -12,6 +12,7 @@
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
     <properties>
+        <bettersync.version>1.0.1</bettersync.version>
         <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <editor.website>https://www.minecentral.net</editor.website>
@@ -68,6 +69,8 @@
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
                     </dependencyReducedPomLocation>
                     <relocations>
+                        <relocation><pattern>com.ronanplugins.bettersync</pattern><shadedPattern>me.SuperRonanCraft.BetterRTP.lib.bettersync</shadedPattern></relocation>
+
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTP.lib.paperlib</shadedPattern>
@@ -209,6 +212,12 @@
         </repository>
     </repositories>
     <dependencies>
+        <!-- Download the tagged GitHub library through JitPack; bundled by Shade. -->
+        <dependency>
+            <groupId>com.github.RonanPlugins</groupId>
+            <artifactId>BetterSync</artifactId>
+            <version>${bettersync.version}</version>
+        </dependency>
         <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>

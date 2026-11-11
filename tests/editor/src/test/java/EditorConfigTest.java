@@ -1,4 +1,4 @@
-import me.SuperRonanCraft.BetterRTP.references.web.editor.EditorConfig;
+import com.ronanplugins.bettersync.editor.betterrtp.EditorConfig;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.nio.file.*;
