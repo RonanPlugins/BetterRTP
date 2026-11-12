@@ -18,4 +18,4 @@ jobs:
         run: cp settings.xml $HOME/.m2/settings.xml
 
       - name: Build and test with Maven
-        run: mvn test
+        run: mvn -B -pl :BetterRTP test

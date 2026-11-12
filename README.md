@@ -90,12 +90,18 @@ Use the website's schema-version database migrations before deploying these clie
 ### Automatic Maven releases
 
 `.github/workflows/release.yml` runs on pushes to `online-editor` (or manually from
-that branch). It reads the effective Maven project versions, builds the plugin JARs,
-runs the editor tests, and publishes a stable GitHub release with the JARs and schemas
-attached together. For the current POMs the title is `BetterRTP 3.6.13 / BetterRTPAddons 1.8.10` and the tag is
-`v3.6.13-addons-1.8.10`. BetterRTP includes both module versions so an Addons-only version bump
-can produce a new release containing both schemas.
+that branch). It reads only the Core POM version, builds and verifies BetterRTP Core,
+runs the editor tests, and publishes a stable GitHub release with exactly one plugin
+JAR. For the current Core POM the title is `BetterRTP 3.6.13` and the tag is `v3.6.13`.
+This single-JAR release is compatible with the website's GitHub release importer.
 
-An existing release is left untouched. Bump the owning plugin's POM version to publish
-again; SNAPSHOT versions are rejected. GitHub's built-in token needs Contents write
+Both Core and Addons editor-schema JSON files remain attached for the website editor.
+Copying Addons metadata does not compile or publish its plugin binary. GitHub's Maven
+test workflow also selects Core only. Build and upload the Addons plugin manually;
+do not attach its JAR to the automated BetterRTP release, which must contain one JAR.
+Local root Maven builds still build both modules.
+
+An existing release is left untouched. Bump `BetterRTP-Core/pom.xml` to publish the next
+Core release. An Addons-only version bump does not create a new Core release.
+SNAPSHOT versions are rejected. GitHub's built-in token needs Contents write
 permission, which the workflow declares. No extra publishing token is required.

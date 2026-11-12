@@ -1,4 +1,4 @@
-name: Release Maven version
+name: Release BetterRTP Maven version
 on:
   push:
     branches: [online-editor]
@@ -21,7 +21,7 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Read Maven versions
+      - name: Read BetterRTP Maven version
         id: version
         shell: bash
         run: |
@@ -30,13 +30,8 @@ jobs:
           [[ "$version0" =~ ^[0-9][A-Za-z0-9._-]*$ ]] || { echo "Invalid Maven version"; exit 1; }
           [[ "$version0" != *SNAPSHOT* ]] || { echo "Snapshot versions are not released"; exit 1; }
           echo "version0=$version0" >> "$GITHUB_OUTPUT"
-          mvn -B -q -f BetterRTPAddons/pom.xml help:evaluate -Dexpression=project.version -Doutput="$RUNNER_TEMP/version-1"
-          version1=$(cat "$RUNNER_TEMP/version-1")
-          [[ "$version1" =~ ^[0-9][A-Za-z0-9._-]*$ ]] || { echo "Invalid Maven version"; exit 1; }
-          [[ "$version1" != *SNAPSHOT* ]] || { echo "Snapshot versions are not released"; exit 1; }
-          echo "version1=$version1" >> "$GITHUB_OUTPUT"
-          echo "tag=v$version0-addons-$version1" >> "$GITHUB_OUTPUT"
-          echo "title=BetterRTP $version0 / BetterRTPAddons $version1" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version0" >> "$GITHUB_OUTPUT"
+          echo "title=BetterRTP $version0" >> "$GITHUB_OUTPUT"
       - name: Check for an existing release
         id: existing
         env:
@@ -53,16 +48,16 @@ jobs:
       - name: Build and test
         if: steps.existing.outputs.exists != 'true'
         run: |
-          mvn -B clean verify
+          mvn -B -pl :BetterRTP clean verify
           mvn -B -f tests/editor/pom.xml verify
-      - name: Prepare JARs and schemas
+      - name: Prepare BetterRTP JAR and editor schemas
         if: steps.existing.outputs.exists != 'true'
         env:
+          # The website still needs Addons field metadata; this does not build its JAR.
           SCHEMA_PATHS: BetterRTP-Core/src/main/resources/META-INF/editor-schema.json BetterRTPAddons/src/main/resources/META-INF/editor-schema.json
         run: |
           mkdir release-assets
           cp "dist/BetterRTP-${{ steps.version.outputs.version0 }}.jar" release-assets/
-          cp "dist/BetterRTPAddons-${{ steps.version.outputs.version1 }}.jar" release-assets/
           python3 - <<'PYTHON'
           import json, os, pathlib, re
           for path in os.environ['SCHEMA_PATHS'].split():
