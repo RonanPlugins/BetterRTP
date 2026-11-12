@@ -33,6 +33,14 @@ public class AddonsCommand implements RTPCommand, RTPCommandHelpable {
 
     @Override
     public void execute(CommandSender sendi, String label, String[] args) {
+        if (args.length >= 2 && (args[1].equalsIgnoreCase("editor") || args[1].equalsIgnoreCase("editorsync"))) {
+            Main plugin = Main.getInstance();
+            if (!plugin.canEdit(sendi)) { sendi.sendMessage("§cYou need betterrtp.addon.editor permission."); return; }
+            if (args[1].equalsIgnoreCase("editor") && args.length == 2) plugin.getEditorBridge().upload(sendi);
+            else if (args[1].equalsIgnoreCase("editorsync") && args.length == 3) plugin.getEditorBridge().redeem(sendi, args[2]);
+            else sendi.sendMessage("§eUsage: /" + label + " addons " + (args[1].equalsIgnoreCase("editor") ? "editor" : "editorsync <token>"));
+            return;
+        }
         if (args.length == 2) {
             for (AddonCmds cmds : AddonCmds.values()) {
                 if (cmds.name().equalsIgnoreCase(args[1])) {
@@ -44,6 +52,7 @@ public class AddonsCommand implements RTPCommand, RTPCommandHelpable {
         } else {
             List<String> list = new ArrayList<>();
             list.add(MessagesHelp.PREFIX.get());
+            addEditorHelp(sendi, label, list);
             for (AddonsHandler.Addons addon : Main.getInstance().getAddonsHandler().addons) {
                 RTPCommand cmd = addon.getCmd();
                 if (cmd instanceof RTPCommandHelpable)
@@ -57,12 +66,23 @@ public class AddonsCommand implements RTPCommand, RTPCommandHelpable {
     @Override
     public List<String> tabComplete(CommandSender sendi, String[] args) {
         List<String> list = new ArrayList<>();
+        if (args.length == 2 && Main.getInstance().canEdit(sendi)) {
+            for (String command : new String[] { "editor", "editorsync" })
+                if (command.startsWith(args[1].toLowerCase(Locale.ROOT))) list.add(command);
+        }
         if (args.length == 2)
             for (AddonCmds cmds : AddonCmds.values()) {
                 if (cmds.name().toLowerCase().startsWith(args[1].toLowerCase()))
                     list.add(cmds.name().toLowerCase());
             }
         return list;
+    }
+
+    public static void addEditorHelp(CommandSender sender, String label, List<String> list) {
+        if (Main.getInstance().canEdit(sender)) {
+            list.add("§7- §e/" + label + " addons editor §7- Open the Addons web editor");
+            list.add("§7- §e/" + label + " addons editorsync <token> §7- Apply a saved Addons config");
+        }
     }
 
     @Override

@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ronanplugins.com/betterrtp/2",
+  "title": "BetterRTP editor configuration",
+  "type": "object",
+  "properties": {
+    "Settings": {
+      "type": "object",
+      "properties": {
+        "Respect": {
+          "type": "object",
+          "properties": {
+            "MinePlots": {
+              "type": "boolean"
+            },
+            "WorldGuard": {
+              "type": "boolean"
+            },
+            "GriefPrevention": {
+              "type": "boolean"
+            },
+            "Towny": {
+              "type": "boolean"
+            },
+            "RedProtect": {
+              "type": "boolean"
+            },
+            "FactionsUUID": {
+              "type": "boolean"
+            },
+            "Lands": {
+              "type": "boolean"
+            },
+            "Residence": {
+              "type": "boolean"
+            },
+            "KingdomsX": {
+              "type": "boolean"
+            },
+            "hClaims": {
+              "type": "boolean"
+            },
+            "GriefDefender": {
+              "type": "boolean"
+            },
+            "UltimateClaims": {
+              "type": "boolean"
+            },
+            "Pueblos": {
+              "type": "boolean"
+            },
+            "SaberFactions": {
+              "type": "boolean"
+            },
+            "HuskClaims": {
+              "type": "boolean"
+            },
+            "HuskTowns": {
+              "type": "boolean"
+            },
+            "FactionsBridge": {
+              "type": "boolean"
+            },
+            "CrashClaim": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Debugger": {
+          "type": "boolean"
+        },
+        "PreloadRadius": {
+          "type": "number"
+        },
+        "MaxAttempts": {
+          "type": "number"
+        },
+        "RtpOnFirstJoin": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "World": {
+              "type": "string"
+            },
+            "SetAsRespawn": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Cooldown": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "LockAfter": {
+              "type": "number"
+            },
+            "Time": {
+              "type": "number"
+            },
+            "PerWorld": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Delay": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Time": {
+              "type": "number"
+            },
+            "CancelOnMove": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Queue": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "DisableUpdater": {
+          "type": "boolean"
+        },
+        "Logger": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "LogToConsole": {
+              "type": "boolean"
+            },
+            "Format": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Default": {
+      "type": "object",
+      "properties": {
+        "Biomes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "UseWorldBorder": {
+          "type": "boolean"
+        },
+        "MaxRadius": {
+          "type": "number"
+        },
+        "MinRadius": {
+          "type": "number"
+        },
+        "CenterX": {
+          "type": "number"
+        },
+        "CenterZ": {
+          "type": "number"
+        },
+        "Shape": {
+          "type": "string"
+        },
+        "MaxY": {
+          "type": "number"
+        },
+        "MinY": {
+          "type": "number"
+        },
+        "RTPOnDeath": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Language-File": {
+      "type": "string",
+      "description": "Change the language file locally."
+    },
+    "BlacklistedBlocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "DisabledWorlds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "x-editor": {
+        "collection": "overrides"
+      }
+    },
+    "WorldType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string",
+          "enum": [
+            "NORMAL",
+            "NETHER"
+          ],
+          "x-caseInsensitive": true
+        }
+      },
+      "x-editor": {
+        "collection": "types"
+      }
+    },
+    "CustomWorlds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "UseWorldBorder": {
+              "type": "boolean",
+              "default": false
+            },
+            "MaxRadius": {
+              "type": "integer",
+              "default": 1000
+            },
+            "MinRadius": {
+              "type": "integer",
+              "default": 10
+            },
+            "CenterX": {
+              "type": "integer",
+              "default": 0
+            },
+            "CenterZ": {
+              "type": "integer",
+              "default": 0
+            },
+            "Price": {
+              "type": "integer",
+              "default": 0
+            },
+            "Shape": {
+              "type": "string",
+              "default": "square"
+            },
+            "MaxY": {
+              "type": "integer",
+              "default": 320
+            },
+            "MinY": {
+              "type": "integer",
+              "default": 0
+            },
+            "Cooldown": {
+              "type": "integer",
+              "default": 0
+            },
+            "RTPOnDeath": {
+              "type": "boolean",
+              "default": false
+            },
+            "Biomes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "x-editableProperties": true,
+          "x-inherit": "Default"
+        }
+      },
+      "x-editor": {
+        "collection": "worlds"
+      }
+    },
+    "PermissionGroup": {
+      "type": "object",
+      "properties": {
+        "Groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "UseWorldBorder": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "MaxRadius": {
+                      "type": "integer",
+                      "default": 1000
+                    },
+                    "MinRadius": {
+                      "type": "integer",
+                      "default": 10
+                    },
+                    "CenterX": {
+                      "type": "integer",
+                      "default": 0
+                    },
+                    "CenterZ": {
+                      "type": "integer",
+                      "default": 0
+                    },
+                    "Price": {
+                      "type": "integer",
+                      "default": 0
+                    },
+                    "Shape": {
+                      "type": "string",
+                      "default": "square"
+                    },
+                    "MaxY": {
+                      "type": "integer",
+                      "default": 320
+                    },
+                    "MinY": {
+                      "type": "integer",
+                      "default": 0
+                    },
+                    "Cooldown": {
+                      "type": "integer",
+                      "default": 0
+                    },
+                    "RTPOnDeath": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "Biomes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "Priority": {
+                      "type": "integer",
+                      "default": 0
+                    }
+                  },
+                  "x-editableProperties": true,
+                  "x-inherit": "Default"
+                }
+              },
+              "x-editor": {
+                "collection": "worlds"
+              }
+            }
+          },
+          "x-editor": {
+            "collection": "groups"
+          }
+        },
+        "Enabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "x-bettersync": {
+    "format": 1,
+    "plugin": "betterrtp",
+    "schemaVersion": "2",
+    "displayName": "BetterRTP"
+  },
+  "required": [
+    "Settings",
+    "Default"
+  ]
+}

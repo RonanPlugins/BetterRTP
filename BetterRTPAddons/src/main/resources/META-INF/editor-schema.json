@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ronanplugins.com/betterrtp-addons/2",
+  "title": "BetterRTP Addons editor configuration",
+  "type": "object",
+  "properties": {
+    "Flashback": {
+      "type": "object",
+      "properties": {
+        "Timer": {
+          "type": "object",
+          "properties": {
+            "Delay": {
+              "type": "number"
+            },
+            "Warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "x-editor": {
+                "collection": "warnings"
+              }
+            }
+          }
+        },
+        "Enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Logger": {
+      "type": "object",
+      "properties": {
+        "Format": {
+          "type": "string"
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "LogToConsole": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Portals": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "IgnoreDelay": {
+          "type": "boolean"
+        },
+        "IgnoreCooldown": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ExtraEffects": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "YOffset": {
+          "type": "object",
+          "properties": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Offset": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "MagicStick": {
+      "type": "object",
+      "properties": {
+        "GiveFirstJoin": {
+          "type": "object",
+          "properties": {
+            "Amount": {
+              "type": "integer"
+            },
+            "Enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Item": {
+          "type": "object",
+          "properties": {
+            "Material": {
+              "type": "string"
+            },
+            "Name": {
+              "type": "string"
+            },
+            "Lore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Take": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Commands": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Events": {
+          "type": "object",
+          "properties": {
+            "Teleport": {
+              "type": "object",
+              "properties": {
+                "Enabled": {
+                  "type": "boolean"
+                },
+                "Commands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Cancelled": {
+              "type": "object",
+              "properties": {
+                "Enabled": {
+                  "type": "boolean"
+                },
+                "Commands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Parties": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "RTPMenu": {
+      "type": "object",
+      "properties": {
+        "Lines": {
+          "type": "integer"
+        },
+        "AutoRefresh": {
+          "type": "number"
+        },
+        "WorldList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "default": ""
+                },
+                "Item": {
+                  "type": "string",
+                  "default": "MAP"
+                },
+                "Slot": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "Lore": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": []
+                }
+              },
+              "x-editableProperties": true
+            }
+          },
+          "x-editor": {
+            "collection": "menu"
+          }
+        },
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "AutoCenter": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Language-File": {
+      "type": "string",
+      "description": "Change the language file locally."
+    }
+  },
+  "x-bettersync": {
+    "format": 1,
+    "plugin": "betterrtp-addons",
+    "schemaVersion": "2",
+    "displayName": "BetterRTP Addons"
+  },
+  "required": [
+    "Flashback",
+    "Logger",
+    "Portals",
+    "ExtraEffects",
+    "MagicStick",
+    "Commands",
+    "Parties",
+    "RTPMenu"
+  ]
+}

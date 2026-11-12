@@ -7,6 +7,9 @@ depend: [BetterRTP]
 softdepend: [ProtocolLib]
 
 permissions:
+  betterrtp.addon.editor:
+    description: Open and sync the BetterRTP Addons web editor
+    default: op
   betterrtp.addon.portals:
     description: Ability to use the portals addon commands
 

@@ -10,10 +10,23 @@
     <version>1.8.10</version>
 
     <properties>
+        <editor.website>https://www.minecentral.net</editor.website>
+        <bettersync.version>2.0.0</bettersync.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build><plugins><plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration><outputDirectory>../../../Java/plugins</outputDirectory></configuration>
+            </plugin></plugins></build>
+        </profile>
+    </profiles>
     <build>
         <resources>
             <resource>
@@ -24,6 +37,14 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <outputDirectory>${project.basedir}/../dist</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- Shade PaperLib into project -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -31,6 +52,8 @@
                 <configuration>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
+                        <relocation><pattern>com.ronanplugins.bettersync</pattern><shadedPattern>me.SuperRonanCraft.BetterRTPAddons.lib.bettersync</shadedPattern></relocation>
+
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>me.SuperRonanCraft.BetterRTPAddons.paperlib</shadedPattern>
@@ -47,15 +70,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Local Server Building -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <outputDirectory>../../../Java/plugins</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
@@ -64,10 +78,49 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- Remove only Shade's unbundled backup, after the final JAR is ready. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/../dist</directory>
+                            <includes>
+                                <include>${project.artifactId}-*.jar</include>
+                                <include>original-${project.artifactId}-*.jar</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>remove-unshaded-backup</id>
+                        <phase>package</phase>
+                        <goals><goal>clean</goal></goals>
+                        <configuration>
+                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                            <filesets combine.self="override">
+                                <fileset>
+                                    <directory>${project.basedir}/../dist</directory>
+                                    <includes><include>original-${project.build.finalName}.jar</include></includes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <repositories>
+        <repository>
+            <id>minecodes-repository-releases</id>
+            <url>https://repository.minecodes.pl/releases</url>
+        </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -75,15 +128,22 @@
         <!-- PaperMC Repo -->
         <repository>
             <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <!-- ProtocolLib Repo -->
         <repository>
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
+        <repository><id>jitpack.io</id><url>https://jitpack.io</url></repository>
     </repositories>
     <dependencies>
+        <!-- Download the tagged GitHub library through JitPack; bundled by Shade. -->
+        <dependency>
+            <groupId>com.github.RonanPlugins</groupId>
+            <artifactId>BetterSync</artifactId>
+            <version>${bettersync.version}</version>
+        </dependency>
         <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -102,14 +162,14 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
         <!-- BetterRTP -->
         <dependency>
             <groupId>me.SuperRonanCraft</groupId>
             <artifactId>BetterRTP</artifactId>
-            <version>LATEST</version>
+            <version>3.6.13</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->
@@ -118,11 +178,19 @@
             <artifactId>ProtocolLib</artifactId>
             <version>4.5.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- ProtocolLib supplies its executor implementation; Addons does not use it.
+                     Its legacy transitive snapshot is no longer available to fresh builds. -->
+                <exclusion>
+                    <groupId>com.comphenix.executors</groupId>
+                    <artifactId>BukkitExecutors</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

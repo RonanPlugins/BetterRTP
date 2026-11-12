@@ -21,6 +21,7 @@ public class AddonsCommand_Help implements AddonsCommands, RTPCommandHelpable {
     public void execute(CommandSender sendi, String label, String[] args) {
         List<String> list = new ArrayList<>();
         list.add(MessagesHelp.PREFIX.get());
+        AddonsCommand.addEditorHelp(sendi, label, list);
         for (AddonsCommand.AddonCmds cmds : AddonsCommand.AddonCmds.values()) {
             if (cmds.cmd instanceof RTPCommandHelpable)
                 list.add(((RTPCommandHelpable) cmds.cmd).getHelp().replace("%command%", label));
