@@ -13,9 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTPCommand;
@@ -147,27 +144,22 @@ public class CmdInfo implements RTPCommand, RTPCommandHelpable {
         if (!upload) {
             sendi.sendMessage(list.toArray(new String[0]));
             if (sendi instanceof Player) {
-                TextComponent component = new TextComponent(Message.color("&7- &7Click to upload command log to &flogs.ronanplugins.com"));
+                TextComponent component = new TextComponent(Message.color("&7- &7Click to upload command log to &fmclo.gs"));
                 component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, cmd + " _UPLOAD_"));
                 component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Message.color("&6Suggested command&f: &7" + "/betterrtp " + String.join(" ", args) + " _UPLOAD_")).create()));
                 ((Player) sendi).spigot().sendMessage(component);
             } else {
-                sendi.sendMessage("Execute `" + cmd + " _UPLOAD_`" + " to upload command log to https://logs.ronanplugins.com");
+                sendi.sendMessage("Execute `" + cmd + " _UPLOAD_`" + " to upload command log to https://mclo.gs");
             }
         } else {
             list.add(0, "Command: " + cmd);
             list.forEach(str -> list.set(list.indexOf(str), ChatColor.stripColor(str)));
             CompletableFuture.runAsync(() -> {
-                String key = LogUploader.post(list);
-                if (key == null) {
-                    Message.sms(sendi, new ArrayList<>(Collections.singletonList("&cAn error occured attempting to upload log!")), null);
+                String url = LogUploader.post(list);
+                if (url == null) {
+                    Message.sms(sendi, new ArrayList<>(Collections.singletonList("&cCould not upload the log. Check your connection and ensure the log is under 5 MiB, then try again.")), null);
                 } else {
-                    try {
-                        JSONObject json = (JSONObject) new JSONParser().parse(key);
-                        Message.sms(sendi, Arrays.asList(" ", Message.getPrefix(Message_RTP.msg) + "&aLog uploaded! &fView&7: &6https://logs.ronanplugins.com/" + json.get("key")), null);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Message.sms(sendi, Arrays.asList(" ", Message.getPrefix(Message_RTP.msg) + "&aLog uploaded! &fView&7: &6" + url), null);
                 }
             });
         }

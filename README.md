@@ -16,6 +16,12 @@ Sync validates config.yml, saves a backup in `editor-backups`, then replaces the
 
 Shared behavior, deployment, and verification are documented in the [webapp repository](https://github.com/RonanPlugins/BetterRTP-Webapp/blob/main/docs/web-editor.md).
 
+## Support log uploads
+
+The logger, info, and queue upload actions share logs through `https://mclo.gs`. Uploads are manual and use the mclogs JSON API at `https://api.mclo.gs/1/log`. Files larger than 5 MiB are rejected locally. Uploads have connection/read timeouts, and failed or malformed responses show an upload error instead of a broken link.
+
+No self-hosted log service, DNS setup, account pairing, or API key is required. Logs are uploaded to the third-party mclo.gs service only when the administrator chooses the upload action. Server owners need an updated BetterRTP JAR to use this endpoint.
+
 ## Where's the Lang files?/Want to Contribute translating?  
 All language files are located [here](BetterRTP-Core/src/main/resources/lang)
 feel free to fork one of the language files and help translate!
