@@ -76,6 +76,7 @@ public class BetterRTP extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        playerDataManager.clear();
         if (editorBridge != null) editorBridge.close();
         invs.closeAll();
         queue.unload();
@@ -112,6 +113,8 @@ public class BetterRTP extends JavaPlugin {
     private void loadAll() {
         foliaHandler.load();
         playerDataManager.clear();
+        for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers())
+            playerDataManager.startSession(player);
         files.loadAll();
         settings.load();
         cooldowns.load();

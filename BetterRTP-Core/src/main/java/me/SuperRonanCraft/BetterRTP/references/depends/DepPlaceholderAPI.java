@@ -39,6 +39,7 @@ public class DepPlaceholderAPI extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String request) {
         PlayerData data = HelperPlayer.getData(player);
+        if (data == null) return null;
         if (request.equalsIgnoreCase("count")) {
             return String.valueOf(data.getRtpCount());
         } else if (request.startsWith("cooldown")) {

@@ -12,7 +12,8 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.CooldownData;
 
 public class PlayerData {
 
-    public boolean loading; //Is this players data loading?
+    public volatile boolean cooldownsLoaded;
+    public volatile boolean loading; //Is this players data loading?
     public final Player player;
     //Menus
     @Getter final PlayerData_Menus menu = new PlayerData_Menus();
