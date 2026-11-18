@@ -16,7 +16,7 @@ public class PlayerInfo {
     @Getter private final HashMap<Player, World> invWorld = new HashMap<>();
     @Getter private final HashMap<Player, RTP_INV_SETTINGS> invNextInv = new HashMap<>();
     //private final HashMap<Player, CooldownData> cooldown = new HashMap<>();
-    @Getter private final HashMap<Player, Boolean> rtping = new HashMap<>();
+
     //private final HashMap<Player, List<Location>> previousLocations = new HashMap<>();
     //private final HashMap<Player, RTP_TYPE> rtpType = new HashMap<>();
 
@@ -48,14 +48,14 @@ public class PlayerInfo {
         invWorld.clear();
         invNextInv.clear();
         //cooldown.clear();
-        rtping.clear();
+
         //previousLocations.clear();
     }
 
     private void unload(Player p) {
         clearInvs(p);
         //cooldown.remove(p);
-        rtping.remove(p);
+
         //previousLocations.remove(p);
     }
 

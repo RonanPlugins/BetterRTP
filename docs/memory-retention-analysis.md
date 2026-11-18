@@ -35,6 +35,18 @@ Validation: compiled the actual, unmodified PlayerDataManager and PlayerData sou
 
 Recommended correction: create session state explicitly on join; separate non-creating lookup from creation; invalidate the session on quit; carry a session token through callbacks. Save immutable UUID/count/timestamp snapshots captured before scheduling, without looking up PlayerData in the writer. Apply loaded results only if the original session is still current. An isOnline check alone still leaves check/remove/insert and reconnect races.
 
+## Implementation status: RTP operation cleanup
+
+Finding 2 is addressed on `fix/rtp-operation-cleanup`, based on the deferred-lookup fix. The original findings below remain as historical evidence.
+
+- Replaced the Player-keyed boolean map with a synchronized UUID-keyed operation registry. Each request has its own identity and session owner; duplicate starts are rejected, and stale completion/quit cannot remove a newer operation.
+- Both pre-teleport cancellation modes end the operation. Chunk-load failures, synchronous work exceptions, unsuccessful teleport results, and exceptions in success effects also release it. Unexpected errors are logged.
+- Quit, reload, and disable end active operations. Delay cleanup cancels its task and unregisters its listener, including when task cancellation throws. Cleanup is idempotent and clears resource callbacks.
+- Deferred search/delay callbacks check whether their request remains active. Cancelled location-event retries increment attempts before scheduling another retry, avoiding recursive stack growth.
+- Compatibility: the mutable `PlayerInfo.getRtping()` API was removed. Integrations checking activity should use `getRTP().getOperations().contains(player.getUniqueId())`; they must not independently mutate tracking state.
+- Validation: `mvn -o -q -f BetterRTP-Core/pom.xml test` passed 19 tests (13 operation tests plus the existing 6 session tests). These exercise shared pre-event cancellation handling, actual chunk continuation handling, terminal future outcomes, cleanup after effect exceptions, stale completions, lifecycle cleanup, and Bukkit listener unregistration even when task cancellation fails. Full plugin event/scheduler integration on Paper/Folia has not been exercised.
+- Limits: no timeout policy was added for a future that never completes while its player remains online. Logical cancellation does not guarantee cancellation of underlying chunk IO or an already-started teleport. Other menu, executor, and queue-generation findings remain separate work.
+
 ## 2. High: RTP operation map has permanent retention paths
 
 Evidence: `player/PlayerInfo.java:19,45-59`, `player/rtp/RTP.java:82-94`, `RTPDelay.java:31-36`, `RTPPlayer.java:64-76`, `RTPTeleport.java:55-71`, and `player/events/Leave.java:9-12`.
