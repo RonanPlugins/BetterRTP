@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 
-import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
 import me.SuperRonanCraft.BetterRTP.player.commands.RTP_SETUP_TYPE;
 import me.SuperRonanCraft.BetterRTP.player.rtp.RTP;
@@ -156,37 +155,38 @@ public class QueueGenerator {
     private void addQueue(RTPWorld rtpWorld, String id, ReQueueData reQueueData) {
         Location loc = RandomLocation.generateLocation(rtpWorld);
         if (loc != null) {
-            AsyncHandler.sync(() -> {
-                //BetterRTP.debug("Queued up a new position, attempts " + reQueueData.attempts);
-                PaperLib.getChunkAtAsync(loc)
-                        .thenAccept(v -> {
-                            Location safeLoc = RandomLocation.getSafeLocation(
-                                    HelperRTP.getWorldType(rtpWorld.getWorld()),
-                                    loc.getWorld(),
-                                    loc,
-                                    rtpWorld.getMinY(),
-                                    rtpWorld.getMaxY(),
-                                    rtpWorld.getBiomes());
-                            //data.setLocation(safeLoc);
-                            if (safeLoc != null) {
-                                AsyncHandler.async(() -> {
-                                    QueueData data = DatabaseHandler.getQueue().addQueue(safeLoc);
-                                    if (data != null) {
-                                        //queueList.add(data);
-                                        String _x = String.valueOf(data.getLocation().getBlockX());
-                                        String _y = String.valueOf(data.getLocation().getBlockY());
-                                        String _z = String.valueOf(data.getLocation().getBlockZ());
-                                        String _world = data.getLocation().getWorld().getName();
-                                        BetterRTP.debug("Queue position generated"
-                                                + ": id= " + id + ", database_ID= " + data.database_id
-                                                + ", location= x: " + _x + ", y: " + _y + ", z: " + _z + ", world: " + _world);
-                                    } else
-                                        BetterRTP.debug("Database error occurred for a queue when trying to save: " + safeLoc);
-                                    queueGenerator(reQueueData);
-                                });
-                            } else
-                                queueGenerator(reQueueData);
-                        });
+            AsyncHandler.atLoadedChunk(loc, () -> {
+                Location safeLoc = RandomLocation.getSafeLocation(
+                        HelperRTP.getWorldType(rtpWorld.getWorld()),
+                        loc.getWorld(),
+                        loc,
+                        rtpWorld.getMinY(),
+                        rtpWorld.getMaxY(),
+                        rtpWorld.getBiomes());
+                //data.setLocation(safeLoc);
+                if (safeLoc != null) {
+                    AsyncHandler.async(() -> {
+                        QueueData data = DatabaseHandler.getQueue().addQueue(safeLoc);
+                        if (data != null) {
+                            //queueList.add(data);
+                            String _x = String.valueOf(data.getLocation().getBlockX());
+                            String _y = String.valueOf(data.getLocation().getBlockY());
+                            String _z = String.valueOf(data.getLocation().getBlockZ());
+                            String _world = data.getLocation().getWorld().getName();
+                            BetterRTP.debug("Queue position generated"
+                                    + ": id= " + id + ", database_ID= " + data.database_id
+                                    + ", location= x: " + _x + ", y: " + _y + ", z: " + _z + ", world: " + _world);
+                        } else
+                            BetterRTP.debug("Database error occurred for a queue when trying to save: " + safeLoc);
+                        queueGenerator(reQueueData);
+                    });
+                } else
+                    queueGenerator(reQueueData);
+            }).exceptionally(error -> {
+                BetterRTP.getInstance().getLogger().log(java.util.logging.Level.WARNING,
+                        "Failed to generate queue position for " + id + " at " + loc, error);
+                queueGenerator(reQueueData);
+                return null;
             });
         } else {
             BetterRTP.debug("Queue position wasn't able to generate a location!");

@@ -35,9 +35,17 @@ public class AddonsHandler {
     }
 
     public void unload() {
-        for (Addons addon : addons)
-            addon.disable();
-        addons.clear();
+        try {
+            for (Addons addon : addons)
+                addon.disable();
+        } finally {
+            addons.clear();
+            // Core retains these command objects after this plugin's classloader closes.
+            BetterRTP core = BetterRTP.getInstance();
+            if (core != null && core.getCmd() != null)
+                core.getCmd().commands.removeIf(command ->
+                        command.getClass().getClassLoader() == getClass().getClassLoader());
+        }
     }
 
     public enum Addons {
