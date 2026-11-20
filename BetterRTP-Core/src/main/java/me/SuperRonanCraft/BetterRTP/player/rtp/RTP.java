@@ -22,6 +22,7 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 public class RTP {
 
     @Getter final RTPTeleport teleport = new RTPTeleport();
+    @Getter private final RTPOperationTracker operations = new RTPOperationTracker();
     //Cache
     public final HashMap<String, String> overriden = new HashMap<>();
     @Getter List<String> disabledWorlds, blockList;
@@ -82,16 +83,19 @@ public class RTP {
     private void rtp(CommandSender sendi, WorldPlayer pWorld, RTP_TYPE type) {
         //Cooldown
         Player p = pWorld.getPlayer();
-        getPl().getPInfo().getRtping().put(p, true); //Cache player so they cant run '/rtp' again while rtp'ing
+        if (!p.isOnline()) return;
+        RTPOperationTracker.Operation operation = operations.start(p.getUniqueId(), p);
+        if (operation == null) return;
         //Setup player rtp methods
-        RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type);
-        // Delaying? Else, just go
-        if (pWorld.getPlayerInfo().applyDelay && HelperRTP_Check.applyDelay(pWorld.getPlayer())) {
-            new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
-        } else {
-            if (!teleport.beforeTeleportInstant(sendi, p))
-                rtpPlayer.randomlyTeleport(sendi);
-        }
+        RTPPlayer rtpPlayer = new RTPPlayer(p, this, pWorld, type, operation);
+        rtpPlayer.runSafely(() -> {
+            if (pWorld.getPlayerInfo().applyDelay && HelperRTP_Check.applyDelay(p)) {
+                new RTPDelay(sendi, rtpPlayer, delayTime, cancelOnMove, cancelOnDamage);
+            } else {
+                rtpPlayer.afterPreEvent(teleport.beforeTeleportInstant(sendi, p),
+                        () -> rtpPlayer.randomlyTeleport(sendi));
+            }
+        });
     }
 
     private BetterRTP getPl() {

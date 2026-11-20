@@ -16,6 +16,12 @@ Sync validates config.yml, saves a backup in `editor-backups`, then replaces the
 
 Shared behavior, deployment, and verification are documented in the [webapp repository](https://github.com/RonanPlugins/BetterRTP-Webapp/blob/main/docs/web-editor.md).
 
+## Support log uploads
+
+The logger, info, and queue upload actions share logs through `https://mclo.gs`. Uploads are manual and use the mclogs JSON API at `https://api.mclo.gs/1/log`. Files larger than 5 MiB are rejected locally. Uploads have connection/read timeouts, and failed or malformed responses show an upload error instead of a broken link.
+
+No self-hosted log service, DNS setup, account pairing, or API key is required. Logs are uploaded to the third-party mclo.gs service only when the administrator chooses the upload action. Server owners need an updated BetterRTP JAR to use this endpoint.
+
 ## Where's the Lang files?/Want to Contribute translating?  
 All language files are located [here](BetterRTP-Core/src/main/resources/lang)
 feel free to fork one of the language files and help translate!
@@ -31,7 +37,7 @@ BetterRTP uses and is compiled with the following libraries:
 
 From this directory, run `mvn clean package` to build BetterRTP followed by BetterRTP Addons. Maven resolves Addons against the BetterRTP built in the same run; a separate `install` step is unnecessary.
 
-- BetterRTP JAR: `dist/BetterRTP-3.6.13.jar`
+- BetterRTP JAR: `dist/BetterRTP-3.6.15.jar`
 - Addons JAR: `dist/BetterRTPAddons-1.8.10.jar`
 
 Both server-ready JARs are collected in `dist/`. `mvn clean` removes each selected plugin’s previous JARs from this folder; intermediate build files stay in `target/`. The `dev` profile still outputs directly to its configured server plugins folder.
@@ -89,10 +95,10 @@ Use the website's schema-version database migrations before deploying these clie
 
 ### Automatic Maven releases
 
-`.github/workflows/release.yml` runs on pushes to `online-editor` (or manually from
+`.github/workflows/release.yml` runs on pushes to `master` (or manually from
 that branch). It reads only the Core POM version, builds and verifies BetterRTP Core,
 runs the editor tests, and publishes a stable GitHub release with exactly one plugin
-JAR. For the current Core POM the title is `BetterRTP 3.6.13` and the tag is `v3.6.13`.
+JAR. For the current Core POM the title is `BetterRTP 3.6.15` and the tag is `v3.6.15`.
 This single-JAR release is compatible with the website's GitHub release importer.
 
 Both Core and Addons editor-schema JSON files remain attached for the website editor.

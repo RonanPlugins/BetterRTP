@@ -37,6 +37,7 @@ public interface RTPInventory_Defaults {
 
     default void cacheInv(Player p, Inventory inv, RTP_INV_SETTINGS type) {
         PlayerData info = HelperPlayer.getData(p);
+        if (info == null) return;
         info.getMenu().setInv(inv);
         info.getMenu().setInvType(type);
     }
