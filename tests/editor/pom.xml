@@ -4,6 +4,7 @@
   <properties><bettersync.version>2.0.0</bettersync.version><maven.compiler.release>8</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
   <repositories><repository><id>spigot</id><url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url></repository><repository><id>jitpack.io</id><url>https://jitpack.io</url></repository></repositories>
   <dependencies>
+    <dependency><groupId>org.jetbrains</groupId><artifactId>annotations</artifactId><version>24.0.1</version><scope>provided</scope></dependency>
     <dependency><groupId>com.github.RonanPlugins</groupId><artifactId>BetterSync</artifactId><version>${bettersync.version}</version></dependency>
     <dependency><groupId>org.spigotmc</groupId><artifactId>spigot-api</artifactId><version>1.8.8-R0.1-SNAPSHOT</version><exclusions><exclusion><groupId>net.md-5</groupId><artifactId>bungeecord-chat</artifactId></exclusion></exclusions></dependency>
     <dependency><groupId>net.md-5</groupId><artifactId>bungeecord-chat</artifactId><version>1.16-R0.4</version></dependency>
@@ -12,7 +13,7 @@
   <build>
     <sourceDirectory>../../BetterRTP-Core/src/main/java</sourceDirectory>
     <plugins>
-      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.14.0</version><configuration><includes><include>**/web/editor/*.java</include></includes></configuration></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.14.0</version><configuration><includes><include>**/web/editor/*.java</include><include>**/web/LogUploader.java</include></includes></configuration></plugin>
       <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.3</version></plugin>
     </plugins>
   </build>

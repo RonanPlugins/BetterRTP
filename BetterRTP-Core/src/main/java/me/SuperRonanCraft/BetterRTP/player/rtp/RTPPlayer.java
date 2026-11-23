@@ -23,20 +23,56 @@ import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 public class RTPPlayer {
 
     @Getter private final Player player;
+    @Getter private final RTPOperationTracker.Operation operation;
     private final RTP settings;
     @Getter WorldPlayer worldPlayer;
     @Getter RTP_TYPE type;
     @Getter int attempts;
     //List<Location> attemptedLocations = new ArrayList<>();
 
-    RTPPlayer(Player player, RTP settings, WorldPlayer worldPlayer, RTP_TYPE type) {
+    RTPPlayer(Player player, RTP settings, WorldPlayer worldPlayer, RTP_TYPE type, RTPOperationTracker.Operation operation) {
+        this.operation = operation;
         this.player = player;
         this.settings = settings;
         this.worldPlayer = worldPlayer;
         this.type = type;
     }
 
+    boolean isActive() {
+        if (!player.isOnline()) operation.finish();
+        return operation.isActive();
+    }
+
+    void logError(Throwable error) {
+        getPl().getLogger().log(java.util.logging.Level.WARNING, "RTP operation failed for " + player.getUniqueId(), error);
+    }
+
+    void runSafely(Runnable action) {
+        try {
+            if (isActive()) action.run();
+        } catch (Throwable error) {
+            try { operation.finish(); } finally { logError(error); }
+        }
+    }
+
+    void afterPreEvent(boolean cancelled, Runnable continuation) {
+        if (cancelled) operation.finish();
+        else runSafely(continuation);
+    }
+
+    void awaitChunk(CompletableFuture<Chunk> chunk, Runnable continuation) {
+        chunk.whenComplete((result, error) -> runSafely(() -> {
+            if (error != null) {
+                try { operation.finish(); } finally { logError(error); }
+            } else continuation.run();
+        }));
+    }
+
     void randomlyTeleport(CommandSender sendi) {
+        runSafely(() -> search(sendi));
+    }
+
+    private void search(CommandSender sendi) {
         if (attempts >= settings.maxAttempts) //Cancel out, too many tries
             metMax(sendi, player);
         else { //Try again to find a safe location
@@ -45,11 +81,11 @@ public class RTPPlayer {
             Bukkit.getServer().getPluginManager().callEvent(event);
             //Async Location finder
             if (event.isCancelled()) {
-                randomlyTeleport(sendi);
                 attempts++;
+                AsyncHandler.sync(() -> randomlyTeleport(sendi));
                 return;
             }
-            AsyncHandler.async(() -> {
+            AsyncHandler.async(() -> runSafely(() -> {
                 Location loc;
                 if (event.getLocation() != null) // && WorldPlayer.checkIsValid(event.getLocation(), pWorld))
                     loc = event.getLocation();
@@ -63,25 +99,21 @@ public class RTPPlayer {
                 }
                 attempts++; //Add an attempt
                 //Load chunk and find out if safe location (asynchronously)
-                AsyncHandler.sync(() -> {
+                AsyncHandler.sync(() -> runSafely(() -> {
                     try { //Prior to 1.12 this async chunk will NOT work
                         CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
-                        chunk.thenAccept(result -> {
-                            //BetterRTP.debug("Checking location for " + p.getName());
-                            attempt(sendi, loc);
-                        });
+                        awaitChunk(chunk, () -> attempt(sendi, loc));
                     } catch (IllegalStateException e) {
                         //Legacy non-async support
                         attempt(sendi, loc);
-                    } catch (Throwable ignored) {
-
                     }
-                });
-            });
+                }));
+            }));
         }
     }
 
     private void attempt(CommandSender sendi, Location loc) {
+        if (!isActive()) return;
         Location tpLoc;
         tpLoc = RandomLocation.getSafeLocation(worldPlayer.getWorldtype(), worldPlayer.getWorld(), loc, worldPlayer.getMinY(), worldPlayer.getMaxY(), worldPlayer.getBiomes());
         //attemptedLocations.add(loc);
@@ -94,11 +126,11 @@ public class RTPPlayer {
                     getPl().getCooldowns().add(player, worldPlayer.getWorld());
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
-                AsyncHandler.sync(() -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
+                AsyncHandler.sync(() -> runSafely(() -> settings.teleport.sendPlayer(sendi, this, tpLoc)));
             } else {
                 if (worldPlayer.getPlayerInfo().applyCooldown)
                     getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());
-                getPl().getPInfo().getRtping().remove(player);
+                operation.finish();
             }
         } else {
             randomlyTeleport(sendi);
@@ -110,7 +142,7 @@ public class RTPPlayer {
     private void metMax(CommandSender sendi, Player p) {
         settings.teleport.failedTeleport(p, sendi);
         getPl().getCooldowns().removeCooldown(p, worldPlayer.getWorld());
-        getPl().getPInfo().getRtping().remove(p);
+        operation.finish();
         //RTP Failed Event
         Bukkit.getServer().getPluginManager().callEvent(new RTP_FailedEvent(this));
     }

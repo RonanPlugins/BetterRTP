@@ -7,7 +7,7 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.13</version>
+    <version>3.6.15</version>
 
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
@@ -212,6 +212,9 @@
         </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>junit</groupId><artifactId>junit</artifactId><version>4.13.2</version><scope>test</scope>
+        </dependency>
         <!-- Download the tagged GitHub library through JitPack; bundled by Shade. -->
         <dependency>
             <groupId>com.github.RonanPlugins</groupId>

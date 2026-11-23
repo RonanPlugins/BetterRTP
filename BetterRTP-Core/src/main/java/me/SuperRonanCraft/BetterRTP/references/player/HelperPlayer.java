@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 public class HelperPlayer {
 
+    @org.jetbrains.annotations.Nullable
     public static PlayerData getData(Player p) {
         return getPl().getPlayerDataManager().getData(p);
     }

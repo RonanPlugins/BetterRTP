@@ -1,6 +1,7 @@
 package me.SuperRonanCraft.BetterRTP.player.events;
 
 import me.SuperRonanCraft.BetterRTP.references.player.HelperPlayer;
+import me.SuperRonanCraft.BetterRTP.references.player.playerdata.PlayerData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -11,7 +12,8 @@ public class Damage {
     }
 
     static boolean isInInvincibleMode(Player player) {
-        return HelperPlayer.getData(player).getInvincibleEndTime() > System.currentTimeMillis();
+        PlayerData data = HelperPlayer.getData(player);
+        return data != null && data.getInvincibleEndTime() > System.currentTimeMillis();
     }
 
     static void onEntityDamage(EntityDamageEvent event) {

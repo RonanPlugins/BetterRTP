@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import io.papermc.lib.PaperLib;
 import me.SuperRonanCraft.BetterRTP.BetterRTP;
@@ -38,37 +37,25 @@ public class RTPTeleport {
 //        CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).cancel(true);
 //    }
 
-    void sendPlayer(final CommandSender sendi, final Player p, final Location location, final WorldPlayer wPlayer,
-                    final int attempts, RTP_TYPE type) throws NullPointerException {
+    void sendPlayer(CommandSender sendi, RTPPlayer request, Location location) {
+        Player p = request.getPlayer();
+        WorldPlayer wPlayer = request.getWorldPlayer();
+        int attempts = request.getAttempts();
+        RTP_TYPE type = request.getType();
         Location oldLoc = p.getLocation();
-        loadingTeleport(p, sendi); //Send loading message to player who requested
-        //List<CompletableFuture<Chunk>> asyncChunks = getChunks(location); //Get a list of chunks
-        //playerLoads.put(p, asyncChunks);
-        /*CompletableFuture.allOf(asyncChunks.toArray(new CompletableFuture[] {})).thenRun(() -> { //Async chunk load
-            new BukkitRunnable() { //Run synchronously
-                @Override
-                public void run() {*/
-        try {
-            RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, wPlayer.getWorldtype());
-            getPl().getServer().getPluginManager().callEvent(event);
-            Location loc = event.getLocation();
-            PaperLib.teleportAsync(p, loc).thenRun(new BukkitRunnable() { //Async teleport
-                @Override
-                public void run() {
-                    afterTeleport(p, loc, wPlayer, attempts, oldLoc, type);
-                    if (sendi != p) //Tell player who requested that the player rtp'd
-                        sendSuccessMsg(sendi, p.getName(), loc, wPlayer, false, attempts);
-                    getPl().getPInfo().getRtping().remove(p); //No longer rtp'ing
-                    //Save respawn location if first join
-                    if (type == RTP_TYPE.JOIN) //RTP Type was Join
-                        if (BetterRTP.getInstance().getSettings().isRtpOnFirstJoin_SetAsRespawn()) //Save as respawn is enabled
-                            p.setBedSpawnLocation(loc, true); //True means to force a respawn even without a valid bed
-                }
-            });
-        } catch (Exception e) {
-            getPl().getPInfo().getRtping().remove(p); //No longer rtp'ing (errored)
-            e.printStackTrace();
-        }
+        loadingTeleport(p, sendi);
+        RTP_TeleportEvent event = new RTP_TeleportEvent(p, location, wPlayer.getWorldtype());
+        getPl().getServer().getPluginManager().callEvent(event);
+        if (!request.isActive()) return;
+        Location loc = event.getLocation();
+        request.getOperation().complete(PaperLib.teleportAsync(p, loc), () -> {
+            if (!request.isActive()) return;
+            afterTeleport(p, loc, wPlayer, attempts, oldLoc, type);
+            if (sendi != p)
+                sendSuccessMsg(sendi, p.getName(), loc, wPlayer, false, attempts);
+            if (type == RTP_TYPE.JOIN && getPl().getSettings().isRtpOnFirstJoin_SetAsRespawn())
+                p.setBedSpawnLocation(loc, true);
+        }, () -> failedTeleport(p, sendi), request::logError);
     }
 
     //Effects
