@@ -37,8 +37,8 @@ BetterRTP uses and is compiled with the following libraries:
 
 From this directory, run `mvn clean package` to build BetterRTP followed by BetterRTP Addons. Maven resolves Addons against the BetterRTP built in the same run; a separate `install` step is unnecessary.
 
-- BetterRTP JAR: `dist/BetterRTP-3.6.13.jar`
-- Addons JAR: `dist/BetterRTPAddons-1.8.10.jar`
+- BetterRTP JAR: `dist/BetterRTP-3.6.15.jar`
+- Addons JAR: `dist/BetterRTPAddons-1.8.11.jar`
 
 Both server-ready JARs are collected in `dist/`. `mvn clean` removes each selected plugin’s previous JARs from this folder; intermediate build files stay in `target/`. The `dev` profile still outputs directly to its configured server plugins folder.
 
@@ -95,10 +95,10 @@ Use the website's schema-version database migrations before deploying these clie
 
 ### Automatic Maven releases
 
-`.github/workflows/release.yml` runs on pushes to `online-editor` (or manually from
+`.github/workflows/release.yml` runs on pushes to `master` (or manually from
 that branch). It reads only the Core POM version, builds and verifies BetterRTP Core,
 runs the editor tests, and publishes a stable GitHub release with exactly one plugin
-JAR. For the current Core POM the title is `BetterRTP 3.6.13` and the tag is `v3.6.13`.
+JAR. For the current Core POM the title is `BetterRTP 3.6.15` and the tag is `v3.6.15`.
 This single-JAR release is compatible with the website's GitHub release importer.
 
 Both Core and Addons editor-schema JSON files remain attached for the website editor.
