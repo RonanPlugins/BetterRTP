@@ -7,11 +7,11 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTPAddons</artifactId>
     <packaging>jar</packaging>
-    <version>1.8.11</version>
+    <version>1.8.12</version>
 
     <properties>
         <editor.website>https://www.minecentral.net</editor.website>
-        <bettersync.version>2.0.0</bettersync.version>
+        <bettersync.version>2.0.1</bettersync.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -169,7 +169,7 @@
         <dependency>
             <groupId>me.SuperRonanCraft</groupId>
             <artifactId>BetterRTP</artifactId>
-            <version>3.6.15</version>
+            <version>3.6.16</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->

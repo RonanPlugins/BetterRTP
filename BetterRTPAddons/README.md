@@ -7,7 +7,7 @@ But this can be compiled free of charge if you know how to compile maven resourc
 
 ## Web configuration editor
 
-[Open the BetterRTP Addons editor](https://www.minecentral.net/editor/betterrtp-addons) to start with defaults or upload config.yml. Edit addon toggles, menus, command lists, and flashback warnings. Install the matching updated BetterRTP JAR too: Addons shares its editor bridge.
+[Open the BetterRTP Addons editor](https://www.minecentral.net/plugins/betterrtp-addons/editor) to start with defaults or upload config.yml. Edit addon toggles, menus, command lists, and flashback warnings. Install the matching updated BetterRTP JAR too: Addons shares its editor bridge.
 
 1. Run `/rtp addons editor` on your server and open the private link it returns.
 2. Edit the form or YAML and choose **Save and get sync command**.

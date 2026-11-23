@@ -4,7 +4,7 @@
 
 ## Web configuration editor
 
-[Open the BetterRTP editor](https://www.minecentral.net/editor/betterrtp) to start with defaults or upload config.yml. Edit world settings, teleport ranges, cooldowns, and supported lists.
+[Open the BetterRTP editor](https://www.minecentral.net/plugins/betterrtp/editor) to start with defaults or upload config.yml. Edit world settings, teleport ranges, cooldowns, and supported lists.
 
 1. Run `/rtp editor` on your server and open the private link it returns.
 2. Edit the form or YAML and choose **Save and get sync command**.
@@ -37,8 +37,8 @@ BetterRTP uses and is compiled with the following libraries:
 
 From this directory, run `mvn clean package` to build BetterRTP followed by BetterRTP Addons. Maven resolves Addons against the BetterRTP built in the same run; a separate `install` step is unnecessary.
 
-- BetterRTP JAR: `dist/BetterRTP-3.6.15.jar`
-- Addons JAR: `dist/BetterRTPAddons-1.8.11.jar`
+- BetterRTP JAR: `dist/BetterRTP-3.6.16.jar`
+- Addons JAR: `dist/BetterRTPAddons-1.8.12.jar`
 
 Both server-ready JARs are collected in `dist/`. `mvn clean` removes each selected plugin’s previous JARs from this folder; intermediate build files stay in `target/`. The `dev` profile still outputs directly to its configured server plugins folder.
 
@@ -62,8 +62,8 @@ The wiki is available [here](../../wiki)!
 ## Shared editor library
 
 The web editor uses [BetterSync](https://github.com/RonanPlugins/BetterSync),
-downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:2.0.0`.
-No local BetterSync project or manual Maven install is required. Release `2.0.0` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
+downloaded by Maven from JitPack as `com.github.RonanPlugins:BetterSync:2.0.1`.
+No local BetterSync project or manual Maven install is required. Release `2.0.1` is published on JitPack. Update `bettersync.version` in the plugin and editor-test
 POMs together when upgrading. Shade bundles and relocates the library into the
 plugin JAR; server owners do not install a separate BetterSync plugin.
 
@@ -98,7 +98,7 @@ Use the website's schema-version database migrations before deploying these clie
 `.github/workflows/release.yml` runs on pushes to `master` (or manually from
 that branch). It reads only the Core POM version, builds and verifies BetterRTP Core,
 runs the editor tests, and publishes a stable GitHub release with exactly one plugin
-JAR. For the current Core POM the title is `BetterRTP 3.6.15` and the tag is `v3.6.15`.
+JAR. For the current Core POM the title is `BetterRTP 3.6.16` and the tag is `v3.6.16`.
 This single-JAR release is compatible with the website's GitHub release importer.
 
 Both Core and Addons editor-schema JSON files remain attached for the website editor.

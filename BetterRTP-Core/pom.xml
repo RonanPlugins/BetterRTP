@@ -7,12 +7,12 @@
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP</artifactId>
     <packaging>jar</packaging>
-    <version>3.6.15</version>
+    <version>3.6.16</version>
 
     <!-- Upload patches to https://repo.ronanplugins.com/#/ -->
 
     <properties>
-        <bettersync.version>2.0.0</bettersync.version>
+        <bettersync.version>2.0.1</bettersync.version>
         <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <editor.website>https://www.minecentral.net</editor.website>

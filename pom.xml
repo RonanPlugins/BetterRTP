@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>BetterRTP-build</artifactId>
-    <version>3.6.15</version>
+    <version>3.6.16</version>
     <packaging>pom</packaging>
     <modules>
         <module>BetterRTP-Core</module>
