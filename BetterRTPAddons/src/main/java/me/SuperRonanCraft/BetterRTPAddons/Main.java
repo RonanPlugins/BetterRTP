@@ -41,8 +41,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (editorBridge != null) editorBridge.close();
-        addonsHandler.unload();
+        try {
+            if (editorBridge != null) editorBridge.close();
+        } finally {
+            addonsHandler.unload();
+        }
     }
 
     public void load() {
